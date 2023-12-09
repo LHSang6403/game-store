@@ -11,13 +11,39 @@
   }
 
   /* @media (prefers-color-scheme: dark) {
-    :root {
-      --background: 200 50% 3%;
-      --btn-background: 200 10% 9%;
-      --btn-background-hover: 200 10% 12%;
-      --foreground: 200 20% 96%;
-    }
-  } */
+  /* FILEPATH: /Users/lehoangsang/NextJS/game-store/src/app/globals.css */
+
+  /* BEGIN: Custom Scrollbar */
+  /* Track */
+  ::-webkit-scrollbar {
+    width: 6px;
+    background: #060b0b;
+  }
+
+  /* Track background */
+  ::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+  }
+
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 10px;
+  }
+
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: #eab307;
+    border-radius: 10px;
+  }
+  /* END: Custom Scrollbar */
+  :root {
+    --background: 200 50% 3%;
+    --btn-background: 200 10% 9%;
+    --btn-background-hover: 200 10% 12%;
+    --foreground: 200 20% 96%;
+  }
 }
 
 @layer base {

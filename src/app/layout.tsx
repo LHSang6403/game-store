@@ -23,7 +23,7 @@ export default function RootLayout({
       <body className="w-auto h-screen text-foreground p-1">
         <main className="w-full h-full bg-background flex flex-col items-center rounded-3xl overflow-hidden">
           <Header />
-          <div className="w-full h-full flex flex-row justify-between px-10">
+          <div className="w-full h-full flex flex-row justify-between pl-10">
             <SideBar />
             {children}
           </div>
