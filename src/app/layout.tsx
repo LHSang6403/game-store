@@ -4,9 +4,9 @@ import NavDrawer from "@components/Layout/Drawer/NavDrawer";
 import ThemeProvider from "@components/Providers/ThemeProvider";
 
 export const metadata = {
-  title: "Next.js Starter Kit",
-  description: "The fastest way to build apps with Next.js and Supabase.",
-  keywords: "next.js, supabase, starter kit",
+  title: "Phone & Accessories Store",
+  description: "Buy the best smartphones, tablets, laptops and accessories.",
+  keywords: "smartphone, phone, tablet, laptop, accessories, store, shop, buy",
 };
 
 export default function RootLayout({
