@@ -37,7 +37,7 @@ export default function HomeSlider() {
       name: "Microsoft Surface 10th Gen",
       src: "https://img-prod-cms-rt-microsoft-com.akamaized.net/cms/api/am/imageFileData/RW16Wkf?ver=ded8&q=90&m=6&h=705&w=1253&b=%23FFFFFFFF&f=jpg&o=f&p=140&aim=true",
       description:
-        "Elevate your work experience with Surface series - seamlessly blending innovative technology with elegant design for unparalleled performance and style.",
+        "Elevate your work experience with Surface series - seamlessly blending innovative technology with elegant design for performance.",
       click: () => console.log("Clicked"),
     },
   ];
@@ -62,6 +62,17 @@ export default function HomeSlider() {
                     <ArrowRight className="inline ml-0.5" />
                   </button>
                   <p className="font-light mt-2">{image.description}</p>
+                </div>
+                <div className="absolute text-sm font-light text-foreground/80 left-[41%] top-6 flex flex-row gap-4">
+                  <button className="hover:text-foreground transition duration-300 ease-in-out">
+                    Explore
+                  </button>
+                  <button className="hover:text-foreground transition duration-300 ease-in-out">
+                    Shop Now
+                  </button>
+                  <button className="hover:text-foreground transition duration-300 ease-in-out">
+                    Services
+                  </button>
                 </div>
               </CardContent>
             </Card>

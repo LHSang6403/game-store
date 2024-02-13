@@ -2,7 +2,9 @@ import Header from "@components/Layout/Header/Header";
 import Footer from "@components/Layout/Footer/Footer";
 import HomeSlider from "@components/Sliders/HomeSlider";
 import Template from "@app/(main)/template";
-import Image from "next/image";
+import KeyCard from "@app/HomePageComponents/KeyCard";
+import ClientCard from "@app/HomePageComponents/ClientCard";
+import CollectionCards from "./HomePageComponents/CollectionCards";
 
 export default async function Home() {
   const keyValues = [
@@ -75,66 +77,24 @@ export default async function Home() {
               </div>
             </div>
           </section>
-          <section className="w-full h-screen bg-background grid grid-cols-2">
-            luoi 4 o, 2 sp 2 mo ta cheo'
+          <section className="w-full h-screen bg-background p-12 relative z-0">
+            <CollectionCards />
+            <div className="absolute w-full h-full -z-10 top-0 left-16 flex flex-row gap-4 items-end">
+              {Array.from({ length: 4 }).map((_, index) => (
+                <div className="w-32 h-[70%] rounded-t-xl transform -skew-x-[20deg] bg-gradient-to-b from-foreground/10 to-hsl(222.2, 84%, 4%)"></div>
+              ))}
+              <div className="absolute -right-10 w-[800px] h-full  transform -skew-x-[20deg] bg- bg-gradient-to-t from-accent to-hsl(222.2, 84%, 4%)"></div>
+            </div>
+            <h2 className="absolute -right-10 bottom-32 transform -rotate-90 font-light text-foreground/70 hover:text-foreground hover:cursor-pointer transition duration-300 ease-in-out">
+              Phone & Accessories Store
+            </h2>
           </section>
           <section className="w-full h-screen bg-foreground">
-            cac' sp noi bat; sale
+            <p className="text-white">cac' sp noi bat & sale</p>
           </section>
         </main>
       </Template>
       <Footer />
     </>
-  );
-}
-
-function KeyCard({ data }: { data: { title: string; description: string } }) {
-  return (
-    <div className="group w-1/4 rounded-lg p-2 border border-background/10 hover:scale-[1.02] hover:cursor-pointer hover:bg-background/10 transition duration-300 ease-in-out">
-      <hr className="w-[36%] border-accent/30 rounded"></hr>
-      <div className="flex flex-row gap-1.5">
-        <h2 className="text-6xl text-accent group-hover:text-background transition duration-300 ease-in-out">
-          {data.title.charAt(0)}
-        </h2>
-        <div>
-          <h2 className="text-2xl font-semibold text-accent/70 group-hover:text-background transition duration-300 ease-in-out">
-            {data.title.slice(1)}
-          </h2>
-          <p className="text-sm text-accent/50 group-hover:text-background transition duration-300 ease-in-out">
-            {data.description}
-          </p>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function ClientCard({
-  data,
-}: {
-  data: { name: string; image: string; review: string; rating: number };
-}) {
-  return (
-    <div className="w-[500px] h-fit group rounded-lg flex flex-row justify-center gap-4 hover:cursor-pointer">
-      <div className="flex flex-col gap-1">
-        <Image
-          className="mx-auto -brightness-105 group-hover:brightness-105 transition duration-300 ease-in-out"
-          src={data.image}
-          alt={data.name}
-          width={120}
-          height={120}
-        />
-        <h2 className="text-2xl font-medium text-accent/90 group-hover:text-background transition duration-300 ease-in-out">
-          {data.name}
-        </h2>
-      </div>
-      <div className="mt-4 w-1/2 font-light text-sm text-accent/70 group-hover:text-background transition duration-300 ease-in-out">
-        <p>{data.review}</p>
-        <div className="mt-2 font-medium text-accent/80 group-hover:text-background transition duration-300 ease-in-out">
-          <span>Rating: </span>
-          <span>{data.rating}</span>
-        </div>
-      </div>
-    </div>
   );
 }
