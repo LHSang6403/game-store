@@ -10,7 +10,7 @@ export default function Header() {
       <div className="flex items-center mr-4">
         <PrimaryLogo />
       </div>
-      <nav className="w-full flex flex-row gap-6 justify-end sm:justify-center items-center border-b border-b-foreground/10 xl:hidden">
+      <nav className="w-full flex flex-row gap-6 justify-end sm:justify-center items-center xl:hidden">
         <NavBar />
         <SearchBar />
       </nav>
