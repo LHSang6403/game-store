@@ -12,13 +12,13 @@ function Error({ error, reset }: { error: Error; reset: () => void }) {
 
   return (
     <div className="w-screen h-screen flex justify-center items-center">
-      <div className="w-[700px] sm:w-[90%] h-fit px-12 py-8 bg-foreground/10 shadow rounded-xl flex flex-col justify-center items-center">
+      <div className="w-[700px] h-fit sm:w-[90%] px-12 py-8 bg-foreground/10 shadow rounded-xl flex flex-col justify-center items-center">
         <h1 className="text-2xl mb-4 text-primary font-bold">
           Next.js Application
         </h1>
-        <h2 className="text-center mb-4 text-red-400">
+        <p className="text-center h-fit mb-4 text-red-400">
           We notice that: {error.message}
-        </h2>
+        </p>
         <div className="flex flex-row gap-4 mt-2">
           <Button
             className="text-accent bgbackgournd rounded-lg"

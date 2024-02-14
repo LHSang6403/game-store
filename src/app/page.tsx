@@ -4,7 +4,10 @@ import HomeSlider from "@components/Sliders/HomeSlider";
 import Template from "@app/(main)/template";
 import KeyCard from "@app/HomePageComponents/KeyCard";
 import ClientCard from "@app/HomePageComponents/ClientCard";
-import CollectionCards from "./HomePageComponents/CollectionCards";
+import CollectionCards from "@app/HomePageComponents/CollectionCards";
+import TypicalProducts from "@app/HomePageComponents/TypicalProducts";
+import Promotions from "@app/HomePageComponents/Promotions";
+import Link from "next/link";
 
 export default async function Home() {
   const keyValues = [
@@ -51,7 +54,7 @@ export default async function Home() {
     <>
       <Header />
       <Template>
-        <main className="animate-in w-screen min-h-screen">
+        <main className="animate-in w-full min-h-screen">
           <section className="w-full h-[90vh] bg-background">
             <HomeSlider />
           </section>
@@ -83,14 +86,26 @@ export default async function Home() {
               {Array.from({ length: 4 }).map((_, index) => (
                 <div className="w-32 h-[70%] rounded-t-xl transform -skew-x-[20deg] bg-gradient-to-b from-foreground/10 to-hsl(222.2, 84%, 4%)"></div>
               ))}
-              <div className="absolute -right-10 w-[800px] h-full  transform -skew-x-[20deg] bg- bg-gradient-to-t from-accent to-hsl(222.2, 84%, 4%)"></div>
+              <div className="absolute -right-16 w-[800px] h-full  transform -skew-x-[20deg] bg- bg-gradient-to-t from-accent to-hsl(222.2, 84%, 4%)"></div>
             </div>
             <h2 className="absolute -right-10 bottom-32 transform -rotate-90 font-light text-foreground/70 hover:text-foreground hover:cursor-pointer transition duration-300 ease-in-out">
               Phone & Accessories Store
             </h2>
           </section>
-          <section className="w-full h-screen bg-foreground">
-            <p className="text-white">cac' sp noi bat & sale</p>
+          <section className="w-full h-screen bg-foreground text-background p-12 flex flex-col gap-10">
+            <h1 className="text-center text-3xl font-medium">
+              Typical Products
+            </h1>
+            <TypicalProducts />
+            <div className="text-center">
+              <Link className="text-xl font-medium" href="/">
+                Explore more products ...
+              </Link>
+            </div>
+          </section>
+          <section className="w-full h-screen bg-background text-foreground p-12 flex flex-col gap-10">
+            <h1 className="text-center text-3xl font-medium">Promotions</h1>
+            <Promotions />
           </section>
         </main>
       </Template>

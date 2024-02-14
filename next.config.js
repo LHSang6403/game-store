@@ -7,6 +7,7 @@ const nextConfig = {
       "img-prod-cms-rt-microsoft-com.akamaized.net",
       "cafebiz.cafebizcdn.vn",
       "i0.wp.com/www.mobileworldlive.com",
+      "www.zdnet.com",
     ],
   },
 };
