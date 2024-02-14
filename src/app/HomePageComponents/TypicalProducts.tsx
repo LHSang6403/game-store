@@ -5,45 +5,41 @@ import { ChevronDoubleRightIcon } from "@heroicons/react/20/solid";
 export default function TypicalProducts() {
   const typicalProducts = [
     {
-      brand: "Brand 1",
-      name: "This is Product 1",
+      brand: "Nitendo",
+      name: "Future Switch",
       price: 100,
-      image:
-        "https://www.zdnet.com/a/img/resize/06119597d8fde27e3074dc3bb4a9ce0f1851280a/2023/04/24/4e586f53-afa2-452d-baf4-cc7c78c2c5fb/samsung-galaxy-a54-5g.jpg?auto=webp&fit=crop&height=900&width=1200",
+      image: "/assets/images/gamePlay/g1.png",
       description:
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna.",
     },
     {
-      brand: "Brand 2",
-      name: "This is Product 2",
+      brand: "Classic",
+      name: "Game Boy Series",
       price: 100,
-      image:
-        "https://www.zdnet.com/a/img/resize/06119597d8fde27e3074dc3bb4a9ce0f1851280a/2023/04/24/4e586f53-afa2-452d-baf4-cc7c78c2c5fb/samsung-galaxy-a54-5g.jpg?auto=webp&fit=crop&height=900&width=1200",
+      image: "/assets/images/gamePlay/g3.png",
       description:
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna.",
     },
     {
-      brand: "Brand 3",
-      name: "This is Product 3",
+      brand: "Sup Gaming",
+      name: "Play Handheld",
       price: 100,
-      image:
-        "https://www.zdnet.com/a/img/resize/06119597d8fde27e3074dc3bb4a9ce0f1851280a/2023/04/24/4e586f53-afa2-452d-baf4-cc7c78c2c5fb/samsung-galaxy-a54-5g.jpg?auto=webp&fit=crop&height=900&width=1200",
+      image: "/assets/images/gamePlay/g5.png",
       description:
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna.",
     },
     {
-      brand: "Brand 4",
-      name: "This is Product 4",
+      brand: "Nitendo",
+      name: "2024 Switch",
       price: 100,
-      image:
-        "https://www.zdnet.com/a/img/resize/06119597d8fde27e3074dc3bb4a9ce0f1851280a/2023/04/24/4e586f53-afa2-452d-baf4-cc7c78c2c5fb/samsung-galaxy-a54-5g.jpg?auto=webp&fit=crop&height=900&width=1200",
+      image: "/assets/images/gameSetup/g3.png",
       description:
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna.",
     },
   ];
 
   return (
-    <div className="w-full h-fit flex flex-row gap-6">
+    <div className="w-full h-fit grid grid-cols-4 xl:grid-cols-2 sm:grid-cols-1 gap-6">
       {typicalProducts.map((each, index: number) => (
         <TypicalProduct key={index} data={each} />
       ))}
@@ -63,7 +59,7 @@ function TypicalProduct({
   };
 }) {
   return (
-    <div className="w-full h-[480px] bg-background/5 text-background p-4 hover:scale-[1.01] hover:cursor-pointer transition duration-300 ease-in-out">
+    <div className="w-full max-w-80 mx-auto h-[480px] bg-background/5 text-background p-4 hover:scale-[1.02] hover:cursor-pointer transition duration-300 ease-in-out">
       <div className="w-full max-h-44 overflow-hidden relative">
         <Image
           alt="Typical Product"
@@ -72,12 +68,11 @@ function TypicalProduct({
           layout="fill"
         />
         <div className="absolute opacity-75 top-8 -right-8 h-8 w-24 text-center p-1 text-sm font-light bg-foreground transform -rotate-90">
-          Phones store
+          Game store
         </div>
       </div>
       <h2 className="text-center text-lg font-semibold mt-4">{data.brand}</h2>
       <h2 className="text-center text-lg font-semibold">{data.name}</h2>
-      {/* <p className="font-light text-base mt-2">Price: {data.price}</p> */}
       <hr className="w-[60%] mt-1 border-t border-t-background/20"></hr>
       <p className="font-light text-sm">{data.description}</p>
       <Link

@@ -4,9 +4,9 @@ import NavDrawer from "@components/Layout/Drawer/NavDrawer";
 import ThemeProvider from "@components/Providers/ThemeProvider";
 
 export const metadata = {
-  title: "Phone & Accessories Store",
-  description: "Buy the best smartphones, tablets, laptops and accessories.",
-  keywords: "smartphone, phone, tablet, laptop, accessories, store, shop, buy",
+  title: "Gaming Store",
+  description: "Buy the best gaming products at the best prices!",
+  keywords: "game, store, online, console, pc, playstation, xbox, nintendo",
 };
 
 export default function RootLayout({

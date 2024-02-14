@@ -2,9 +2,9 @@ import Header from "@/components/Layout/Header/Header";
 import Footer from "@/components/Layout/Footer/Footer";
 
 export const metadata = {
-  title: "Public | Next.js Kit",
-  description: "The fastest way to build apps with Next.js and Supabase.",
-  keywords: "next.js, supabase, starter kit",
+  title: "Game Store",
+  description: "High-end gaming products in Vietnam.",
+  keywords: "game, store, online, console, pc, playstation, xbox, nintendo",
 };
 
 export default function MainLayout({

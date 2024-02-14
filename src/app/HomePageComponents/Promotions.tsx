@@ -7,20 +7,20 @@ export default function Promotions() {
     {
       title: "20% OFF",
       time: "This month!",
-      image: "/assets/images/promotions/pro2.png",
+      image: "/assets/images/gameSetup/g3.png",
       description: "This is a description for the promotion. It can be short.",
     },
     {
       title: "50% OFF",
       time: "Next month!",
-      image: "/assets/images/promotions/pro1.png",
+      image: "/assets/images/gameSetup/g2.png",
 
       description: "This is a description for the promotion. It can be short.",
     },
   ];
 
   return (
-    <div className="w-full h-full flex flex-row justify-center items-start gap-2">
+    <div className="w-full h-fit flex flex-row xl:flex-col justify-center items-start gap-2">
       {promotions.map((each, index: number) => (
         <Promotion key={index} data={each} />
       ))}
@@ -44,7 +44,7 @@ function Promotion({
         />
       </div>
       <div className="absolute top-0 right-0 w-full h-full flex flex-col justify-center items-center">
-        <div className="w-56 h-fit p-3 border border-background text-foreground hover:cursor-pointer">
+        <div className="w-56 h-fit p-3 border border-background text-foreground hover:cursor-pointer hover:scale-[1.02] transition duration-300 ease-in-out">
           <h2 className="w-28 px-2 text-2xl font-bold bg-[#ef7440]">Sale</h2>
           <div className="w-fit flex flex-row">
             <h2 className="w-32 p-1 text-2xl font-bold bg-foreground text-background">

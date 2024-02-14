@@ -13,57 +13,44 @@ import { ArrowRight } from "lucide-react";
 export default function HomeSlider() {
   const sliderImages = [
     {
-      name: "iPhone 15 Pro",
-      src: "https://store.storeimages.cdn-apple.com/8756/as-images.apple.com/is/iphone-15-pro-finish-select-202309-6-1inch-blacktitanium?wid=5120&hei=2880&fmt=p-jpg&qlt=80&.v=1692846357018",
+      name: "Sony Play Station",
+      src: "/assets/images/gamePlay/g8.png",
       description:
-        "Experience unparalleled smoothness with iPhone - blending exquisite design with powerful performance for an unmatched mobile experience.",
+        "Experience unparalleled smoothness - blending exquisite design with powerful performance for an unmatched mobile experience.",
       click: () => console.log("Clicked"),
     },
     {
-      name: "iPad 10th Gen",
-      src: "https://store.storeimages.cdn-apple.com/8756/as-images.apple.com/is/ipad-10th-gen-finish-select-202212-pink-wifi_FMT_WHH?wid=1280&hei=720&fmt=p-jpg&qlt=95&.v=1670856074755",
+      name: "Play Station 5",
+      src: "/assets/images/gamePlay/g10.png",
       description:
-        "Power and elegance converge in every iPad - combining advanced technology with premium design to create a unique and sophisticated experience.",
+        "Power and elegance converge - combining advanced technology with premium design to create a unique and sophisticated experience.",
       click: () => console.log("Clicked"),
     },
     {
-      name: "Samsung Galaxy S24",
-      src: "https://images.samsung.com/ae/smartphones/galaxy-s24/images/galaxy-s24-highlights-color-carousel-global-mo.jpg?imbypass=true",
+      name: "Classic Nitendo Switch",
+      src: "/assets/images/gamePlay/g14.png",
       description:
-        "Elevate your mobile experience with Samsung - cutting-edge technology meets sleek design for unparalleled performance and style.",
+        "Elevate your mobile experience with Nitendo - cutting-edge technology meets sleek design for unparalleled performance and style.",
       click: () => console.log("Clicked"),
     },
     {
-      name: "Microsoft Surface 10th Gen",
-      src: "https://img-prod-cms-rt-microsoft-com.akamaized.net/cms/api/am/imageFileData/RW16Wkf?ver=ded8&q=90&m=6&h=705&w=1253&b=%23FFFFFFFF&f=jpg&o=f&p=140&aim=true",
+      name: "Round Device Game",
+      src: "/assets/images/gamePlay/g19.png",
       description:
-        "Elevate your work experience with Surface series - seamlessly blending innovative technology with elegant design for performance.",
+        "Elevate your work experience with Classic series - seamlessly blending innovative technology with elegant design for performance.",
       click: () => console.log("Clicked"),
     },
   ];
 
   return (
-    <Carousel className="max-w-[90vw] mx-auto">
-      <CarouselPrevious className="xl:hidden ml-4" />
+    <Carousel className="max-w-[86vw] xl:max-w-[100vw] mx-auto">
+      <CarouselPrevious className="xl:ml-20 sm:ml-16 xl:z-10" />
       <CarouselContent>
         {sliderImages.map((image, index) => (
           <CarouselItem key={index}>
-            <Card className="h-[86vh] border-none">
-              <CardContent className="relative overflow-hidden">
-                <img
-                  alt="Slider"
-                  className="w-full h-full object-fit object-center"
-                  src={image.src}
-                />
-                <div className="absolute w-72 bottom-36 left-16">
-                  <h1 className="text-3xl font-semibold -mb-2">{image.name}</h1>
-                  <button className="hover:text-foreground/70">
-                    View more
-                    <ArrowRight className="inline ml-0.5" />
-                  </button>
-                  <p className="font-light mt-2">{image.description}</p>
-                </div>
-                <div className="absolute text-sm font-light text-foreground/80 left-[41%] top-6 flex flex-row gap-4">
+            <Card className="h-full border-none sm:p-0">
+              <CardContent className="w-[90%] h-[84vh] sm:w-full sm:p-0 mx-auto relative overflow-hidden">
+                <div className="absolute w-full text-sm font-light text-foreground/80 top-6 flex flex-row justify-center gap-4">
                   <button className="hover:text-foreground transition duration-300 ease-in-out">
                     Explore
                   </button>
@@ -74,12 +61,25 @@ export default function HomeSlider() {
                     Services
                   </button>
                 </div>
+                <img
+                  alt="Slider"
+                  className="w-full h-full xl:h-[80%] sm:h-[50%] sm:mt-4 object-cover object-center"
+                  src={image.src}
+                />
+                <div className="absolute w-72 sm:w-full sm:px-3 p-1 bottom-12 left-6 sm:bottom-16 sm:left-0">
+                  <h1 className="text-3xl font-semibold -mb-2">{image.name}</h1>
+                  <button className="text-foreground/70 hover:text-foreground mt-1">
+                    View more
+                    <ArrowRight className="inline ml-0.5" />
+                  </button>
+                  <p className="font-light mt-2">{image.description}</p>
+                </div>
               </CardContent>
             </Card>
           </CarouselItem>
         ))}
       </CarouselContent>
-      <CarouselNext className="xl:hidden mr-4" />
+      <CarouselNext className="xl:mr-20 sm:mr-16 xl:z-10" />
     </Carousel>
   );
 }
