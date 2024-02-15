@@ -17,7 +17,7 @@ export default function Product({ data }: { data: ProductType }) {
           layout="fill"
         />
       </div>
-      <div className="w-full h-fit py-1 px-4">
+      <div className="w-full h-fit p-4 pt-1">
         <h3 className="sm:text-sm font-medium text-center overflow-ellipsis line-clamp-1">
           {data.brand}
         </h3>
