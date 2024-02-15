@@ -31,7 +31,7 @@ export default function CategoryCards() {
   ];
 
   return (
-    <div className="w-fit h-fit mx-auto flex flex-row gap-3 justify-items-center">
+    <div className="w-fit sm:w-full h-fit mx-auto flex flex-row gap-3 justify-items-center overflow-scroll">
       {categoryList.map((each, index: number) => (
         <CategoryCard key={index} data={each} />
       ))}

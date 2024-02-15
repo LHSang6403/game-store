@@ -1,4 +1,4 @@
-export default function formatCurrencyWithCommas(number: any): string {
+export default function formatCurrency(number: any): string {
   const numberWithCommas = number
     .toString()
     .replace(/\B(?=(\d{3})+(?!\d))/g, ".");
