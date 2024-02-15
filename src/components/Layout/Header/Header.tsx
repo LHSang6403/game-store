@@ -7,10 +7,11 @@ import SearchBar from "@components/Search/SearchBar";
 export default function Header() {
   return (
     <div className="w-full h-16 px-10 sm:px-4 flex flex-row gap-3 justify-around xl:justify-between">
-      <div className="flex items-center mr-4">
+      <div className="flex items-center mr-auto">
         <PrimaryLogo />
       </div>
-      <nav className="w-full flex flex-row gap-6 justify-end sm:justify-center items-center xl:hidden">
+      <nav className="w-full flex flex-row gap-6 justify-center items-center xl:hidden">
+        <div className="w-52"></div>
         <NavBar />
         <SearchBar />
       </nav>

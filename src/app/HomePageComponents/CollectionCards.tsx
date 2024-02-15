@@ -38,7 +38,7 @@ export default function CollectionCards() {
 
 function CollectionCard({ data }: { data: { title: string; image: string } }) {
   return (
-    <div className="w-full bgblue-200 h-full xl:h-fit flex justify-center items-center overflow-hidden bg-none">
+    <div className="w-full h-full xl:h-fit flex justify-center items-center overflow-hidden bg-none">
       <img
         alt="Phone"
         src={data.image}
@@ -54,7 +54,7 @@ function DescriptionCard({
   data: { title: string; description: string };
 }) {
   return (
-    <div className="w-[80%] xl:w-full bgred-200 sm:w-full mx-auto h-full xl:h-fit overflow-hidden p-4 bg-none">
+    <div className="w-[80%] xl:w-full sm:w-full mx-auto h-full xl:h-fit overflow-hidden p-4 bg-none">
       <div className="mt-4 flex flex-row gap-1 text-foreground/80 hover:text-foreground transition duration-300 ease-in-out">
         <Link
           href="/product"
@@ -64,7 +64,7 @@ function DescriptionCard({
         </Link>
         <ChevronDoubleRightIcon className="w-7 h-7 mt-0.5" />
       </div>
-      <p className="text-sm mt-4 text-foreground/90 hover:text-foreground transition duration-300 ease-in-out">
+      <p className="overflow-ellipsis line-clamp-7 text-sm mt-4 text-foreground/90 hover:text-foreground transition duration-300 ease-in-out">
         {data.description}
       </p>
     </div>

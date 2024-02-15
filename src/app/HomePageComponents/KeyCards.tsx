@@ -43,7 +43,7 @@ function KeyCard({ data }: { data: { title: string; description: string } }) {
           <h2 className="text-2xl font-semibold text-accent/70 group-hover:text-background transition duration-300 ease-in-out">
             {data.title.slice(1)}
           </h2>
-          <p className="w-full h-fit text-sm text-accent/50 group-hover:text-background transition duration-300 ease-in-out">
+          <p className="w-full h-fit overflow-ellipsis line-clamp-3 text-sm text-accent/50 group-hover:text-background transition duration-300 ease-in-out">
             {data.description}
           </p>
         </div>

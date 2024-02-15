@@ -47,7 +47,7 @@ function ClientCard({
         </h2>
       </div>
       <div className="mt-4 sm:-mt-2 w-1/2 font-light text-sm text-accent/70 group-hover:text-background transition duration-300 ease-in-out">
-        <p>{data.review}</p>
+        <p className="overflow-ellipsis line-clamp-4">{data.review}</p>
         <div className="mt-2 font-medium text-accent/80 group-hover:text-background transition duration-300 ease-in-out">
           <span>Rating: </span>
           <span>{data.rating}</span>

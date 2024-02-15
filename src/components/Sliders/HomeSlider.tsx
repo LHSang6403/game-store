@@ -72,7 +72,9 @@ export default function HomeSlider() {
                     View more
                     <ArrowRight className="inline ml-0.5" />
                   </button>
-                  <p className="font-light mt-2">{image.description}</p>
+                  <p className="font-light mt-2 overflow-hidden overflow-ellipsis line-clamp-4">
+                    {image.description}
+                  </p>
                 </div>
               </CardContent>
             </Card>

@@ -59,7 +59,7 @@ function TypicalProduct({
   };
 }) {
   return (
-    <div className="w-full max-w-80 mx-auto h-[480px] bg-background/5 text-background p-4 hover:scale-[1.02] hover:cursor-pointer transition duration-300 ease-in-out">
+    <div className="w-full max-w-80 mx-auto h-fit bg-background/5 text-background p-4 hover:scale-[1.02] hover:cursor-pointer transition duration-300 ease-in-out">
       <div className="w-full max-h-44 overflow-hidden relative">
         <Image
           alt="Typical Product"
@@ -71,10 +71,16 @@ function TypicalProduct({
           Game store
         </div>
       </div>
-      <h2 className="text-center text-lg font-semibold mt-4">{data.brand}</h2>
-      <h2 className="text-center text-lg font-semibold">{data.name}</h2>
+      <h2 className="text-center text-lg font-semibold mt-4 overflow-ellipsis line-clamp-1">
+        {data.brand}
+      </h2>
+      <h2 className="text-center text-lg font-semibold overflow-ellipsis line-clamp-2">
+        {data.name}
+      </h2>
       <hr className="w-[60%] mt-1 border-t border-t-background/20"></hr>
-      <p className="font-light text-sm">{data.description}</p>
+      <p className="font-light text-sm overflow-ellipsis line-clamp-4">
+        {data.description}
+      </p>
       <Link
         href="/"
         className="mt-3 text-sm font-medium text-background/80 hover:text-background flex flex-row gap-0.5"

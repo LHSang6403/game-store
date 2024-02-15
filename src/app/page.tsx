@@ -18,7 +18,7 @@ export default async function Home() {
           <section className="w-full h-[90vh] bg-background">
             <HomeSlider />
           </section>
-          <section className="w-full min-h-screen bg-foreground text-background p-12 sm:px-6 flex flex-col gap-20 sm:gap-10">
+          <section className="w-full min-h-screen bg-foreground text-background p-12 sm:px-5 flex flex-col gap-20 sm:gap-10">
             <div className="w-full h-fit">
               <h1 className="text-center text-3xl font-medium mb-10">
                 Our 4 keys
@@ -32,7 +32,7 @@ export default async function Home() {
               <ClientCards />
             </div>
           </section>
-          <section className="w-full h-screen sm:h-fit bg-background p-12 xl:px-6 relative z-0">
+          <section className="w-full h-screen sm:h-fit bg-background p-12 xl:px-6 sm:px-5 relative z-0">
             <CollectionCards />
             <div className="absolute w-full h-full -z-10 top-0 left-16 xl:-left-44 xl:-top-24 sm:-top-40 flex flex-row gap-4 items-end">
               {Array.from({ length: 4 }).map((_, index) => (
@@ -44,7 +44,7 @@ export default async function Home() {
               Phone & Accessories Store
             </h2>
           </section>
-          <section className="w-full h-screen xl:h-fit bg-foreground text-background p-12 sm:px-6 flex flex-col gap-10">
+          <section className="w-full h-screen xl:h-fit bg-foreground text-background p-12 sm:px-5 flex flex-col gap-10">
             <h1 className="text-center text-3xl font-medium">
               Typical Products
             </h1>
@@ -58,7 +58,7 @@ export default async function Home() {
               </Link>
             </div>
           </section>
-          <section className="w-full h-screen xl:h-fit bg-background text-foreground p-12 sm:px-6 flex flex-col gap-10">
+          <section className="w-full h-screen xl:h-fit bg-background text-foreground p-12 sm:px-5 flex flex-col gap-10">
             <h1 className="text-center text-3xl font-medium">Promotions</h1>
             <Promotions />
             <div className="text-center -mt-2 xl:m-0">

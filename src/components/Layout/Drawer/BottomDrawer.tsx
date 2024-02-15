@@ -11,7 +11,8 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from "@components/ui/drawer";
-import NavBar from "@components//Layout/Header/NavBar";
+import navUrls from "../Header/navUrls.json";
+import Link from "next/link";
 
 export default function BottomDrawer() {
   return (
@@ -32,8 +33,16 @@ export default function BottomDrawer() {
               Just a short description of a web application.
             </DrawerDescription>
           </DrawerHeader>
-          <div className="w-full h-fit p-4 flex justify-center items-center">
-            <NavBar />
+          <div className="w-fit h-fit mx-auto p-4 grid grid-cols-2 gap-2 justify-center items-center">
+            {navUrls.map((navUrl, index: number) => (
+              <Link
+                key={index}
+                href={navUrl.url}
+                className="h-10 w-[150px] flex justify-center items-center border mx1 rounded-md bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[active]:bg-accent/50 data-[state=open]:bg-accent/50"
+              >
+                {navUrl.name}
+              </Link>
+            ))}
           </div>
           <DrawerFooter>
             <DrawerClose asChild>
