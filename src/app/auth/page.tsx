@@ -1,5 +1,5 @@
 import Link from "next/link";
-import AuthCardTabs from "@app/auth/components/AuthCardTabs";
+import AuthCardTabs from "@/app/auth/Components/AuthCardTabs";
 import Template from "@app/(main)/template";
 
 export default function Login() {

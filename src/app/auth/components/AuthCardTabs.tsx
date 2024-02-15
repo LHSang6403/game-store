@@ -6,8 +6,8 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import SignIn from "@auth/components/SignIn";
-import SignUp from "@auth/components/SignUp";
+import SignIn from "@/app/auth/Components/SignIn";
+import SignUp from "@/app/auth/Components/SignUp";
 
 export default function AuthCardTabs() {
   return (
