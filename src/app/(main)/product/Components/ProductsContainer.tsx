@@ -16,7 +16,7 @@ export default function ProductsContainer() {
     {
       id: "1",
       created_at: "2022-01-01",
-      brand: "Brand",
+      brand: "Brand name",
       name: "Prod. name",
       description: "description",
       images: ["/assets/images/gamePlay/g7.png"],
@@ -30,7 +30,7 @@ export default function ProductsContainer() {
     {
       id: "2",
       created_at: "2022-01-01",
-      brand: "Brand",
+      brand: "Brand name",
       name: "Prod. name",
       description: "description",
       images: ["/assets/images/gamePlay/g7.png"],
@@ -44,7 +44,7 @@ export default function ProductsContainer() {
     {
       id: "3",
       created_at: "2022-01-01",
-      brand: "Brand",
+      brand: "Brand name",
       name: "Prod. name",
       description: "description",
       images: ["/assets/images/gamePlay/g7.png"],
@@ -58,7 +58,7 @@ export default function ProductsContainer() {
     {
       id: "4",
       created_at: "2022-01-01",
-      brand: "Brand",
+      brand: "Brand name",
       name: "Prod. name",
       description: "description",
       images: ["/assets/images/gamePlay/g7.png"],
@@ -72,7 +72,7 @@ export default function ProductsContainer() {
     {
       id: "5",
       created_at: "2022-01-01",
-      brand: "Brand",
+      brand: "Brand name",
       name: "Prod. name",
       description: "description",
       images: ["/assets/images/gamePlay/g7.png"],
@@ -86,7 +86,7 @@ export default function ProductsContainer() {
     {
       id: "5",
       created_at: "2022-01-01",
-      brand: "Brand",
+      brand: "Brand name",
       name: "Prod. name",
       description: "description",
       images: ["/assets/images/gamePlay/g7.png"],
@@ -100,7 +100,7 @@ export default function ProductsContainer() {
     {
       id: "5",
       created_at: "2022-01-01",
-      brand: "Brand",
+      brand: "Brand name",
       name: "Prod. name",
       description: "description",
       images: ["/assets/images/gamePlay/g7.png"],
@@ -114,7 +114,7 @@ export default function ProductsContainer() {
     {
       id: "5",
       created_at: "2022-01-01",
-      brand: "Brand",
+      brand: "Brand name",
       name: "Prod. name",
       description: "description",
       images: ["/assets/images/gamePlay/g7.png"],
@@ -128,7 +128,7 @@ export default function ProductsContainer() {
     {
       id: "5",
       created_at: "2022-01-01",
-      brand: "Brand",
+      brand: "Brand name",
       name: "Prod. name",
       description: "description",
       images: ["/assets/images/gamePlay/g7.png"],
@@ -142,7 +142,7 @@ export default function ProductsContainer() {
     {
       id: "5",
       created_at: "2022-01-01",
-      brand: "Brand",
+      brand: "Brand name",
       name: "Prod. name",
       description: "description",
       images: ["/assets/images/gamePlay/g7.png"],

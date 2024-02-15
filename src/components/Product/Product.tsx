@@ -7,7 +7,7 @@ export default function Product({ data }: { data: ProductType }) {
   return (
     <Link
       href="/product"
-      className="w-48 sm:w-full h-56 sm:h-fit overflow-hidden text-foreground/90 bg-foreground/5 hover:text-foreground hover:bg-foreground/10 hover:scale-[1.02] transition duration-300 ease-in-out"
+      className="w-48 sm:w-full h-fit overflow-hidden text-foreground/90 bg-foreground/5 hover:text-foreground hover:bg-foreground/10 hover:scale-[1.02] transition duration-300 ease-in-out"
     >
       <div className="w-48 sm:w-full h-36 sm:h-28">
         <Image
@@ -17,11 +17,11 @@ export default function Product({ data }: { data: ProductType }) {
           layout="fill"
         />
       </div>
-      <div className="w-full h-fit p-4 pt-1">
-        <h3 className="sm:text-sm font-medium text-center overflow-ellipsis line-clamp-1">
+      <div className="w-full h-fit px-4 pb-3 pt-1">
+        <h3 className="sm:text-md font-medium text-center overflow-ellipsis line-clamp-1">
           {data.brand}
         </h3>
-        <h2 className="text-lg sm:text-base font-semibold overflow-ellipsis line-clamp-1">
+        <h2 className="text-lg font-semibold overflow-ellipsis line-clamp-1">
           {data.name}
         </h2>
         <div className="w-full flex flex-row justify-between items-center">
@@ -40,7 +40,7 @@ export default function Product({ data }: { data: ProductType }) {
               />
             </svg>
           </div>
-          <p className="text-sm">{formatCurrency(data.price)}</p>
+          <p className="text-md">{formatCurrency(data.price)}</p>
         </div>
       </div>
     </Link>

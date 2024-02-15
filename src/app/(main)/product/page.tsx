@@ -9,7 +9,7 @@ export default function Products() {
     <>
       <Advertisement />
       <div className="w-full h-fit p-10 xl:p-4 flex flex-col gap-8">
-        <div className="w-full flex justify-between px-16 xl:px-10 sm:px-6">
+        <div className="w-full flex justify-between items-center px-16 xl:px-10 sm:px-4">
           <h1 className="text-2xl font-medium">Explore our products</h1>
           <SearchBar />
         </div>

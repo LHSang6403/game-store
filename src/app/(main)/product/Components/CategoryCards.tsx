@@ -24,14 +24,19 @@ export default function CategoryCards() {
       image: "/assets/images/gameIcon/i1.png",
     },
     {
-      name: "Accessories",
+      name: "Mini Game",
+      link: "/category",
+      image: "/assets/images/gameIcon/i1.png",
+    },
+    {
+      name: "2 Players",
       link: "/category",
       image: "/assets/images/gameIcon/i1.png",
     },
   ];
 
   return (
-    <div className="w-fit sm:w-full h-fit mx-auto flex flex-row gap-3 justify-items-center overflow-scroll">
+    <div className="w-fit h-fit mx-auto flex flex-row lg:grid lg:grid-cols-3 sm:grid-cols-2 gap-3 lg:justify-items-center overflow-auto">
       {categoryList.map((each, index: number) => (
         <CategoryCard key={index} data={each} />
       ))}
@@ -47,7 +52,7 @@ function CategoryCard({
   return (
     <Badge
       variant="secondary"
-      className="hover:cursor-pointer hover:bg-foreground/10"
+      className="h-8 overflow-ellipsis hover:cursor-pointer hover:bg-foreground/10"
     >
       <div className="w-4 h-4 mb-1 mr-1">
         <Image
