@@ -41,7 +41,7 @@ export default function SearchBar() {
           onChange={(e) => setSearchText(e.target.value)}
         />
       </form>
-      <div className="absolute top-10 z-20">
+      <div className="absolute top-10 z-30">
         {matchingKeywords.length > 0 && (
           <SelectOptions
             options={matchingKeywords}

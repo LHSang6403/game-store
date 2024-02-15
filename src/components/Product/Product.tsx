@@ -21,10 +21,10 @@ export default function Product({ data }: { data: ProductType }) {
         <h3 className="sm:text-sm font-medium text-center overflow-ellipsis line-clamp-1">
           {data.brand}
         </h3>
-        <h2 className="-mt-1 text-lg sm:text-base font-semibold overflow-ellipsis line-clamp-1">
+        <h2 className="text-lg sm:text-base font-semibold overflow-ellipsis line-clamp-1">
           {data.name}
         </h2>
-        <div className="w-full -mt-1 flex flex-row justify-between items-center">
+        <div className="w-full flex flex-row justify-between items-center">
           <div className="flex flex-row items-center text-yellow-500">
             <p className="text-sm">{data.rate}</p>
             <svg
