@@ -30,7 +30,7 @@ export interface Writer {
   blog_quantity: string;
 }
 
-export interface Customer {
+export interface CustomerType {
   id: string;
   created_at: string;
   name: string;
@@ -41,7 +41,7 @@ export interface Customer {
   image: string;
 }
 
-export interface Product {
+export interface ProductType {
   id: string;
   created_at: string;
   brand: string;
@@ -56,7 +56,7 @@ export interface Product {
   category: string;
 }
 
-export interface ProductDescription {
+export interface ProductDescriptionType {
   id: string;
   created_at: string;
   content: string;
@@ -65,7 +65,7 @@ export interface ProductDescription {
   comments: string[];
 }
 
-export interface Blog {
+export interface BlogType {
   id: string;
   created_at: string;
   title: string;
@@ -77,7 +77,7 @@ export interface Blog {
   comments: string[];
 }
 
-export interface Order {
+export interface OrderType {
   id: string;
   created_at: string;
   prod_id: string;
@@ -87,7 +87,7 @@ export interface Order {
   price: number;
 }
 
-export interface Storage {
+export interface StorageType {
   id: string;
   created_at: string;
   name: string;
@@ -97,7 +97,7 @@ export interface Storage {
   quantity: number;
 }
 
-export interface Log {
+export interface LogType {
   id: string;
   created_at: string;
   title: string;

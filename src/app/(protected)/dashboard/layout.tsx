@@ -1,4 +1,4 @@
-import DashboardSidebar from "@app/(protected)/dashboard/Components/DashboardSidebar";
+import DashboardSidebar from "@/app/(protected)/dashboard/Components/DashboardSidebar";
 
 export default function MainLayout({
   children,
