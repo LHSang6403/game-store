@@ -7,7 +7,7 @@ export default function Product({ data }: { data: ProductType }) {
   return (
     <Link
       href="/product"
-      className="w-48 sm:w-full h-56 sm:h-44 overflow-hidden text-foreground/90 bg-foreground/5 hover:text-foreground hover:bg-foreground/10 hover:scale-[1.02] transition duration-300 ease-in-out"
+      className="w-48 sm:w-full h-56 sm:h-fit overflow-hidden text-foreground/90 bg-foreground/5 hover:text-foreground hover:bg-foreground/10 hover:scale-[1.02] transition duration-300 ease-in-out"
     >
       <div className="w-48 sm:w-full h-36 sm:h-28">
         <Image
