@@ -34,11 +34,17 @@ import { DataTablePagination } from "./Pagination";
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
+  isPaginationEnabled?: boolean;
+  isCollumnVisibilityEnabled?: boolean;
+  isSearchEnabled?: boolean;
 }
 
 export function DataTable<TData, TValue>({
   columns,
   data,
+  isPaginationEnabled = true,
+  isCollumnVisibilityEnabled = true,
+  isSearchEnabled = true,
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
@@ -65,44 +71,50 @@ export function DataTable<TData, TValue>({
     <>
       {/* Filters */}
       <div className="flex items-center justify-between gap-4">
-        <div className="flex items-center py-4">
-          <Input
-            placeholder="Search by name..."
-            value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
-            onChange={(event) =>
-              table.getColumn("name")?.setFilterValue(event.target.value)
-            }
-            className="max-w-sm"
-          />
-        </div>
+        {isSearchEnabled && (
+          <div className="flex items-center py-4">
+            <Input
+              placeholder="Search by name..."
+              value={
+                (table.getColumn("name")?.getFilterValue() as string) ?? ""
+              }
+              onChange={(event) =>
+                table.getColumn("name")?.setFilterValue(event.target.value)
+              }
+              className="max-w-sm"
+            />
+          </div>
+        )}
 
         {/* Column visibility */}
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="outline" className="ml-auto">
-              Columns
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            {table
-              .getAllColumns()
-              .filter((column) => column.getCanHide())
-              .map((column) => {
-                return (
-                  <DropdownMenuCheckboxItem
-                    key={column.id}
-                    className="capitalize"
-                    checked={column.getIsVisible()}
-                    onCheckedChange={(value) =>
-                      column.toggleVisibility(!!value)
-                    }
-                  >
-                    {column.id}
-                  </DropdownMenuCheckboxItem>
-                );
-              })}
-          </DropdownMenuContent>
-        </DropdownMenu>
+        {isCollumnVisibilityEnabled && (
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="outline" className="ml-auto">
+                Columns
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              {table
+                .getAllColumns()
+                .filter((column) => column.getCanHide())
+                .map((column) => {
+                  return (
+                    <DropdownMenuCheckboxItem
+                      key={column.id}
+                      className="capitalize"
+                      checked={column.getIsVisible()}
+                      onCheckedChange={(value) =>
+                        column.toggleVisibility(!!value)
+                      }
+                    >
+                      {column.id}
+                    </DropdownMenuCheckboxItem>
+                  );
+                })}
+            </DropdownMenuContent>
+          </DropdownMenu>
+        )}
       </div>
 
       {/* Table */}
@@ -158,9 +170,11 @@ export function DataTable<TData, TValue>({
       </div>
 
       {/* Pagination */}
-      <div className="mb-8 mt-4">
-        <DataTablePagination table={table} />
-      </div>
+      {isPaginationEnabled && (
+        <div className="mb-8 mt-4">
+          <DataTablePagination table={table} />
+        </div>
+      )}
     </>
   );
 }

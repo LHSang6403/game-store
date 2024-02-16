@@ -38,8 +38,7 @@ export default function ReviewForm() {
   }
 
   return (
-    <div className="w-72 sm:w-full h-fit flex flex-col gap-2 border border-foreground/20 py-4 px-3 rounded-md">
-      <h2 className="text-xl font-semibold text-center">Share your review</h2>
+    <div className="w-full h-fit flex flex-col gap-2">
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
