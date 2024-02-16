@@ -1,6 +1,6 @@
 import ProductDetail from "./Components/ProductDetail";
 import ProductDescription from "./Components/ProductDescription";
-import ProductReview from "./Components/ProductReview";
+import ProductReview from "./Components/Review/ProductReview";
 
 export default function Product({ params }: { params: { id: string } }) {
   console.log(params.id);

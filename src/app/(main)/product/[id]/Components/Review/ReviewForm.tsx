@@ -38,7 +38,7 @@ export default function ReviewForm() {
   }
 
   return (
-    <div className="w-72 h-fit flex flex-col gap-2 border border-foreground/20 py-4 px-3 rounded-md">
+    <div className="w-72 sm:w-full h-fit flex flex-col gap-2 border border-foreground/20 py-4 px-3 rounded-md">
       <h2 className="text-xl font-semibold text-center">Share your review</h2>
       <Form {...form}>
         <form
