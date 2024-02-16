@@ -156,7 +156,7 @@ export default function ProductsContainer() {
   ];
 
   return (
-    <div className="flex flex-col gap-6 items-center">
+    <div className="w-full h-fit flex flex-col gap-6 items-center justify-center">
       <div className="w-fit h-fit grid grid-cols-4 xl:grid-cols-3 lg:grid-cols-2 gap-5 sm:gap-2 justify-items-center">
         {productList.map((each: ProductType, index: number) => (
           <Product key={index} data={each} />
