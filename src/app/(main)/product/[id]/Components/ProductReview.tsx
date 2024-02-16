@@ -1,3 +1,3 @@
 export default function ProductReview() {
-  return <div className="min-h-[60vh]"></div>;
+  return <div className="w-full h-screen rounded-3xl bg-foreground"></div>;
 }

@@ -13,9 +13,9 @@ import { Checkbox } from "@components/ui/checkbox";
 
 export default function ProductDetail() {
   return (
-    <div className="min-h-[90vh] relative flex flex-row">
-      <div className="w-1/2 h-fit">
-        <div className="w-full h-fit max-h-[500px] xl:w-[90%] xl:h-[90%] sm:w-full sm:h-[75%] mx-auto">
+    <div className="min-h-[90vh] h-fit pb-6 relative flex flex-row xl:flex-col">
+      <div className="w-1/2 xl:w-full h-fit">
+        <div className="w-full h-fit max-h-[490px] xl:max-h-[580px] lg:max-h-[420px] sm:max-h-[270px] xl:w-[90%] sm:w-full sm:mt-10 mx-auto">
           <Image
             alt="Category"
             src="/assets/images/gamePlay/g6.png"
@@ -23,7 +23,7 @@ export default function ProductDetail() {
             layout="fill"
           />
         </div>
-        <div className="w-full h-fit py-3 px-10 flex flex-row items-center justify-center gap-2 overflow-auto">
+        <div className="w-full h-fit py-3 px-10 sm:px-4 flex flex-row items-center justify-center gap-2 overflow-auto">
           {Array.from({ length: 4 }).map((_, index: number) => (
             <div
               key={index}
@@ -39,7 +39,7 @@ export default function ProductDetail() {
           ))}
         </div>
       </div>
-      <div className="w-1/2 pt-28 px-6 flex flex-col gap-4">
+      <div className="w-1/2 xl:w-[80%] lg:w-[90%] sm:w-full pt-28 xl:pt-10 lg:pt-0 px-6 xl:mx-auto flex flex-col gap-4">
         <div className="flex flex-row items-center -mb-3 text-lg text-yellow-400">
           {Array.from({ length: 5 }).map((_, index: number) => (
             <svg
@@ -83,30 +83,33 @@ export default function ProductDetail() {
             </Select>
           ))}
         </div>
-        <div className="flex items-center space-x-2">
-          <Checkbox id="terms" />
-          <label
-            htmlFor="terms"
-            className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-          >
-            Add more option
-          </label>
+        <div className="flex flex-col lg:flex-row gap-4">
+          <div className="flex items-center space-x-2">
+            <Checkbox id="terms" />
+            <label
+              htmlFor="terms"
+              className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+            >
+              Add more option
+            </label>
+          </div>
+          <div className="flex items-center space-x-2">
+            <Checkbox id="terms" />
+            <label
+              htmlFor="terms"
+              className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+            >
+              Add more option
+            </label>
+          </div>
         </div>
-        <div className="flex items-center space-x-2">
-          <Checkbox id="terms" />
-          <label
-            htmlFor="terms"
-            className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-          >
-            Add more option
-          </label>
-        </div>
-        <Button className="w-fit text-background">Buy now</Button>
+
+        <Button className="w-fit sm:w-full text-background">Buy now</Button>
       </div>
       <div className="w-[800px] h-full -z-30 absolute bottom-0 -right-28 transform -skew-x-[20deg] bg-gradient-to-t from-accent to-hsl(222.2, 84%, 4%)"></div>
       <div className="w-[600px] h-full -z-20 absolute bottom-0 -right-28 transform -skew-x-[20deg] bg-gradient-to-t from-foreground/5 to-hsl(222.2, 84%, 4%)"></div>
       <div className="w-[400px] h-full -z-10 absolute bottom-0 -right-28 transform -skew-x-[20deg] bg-gradient-to-t from-foreground/10 to-hsl(222.2, 84%, 4%)"></div>
-      <div className="absolute bottom-10 right-10 flex flex-row gap-3">
+      <div className="absolute bottom-10 sm:hidden right-10 flex flex-row gap-3">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           x="0px"

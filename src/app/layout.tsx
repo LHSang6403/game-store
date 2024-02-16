@@ -2,6 +2,7 @@ import { GeistSans } from "geist/font/sans";
 import "./globals.css";
 import NavDrawer from "@components/Layout/Drawer/NavDrawer";
 import ThemeProvider from "@components/Providers/ThemeProvider";
+import ReactQueryProvider from "@components/Providers/ReactQueryProvider";
 
 export const metadata = {
   title: "Gaming Store",
@@ -23,10 +24,12 @@ export default function RootLayout({
     >
       <body className="bg-background text-foreground">
         <ThemeProvider>
-          <main className="w-full max-w-[2200px] min-h-screen mx-auto overflow-hidden flex flex-col items-center">
-            {children}
-            <NavDrawer />
-          </main>
+          <ReactQueryProvider>
+            <main className="w-full max-w-[2200px] min-h-screen mx-auto overflow-hidden flex flex-col items-center">
+              {children}
+              <NavDrawer />
+            </main>
+          </ReactQueryProvider>
         </ThemeProvider>
       </body>
     </html>
