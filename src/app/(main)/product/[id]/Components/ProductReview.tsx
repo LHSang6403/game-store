@@ -4,7 +4,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { toast } from "sonner";
-
 import {
   Form,
   FormControl,
@@ -13,8 +12,9 @@ import {
   FormLabel,
   FormMessage,
 } from "@components/ui/form";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
+import { Textarea } from "@components/ui/textarea";
+import { Input } from "@components/ui/input";
+import { Button } from "@components/ui/button";
 import Image from "next/image";
 
 const FormSchema = z.object({
@@ -132,7 +132,7 @@ function ReviewForm() {
               <FormItem>
                 <FormLabel>Review</FormLabel>
                 <FormControl>
-                  <Input
+                  <Textarea
                     placeholder="Your review"
                     {...field}
                     type="text"
