@@ -35,8 +35,11 @@ export default async function Home() {
           <section className="w-full h-screen sm:h-fit bg-background p-12 xl:px-6 sm:px-5 relative z-0">
             <CollectionCards />
             <div className="absolute w-full h-full -z-10 top-0 left-16 xl:-left-44 xl:-top-24 sm:-top-40 flex flex-row gap-4 items-end">
-              {Array.from({ length: 4 }).map((_, index) => (
-                <div className="w-32 h-[70%] rounded-t-xl transform -skew-x-[20deg] bg-gradient-to-b from-foreground/10 to-hsl(222.2, 84%, 4%)"></div>
+              {Array.from({ length: 4 }).map((_, index: number) => (
+                <div
+                  key={index}
+                  className="w-32 h-[70%] rounded-t-xl transform -skew-x-[20deg] bg-gradient-to-b from-foreground/10 to-hsl(222.2, 84%, 4%)"
+                ></div>
               ))}
             </div>
             <div className="absolute -z-10 bottom-0 -right-44 xl:-right-[460px] sm:-right-[600px] w-[800px] xlw-[500px] h-full transform -skew-x-[20deg] bg-gradient-to-t from-accent to-hsl(222.2, 84%, 4%)"></div>

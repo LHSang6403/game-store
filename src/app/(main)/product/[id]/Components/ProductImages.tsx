@@ -7,7 +7,7 @@ export default function ProductImages() {
         <Image
           alt="Category"
           src="/assets/images/gamePlay/g6.png"
-          className="object-contain !w-full !relative"
+          className="object-contain !w-full !relative sm:pt-4"
           layout="fill"
         />
       </div>
@@ -15,12 +15,12 @@ export default function ProductImages() {
         {Array.from({ length: 4 }).map((_, index: number) => (
           <div
             key={index}
-            className="w-28 h-24 rounded-md p-2 border hover:bg-foreground/5 hover:scale-[1.02] transition duration-300 ease-in-out"
+            className="w-28 h-24 sm:w-20 sm:h-20 rounded-md p-2 border hover:cursor-pointer hover:bg-foreground/5 hover:scale-[1.02] transition duration-300 ease-in-out"
           >
             <Image
               alt="Category"
               src="/assets/images/gamePlay/g15.png"
-              className="object-contain !w-full !relative"
+              className="object-contain !w-full !relative sm:scale-110"
               layout="fill"
             />
           </div>

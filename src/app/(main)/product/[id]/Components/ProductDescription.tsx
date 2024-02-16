@@ -44,7 +44,7 @@ export default function ProductDescription() {
 `;
 
   return (
-    <div className="w-full min-h-screen h-fit rounded-3xl px-16 py-10 xl:p-8 sm:p-4 bg-gradient-to-t from-accent">
+    <div className="w-full min-h-screen h-fit rounded-3xl px-16 py-10 xl:p-8 sm:p-4 !pt-0 bg-gradient-to-t from-accent">
       <div
         dangerouslySetInnerHTML={{ __html: content ?? "" }}
         className="w-full mx-auto px-6 sm:px-0"

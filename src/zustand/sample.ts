@@ -1,5 +1,3 @@
-// chensokheng github
-
 import { create } from "zustand";
 
 export type ILog = {

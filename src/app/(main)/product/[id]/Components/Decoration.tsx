@@ -1,10 +1,9 @@
 export default function Decoration() {
   return (
     <>
-      <div className="w-[800px] h-full -z-30 absolute bottom-0 -right-28 transform -skew-x-[20deg] bg-gradient-to-t from-accent to-hsl(222.2, 84%, 4%)"></div>
-      <div className="w-[600px] h-full -z-20 absolute bottom-0 -right-28 transform -skew-x-[20deg] bg-gradient-to-t from-foreground/5 to-hsl(222.2, 84%, 4%)"></div>
-      <div className="w-[400px] h-full -z-10 absolute bottom-0 -right-28 transform -skew-x-[20deg] bg-gradient-to-t from-foreground/10 to-hsl(222.2, 84%, 4%)"></div>
-
+      <div className="w-[800px] h-full -z-30 absolute bottom-0 -right-28 -skew-x-[20deg] bg-gradient-to-t from-accent to-hsl(222.2, 84%, 4%)"></div>
+      <div className="w-[600px] h-full -z-20 absolute bottom-0 -right-28 -skew-x-[20deg] bg-gradient-to-t from-foreground/5 to-hsl(222.2, 84%, 4%)"></div>
+      <div className="w-[400px] h-full -z-10 absolute bottom-0 -right-28 -skew-x-[20deg] bg-gradient-to-t from-foreground/10 to-hsl(222.2, 84%, 4%)"></div>
       <div className="absolute bottom-10 sm:hidden right-10 flex flex-row gap-3">
         <svg
           xmlns="http://www.w3.org/2000/svg"
