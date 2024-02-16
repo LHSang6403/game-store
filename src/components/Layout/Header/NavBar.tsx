@@ -8,7 +8,7 @@ import {
   NavigationMenuItem,
   NavigationMenuLink,
   NavigationMenuList,
-} from "@/components/ui/navigation-menu";
+} from "@components/ui/navigation-menu";
 import navUrls from "./navUrls.json";
 import { usePathname } from "next/navigation";
 import { motion } from "framer-motion";
