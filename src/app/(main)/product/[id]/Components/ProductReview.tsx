@@ -135,7 +135,6 @@ function ReviewForm() {
                   <Textarea
                     placeholder="Your review"
                     {...field}
-                    type="text"
                     onChange={field.onChange}
                   />
                 </FormControl>
