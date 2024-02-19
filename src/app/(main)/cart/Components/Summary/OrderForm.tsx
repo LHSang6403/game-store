@@ -88,7 +88,7 @@ export default function OrderForm() {
   return (
     <>
       {order && (
-        <div className="w-64 h-fit flex flex-col gap-2 border rounded-md px-3 py-2">
+        <div className="w-64 xl:w-[500px] sm:w-auto h-fit flex flex-col gap-2 border rounded-md px-3 py-2">
           <h2 className="text-lg font-semibold">Your order summary</h2>
           <Form {...form}>
             <form

@@ -22,7 +22,7 @@ export const columns: ColumnDef<OrderType>[] = [
       const data = row.original;
 
       return (
-        <div className="w-80 sm:w-16 line-clamp-5 overflow-ellipsis">
+        <div className="w-80 sm:w-36 line-clamp-5 overflow-ellipsis">
           {data.prod_names.map((name, index) => (
             <span key={index}>
               {name} {`(x${data.prod_quantities[index]})`}

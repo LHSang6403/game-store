@@ -11,11 +11,9 @@ export default async function OrderHistory() {
   const hisrotyResponse = await readOrdersByCustomerId(
     sessionResponse.data?.id as string
   );
-  // if (hisrotyResponse.error)
-  //   throw new Error("Error while fetching order history.");
 
   return (
-    <div className="w-fit mx-auto">
+    <div className="w-fit mx-auto xl:w-auto">
       {sessionResponse &&
         !hisrotyResponse.error &&
         "data" in hisrotyResponse && (

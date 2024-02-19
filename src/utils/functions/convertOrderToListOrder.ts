@@ -14,6 +14,8 @@ export default function convertOrderToListOrder(
     customer_id,
     customer_name,
     price,
+    address,
+    note,
   } = order;
   const orderList: OrderType[] = [];
   for (let i = 0; i < prod_ids.length; i++) {
@@ -27,6 +29,8 @@ export default function convertOrderToListOrder(
       customer_id,
       customer_name,
       price,
+      address,
+      note,
     };
     orderList.push(singleOrder);
   }

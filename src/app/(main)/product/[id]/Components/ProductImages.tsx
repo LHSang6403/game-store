@@ -60,11 +60,13 @@ export default function ProductImages({ images }: { images: string[] }) {
         ></div>
         <div
           className="swiper-button-next"
-          style={{ color: theme === "light" ? "#0F172B" : "#F8FAFC" }}
+          style={{
+            color: theme === "light" ? "#0F172B53" : "#F8FAFC7C",
+          }}
         ></div>
         <div
           className="swiper-button-prev"
-          style={{ color: theme === "light" ? "#0F172B" : "#F8FAFC" }}
+          style={{ color: theme === "light" ? "#0F172B53" : "#F8FAFC7C" }}
         ></div>
       </Swiper>
       <Swiper
@@ -74,7 +76,7 @@ export default function ProductImages({ images }: { images: string[] }) {
         freeMode={true}
         watchSlidesProgress={true}
         modules={[FreeMode, Navigation, Thumbs]}
-        className="thumbs h-fit w-[700px] sm:w-full rounded-lg flex flex-row justify-center items-center"
+        className="thumbs h-fit w-[700px] lg:w-[600px] sm:w-full lg:mb-6 rounded-lg flex flex-row justify-center items-center"
       >
         {images.map((image, index) => (
           <SwiperSlide key={index}>
@@ -82,8 +84,8 @@ export default function ProductImages({ images }: { images: string[] }) {
               className={`${
                 activeIndex === index
                   ? "opacity-100 border-foreground"
-                  : "opacity-70"
-              } h-24 w-32 sm:h-10 sm:w-12 m-1 rounded-lg border hover:cursor-pointer hover:scale-[1.02] transition duration-300 ease-in-out`}
+                  : "opacity-70 border-foreground/20"
+              } h-24 w-32 lg:h-16 lg:w-20 ssm:h-12 ssm:w-16 mx-2 rounded-lg border hover:cursor-pointer hover:scale-[1.02] transition duration-300 ease-in-out`}
             >
               <Image
                 src={image}

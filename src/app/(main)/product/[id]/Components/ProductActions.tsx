@@ -62,7 +62,7 @@ export default function ProductActions({
           Sold: <span className="font-light">{product.sold_quantity}</span>
         </div>
         <div className="text-foreground font-medium mt-2">Choose options:</div>
-        <div className="">
+        <div className="mt-0.5">
           <Select>
             <SelectTrigger className="w-[180px]">
               <SelectValue placeholder="Select option" />
