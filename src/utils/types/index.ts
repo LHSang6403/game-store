@@ -1,4 +1,4 @@
-export interface Admin {
+export interface AdminType {
   id: string;
   created_at: string;
   name: string;
@@ -8,7 +8,7 @@ export interface Admin {
   image: string;
 }
 
-export interface Staff {
+export interface StaffType {
   id: string;
   created_at: string;
   name: string;
@@ -19,7 +19,7 @@ export interface Staff {
   image: string;
 }
 
-export interface Writer {
+export interface WriterType {
   id: string;
   created_at: string;
   name: string;
@@ -31,17 +31,43 @@ export interface Writer {
 }
 
 export interface CustomerType {
-  id: string;
+  id: string; // p_key
   created_at: string;
-  name: string;
+  name: string; // p_key
   dob: string;
   phone: string;
+  address: string;
   email: string;
   level: number;
   image: string;
 }
 
 export interface ProductType {
+  id: string; // p_key
+  created_at: string;
+  brand: string;
+  name: string; // p_key
+  description: string;
+  images: string[];
+  price: number;
+  options: string[];
+  rate: number;
+  sold_quantity: number;
+  description_id: string; // f_key
+  category: string;
+  is_deleted: boolean;
+}
+
+export interface ProductDescriptionType {
+  id: string; // p_key
+  created_at: string;
+  content: string;
+  images: string[];
+  writer: string;
+  comments: string[];
+}
+
+export interface ProductWithDescriptionAndStorageType {
   id: string;
   created_at: string;
   brand: string;
@@ -49,20 +75,28 @@ export interface ProductType {
   description: string;
   images: string[];
   price: number;
-  option: string[];
+  options: string[];
   rate: number;
   sold_quantity: number;
   description_id: string;
   category: string;
+  is_deleted: boolean;
+  product_description: ProductDescriptionType;
+  storage: StorageType[];
 }
 
-export interface ProductDescriptionType {
+export interface OrderType {
   id: string;
   created_at: string;
-  content: string;
-  images: string[];
-  writer: string;
-  comments: string[];
+  prod_ids: string[]; // array
+  prod_names: string[]; // array
+  prod_quantities: number[]; // array
+  state: "pending" | "shipping" | "delivered" | "canceled" | "returned";
+  customer_id: string; // f_key
+  customer_name: string; // f_key
+  price: number;
+  note: string;
+  address: string;
 }
 
 export interface BlogType {
@@ -77,23 +111,13 @@ export interface BlogType {
   comments: string[];
 }
 
-export interface OrderType {
-  id: string;
-  created_at: string;
-  prod_id: string;
-  prod_name: string;
-  state: string;
-  customer: string;
-  price: number;
-}
-
 export interface StorageType {
-  id: string;
+  id: string; // p_key
   created_at: string;
   name: string;
   address: string;
-  prod_id: string;
-  prod_name: string;
+  prod_id: string; // f_key
+  prod_name: string; // f_key
   quantity: number;
 }
 

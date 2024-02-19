@@ -5,7 +5,6 @@ import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
-
 import {
   Form,
   FormControl,
@@ -16,14 +15,12 @@ import {
 } from "@components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-
 import { signInWithEmailAndPassword } from "@auth/_actions/signIn";
-// import GoogleOAuthForm from "../OAuth/GoogleOAuth";
 
 const FormSchema = z.object({
   email: z.string().email(),
-  password: z.string().min(1, {
-    message: "Password is required.",
+  password: z.string().min(6, {
+    message: "Password must be greater than 5 letters.",
   }),
 });
 
@@ -112,7 +109,6 @@ export default function SignIn() {
           </div>
         </form>
       </Form>
-      {/* <GoogleOAuthForm /> */}
     </div>
   );
 }

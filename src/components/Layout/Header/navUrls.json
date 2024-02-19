@@ -8,6 +8,10 @@
     "url": "/product"
   },
   {
+    "name": "Cart",
+    "url": "/cart"
+  },
+  {
     "name": "Dashboard",
     "url": "/dashboard"
   },

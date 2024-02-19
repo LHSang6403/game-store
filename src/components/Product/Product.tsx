@@ -6,13 +6,13 @@ import type { ProductType } from "@utils/types/index";
 export default function Product({ data }: { data: ProductType }) {
   return (
     <Link
-      href="/product"
+      href={`/product/${data.id}`}
       className="w-48 sm:w-full h-fit overflow-hidden text-foreground/90 bg-foreground/5 hover:text-foreground hover:bg-foreground/10 hover:scale-[1.02] transition duration-300 ease-in-out"
     >
       <div className="w-48 sm:w-full h-36 sm:h-28">
         <Image
           alt="Category"
-          src={data.images[0]}
+          src={data.images[1]}
           className="object-contain !w-full !relative"
           layout="fill"
         />

@@ -15,7 +15,6 @@ import { motion } from "framer-motion";
 
 export default function NavBar() {
   const path = usePathname();
-  console.log(path);
 
   return (
     <NavigationMenu>

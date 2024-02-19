@@ -10,8 +10,22 @@ import {
 } from "@components/ui/select";
 import { Checkbox } from "@components/ui/checkbox";
 import formatCurrency from "@utils/functions/formatCurrency";
+import { useOrder } from "@/zustand/useOrder";
+import { toast } from "sonner";
+import type { ProductWithDescriptionAndStorageType } from "@utils/types/index";
 
-export default function UserActions() {
+export default function ProductActions({
+  product,
+}: {
+  product: ProductWithDescriptionAndStorageType;
+}) {
+  const { addProduct } = useOrder();
+
+  const handleAddToCart = () => {
+    addProduct(product);
+    toast.success("Added successfully!");
+  };
+
   return (
     <>
       <div>
@@ -33,38 +47,37 @@ export default function UserActions() {
           ))}
         </div>
         <div className="text-xl font-semibold">
-          {formatCurrency(100000)} VND
+          {formatCurrency(product.price)} VND
         </div>
         <div className="max-w-[90%] font-light line-clamp-3 overflow-ellipsis">
-          This area is just a short description of this game device. This area
-          is just a short description of this game device. This area is just a
-          short description of this game device. This area is just a short
-          description of this game device.
+          {product.description}
         </div>
       </div>
       <div>
+        <div className="text-foreground font-medium -mt-1">
+          Availble:{" "}
+          <span className="font-light">{product.storage[0].quantity}</span>
+        </div>
         <div className="text-foreground font-medium">
-          Availble: <span className="font-light">99</span>
+          Sold: <span className="font-light">{product.sold_quantity}</span>
         </div>
         <div className="text-foreground font-medium mt-2">Choose options:</div>
-        <div className="flex flex-row gap-2 mt-1">
-          {Array.from({ length: 2 }).map((_, index: number) => (
-            <Select key={index}>
-              <SelectTrigger className="w-[180px]">
-                <SelectValue placeholder="Select option" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectGroup>
-                  <SelectLabel>Fruits</SelectLabel>
-                  <SelectItem value="apple">Apple</SelectItem>
-                  <SelectItem value="banana">Banana</SelectItem>
-                  <SelectItem value="blueberry">Blueberry</SelectItem>
-                  <SelectItem value="grapes">Grapes</SelectItem>
-                  <SelectItem value="pineapple">Pineapple</SelectItem>
-                </SelectGroup>
-              </SelectContent>
-            </Select>
-          ))}
+        <div className="">
+          <Select>
+            <SelectTrigger className="w-[180px]">
+              <SelectValue placeholder="Select option" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectGroup>
+                <SelectLabel>Options</SelectLabel>
+                {product.options.map((option: string, index: number) => (
+                  <SelectItem key={index} value={option}>
+                    {option}
+                  </SelectItem>
+                ))}
+              </SelectGroup>
+            </SelectContent>
+          </Select>
         </div>
         <div className="flex flex-col lg:flex-row gap-4 mt-4 sm:px-1">
           <div className="flex items-center space-x-2">
@@ -87,7 +100,18 @@ export default function UserActions() {
           </div>
         </div>
       </div>
-      <Button className="w-fit sm:w-full text-background">Buy now</Button>
+      {product.storage[0].quantity ? (
+        <Button
+          className="w-fit h-fit sm:w-full text-background"
+          onClick={handleAddToCart}
+        >
+          Cart now
+        </Button>
+      ) : (
+        <div className="text-foreground font-medium">
+          This product is currently sold out!
+        </div>
+      )}
     </>
   );
 }

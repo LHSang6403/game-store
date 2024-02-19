@@ -4,7 +4,7 @@ import ProductsContainer from "./Components/ProductsContainer";
 import SheetArea from "./Components/FilterArea";
 import Advertisement from "./Components/Advertisement";
 
-export default function Products() {
+export default function Product() {
   return (
     <>
       <Advertisement />

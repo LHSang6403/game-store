@@ -28,10 +28,10 @@ const FormSchema = z
       .max(12, { message: "Must be a valid mobile number" }),
     email: z.string().email(),
     password: z.string().min(6, {
-      message: "Password is required.",
+      message: "Password must be greater than 5 letters.",
     }),
     confirm: z.string().min(6, {
-      message: "Password is required.",
+      message: "Password must be greater than 5 letters.",
     }),
   })
   .refine((data) => data.confirm === data.password, {
