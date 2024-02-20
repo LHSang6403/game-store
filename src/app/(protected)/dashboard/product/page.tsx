@@ -1,17 +1,12 @@
-import { User, columns } from "@components/Table/Column";
+import { columns } from "./Components/Columns";
 import { DataTable } from "@components/Table/DataTable";
 import Link from "next/link";
-
-async function getUsers(): Promise<User[]> {
-  const res = await fetch(
-    "https://64a6f5fc096b3f0fcc80e3fa.mockapi.io/api/users"
-  );
-  const data = await res.json();
-  return data;
-}
+import { readProducts } from "@app/(main)/product/_actions/product";
+import type { ProductType } from "@utils/types/index";
 
 export default async function Page() {
-  const data = await getUsers();
+  const res = await readProducts({ limit: 10, offset: 0 });
+  const data = res.data as ProductType[];
 
   return (
     <section className="mx-10 sm:mx-4">

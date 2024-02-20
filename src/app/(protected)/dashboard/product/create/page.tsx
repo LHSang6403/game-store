@@ -1,9 +1,8 @@
-import NovelEditor from "./Components/NovelEditor";
+
+import { Editor } from "novel";
 
 export default function page() {
-  return (
-    <div>
-      <NovelEditor />
-    </div>
-  );
+    return <div>
+            <Editor />
+        </div>;
 }
