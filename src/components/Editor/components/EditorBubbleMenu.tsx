@@ -26,32 +26,32 @@ export const EditorBubbleMenu: FC<EditorBubbleMenuProps> = (props) => {
   const items: BubbleMenuItem[] = [
     {
       name: "bold",
-      isActive: () => props.editor.isActive("bold"),
-      command: () => props.editor.chain().focus().toggleBold().run(),
+      isActive: () => props.editor?.isActive("bold") ?? false,
+      command: () => props.editor?.chain().focus().toggleBold().run(),
       icon: BoldIcon,
     },
     {
       name: "italic",
-      isActive: () => props.editor.isActive("italic"),
-      command: () => props.editor.chain().focus().toggleItalic().run(),
+      isActive: () => props.editor?.isActive("italic") ?? false,
+      command: () => props.editor?.chain().focus().toggleItalic().run(),
       icon: ItalicIcon,
     },
     {
       name: "underline",
-      isActive: () => props.editor.isActive("underline"),
-      command: () => props.editor.chain().focus().toggleUnderline().run(),
+      isActive: () => props.editor?.isActive("underline") ?? false,
+      command: () => props.editor?.chain().focus().toggleUnderline().run(),
       icon: UnderlineIcon,
     },
     {
       name: "strike",
-      isActive: () => props.editor.isActive("strike"),
-      command: () => props.editor.chain().focus().toggleStrike().run(),
+      isActive: () => props.editor?.isActive("strike") ?? false,
+      command: () => props.editor?.chain().focus().toggleStrike().run(),
       icon: StrikethroughIcon,
     },
     {
       name: "code",
-      isActive: () => props.editor.isActive("code"),
-      command: () => props.editor.chain().focus().toggleCode().run(),
+      isActive: () => props.editor?.isActive("code") ?? false,
+      command: () => props.editor?.chain().focus().toggleCode().run(),
       icon: CodeIcon,
     },
   ];
@@ -85,7 +85,7 @@ export const EditorBubbleMenu: FC<EditorBubbleMenuProps> = (props) => {
       className="flex w-fit divide-x divide-stone-200 rounded border border-stone-200 bg-white shadow-xl"
     >
       <NodeSelector
-        editor={props.editor}
+        editor={props.editor!}
         isOpen={isNodeSelectorOpen}
         setIsOpen={() => {
           setIsNodeSelectorOpen(!isNodeSelectorOpen);
@@ -94,7 +94,7 @@ export const EditorBubbleMenu: FC<EditorBubbleMenuProps> = (props) => {
         }}
       />
       <LinkSelector
-        editor={props.editor}
+        editor={props.editor!}
         isOpen={isLinkSelectorOpen}
         setIsOpen={() => {
           setIsLinkSelectorOpen(!isLinkSelectorOpen);
@@ -118,7 +118,7 @@ export const EditorBubbleMenu: FC<EditorBubbleMenuProps> = (props) => {
         ))}
       </div>
       <ColorSelector
-        editor={props.editor}
+        editor={props.editor!}
         isOpen={isColorSelectorOpen}
         setIsOpen={() => {
           setIsColorSelectorOpen(!isColorSelectorOpen);
