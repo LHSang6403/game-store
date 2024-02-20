@@ -1,10 +1,11 @@
 import { GeistSans } from "geist/font/sans";
-import "./globals.css";
+import "@app/styles/globals.css";
+import "@app/styles/prosemirror.css";
 import NavDrawer from "@components/Layout/Drawer/NavDrawer";
 import ThemeProvider from "@components/Providers/ThemeProvider";
 import ReactQueryProvider from "@components/Providers/ReactQueryProvider";
 import { Toaster } from "sonner";
-import Provider from "@/providers/Provider";
+import Providers from "@components/Providers/Providers";
 
 export const metadata = {
   title: "Gaming Store",
@@ -27,13 +28,13 @@ export default function RootLayout({
       <body className="bg-background text-foreground">
         <ThemeProvider>
           <ReactQueryProvider>
-            <Provider>
-              <main className="w-full max-w-[2200px] min-h-screen mx-auto overflow-hidden flex flex-col items-center">
+            <Providers>
+              <main className="mx-auto flex min-h-screen w-full max-w-[2200px] flex-col items-center overflow-hidden">
                 {children}
                 <NavDrawer />
               </main>
               <Toaster position="top-right" />
-            </Provider>
+            </Providers>
           </ReactQueryProvider>
         </ThemeProvider>
       </body>
