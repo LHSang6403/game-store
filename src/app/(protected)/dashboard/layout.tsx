@@ -6,7 +6,7 @@ export default function MainLayout({
   children: React.ReactNode;
 }): ReturnType<React.FC> {
   return (
-    <div className="w-full max-w-screen min-h-screen flex flex-row xl:flex-col">
+    <div className="w-full max-w-screen min-h-screen px-10 flex flex-row xl:flex-col gap-4">
       <div className="w-[20%] xl:w-full">
         <DashboardSidebar />
       </div>

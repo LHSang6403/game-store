@@ -2,15 +2,15 @@ import Link from "next/link";
 
 export default function DashboardSidebar() {
   const dashboardSidebarList = [
-    { name: "Dashboard1", link: "/dashboard" },
-    { name: "Overview", link: "/dashboard/overviewChart" },
-    { name: "Dashboard3", link: "/dashboard" },
-    { name: "Dashboard4", link: "/dashboard" },
-    { name: "Dashboard5", link: "/dashboard" },
+    { name: "Overview", link: "/dashboard" },
+    { name: "Product", link: "/dashboard/product" },
+    { name: "Order", link: "/dashboard/order" },
+    { name: "Staff", link: "/dashboard/staff" },
+    { name: "Customer", link: "/dashboard/customer" },
   ];
 
   return (
-    <div className="w-full h-[calc(100vh_-_4rem)] xl:h-fit px-10 sm:px-4 py-2 border-r border-b xl:border-none rounded-br-lg border-foreground/10">
+    <div className="w-full h-[calc(100vh_-_6rem)] xl:h-fit border-t border-r border-b xl:border-none rounded-br-lg rounded-tr-lg border-foreground/10">
       <h1 className="mx-4 xl:mx-0 text-2xl font-medium mb-2 pb-2 border-b border-foreground/10 text-foreground">
         Routes
       </h1>

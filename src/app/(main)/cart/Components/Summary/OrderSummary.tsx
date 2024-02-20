@@ -7,6 +7,7 @@ import { useOrder } from "@/zustand/useOrder";
 import { DataTable } from "@components/Table/DataTable";
 import { columns } from "./Columns";
 import convertOrderToListOrder from "@utils/functions/convertOrderToListOrder";
+import Link from "next/link";
 
 export default function OrderSummary() {
   const { removeAll, order } = useOrder();
@@ -52,7 +53,12 @@ export default function OrderSummary() {
           />
         </>
       ) : (
-        <h2 className="font-light">Please, select order in Product</h2>
+        <div className="font-light">
+          Please, select order in{" "}
+          <Link className="hover:font-normal" href="/product">
+            Product
+          </Link>
+        </div>
       )}
     </>
   );
