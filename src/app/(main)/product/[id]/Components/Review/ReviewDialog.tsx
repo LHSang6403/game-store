@@ -16,7 +16,10 @@ export default function ReviewDialog() {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button type="submit" className="w-fit sm:w-full bg-foreground text-background">
+        <Button
+          type="submit"
+          className="w-fit sm:w-full bg-foreground text-background"
+        >
           Write a review
         </Button>
       </DialogTrigger>

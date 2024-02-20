@@ -7,7 +7,7 @@ import {
   PaginationLink,
   PaginationNext,
   PaginationPrevious,
-} from "@components/ui/pagination";
+} from "@/components/ui/pagination";
 import { readProducts } from "@app/(main)/product/_actions/product";
 import type { ProductType } from "@utils/types/index";
 

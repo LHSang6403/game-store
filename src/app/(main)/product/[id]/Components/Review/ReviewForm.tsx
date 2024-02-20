@@ -11,10 +11,10 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@components/ui/form";
-import { Textarea } from "@components/ui/textarea";
-import { Input } from "@components/ui/input";
-import { Button } from "@components/ui/button";
+} from "@/components/ui/form";
+import { Textarea } from "@/components/ui/textarea";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 
 const FormSchema = z.object({
   name: z.string(),

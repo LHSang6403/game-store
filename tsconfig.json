@@ -3,6 +3,7 @@
     "target": "es5",
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
+    "jsx": "preserve",
     "skipLibCheck": true,
     "strict": true,
     "forceConsistentCasingInFileNames": true,
@@ -12,7 +13,6 @@
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "jsx": "preserve",
     "incremental": true,
     "plugins": [
       {
@@ -24,11 +24,17 @@
       "@app/*": ["./src/app/*"],
       "@components/*": ["./src/components/*"],
       "@supabase/*": ["./src/supabase/*"],
-      "@hooks/*": ["./src/utils/hooks/*"],
+      "@hooks/*": ["./src/hooks/*"],
       "@utils/*": ["./src/utils/*"],
       "@auth/*": ["./src/app/auth/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/app/(protected)/dashboard/product/create/Components/NovelEditor.tsx"],
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts",
+    "src/app/(protected)/dashboard/product/create/Components/NovelEditor.tsx"
+  ],
   "exclude": ["node_modules"]
 }

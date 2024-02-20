@@ -1,6 +1,6 @@
 "use client";
 
-import { Button } from "@components/ui/button";
+import { Button } from "@/components/ui/button";
 import {
   Drawer,
   DrawerClose,
@@ -10,7 +10,7 @@ import {
   DrawerHeader,
   DrawerTitle,
   DrawerTrigger,
-} from "@components/ui/drawer";
+} from "@/components/ui/drawer";
 import navUrls from "../Header/navUrls.json";
 import Link from "next/link";
 

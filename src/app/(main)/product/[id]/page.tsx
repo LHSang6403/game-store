@@ -3,7 +3,7 @@
 import ProductDetail from "./Components/ProductDetail";
 import ProductDescription from "./Components/ProductDescription";
 import ProductReview from "./Components/Review/ProductReview";
-import useProductQuery from "@utils/hooks/useProductQuery";
+import useProductQuery from "@/hooks/useProductQuery";
 import Template from "@app/(protected)/template";
 
 export default async function Product({ params }: { params: { id: string } }) {

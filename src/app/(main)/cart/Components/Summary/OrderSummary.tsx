@@ -2,7 +2,7 @@
 
 import formatReadableTime from "@utils/functions/formatTime";
 import formatCurrency from "@/utils/functions/formatCurrency";
-import { Button } from "@components/ui/button";
+import { Button } from "@/components/ui/button";
 import { useOrder } from "@/zustand/useOrder";
 import { DataTable } from "@components/Table/DataTable";
 import { columns } from "./Columns";

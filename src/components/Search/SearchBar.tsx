@@ -2,7 +2,7 @@
 
 import { usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
-import { Input } from "@components/ui/input";
+import { Input } from "@/components/ui/input";
 import { useForm } from "react-hook-form";
 
 export default function SearchBar() {

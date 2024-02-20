@@ -3,7 +3,7 @@
 import { ColumnDef } from "@tanstack/react-table";
 import { OrderType } from "@utils/types";
 import formatCurrency from "@utils/functions/formatCurrency";
-import { Button } from "@components/ui/button";
+import { Button } from "@/components/ui/button";
 import { MoreHorizontal } from "lucide-react";
 import {
   DropdownMenu,
@@ -12,8 +12,8 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@components/ui/dropdown-menu";
-import useProductQuery from "@utils/hooks/useProductQuery";
+} from "@/components/ui/dropdown-menu";
+import useProductQuery from "@/hooks/useProductQuery";
 import { useOrder } from "@/zustand/useOrder";
 
 export const columns: ColumnDef<OrderType>[] = [

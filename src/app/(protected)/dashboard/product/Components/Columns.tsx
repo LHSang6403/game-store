@@ -2,7 +2,7 @@
 
 import { ColumnDef } from "@tanstack/react-table";
 import { MoreHorizontal, ArrowUpDown } from "lucide-react";
-import { Button } from "@components/ui/button";
+import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -10,9 +10,9 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@components/ui/dropdown-menu";
-import type { ProductType } from "@/utils/types";
-import formatCurrency from "@/utils/functions/formatCurrency";
+} from "@/components/ui/dropdown-menu";
+import type { ProductType } from "@utils/types";
+import formatCurrency from "@utils/functions/formatCurrency";
 
 export const columns: ColumnDef<ProductType>[] = [
   {
@@ -37,14 +37,13 @@ export const columns: ColumnDef<ProductType>[] = [
   },
   {
     accessorKey: "created_at",
-    // header: "Created at",
     header: ({ column }) => {
       return (
         <Button
           variant="outline"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Created at
+          Created
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
@@ -52,11 +51,12 @@ export const columns: ColumnDef<ProductType>[] = [
     cell: ({ row }) => {
       const date = new Date(row.getValue("created_at"));
       const formatted = date.toLocaleDateString();
-      return <div className="text-center w-fit mx-6">{formatted}</div>;
+      return <div className="ml-4">{formatted}</div>;
     },
   },
   {
     id: "actions",
+    header: "Actions",
     cell: ({ row }) => {
       const user = row.original;
 

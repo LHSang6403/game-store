@@ -1,4 +1,4 @@
-import { Button } from "@components/ui/button";
+import { Button } from "@/components/ui/button";
 import {
   Select,
   SelectContent,
@@ -7,8 +7,8 @@ import {
   SelectLabel,
   SelectTrigger,
   SelectValue,
-} from "@components/ui/select";
-import { Checkbox } from "@components/ui/checkbox";
+} from "@/components/ui/select";
+import { Checkbox } from "@/components/ui/checkbox";
 import formatCurrency from "@utils/functions/formatCurrency";
 import { useOrder } from "@/zustand/useOrder";
 import { toast } from "sonner";

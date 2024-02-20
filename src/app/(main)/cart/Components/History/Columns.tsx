@@ -2,7 +2,7 @@
 
 import { ColumnDef } from "@tanstack/react-table";
 import { OrderType } from "@utils/types";
-import { Button } from "@components/ui/button";
+import { Button } from "@/components/ui/button";
 import { MoreHorizontal, ArrowUpDown } from "lucide-react";
 import {
   DropdownMenu,
@@ -11,7 +11,7 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@components/ui/dropdown-menu";
+} from "@/components/ui/dropdown-menu";
 import formatReadableTime from "@/utils/functions/formatTime";
 
 export const columns: ColumnDef<OrderType>[] = [
