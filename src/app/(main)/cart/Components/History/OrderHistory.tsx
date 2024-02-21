@@ -1,8 +1,8 @@
-import { readOrdersByCustomerId } from "@app/(main)/cart/_actions/order";
+import { readOrdersByCustomerId } from "@/app/_actions/order";
 import { columns } from "@app/(main)/cart/Components/History/Columns";
 import { DataTable } from "@components/Table/DataTable";
 import type { OrderType } from "@utils/types";
-import { readUserSession } from "@app/auth/_actions/users";
+import { readUserSession } from "@/app/_actions/user";
 
 export default async function OrderHistory() {
   const sessionResponse = await readUserSession();
@@ -13,12 +13,12 @@ export default async function OrderHistory() {
   );
 
   return (
-    <div className="w-fit mx-auto xl:w-auto">
+    <div className="mx-auto w-fit xl:w-auto">
       {sessionResponse &&
         !hisrotyResponse.error &&
         "data" in hisrotyResponse && (
           <>
-            <h2 className="text-lg font-semibold mb-1">Your history</h2>
+            <h2 className="mb-1 text-lg font-semibold">Your history</h2>
             <DataTable
               columns={columns}
               data={hisrotyResponse.data as OrderType[]}

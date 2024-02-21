@@ -1,4 +1,4 @@
-import { readOrders } from "@app/(protected)/dashboard/_actions/order";
+import { readOrders } from "@app/_actions/order";
 import Link from "next/link";
 import { OrderType } from "@/utils/types";
 

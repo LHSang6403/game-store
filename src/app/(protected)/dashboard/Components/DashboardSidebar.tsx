@@ -10,8 +10,8 @@ export default function DashboardSidebar() {
   ];
 
   return (
-    <div className="w-full h-[calc(100vh_-_6rem)] xl:h-fit border-t border-r border-b xl:border-none rounded-br-lg rounded-tr-lg border-foreground/10">
-      <h1 className="mx-4 xl:mx-0 text-2xl font-medium mb-2 pb-2 border-b border-foreground/10 text-foreground">
+    <div className="h-[calc(100vh_-_6rem)] w-full rounded-br-lg rounded-tr-lg border-b border-r border-t border-foreground/10 xl:h-fit xl:border-none">
+      <h1 className="mx-4 mb-2 border-b border-foreground/10 pb-2 text-2xl font-medium text-foreground xl:mx-0">
         Routes
       </h1>
       <ul className="flex flex-col gap-2 xl:h-12 xl:flex-row xl:overflow-auto">
@@ -19,7 +19,7 @@ export default function DashboardSidebar() {
           <Link
             key={index}
             href={item.link}
-            className="w-full xl:w-32 h-9 flex items-center px-4 py-2 rounded-md bg-background xl:border xl:border-foreground/10 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[active]:bg-accent/50 data-[state=open]:bg-accent/50"
+            className="hover:text-accent-foreground focus:text-accent-foreground flex h-9 w-full items-center rounded-md bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-accent focus:bg-accent focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[active]:bg-accent/50 data-[state=open]:bg-accent/50 xl:w-32 xl:border xl:border-foreground/10"
           >
             {item.name}
           </Link>

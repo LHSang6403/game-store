@@ -8,7 +8,7 @@ import { displayFontMapper, defaultFontMapper } from "@app/styles/fonts";
 import useLocalStorage from "@/hooks/useLocalStorage";
 import { cn } from "@/lib/utils";
 
-import { readUserSession } from "@app/auth/_actions/users";
+import { readUserSession } from "@/app/_actions/user";
 import { useSession } from "@/zustand/useSession";
 import { useEffect } from "react";
 

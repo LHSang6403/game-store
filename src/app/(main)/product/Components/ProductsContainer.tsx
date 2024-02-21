@@ -8,7 +8,7 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
-import { readProducts } from "@app/(main)/product/_actions/product";
+import { readProducts } from "@/app/_actions/product";
 import type { ProductType } from "@utils/types/index";
 
 export default async function ProductsContainer() {
@@ -22,8 +22,8 @@ export default async function ProductsContainer() {
   }
 
   return (
-    <div className="w-full h-fit flex flex-col gap-6 items-center justify-center">
-      <div className="w-fit h-fit grid grid-cols-4 xl:grid-cols-3 lg:grid-cols-2 gap-5 sm:gap-2 justify-items-center">
+    <div className="flex h-fit w-full flex-col items-center justify-center gap-6">
+      <div className="grid h-fit w-fit grid-cols-4 justify-items-center gap-5 xl:grid-cols-3 lg:grid-cols-2 sm:gap-2">
         {productsResponse.data &&
           productsResponse.data.map((each: ProductType, index: number) => (
             <Product key={index} data={each} />

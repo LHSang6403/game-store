@@ -1,4 +1,4 @@
-import { BlobResult } from "@vercel/blob";
+import { PutBlobResult } from "@vercel/blob";
 import { toast } from "sonner";
 import { EditorState, Plugin, PluginKey } from "@tiptap/pm/state";
 import { Decoration, DecorationSet, EditorView } from "@tiptap/pm/view";
@@ -15,7 +15,7 @@ const UploadImagesPlugin = () =>
       apply(tr, set) {
         set = set.map(tr.mapping, tr.doc);
         // See if the transaction adds or removes any placeholders
-        const action = tr.getMeta(this);
+        const action = tr.getMeta(uploadKey);
         if (action && action.add) {
           const { id, pos, src } = action.add;
 
@@ -24,7 +24,7 @@ const UploadImagesPlugin = () =>
           const image = document.createElement("img");
           image.setAttribute(
             "class",
-            "opacity-40 rounded-lg border border-stone-200",
+            "opacity-40 rounded-lg border border-stone-200"
           );
           image.src = src;
           placeholder.appendChild(image);
@@ -34,7 +34,7 @@ const UploadImagesPlugin = () =>
           set = set.add(tr.doc, [deco]);
         } else if (action && action.remove) {
           set = set.remove(
-            set.find(null, null, (spec) => spec.id == action.remove.id),
+            set.find(undefined, undefined, (spec) => spec.id == action.remove.id)
           );
         }
         return set;
@@ -51,7 +51,7 @@ export default UploadImagesPlugin;
 
 function findPlaceholder(state: EditorState, id: {}) {
   const decos = uploadKey.getState(state);
-  const found = decos.find(null, null, (spec) => spec.id == id);
+  const found = decos.find() || [];
   return found.length ? found[0].from : null;
 }
 
@@ -87,6 +87,8 @@ export function startImageUpload(file: File, view: EditorView, pos: number) {
     view.dispatch(tr);
   };
 
+  // handleImageUpload(file);
+
   handleImageUpload(file).then((src) => {
     const { schema } = view.state;
 
@@ -111,9 +113,11 @@ export function startImageUpload(file: File, view: EditorView, pos: number) {
 }
 
 export const handleImageUpload = (file: File) => {
-  // upload to Vercel Blob
+  // upload event
+
   return new Promise((resolve) => {
     toast.promise(
+      // call upload to supabase here
       fetch("/api/upload", {
         method: "POST",
         headers: {
@@ -124,7 +128,7 @@ export const handleImageUpload = (file: File) => {
       }).then(async (res) => {
         // Successfully uploaded image
         if (res.status === 200) {
-          const { url } = (await res.json()) as BlobResult;
+          const { url } = (await res.json()) as PutBlobResult;
           // preload the image
           let image = new Image();
           image.src = url;
@@ -136,7 +140,7 @@ export const handleImageUpload = (file: File) => {
           resolve(file);
 
           throw new Error(
-            "`BLOB_READ_WRITE_TOKEN` environment variable not found, reading image locally instead.",
+            "`BLOB_READ_WRITE_TOKEN` environment variable not found, reading image locally instead."
           );
           // Unknown error
         } else {
@@ -147,7 +151,7 @@ export const handleImageUpload = (file: File) => {
         loading: "Uploading image...",
         success: "Image uploaded successfully.",
         error: (e) => e.message,
-      },
+      }
     );
   });
 };

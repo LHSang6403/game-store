@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { readProductDetailById } from "@app/(main)/product/_actions/product";
+import { readProductDetailById } from "@/app/_actions/product";
 import type { ProductWithDescriptionAndStorageType } from "@utils/types/index";
 
 export default function useProductQuery({ id }: { id: string }) {

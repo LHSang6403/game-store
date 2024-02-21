@@ -18,7 +18,7 @@ import { Button } from "@/components/ui/button";
 import { useSession } from "@/zustand/useSession";
 import { useOrder } from "@/zustand/useOrder";
 import type { CustomerType, OrderType } from "@utils/types";
-import { createOrder } from "../../_actions/order";
+import { createOrder } from "@app/_actions/order";
 import { useMutation } from "@tanstack/react-query";
 
 const FormSchema = z.object({
@@ -88,7 +88,7 @@ export default function OrderForm() {
   return (
     <>
       {order && (
-        <div className="w-64 xl:w-[500px] sm:w-auto h-fit flex flex-col gap-2 border rounded-md px-3 py-2">
+        <div className="flex h-fit w-64 flex-col gap-2 rounded-md border px-3 py-2 xl:w-[500px] sm:w-auto">
           <h2 className="text-lg font-semibold">Your order summary</h2>
           <Form {...form}>
             <form

@@ -97,11 +97,11 @@ export const ColorSelector: FC<ColorSelectorProps> = ({
   setIsOpen,
 }) => {
   const activeColorItem = TEXT_COLORS.find(({ color }) =>
-    editor.isActive("textStyle", { color }),
+    editor.isActive("textStyle", { color })
   );
 
   const activeHighlightItem = HIGHLIGHT_COLORS.find(({ color }) =>
-    editor.isActive("highlight", { color }),
+    editor.isActive("highlight", { color })
   );
 
   return (
@@ -113,8 +113,8 @@ export const ColorSelector: FC<ColorSelectorProps> = ({
         <span
           className="rounded-sm px-1"
           style={{
-            color: activeColorItem?.color,
-            backgroundColor: activeHighlightItem?.color,
+            color: activeColorItem?.color || undefined,
+            backgroundColor: activeHighlightItem?.color || undefined,
           }}
         >
           A
@@ -132,7 +132,7 @@ export const ColorSelector: FC<ColorSelectorProps> = ({
               onClick={() => {
                 editor.commands.unsetColor();
                 name !== "Default" &&
-                  editor.chain().focus().setColor(color).run();
+                  editor.chain().focus().setColor(color!).run();
                 setIsOpen(false);
               }}
               className="flex items-center justify-between rounded-sm px-2 py-1 text-sm text-stone-600 hover:bg-stone-100"
@@ -140,7 +140,7 @@ export const ColorSelector: FC<ColorSelectorProps> = ({
               <div className="flex items-center space-x-2">
                 <div
                   className="rounded-sm border border-stone-200 px-1 py-px font-medium"
-                  style={{ color }}
+                  style={{ color: color || undefined }}
                 >
                   A
                 </div>
@@ -161,7 +161,8 @@ export const ColorSelector: FC<ColorSelectorProps> = ({
               key={index}
               onClick={() => {
                 editor.commands.unsetHighlight();
-                name !== "Default" && editor.commands.setHighlight({ color });
+                name !== "Default" &&
+                  editor.commands.setHighlight({ color: color! });
                 setIsOpen(false);
               }}
               className="flex items-center justify-between rounded-sm px-2 py-1 text-sm text-stone-600 hover:bg-stone-100"
@@ -169,7 +170,7 @@ export const ColorSelector: FC<ColorSelectorProps> = ({
               <div className="flex items-center space-x-2">
                 <div
                   className="rounded-sm border border-stone-200 px-1 py-px font-medium"
-                  style={{ backgroundColor: color }}
+                  style={{ backgroundColor: color || undefined }}
                 >
                   A
                 </div>
