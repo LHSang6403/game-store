@@ -1,7 +1,7 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import {useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import * as z from "zod";
 // import { toast } from "sonner";
 import { Form } from "@components/ui/form";
@@ -12,7 +12,7 @@ import DropAndDragZone from "@/components/File/DropAndDragZone";
 import FormInputs from "./FormInputs";
 // import useFormPersist from "react-hook-form-persist";
 import useFiles from "@/zustand/useFiles";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import useLocalStorage from "@/hooks/useLocalStorage";
 // import type { ProductType } from "@/utils/types";
 
@@ -95,8 +95,9 @@ export default function CreateForm() {
   }
 
   useEffect(() => {
-    setContent(form.getValues());
-  }, [form.getValues()]);
+    const formValues = form.getValues();
+    setContent(formValues);
+  }, [form.watch(), setContent]);
 
   return (
     <Form {...form}>

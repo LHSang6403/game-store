@@ -75,7 +75,6 @@
     "react-dom": "18.2.0",
     "react-dropzone": "^14.2.3",
     "react-hook-form": "^7.50.1",
-    "react-hook-form-persist": "^2.1.0",
     "react-markdown": "^8.0.7",
     "sonner": "^1.4.0",
     "swiper": "^11.0.6",
