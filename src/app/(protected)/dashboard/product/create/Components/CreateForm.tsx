@@ -11,7 +11,7 @@ import Editor from "@/components/Editor";
 import DropAndDragZone from "@/components/File/DropAndDragZone";
 import FormInputs from "./FormInputs";
 import useFiles from "@/zustand/useFiles";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import useLocalStorage from "@/hooks/useLocalStorage";
 import { useSession } from "@/zustand/useSession";
 import { v4 as uuidv4 } from "uuid";
