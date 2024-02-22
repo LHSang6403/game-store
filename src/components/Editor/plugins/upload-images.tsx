@@ -1,7 +1,10 @@
-import { PutBlobResult } from "@vercel/blob";
+// import { BlobResult } from "@vercel/blob";
 import { toast } from "sonner";
 import { EditorState, Plugin, PluginKey } from "@tiptap/pm/state";
 import { Decoration, DecorationSet, EditorView } from "@tiptap/pm/view";
+
+// server aciton to upload to supabase
+import { uploadFile } from "@app/_actions/file";
 
 const uploadKey = new PluginKey("upload-image");
 
@@ -34,7 +37,11 @@ const UploadImagesPlugin = () =>
           set = set.add(tr.doc, [deco]);
         } else if (action && action.remove) {
           set = set.remove(
-            set.find(undefined, undefined, (spec) => spec.id == action.remove.id)
+            set.find(
+              undefined,
+              undefined,
+              (spec) => spec.id == action.remove.id
+            )
           );
         }
         return set;
@@ -61,9 +68,9 @@ export function startImageUpload(file: File, view: EditorView, pos: number) {
     toast.error("File type not supported.");
     return;
 
-    // check if the file size is less than 20MB
-  } else if (file.size / 1024 / 1024 > 20) {
-    toast.error("File size too big (max 20MB).");
+    // check if the file size is less than 30MB
+  } else if (file.size / 1024 / 1024 > 30) {
+    toast.error("File size too big (max 30MB).");
     return;
   }
 
@@ -86,8 +93,6 @@ export function startImageUpload(file: File, view: EditorView, pos: number) {
     });
     view.dispatch(tr);
   };
-
-  // handleImageUpload(file);
 
   handleImageUpload(file).then((src) => {
     const { schema } = view.state;
@@ -113,22 +118,23 @@ export function startImageUpload(file: File, view: EditorView, pos: number) {
 }
 
 export const handleImageUpload = (file: File) => {
-  // upload event
-
+  // upload to Vercel Blob
   return new Promise((resolve) => {
     toast.promise(
-      // call upload to supabase here
       fetch("/api/upload", {
         method: "POST",
         headers: {
           "content-type": file?.type || "application/octet-stream",
-          "x-vercel-filename": file?.name || "image.png",
+          "x-vercel-filename": file?.name || "image.jpg",
         },
         body: file,
       }).then(async (res) => {
         // Successfully uploaded image
+
         if (res.status === 200) {
-          const { url } = (await res.json()) as PutBlobResult;
+          const url = await res.json().then((data) => data.url);
+          console.log("===url", url);
+
           // preload the image
           let image = new Image();
           image.src = url;

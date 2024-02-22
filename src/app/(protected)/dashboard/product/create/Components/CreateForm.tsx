@@ -1,76 +1,70 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
+import {useForm } from "react-hook-form";
 import * as z from "zod";
-import { toast } from "sonner";
+// import { toast } from "sonner";
 import { Form } from "@components/ui/form";
 import { Button } from "@components/ui/button";
-import { useRouter } from "next/navigation";
+// import { useRouter } from "next/navigation";
 import Editor from "@/components/Editor";
 import DropAndDragZone from "@/components/File/DropAndDragZone";
 import FormInputs from "./FormInputs";
-import useFormPersist from "react-hook-form-persist";
+// import useFormPersist from "react-hook-form-persist";
 import useFiles from "@/zustand/useFiles";
 import { useEffect, useState } from "react";
-import type { ProductType } from "@/utils/types";
+import useLocalStorage from "@/hooks/useLocalStorage";
+// import type { ProductType } from "@/utils/types";
 
 const FormSchema = z.object({
   brand: z.string().min(1, { message: "Brand is a compulsory." }),
   name: z.string().min(1, { message: "Name is a compulsory." }),
   description: z.string().min(1, { message: "Description is a compulsory." }),
   images: z.array(z.string()),
-  price: z.number().min(0, { message: "Price must be a positive number." }), // Chuyển đổi thành kiểu số
+  price: z.number().min(0, { message: "Price must be a positive number." }),
   options: z.array(z.string()),
-  rate: z.number().min(0, { message: "Rate must be a positive number." }), // Chuyển đổi thành kiểu số
+  rate: z.number().min(0, { message: "Rate must be a positive number." }),
   sold_quantity: z
     .number()
-    .min(0, { message: "Sold quantity must be a positive number." }), // Chuyển đổi thành kiểu số
+    .min(0, { message: "Sold quantity must be a positive number." }),
   description_id: z.string(),
   category: z.string(),
   is_deleted: z.boolean(),
 });
 
 export default function CreateForm() {
-  // fix window is undefined
-  const [position, setPosition] = useState<any>();
-  useEffect(() => {
-    window.navigator.geolocation.getCurrentPosition((newPos) => {
-      console.log("pos", position);
-      setPosition(newPos);
-    }, console.error);
-  }, []);
-
-  const router = useRouter();
+  // const router = useRouter();
   const { files } = useFiles();
 
-  const productLocalData = window.localStorage.getItem("create-product");
-  const productLocalDataJson = productLocalData
-    ? JSON.parse(productLocalData)
-    : {};
+  const [content, setContent] = useLocalStorage("create-product-form", {
+    brand: "",
+    name: "",
+    description: "",
+    images: [""],
+    price: Number(1000000),
+    options: [""],
+    rate: Number(4),
+    sold_quantity: Number(0),
+    description_id: "",
+    category: "",
+    is_deleted: false,
+  });
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
-    defaultValues: {
-      brand: productLocalDataJson.brand || "",
-      name: productLocalDataJson.name || "",
-      description: productLocalDataJson.description || "",
-      images: productLocalDataJson.images || [],
-      price: Number(productLocalDataJson.price) || 1000000, // Chuyển đổi thành kiểu số
-      options: productLocalDataJson.options || [],
-      rate: Number(productLocalDataJson.rate) || 4, // Chuyển đổi thành kiểu số
-      sold_quantity: Number(productLocalDataJson.sold_quantity) || 0, // Chuyển đổi thành kiểu số
-      description_id: productLocalDataJson.description_id || "",
-      category: productLocalDataJson.category || "",
-      is_deleted: productLocalDataJson.is_deleted || false,
+    defaultValues: content ?? {
+      brand: "",
+      name: "",
+      description: "",
+      images: [],
+      price: Number(1000000),
+      options: [],
+      rate: Number(4),
+      sold_quantity: Number(0),
+      description_id: "",
+      category: "",
+      is_deleted: false,
     },
-  });
-
-  const { watch, setValue } = form;
-  useFormPersist("create-product", {
-    watch,
-    setValue,
-    storage: window.localStorage,
   });
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {
@@ -99,6 +93,10 @@ export default function CreateForm() {
     // //   router.push("/");
     // }
   }
+
+  useEffect(() => {
+    setContent(form.getValues());
+  }, [form.getValues()]);
 
   return (
     <Form {...form}>

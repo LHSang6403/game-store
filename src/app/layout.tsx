@@ -4,7 +4,6 @@ import "@app/styles/prosemirror.css";
 import NavDrawer from "@components/Layout/Drawer/NavDrawer";
 import ThemeProvider from "@components/Providers/ThemeProvider";
 import ReactQueryProvider from "@components/Providers/ReactQueryProvider";
-import { Toaster } from "sonner";
 import Providers from "@components/Providers/Providers";
 
 export const metadata = {
@@ -33,7 +32,6 @@ export default function RootLayout({
                 {children}
                 <NavDrawer />
               </main>
-              <Toaster position="top-right" />
             </Providers>
           </ReactQueryProvider>
         </ThemeProvider>
