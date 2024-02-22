@@ -126,7 +126,6 @@ export const handleImageUpload = (file: File) => {
         body: file,
       }).then(async (res) => {
         // Successfully uploaded image
-
         if (res.status === 200) {
           const url = await res.json().then((data) => data.url);
           console.log("===url", url);

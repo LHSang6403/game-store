@@ -34,25 +34,25 @@ export async function updateStorageQuantityByProductId(
   try {
     const supabase = await createSupabaseServerClient();
 
-    const result = await supabase
+    const readResult = await supabase
       .from("storage")
       .select("quantity")
       .eq("prod_id", id)
       .single();
 
-    if (result.error) {
-      return { error: result.error.message };
+    if (readResult.error) {
+      return { error: readResult.error.message };
     }
 
-    const currentQuantity = result.data.quantity as number;
+    const currentQuantity = readResult.data.quantity as number;
     const newQuantity = currentQuantity + updaingQuantity;
 
-    await supabase
+    const result = await supabase
       .from("storage")
       .update({ quantity: newQuantity })
       .eq("prod_id", id);
 
-    return { data: newQuantity };
+    return result as { data: unknown; error: unknown };
   } catch (error: any) {
     return { error: error.message };
   }

@@ -138,7 +138,6 @@ export default function CreateForm() {
       };
 
       const productUploadResult = await createProduct(product);
-
       if (productUploadResult.error) {
         throw new Error(productUploadResult.error);
       }
@@ -154,7 +153,6 @@ export default function CreateForm() {
       };
 
       const storageUploadResult = await createStorage(storageObject);
-
       if (storageUploadResult.error) {
         throw new Error(storageUploadResult.error);
       }

@@ -9,7 +9,7 @@ export async function createProductDescription(des: ProductDescriptionType) {
 
     const result = await supabase.from("product_description").insert([des]);
 
-    return result;
+    return result as { data: unknown; error: unknown };
   } catch (error: any) {
     return { error: error.message };
   }
@@ -25,7 +25,7 @@ export async function readProductDescription({ id }: { id: string }) {
       .eq("id", id)
       .single();
 
-    return { data: result.data as ProductDescriptionType };
+    return { data: result.data as ProductDescriptionType, error: result.error };
   } catch (error: any) {
     return { error: error.message };
   }
