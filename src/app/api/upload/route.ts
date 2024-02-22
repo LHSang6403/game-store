@@ -11,7 +11,6 @@ export async function POST(req: Request) {
     const contentType = req.headers.get("content-type") || "text/plain";
     const fileType = `.${contentType.split("/")[1]}`;
 
-    // Construct final filename based on content-type if not provided
     const finalName = filename.includes(fileType)
       ? filename
       : `${filename}${fileType}`;
@@ -23,6 +22,11 @@ export async function POST(req: Request) {
         // upsert: false,
         duplex: "half",
       });
+
+    if (error) {
+      console.error("Error handling POST request:", error);
+      return new Response("Internal Server Error", { status: 500 });
+    }
 
     return Response.json({
       data: "ok",

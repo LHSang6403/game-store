@@ -5,7 +5,7 @@ export default function ProductDescription({
 }: {
   description: ProductDescriptionType;
 }) {
-  //   const content = `
+  const content = `
   //   <div class="">
   //     <h1 class="text-3xl text-center font-bold">Next-Gen Gaming Console</h1>
   //     <img src="/assets/images/gameSetup/g2.png" alt="Next-Gen Gaming Console" class="mx-auto my-8 rounded-lg shadow-lg" />
@@ -50,10 +50,10 @@ export default function ProductDescription({
   // `;
 
   return (
-    <div className="w-full min-h-screen h-fit rounded-3xl px-16 py-10 xl:p-8 sm:p-4 !pt-0 bg-gradient-to-t from-accent">
+    <div className="h-fit min-h-screen w-full rounded-3xl bg-gradient-to-t from-accent px-16 py-10 !pt-0 xl:p-8 sm:p-4">
       <div
-        dangerouslySetInnerHTML={{ __html: description.content ?? "Unknown content" }}
-        className="w-full mx-auto px-6 sm:px-0"
+        dangerouslySetInnerHTML={{ __html: description.content || content }}
+        className="mx-auto w-full px-6 sm:px-0"
       />
     </div>
   );

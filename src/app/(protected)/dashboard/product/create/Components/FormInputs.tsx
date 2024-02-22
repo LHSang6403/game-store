@@ -64,6 +64,24 @@ export default function FormInputs({ form }: { form: any }) {
       />
       <FormField
         control={form.control}
+        name="options"
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel>Product Options</FormLabel>
+            <FormControl>
+              <Input
+                placeholder="Options (comma-separated)"
+                {...field}
+                type="text"
+                onChange={field.onChange}
+              />
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        )}
+      />
+      <FormField
+        control={form.control}
         name="price"
         render={({ field }) => (
           <FormItem>
@@ -72,7 +90,7 @@ export default function FormInputs({ form }: { form: any }) {
               <Input
                 placeholder="Product's price (VND)"
                 {...field}
-                type="number"
+                type="text"
                 onChange={field.onChange}
               />
             </FormControl>
@@ -90,7 +108,7 @@ export default function FormInputs({ form }: { form: any }) {
               <Input
                 placeholder="Product's rate"
                 {...field}
-                type="number"
+                type="text"
                 onChange={field.onChange}
               />
             </FormControl>
@@ -107,6 +125,43 @@ export default function FormInputs({ form }: { form: any }) {
             <FormControl>
               <Input
                 placeholder="Product's category"
+                {...field}
+                type="text"
+                onChange={field.onChange}
+              />
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        )}
+      />
+
+      <FormField
+        control={form.control}
+        name="storage_address"
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel>Storage Address</FormLabel>
+            <FormControl>
+              <Input
+                placeholder="Address of storage"
+                {...field}
+                type="text"
+                onChange={field.onChange}
+              />
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        )}
+      />
+      <FormField
+        control={form.control}
+        name="storage_quantity"
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel>Storage Quantity</FormLabel>
+            <FormControl>
+              <Input
+                placeholder="Product's quantity"
                 {...field}
                 type="text"
                 onChange={field.onChange}

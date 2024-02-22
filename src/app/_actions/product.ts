@@ -6,6 +6,20 @@ import type {
   ProductWithDescriptionAndStorageType,
 } from "@utils/types/index";
 
+export async function createProduct(
+  product: ProductType
+) {
+  try {
+    const supabase = await createSupabaseServerClient();
+
+    const result = await supabase.from("product").insert(product);
+
+    return result;
+  } catch (error: any) {
+    return { error: error.message };
+  }
+}
+
 export async function readProducts({
   limit,
   offset,

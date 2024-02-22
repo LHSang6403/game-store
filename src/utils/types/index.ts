@@ -114,7 +114,6 @@ export interface BlogType {
 export interface StorageType {
   id: string; // p_key
   created_at: string;
-  name: string;
   address: string;
   prod_id: string; // f_key
   prod_name: string; // f_key

@@ -1,19 +1,18 @@
 "use server";
 
 import createSupabaseServerClient from "@supabase/server";
-import { readUserSession } from "@app/_actions/user";
+// import { readUserSession } from "@app/_actions/user";
 
 export async function uploadFile(file: File, pathName: string) {
   try {
     const supabase = await createSupabaseServerClient();
 
-    console.log("path on acton:", pathName + file.name);
-
-    const session = await readUserSession();
+    // const session = await readUserSession();
 
     const result = await supabase.storage
       .from("public_files")
-      .upload(session?.data?.id + "/" + file.name, file);
+      .upload("/public/" + file.name, file);
+    // .upload("/" + pathName + "/" + file.name, file);
 
     if (result.error) {
       console.log("ERR", result.error);
