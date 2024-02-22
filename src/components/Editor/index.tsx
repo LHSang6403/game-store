@@ -141,7 +141,7 @@ export default function Editor() {
         {saveStatus}
       </div>
       {editor && <EditorBubbleMenu editor={editor} />}
-      <EditorContent editor={editor} />
+      <EditorContent editor={editor}  />
     </div>
   );
 }

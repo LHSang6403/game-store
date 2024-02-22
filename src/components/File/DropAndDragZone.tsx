@@ -147,9 +147,7 @@ const DropAndDragZone = ({ className }: { className: string }) => {
         {/* Accepted files */}
         {files.length > 0 && (
           <>
-            <h3 className="title mt-6 border-b text-lg font-semibold">
-              Accepted Files
-            </h3>
+            <h3 className="title mt-6 border-b text-sm">Accepted files</h3>
             <ul className="mt-4 grid grid-cols-4 gap-10 xl:gap-4 sm:grid-cols-2">
               {files.map((file) => (
                 <li key={file.name} className="relative h-fit rounded-md ">
@@ -182,9 +180,7 @@ const DropAndDragZone = ({ className }: { className: string }) => {
         {/* Rejected Files */}
         {rejected.length > 0 && (
           <>
-            <h3 className="title mt-6 border-b text-lg font-semibold">
-              Rejected Files
-            </h3>
+            <h3 className="title mt-6 border-b text-sm">Rejected Files</h3>
             <ul className="mt-4 flex flex-col">
               {rejected.map(({ file, errors }) => (
                 <li

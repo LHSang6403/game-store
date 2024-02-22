@@ -1,10 +1,6 @@
-// import { BlobResult } from "@vercel/blob";
 import { toast } from "sonner";
 import { EditorState, Plugin, PluginKey } from "@tiptap/pm/state";
 import { Decoration, DecorationSet, EditorView } from "@tiptap/pm/view";
-
-// server aciton to upload to supabase
-import { uploadFile } from "@app/_actions/file";
 
 const uploadKey = new PluginKey("upload-image");
 

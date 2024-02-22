@@ -17,7 +17,7 @@ export async function POST(req: Request) {
 
     const { data, error } = await supabase.storage
       .from("public_files")
-      .upload("/public/" + finalName, file!, {
+      .upload("/product_description/" + finalName, file!, {
         // cacheControl: "no-cache",
         // upsert: false,
         duplex: "half",

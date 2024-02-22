@@ -25,6 +25,7 @@ export default function FormInputs({ form }: { form: any }) {
                 {...field}
                 type="text"
                 onChange={field.onChange}
+                className="border-[#E5E7EB]"
               />
             </FormControl>
             <FormMessage />
@@ -43,6 +44,7 @@ export default function FormInputs({ form }: { form: any }) {
                 {...field}
                 type="text"
                 onChange={field.onChange}
+                className="border-[#E5E7EB]"
               />
             </FormControl>
             <FormMessage />
@@ -56,7 +58,11 @@ export default function FormInputs({ form }: { form: any }) {
           <FormItem>
             <FormLabel>Description</FormLabel>
             <FormControl>
-              <Textarea placeholder="Product's description" {...field} />
+              <Textarea
+                className="border-[#E5E7EB]"
+                placeholder="Product's description"
+                {...field}
+              />
             </FormControl>
             <FormMessage />
           </FormItem>
@@ -71,6 +77,7 @@ export default function FormInputs({ form }: { form: any }) {
             <FormControl>
               <Input
                 placeholder="Options (comma-separated)"
+                className="border-[#E5E7EB]"
                 {...field}
                 type="text"
                 onChange={field.onChange}
@@ -92,6 +99,7 @@ export default function FormInputs({ form }: { form: any }) {
                 {...field}
                 type="text"
                 onChange={field.onChange}
+                className="border-[#E5E7EB]"
               />
             </FormControl>
             <FormMessage />
@@ -110,6 +118,7 @@ export default function FormInputs({ form }: { form: any }) {
                 {...field}
                 type="text"
                 onChange={field.onChange}
+                className="border-[#E5E7EB]"
               />
             </FormControl>
             <FormMessage />
@@ -128,6 +137,7 @@ export default function FormInputs({ form }: { form: any }) {
                 {...field}
                 type="text"
                 onChange={field.onChange}
+                className="border-[#E5E7EB]"
               />
             </FormControl>
             <FormMessage />
@@ -147,6 +157,7 @@ export default function FormInputs({ form }: { form: any }) {
                 {...field}
                 type="text"
                 onChange={field.onChange}
+                className="border-[#E5E7EB]"
               />
             </FormControl>
             <FormMessage />
@@ -165,6 +176,7 @@ export default function FormInputs({ form }: { form: any }) {
                 {...field}
                 type="text"
                 onChange={field.onChange}
+                className="border-[#E5E7EB]"
               />
             </FormControl>
             <FormMessage />
