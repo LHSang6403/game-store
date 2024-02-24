@@ -11,6 +11,7 @@ const nextConfig = {
       "cafebiz.cafebizcdn.vn",
       "i0.wp.com/www.mobileworldlive.com",
       "www.zdnet.com",
+      "ybpsohhfffcqexnuazos.supabase.co",
     ],
   },
 };

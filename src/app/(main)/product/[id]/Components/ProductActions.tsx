@@ -36,7 +36,7 @@ export default function ProductActions({
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"
               fill="currentColor"
-              className="w-5 h-5 ml-0.5"
+              className="ml-0.5 h-5 w-5"
             >
               <path
                 fill-rule="evenodd"
@@ -49,19 +49,24 @@ export default function ProductActions({
         <div className="text-xl font-semibold">
           {formatCurrency(product.price)} VND
         </div>
-        <div className="max-w-[90%] font-light line-clamp-3 overflow-ellipsis">
+        <div className="line-clamp-3 w-full overflow-ellipsis font-light">
           {product.description}
         </div>
       </div>
       <div>
-        <div className="text-foreground font-medium -mt-1">
+        <div className="-mt-1 font-medium text-foreground">
           Availble:{" "}
           <span className="font-light">{product.storage[0].quantity}</span>
         </div>
-        <div className="text-foreground font-medium">
+        <div className="font-medium text-foreground">
+          Storage:{" "}
+          <span className="font-light">{product.storage[0].address}</span>
+        </div>
+        <div className="font-medium text-foreground">
           Sold: <span className="font-light">{product.sold_quantity}</span>
         </div>
-        <div className="text-foreground font-medium mt-2">Choose options:</div>
+        <hr className="my-2 w-[60%] rounded border dark:opacity-20 sm:w-full"></hr>
+        <div className="font-medium text-foreground">Choose options:</div>
         <div className="mt-0.5">
           <Select>
             <SelectTrigger className="w-[180px]">
@@ -79,14 +84,14 @@ export default function ProductActions({
             </SelectContent>
           </Select>
         </div>
-        <div className="flex flex-col lg:flex-row gap-4 mt-4 sm:px-1">
+        <div className="mt-4 flex flex-col gap-4 lg:flex-row sm:px-1">
           <div className="flex items-center space-x-2">
             <Checkbox id="terms" />
             <label
               htmlFor="terms"
               className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
             >
-              Add more option
+              Fast delivery
             </label>
           </div>
           <div className="flex items-center space-x-2">
@@ -95,20 +100,20 @@ export default function ProductActions({
               htmlFor="terms"
               className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
             >
-              Add more option
+              Free return
             </label>
           </div>
         </div>
       </div>
       {product.storage[0].quantity ? (
         <Button
-          className="w-fit h-fit sm:w-full text-background"
+          className="h-fit w-fit text-background sm:w-full"
           onClick={handleAddToCart}
         >
           Cart now
         </Button>
       ) : (
-        <div className="text-foreground font-medium">
+        <div className="font-medium text-foreground">
           This product is currently sold out!
         </div>
       )}

@@ -18,12 +18,13 @@ export default function ReviewDialog() {
       <DialogTrigger asChild>
         <Button
           type="submit"
-          className="w-fit sm:w-full bg-foreground text-background"
+          variant="outline"
+          className="w-fit sm:w-full"
         >
           Write a review
         </Button>
       </DialogTrigger>
-      <DialogContent className="w-[550px] sm:w-[96%] sm:mx-auto rounded-md">
+      <DialogContent className="w-[550px] rounded-md sm:mx-auto sm:w-[96%]">
         <DialogHeader>
           <DialogTitle>Share your review</DialogTitle>
           <DialogDescription>

@@ -4,9 +4,19 @@ import { usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
 import { Input } from "@/components/ui/input";
 import { useForm } from "react-hook-form";
+import { useQuery } from "@tanstack/react-query";
+import { readAllProductsWithNameAndId } from "@/app/_actions/product";
+import { useRouter } from "next/navigation";
 
 export default function SearchBar() {
-  const path = usePathname();
+  const router = useRouter();
+
+  const { data, isLoading, isError } = useQuery({
+    queryKey: ["search"],
+    queryFn: async () => await readAllProductsWithNameAndId(),
+  });
+
+  if (isError) throw new Error("Error fetching data for searching.");
 
   const { register, setValue } = useForm({
     defaultValues: { search: "" },
@@ -15,22 +25,26 @@ export default function SearchBar() {
   const [searchText, setSearchText] = useState<string>("");
   const [matchingKeywords, setMatchingKeywords] = useState<string[]>([]);
 
-  // replace with your own keywords/ data/ API call
-  const keywords = ["apple", "banana", "orange", "grape", "pineapple"];
+  const keywords: { name: string; id: string }[] = data?.data || [];
+  const keywordNames = keywords.map((keyword) => keyword.name);
 
   useEffect(() => {
-    setMatchingKeywords(findMatchingKeywords(searchText, keywords));
+    setMatchingKeywords(findMatchingKeywords(searchText, keywordNames));
   }, [searchText]);
 
   const handleKeywordClick = (keyword: string) => {
     setValue("search", keyword);
     setMatchingKeywords([]);
 
-    // call functions to handle the keyword click here
+    const selectedKeyword = keywords.find((kw) => kw.name === keyword);
+    if (selectedKeyword) {
+      router.push(`/product/${selectedKeyword.id}`);
+    }
+
   };
 
   return (
-    <div className="w-52 h-fit relative">
+    <div className="relative h-fit w-52">
       <form>
         <Input
           className="h-8"
@@ -74,13 +88,13 @@ function SelectOptions({
   onClickHandler: Function;
 }) {
   return (
-    <div className="w-52 h-fit p-1 border border-foreground/10 bg-background rounded-md">
+    <div className="h-fit w-52 rounded-md border border-foreground/10 bg-background p-1">
       {options.map((each: string, index: number) => (
         <div
           onClick={() => {
             onClickHandler(each);
           }}
-          className="w-full h-10 flex items-center px-3 hover:bg-accent hover:text-accent-foreground rounded-sm cursor-pointer"
+          className="hover:text-accent-foreground flex h-10 w-full cursor-pointer items-center rounded-sm px-3 hover:bg-accent"
           key={index}
         >
           {each}

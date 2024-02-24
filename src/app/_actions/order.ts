@@ -5,6 +5,7 @@ import type { OrderType } from "@utils/types/index";
 import { updateStorageQuantityByProductId } from "@/app/_actions/storage";
 import { updateSoldQuantityByProductId } from "@/app/_actions/product";
 import { zip } from "lodash";
+import { revalidatePath } from "next/cache";
 
 export async function createOrder(order: OrderType) {
   try {
@@ -26,7 +27,8 @@ export async function createOrder(order: OrderType) {
         }
       }
     }
-
+    
+    revalidatePath("/cart");
     return result;
   } catch (error: any) {
     return { error: error.message };

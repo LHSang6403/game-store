@@ -19,7 +19,7 @@ export async function POST(req: Request) {
       .from("public_files")
       .upload("/product_description/" + finalName, file!, {
         // cacheControl: "no-cache",
-        // upsert: false,
+        upsert: true,
         duplex: "half",
       });
 

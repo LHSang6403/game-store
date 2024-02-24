@@ -2,36 +2,37 @@ import Image from "next/image";
 import Link from "next/link";
 import formatCurrency from "@utils/functions/formatCurrency";
 import type { ProductType } from "@utils/types/index";
+//https://ybpsohhfffcqexnuazos.supabase.co/storage/v1/object/public/public_files/product_images/g15.png
 
 export default function Product({ data }: { data: ProductType }) {
   return (
     <Link
       href={`/product/${data.id}`}
-      className="w-48 sm:w-full h-fit overflow-hidden text-foreground/90 bg-foreground/5 hover:text-foreground hover:bg-foreground/10 hover:scale-[1.02] transition duration-300 ease-in-out"
+      className="h-fit w-48 overflow-hidden bg-foreground/5 text-foreground/90 transition duration-300 ease-in-out hover:scale-[1.02] hover:bg-foreground/10 hover:text-foreground sm:w-full"
     >
-      <div className="w-48 sm:w-full h-36 sm:h-28">
+      <div className="h-36 w-48 sm:h-28 sm:w-full">
         <Image
           alt="Category"
-          src={data.images[1]}
-          className="object-contain !w-full !relative"
+          src={`https://ybpsohhfffcqexnuazos.supabase.co/storage/v1/object/public/public_files/${data.images[0]}`}
+          className="!relative !w-full object-contain"
           layout="fill"
         />
       </div>
-      <div className="w-full h-fit px-4 pb-3 pt-1">
-        <h3 className="sm:text-md font-medium text-center overflow-ellipsis line-clamp-1">
+      <div className="h-fit w-full px-4 pb-3 pt-1">
+        <h3 className="sm:text-md line-clamp-1 overflow-ellipsis text-center font-medium">
           {data.brand}
         </h3>
-        <h2 className="text-lg font-semibold overflow-ellipsis line-clamp-1">
+        <h2 className="line-clamp-1 overflow-ellipsis text-lg font-semibold">
           {data.name}
         </h2>
-        <div className="w-full flex flex-row justify-between items-center">
+        <div className="flex w-full flex-row items-center justify-between">
           <div className="flex flex-row items-center text-yellow-500">
             <p className="text-sm">{data.rate}</p>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"
               fill="currentColor"
-              className="w-3.5 h-3.5"
+              className="h-3.5 w-3.5"
             >
               <path
                 fill-rule="evenodd"

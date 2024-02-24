@@ -78,91 +78,101 @@ export default function CreateForm() {
   const { watch } = form;
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {
-    try {
-      toast.info("Waiting for creating product...");
-      const editorContent = window.localStorage.getItem("content");
+    toast.promise(
+      async () => {
+        // **** should create a tranction for these uploads ****
+        const editorContent = window.localStorage.getItem("content");
 
-      // console.log("---form", data);
-      // console.log("---files", files);
-      // console.log("---content", editorContent);
+        // upload description -------------
+        const descriptionObject = {
+          id: uuidv4(),
+          created_at: new Date().toISOString(),
+          content: JSON.stringify(editorContent),
+          images: [],
+          writer: session?.name ?? "Anonymous",
+          comments: [],
+        };
 
-      // upload description -------------
-      const descriptionObject: ProductDescriptionType = {
-        id: uuidv4(),
-        created_at: new Date().toISOString(),
-        content: JSON.stringify(editorContent),
-        images: [],
-        writer: session?.name ?? "Anonymous",
-        comments: [],
-      };
+        const productDescriptionUploadResult = await createProductDescription(
+          descriptionObject
+        );
+        if (productDescriptionUploadResult.error) {
+          throw new Error(productDescriptionUploadResult.error);
+        }
 
-      const productDescriptionUploadResult = await createProductDescription(
-        descriptionObject
-      );
-      if (productDescriptionUploadResult.error) {
-        throw new Error(productDescriptionUploadResult.error);
+        // upload product images --------------
+        const supabase = createSupabaseBrowserClient();
+        const productImagesUploadResults: string[] = [];
+
+        for (const file of files) {
+          const uploadingFile = file as File;
+          const result = await supabase.storage
+            .from("public_files")
+            .upload("/product_images/" + uploadingFile.name, uploadingFile);
+          if (!result.error) productImagesUploadResults.push(result.data.path);
+          else {
+            toast.error(`Error uploading image: ${uploadingFile.name}`);
+          }
+        }
+        if (!productImagesUploadResults.length)
+          throw new Error("No image uploaded.");
+
+        // upload product ---------------
+        const product = {
+          id: uuidv4(),
+          created_at: new Date().toISOString(),
+          brand: data.brand,
+          name: data.name,
+          description: data.description,
+          images: productImagesUploadResults,
+          price: parseInt(data.price),
+          options: data.options
+            .split(",")
+            .map((item) => item.trim())
+            .flat(),
+          rate: parseFloat(data.rate),
+          sold_quantity: parseInt(data.sold_quantity),
+          description_id: descriptionObject.id,
+          category: data.category,
+          is_deleted: false,
+        };
+
+        const productUploadResult = await createProduct(product);
+        if (productUploadResult.error) {
+          throw new Error(productUploadResult.error);
+        }
+
+        // create storage for this product ---------------
+        const storageObject = {
+          id: uuidv4(),
+          created_at: new Date().toISOString(),
+          prod_id: product.id,
+          prod_name: product.name,
+          address: data.storage_address,
+          quantity: parseInt(data.storage_quantity),
+        };
+
+        const storageUploadResult = await createStorage(storageObject);
+        if (storageUploadResult.error) {
+          throw new Error(storageUploadResult.error);
+        }
+      },
+      {
+        loading: "Creating product...",
+        success: () => {
+          form.reset();
+          // revalidate(/dashboard/product);
+          router.push("/dashboard/product");
+
+          // *** revalidate the product list in dashboard ***
+
+          return "Product created successfully. Redirecting to dashboard...";
+        },
+        error: (error) => {
+          return `Error: ${error.message ?? "Internal Server"}`;
+        },
       }
-
-      // upload product images --------------
-      const supabase = createSupabaseBrowserClient();
-      const productImagesUploadResults: string[] = [];
-
-      for (const file of files) {
-        const uploadedFile = file as File;
-        const result = await supabase.storage
-          .from("public_files")
-          .upload("/product_images/" + uploadedFile.name, uploadedFile);
-        if (!result.error) productImagesUploadResults.push(result.data.path);
-      }
-      if (!productImagesUploadResults.length)
-        throw new Error("No image uploaded.");
-
-      // upload product ---------------
-      const product: ProductType = {
-        id: uuidv4(),
-        created_at: new Date().toISOString(),
-        brand: data.brand,
-        name: data.name,
-        description: data.description,
-        images: productImagesUploadResults,
-        price: parseInt(data.price),
-        options: data.options
-          .split(",")
-          .map((item) => item.trim())
-          .flat(),
-        rate: parseFloat(data.rate),
-        sold_quantity: parseInt(data.sold_quantity),
-        description_id: descriptionObject.id,
-        category: data.category,
-        is_deleted: false,
-      };
-
-      const productUploadResult = await createProduct(product);
-      if (productUploadResult.error) {
-        throw new Error(productUploadResult.error);
-      }
-
-      // create storage for this product ---------------
-      const storageObject: StorageType = {
-        id: uuidv4(),
-        created_at: new Date().toISOString(),
-        prod_id: product.id,
-        prod_name: product.name,
-        address: data.storage_address,
-        quantity: parseInt(data.storage_quantity),
-      };
-
-      const storageUploadResult = await createStorage(storageObject);
-      if (storageUploadResult.error) {
-        throw new Error(storageUploadResult.error);
-      }
-
-      form.reset();
-      toast.success("Product created successfully.");
-      router.push("/");
-    } catch (error) {
-      console.error("Error occurred:", error);
-    }
+    );
   }
 
   useEffect(() => {

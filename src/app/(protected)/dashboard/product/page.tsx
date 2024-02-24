@@ -11,7 +11,7 @@ export default async function Page() {
   const data = res.data as ProductType[];
 
   return (
-    <section className="mx-10 sm:mx-4">
+    <section className="mx-10 pb-10 sm:mx-4">
       <div className="flex flex-row items-center justify-between ">
         <h1 className="my-2 text-2xl font-medium">All products</h1>
         <Link

@@ -75,9 +75,8 @@ export const columns: ColumnDef<ProductType>[] = [
             >
               Copy user ID
             </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>View customer</DropdownMenuItem>
-            <DropdownMenuItem>View payment details</DropdownMenuItem>
+            <DropdownMenuItem>Edit information</DropdownMenuItem>
+            <DropdownMenuItem>Edit description</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       );

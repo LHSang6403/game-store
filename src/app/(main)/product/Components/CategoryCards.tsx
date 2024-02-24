@@ -1,7 +1,8 @@
 import Image from "next/image";
 import { Badge } from "@/components/ui/badge";
+import { readAllCategories } from "@/app/_actions/product";
 
-export default function CategoryCards() {
+export default async function CategoryCards() {
   const categoryList = [
     {
       name: "Modern",
@@ -35,34 +36,38 @@ export default function CategoryCards() {
     },
   ];
 
+  const response = await readAllCategories();
+  if (response.error) throw new Error(response.error);
+
   return (
-    <div className="w-fit h-fit mx-auto flex flex-row lg:grid lg:grid-cols-3 sm:grid-cols-2 gap-3 lg:justify-items-center overflow-auto">
-      {categoryList.map((each, index: number) => (
-        <CategoryCard key={index} data={each} />
+    <ul
+      className="mx-auto flex h-fit max-w-[900px] flex-row overflow-x-auto pb-2 
+    xl:mx-auto xl:w-[80%] sm:w-full"
+    >
+      {response?.data?.map((each, index: number) => (
+        <li className="mx-2" key={index}>
+          <CategoryCard data={each} />
+        </li>
       ))}
-    </div>
+    </ul>
   );
 }
 
-function CategoryCard({
-  data,
-}: {
-  data: { name: string; link: string; image: string };
-}) {
+function CategoryCard({ data }: { data: { category: string } }) {
   return (
     <Badge
       variant="secondary"
-      className="h-8 overflow-ellipsis hover:cursor-pointer hover:bg-foreground/10"
+      className="h-8 w-fit overflow-ellipsis hover:cursor-pointer hover:bg-foreground/10"
     >
-      <div className="w-4 h-4 mb-1 mr-1">
+      <div className="mb-1 mr-1 h-4 w-4">
         <Image
           alt="Category"
-          src={data.image}
-          className="object-contain !w-full !relative"
+          src="/assets/images/gameIcon/i1.png"
+          className="!relative !w-full object-contain"
           layout="fill"
         />
       </div>
-      {data.name}
+      {data.category}
     </Badge>
   );
 }

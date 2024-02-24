@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { FreeMode, Navigation, Thumbs, Pagination } from "swiper/modules";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useTheme } from "next-themes";
 
 import "swiper/css";
@@ -15,7 +15,7 @@ import "swiper/css/pagination";
 export default function ProductImages({ images }: { images: string[] }) {
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
   const [activeIndex, setActiveIndex] = useState(0);
-  const { theme, setTheme } = useTheme();
+  const { theme } = useTheme();
 
   const handleSlideChange = (swiper: any) => {
     setActiveIndex(swiper.activeIndex);
@@ -28,7 +28,7 @@ export default function ProductImages({ images }: { images: string[] }) {
         pagination={{
           type: "fraction",
         }}
-        className={` h-[600px] sm:h-[400px] w-full rounded-lg ${
+        className={` h-[600px] w-full rounded-lg sm:h-[400px] ${
           theme === "dark" ? "dark:text-foreground" : "text-foreground"
         }`}
         navigation={{
@@ -43,11 +43,11 @@ export default function ProductImages({ images }: { images: string[] }) {
       >
         {images.map((image, index) => (
           <SwiperSlide key={index}>
-            <div className="w-[90%] sm:w-full h-full overflow-hidden mx-auto p-4 sm:p-1 flex items-center justify-center">
+            <div className="mx-auto flex h-full w-[90%] items-center justify-center overflow-hidden p-4 sm:w-full sm:p-1">
               <Image
-                src={image}
+                src={`https://ybpsohhfffcqexnuazos.supabase.co/storage/v1/object/public/public_files/${image}`}
                 alt="Product"
-                className="object-contain !w-full !relative"
+                className="!relative !w-full object-contain"
                 layout="fill"
               />
             </div>
@@ -76,23 +76,24 @@ export default function ProductImages({ images }: { images: string[] }) {
         freeMode={true}
         watchSlidesProgress={true}
         modules={[FreeMode, Navigation, Thumbs]}
-        className="thumbs h-fit w-[700px] lg:w-[600px] sm:w-full lg:mb-6 rounded-lg flex flex-row justify-center items-center"
+        className="thumbs flex h-fit w-[700px] flex-row items-center justify-center rounded-lg
+         lg:mb-6 lg:w-[600px] sm:w-full"
       >
         {images.map((image, index) => (
           <SwiperSlide key={index}>
             <div
               className={`${
                 activeIndex === index
-                  ? "opacity-100 border-foreground"
-                  : "opacity-70 border-foreground/20"
-              } h-24 w-32 lg:h-16 lg:w-20 ssm:h-12 ssm:w-16 mx-2 rounded-lg border hover:cursor-pointer hover:scale-[1.02] transition duration-300 ease-in-out`}
+                  ? "border-foreground opacity-100"
+                  : "border-foreground/20 opacity-70"
+              } m-1 h-24 w-32 rounded-lg border transition duration-300 ease-in-out hover:scale-[1.02] hover:cursor-pointer lg:h-16 lg:w-20 ssm:h-12 ssm:w-16`}
             >
               <Image
-                src={image}
+                src={`https://ybpsohhfffcqexnuazos.supabase.co/storage/v1/object/public/public_files/${image}`}
                 width={200}
                 height={200}
                 alt="Product Thumbnail"
-                className="block h-full w-full object-fit"
+                className="object-fit block h-full w-full"
               />
             </div>
           </SwiperSlide>

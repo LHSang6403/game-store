@@ -135,13 +135,13 @@ export default function Editor() {
       onClick={() => {
         editor?.chain().focus().run();
       }}
-      className="max-w-screen-lg relative h-full min-h-[500px] w-full border-stone-200 p-12 px-8 sm:rounded-lg sm:border sm:px-4 sm:shadow-lg"
+      className="max-w-screen-lg relative h-full min-h-[500px] w-full border-stone-200 p-12 px-8 sm:px-1"
     >
       <div className="absolute right-5 top-5 mb-5 rounded-lg bg-stone-100 px-2 py-1 text-sm text-stone-400">
         {saveStatus}
       </div>
       {editor && <EditorBubbleMenu editor={editor} />}
-      <EditorContent editor={editor}  />
+      <EditorContent editor={editor} />
     </div>
   );
 }

@@ -5,12 +5,16 @@ import type {
   ProductType,
   ProductWithDescriptionAndStorageType,
 } from "@utils/types/index";
+import { revalidatePath } from "next/cache";
 
 export async function createProduct(product: ProductType) {
   try {
     const supabase = await createSupabaseServerClient();
 
     const result = await supabase.from("product").insert(product);
+
+    revalidatePath("/dashboard/product");
+    revalidatePath("/product");
 
     return result as { data: unknown; error: unknown };
   } catch (error: any) {
@@ -50,7 +54,7 @@ export async function readProductDetailById(id: string) {
         `
   *,
   product_description (id, content, images, writer, comments),
-  storage (id, name, address, quantity)
+  storage (id, address, quantity)
 `
       )
       .eq("id", id)
@@ -92,6 +96,39 @@ export async function updateSoldQuantityByProductId(
       .eq("id", id);
 
     return result as { data: unknown; error: unknown };
+  } catch (error: any) {
+    return { error: error.message };
+  }
+}
+
+export async function readAllProductsWithNameAndId() {
+  try {
+    const supabase = await createSupabaseServerClient();
+
+    const result = await supabase
+      .from("product")
+      .select("id, name")
+      .eq("is_deleted", false);
+
+    return {
+      data: result.data as { id: string; name: string }[],
+      error: result.error,
+    };
+  } catch (error: any) {
+    return { error: error.message };
+  }
+}
+
+export async function readAllCategories() {
+  try {
+    const supabase = await createSupabaseServerClient();
+
+    const result = await supabase
+      .from("product")
+      .select("category")
+      .eq("is_deleted", false);
+
+    return { data: result.data as { category: string }[], error: result.error };
   } catch (error: any) {
     return { error: error.message };
   }

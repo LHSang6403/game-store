@@ -12,13 +12,10 @@ import { readProducts } from "@/app/_actions/product";
 import type { ProductType } from "@utils/types/index";
 
 export default async function ProductsContainer() {
-  const productsResponse = (await readProducts({ limit: 10, offset: 0 })) as {
-    data: ProductType[];
-    error: unknown;
-  };
+  const productsResponse = await readProducts({ limit: 10, offset: 0 });
 
   if (productsResponse.error) {
-    return <div>Product not found</div>;
+    return <div className="w-fit mx-auto">Product not found</div>;
   }
 
   return (

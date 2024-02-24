@@ -8,8 +8,8 @@ export default function Product() {
   return (
     <>
       <Advertisement />
-      <div className="w-full h-fit p-10 xl:p-4 flex flex-col gap-8">
-        <div className="w-full flex justify-between items-center px-16 xl:px-10 sm:px-4">
+      <div className="flex h-fit w-full flex-col gap-8 p-10 xl:p-4">
+        <div className="flex w-full items-center justify-between px-16 xl:px-10 sm:px-0">
           <h1 className="text-2xl font-medium">Explore our products</h1>
           <SearchBar />
         </div>
