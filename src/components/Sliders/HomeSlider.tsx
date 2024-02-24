@@ -43,36 +43,36 @@ export default function HomeSlider() {
   ];
 
   return (
-    <Carousel className="max-w-[86vw] xl:max-w-[100vw] mx-auto">
-      <CarouselPrevious className="xl:ml-20 sm:ml-16 xl:z-10" />
+    <Carousel className="mx-auto max-w-[86vw] xl:max-w-[100vw]">
+      <CarouselPrevious className="xl:z-10 xl:ml-20 sm:ml-16" />
       <CarouselContent>
         {sliderImages.map((image, index) => (
           <CarouselItem key={index}>
             <Card className="h-full border-none sm:p-0">
-              <CardContent className="w-[90%] h-[84vh] sm:w-full sm:p-0 mx-auto relative overflow-hidden">
-                <div className="absolute w-full text-sm font-light text-foreground/80 top-6 flex flex-row justify-center gap-4">
-                  <button className="hover:text-foreground transition duration-300 ease-in-out">
+              <CardContent className="relative mx-auto h-[84vh] w-[90%] overflow-hidden sm:w-full sm:p-0">
+                <div className="absolute top-6 flex w-full flex-row justify-center gap-4 text-sm font-light text-foreground/80">
+                  <button className="transition duration-300 ease-in-out hover:text-foreground">
                     Explore
                   </button>
-                  <button className="hover:text-foreground transition duration-300 ease-in-out">
+                  <button className="transition duration-300 ease-in-out hover:text-foreground">
                     Shop Now
                   </button>
-                  <button className="hover:text-foreground transition duration-300 ease-in-out">
+                  <button className="transition duration-300 ease-in-out hover:text-foreground">
                     Services
                   </button>
                 </div>
                 <img
                   alt="Slider"
-                  className="w-full h-full xl:h-[80%] sm:h-[50%] sm:mt-4 object-cover object-center"
+                  className="h-full w-full object-cover object-center xl:h-[80%] sm:mt-4 sm:h-[50%]"
                   src={image.src}
                 />
-                <div className="absolute w-72 sm:w-full sm:px-3 p-1 bottom-12 left-6 sm:bottom-16 sm:left-0">
-                  <h1 className="text-3xl font-semibold -mb-2">{image.name}</h1>
-                  <button className="text-foreground/70 hover:text-foreground mt-1">
+                <div className="absolute bottom-12 left-6 w-72 p-1 sm:bottom-16 sm:left-0 sm:w-full sm:px-3">
+                  <h1 className="-mb-2 text-3xl font-semibold">{image.name}</h1>
+                  <button className="mt-1 text-foreground/70 hover:text-foreground">
                     View more
-                    <ArrowRight className="inline ml-0.5" />
+                    <ArrowRight className="ml-0.5 inline" />
                   </button>
-                  <p className="font-light mt-2 overflow-hidden overflow-ellipsis line-clamp-4">
+                  <p className="mt-2 line-clamp-4 overflow-hidden overflow-ellipsis font-light">
                     {image.description}
                   </p>
                 </div>
@@ -81,7 +81,7 @@ export default function HomeSlider() {
           </CarouselItem>
         ))}
       </CarouselContent>
-      <CarouselNext className="xl:mr-20 sm:mr-16 xl:z-10" />
+      <CarouselNext className="xl:z-10 xl:mr-20 sm:mr-16" />
     </Carousel>
   );
 }

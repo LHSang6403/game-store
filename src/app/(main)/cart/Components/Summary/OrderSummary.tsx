@@ -16,8 +16,8 @@ export default function OrderSummary() {
     <>
       {order ? (
         <>
-          <div className="w-full h-fit flex flex-col gap-1">
-            <div className="w-full flex flex-row sm:flex-col-reverse justify-between items-center sm:justify-start sm:items-start sm:gap-2">
+          <div className="flex h-fit w-full flex-col gap-1">
+            <div className="flex w-full flex-row items-center justify-between sm:flex-col-reverse sm:items-start sm:justify-start sm:gap-2">
               <h2 className="text-lg font-semibold">Your order summary</h2>
               <Button
                 onClick={() => {

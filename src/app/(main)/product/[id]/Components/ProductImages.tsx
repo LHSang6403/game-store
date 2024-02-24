@@ -49,6 +49,7 @@ export default function ProductImages({ images }: { images: string[] }) {
                 alt="Product"
                 className="!relative !w-full object-contain"
                 layout="fill"
+                quality={100}
               />
             </div>
           </SwiperSlide>

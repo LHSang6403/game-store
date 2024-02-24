@@ -133,3 +133,18 @@ export async function readAllCategories() {
     return { error: error.message };
   }
 }
+
+export async function readProductNames() {
+  try {
+    const supabase = await createSupabaseServerClient();
+
+    const result = await supabase
+      .from("product")
+      .select("name")
+      .eq("is_deleted", false);
+
+    return { data: result.data as { name: string }[], error: result.error };
+  } catch (error: any) {
+    return { error: error.message };
+  }
+}

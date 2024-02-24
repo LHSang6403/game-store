@@ -14,6 +14,7 @@ export default function SearchBar() {
   const { data, isLoading, isError } = useQuery({
     queryKey: ["search"],
     queryFn: async () => await readAllProductsWithNameAndId(),
+    staleTime: 1000 * 60 * 60,
   });
 
   if (isError) throw new Error("Error fetching data for searching.");
@@ -40,7 +41,6 @@ export default function SearchBar() {
     if (selectedKeyword) {
       router.push(`/product/${selectedKeyword.id}`);
     }
-
   };
 
   return (

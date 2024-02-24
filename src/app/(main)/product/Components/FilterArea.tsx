@@ -25,19 +25,27 @@ import {
 import { ChevronUpIcon } from "@heroicons/react/24/solid";
 import { Slider } from "@/components/ui/slider";
 import formatCurrency from "@/utils/functions/formatCurrency";
+import { useQuery } from "@tanstack/react-query";
+import { readProductNames } from "@/app/_actions/product";
 
 export default function FilterArea() {
   const [price, setPrice] = useState<number>(300000);
+
+  const { data, isLoading, isError } = useQuery({
+    queryKey: ["products"],
+    queryFn: async () => await readProductNames(),
+    staleTime: 1000 * 60 * 60,
+  });
 
   return (
     <Sheet>
       <SheetTrigger asChild>
         <Button
-          className="fixed left-0 sm:-left-6 top-[50%] border-none bg- rotate-90"
+          className="bg- fixed left-0 top-[50%] rotate-90 border-none sm:-left-6"
           variant="outline"
         >
           Filter
-          <ChevronUpIcon className="h-4 w-4 ml-0.5" />
+          <ChevronUpIcon className="ml-0.5 h-4 w-4" />
         </Button>
       </SheetTrigger>
       <SheetContent side="left" className="w-80">
@@ -53,17 +61,15 @@ export default function FilterArea() {
               Brand
             </Label>
             <Select>
-              <SelectTrigger className="w-[60%] h-9">
+              <SelectTrigger className="h-9 w-[60%]">
                 <SelectValue placeholder="Select a brand" />
               </SelectTrigger>
               <SelectContent>
                 <SelectGroup>
                   <SelectLabel>Brands</SelectLabel>
-                  <SelectItem value="sony">Sony</SelectItem>
-                  <SelectItem value="nitendo">Nitendo</SelectItem>
-                  <SelectItem value="sup">Sup Games</SelectItem>
-                  <SelectItem value="apple">Apple Arcade</SelectItem>
-                  <SelectItem value="xbox">Xbox</SelectItem>
+                  {data?.data?.map((each) => (
+                    <SelectItem value={each.name}>{each.name}</SelectItem>
+                  ))}
                 </SelectGroup>
               </SelectContent>
             </Select>
@@ -73,7 +79,7 @@ export default function FilterArea() {
               Type
             </Label>
             <Select>
-              <SelectTrigger className="w-[60%] h-9">
+              <SelectTrigger className="h-9 w-[60%]">
                 <SelectValue placeholder="Select a type" />
               </SelectTrigger>
               <SelectContent>

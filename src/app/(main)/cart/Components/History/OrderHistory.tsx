@@ -8,20 +8,20 @@ export default async function OrderHistory() {
   const sessionResponse = await readUserSession();
   if (!sessionResponse) return <div>You are not logged in.</div>;
 
-  const hisrotyResponse = await readOrdersByCustomerId(
+  const historyResponse = await readOrdersByCustomerId(
     sessionResponse.data?.id as string
   );
 
   return (
     <div className="mx-auto w-fit xl:w-auto">
       {sessionResponse &&
-        !hisrotyResponse.error &&
-        "data" in hisrotyResponse && (
+        !historyResponse.error &&
+        "data" in historyResponse && (
           <>
             <h2 className="mb-1 text-lg font-semibold">Your history</h2>
             <DataTable
               columns={columns}
-              data={hisrotyResponse.data as OrderType[]}
+              data={historyResponse.data as OrderType[]}
               isPaginationEnabled={false}
               isCollumnVisibilityEnabled={false}
               isSearchEnabled={false}

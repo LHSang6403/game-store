@@ -51,19 +51,8 @@ export default function OrderForm() {
 
   const mutation = useMutation({
     mutationFn: async (orderData: OrderType) => await createOrder(orderData),
-    onSuccess: (result) => {
-      console.log(result);
-
-      if (result.error) {
-        toast.error("Error creating order.");
-      }
-
-      toast.success("Order is created successfully!");
+    onSuccess: () => {
       removeAll();
-    },
-    onError: (error) => {
-      toast.error("Error creating order.");
-      console.log(error);
     },
   });
 
@@ -82,13 +71,17 @@ export default function OrderForm() {
       address: data?.address || customerSession?.address || "Unknown",
     };
 
-    mutation.mutate(orderData);
+    toast.promise(mutation.mutateAsync(orderData), {
+      loading: "Creating order...",
+      success: "Order is created successfully!",
+      error: "Error creating order.",
+    });
   }
 
   return (
     <>
       {order && (
-        <div className="flex h-fit w-64 flex-col gap-2 rounded-md border px-3 py-2 xl:w-[500px] sm:w-auto">
+        <div className="flex h-fit w-72 flex-col gap-2 rounded-md border px-3 py-2 xl:w-[500px] sm:w-auto">
           <h2 className="text-lg font-semibold">Your order summary</h2>
           <Form {...form}>
             <form
