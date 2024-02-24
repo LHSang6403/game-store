@@ -7,6 +7,7 @@ import { updateSoldQuantityByProductId } from "@/app/_actions/product";
 import { zip } from "lodash";
 import { revalidatePath } from "next/cache";
 
+
 export async function createOrder(order: OrderType) {
   try {
     const supabase = await createSupabaseServerClient();
@@ -27,7 +28,7 @@ export async function createOrder(order: OrderType) {
         }
       }
     }
-    
+
     revalidatePath("/cart");
     return result;
   } catch (error: any) {

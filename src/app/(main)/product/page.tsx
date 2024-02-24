@@ -3,8 +3,15 @@ import CategoryCards from "./Components/CategoryCards";
 import ProductsContainer from "./Components/ProductsContainer";
 import SheetArea from "./Components/FilterArea";
 import Advertisement from "./Components/Advertisement";
+import { readProducts } from "@/app/_actions/product";
 
-export default function Product() {
+export default async function Product() {
+  const productsResponse = await readProducts({ limit: 10, offset: 0 });
+
+  if (productsResponse.error) {
+    return <div className="mx-auto w-fit">Product not found</div>;
+  }
+
   return (
     <>
       <Advertisement />
@@ -14,7 +21,9 @@ export default function Product() {
           <SearchBar />
         </div>
         <CategoryCards />
-        <ProductsContainer />
+        {productsResponse.data && (
+          <ProductsContainer productsResponse={productsResponse} />
+        )}
         <SheetArea />
       </div>
     </>

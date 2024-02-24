@@ -19,7 +19,7 @@ export default function ClientCards() {
   ];
 
   return (
-    <div className="w-full h-fit flex flex-row xl:flex-col gap-8 justify-center items-center">
+    <div className="flex h-fit w-full flex-row items-center justify-center gap-8xl:flex-col">
       {clientSays.map((client, index: number) => (
         <ClientCard data={client} key={index} />
       ))}
@@ -33,22 +33,22 @@ function ClientCard({
   data: { name: string; image: string; review: string; rating: number };
 }) {
   return (
-    <div className="w-[500px] sm:w-full h-fit group rounded-lg flex flex-row justify-center gap-4 hover:cursor-pointer">
+    <div className="group flex h-fit w-[500px] flex-row justify-center gap-4 rounded-lg hover:cursor-pointer sm:w-full">
       <div className="flex flex-col gap-1">
         <Image
-          className="mx-auto -brightness-105 group-hover:brightness-105 transition duration-300 ease-in-out"
+          className="-brightness-105 mx-auto transition duration-300 ease-in-out group-hover:brightness-105"
           src={data.image}
           alt={data.name}
           width={120}
           height={120}
         />
-        <h2 className="text-2xl font-medium text-accent/90 group-hover:text-background transition duration-300 ease-in-out">
+        <h2 className="text-2xl font-medium text-accent/90 transition duration-300 ease-in-out group-hover:text-background">
           {data.name}
         </h2>
       </div>
-      <div className="mt-4 sm:-mt-2 w-1/2 font-light text-sm text-accent/70 group-hover:text-background transition duration-300 ease-in-out">
-        <p className="overflow-ellipsis line-clamp-4">{data.review}</p>
-        <div className="mt-2 font-medium text-accent/80 group-hover:text-background transition duration-300 ease-in-out">
+      <div className="mt-4 w-1/2 text-sm font-light text-accent/70 transition duration-300 ease-in-out group-hover:text-background sm:-mt-2">
+        <p className="line-clamp-4 overflow-ellipsis">{data.review}</p>
+        <div className="mt-2 font-medium text-accent/80 transition duration-300 ease-in-out group-hover:text-background">
           <span>Rating: </span>
           <span>{data.rating}</span>
         </div>

@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import {
@@ -26,21 +25,44 @@ import { ChevronUpIcon } from "@heroicons/react/24/solid";
 import { Slider } from "@/components/ui/slider";
 import formatCurrency from "@/utils/functions/formatCurrency";
 import { useQuery } from "@tanstack/react-query";
-import { readProductNames } from "@/app/_actions/product";
+import { readProductBrands, readAllCategories } from "@/app/_actions/product";
+import useProductFilter from "@/zustand/useProductFilter";
+import { toast } from "sonner";
 
 export default function FilterArea() {
-  const [price, setPrice] = useState<number>(300000);
+  const {
+    brands,
+    categories,
+    startPrice,
+    endPrice,
+    setPrice,
+    setBrands,
+    setCategories,
+  } = useProductFilter();
 
-  const { data, isLoading, isError } = useQuery({
-    queryKey: ["products"],
-    queryFn: async () => await readProductNames(),
+  const { data: brandsData, isError: brandsError } = useQuery({
+    queryKey: ["brands"],
+    queryFn: async () => await readProductBrands(),
     staleTime: 1000 * 60 * 60,
   });
+
+  const { data: categoriesData, isError: categoriesError } = useQuery({
+    queryKey: ["categories"],
+    queryFn: async () => await readAllCategories(),
+    staleTime: 1000 * 60 * 60,
+  });
+
+  if (brandsError || categoriesError) {
+    return <div>Something went wrong when fetching data.</div>;
+  }
 
   return (
     <Sheet>
       <SheetTrigger asChild>
         <Button
+          onClick={() => {
+            console.log("test:", brands, categories, startPrice, endPrice);
+          }}
           className="bg- fixed left-0 top-[50%] rotate-90 border-none sm:-left-6"
           variant="outline"
         >
@@ -60,15 +82,21 @@ export default function FilterArea() {
             <Label htmlFor="name" className="text-left">
               Brand
             </Label>
-            <Select>
+            <Select
+              onValueChange={(value) => {
+                setBrands([value]);
+              }}
+              defaultValue={brands[0] ?? "All"}
+            >
               <SelectTrigger className="h-9 w-[60%]">
-                <SelectValue placeholder="Select a brand" />
+                <SelectValue placeholder="Select one" />
               </SelectTrigger>
               <SelectContent>
                 <SelectGroup>
                   <SelectLabel>Brands</SelectLabel>
-                  {data?.data?.map((each) => (
-                    <SelectItem value={each.name}>{each.name}</SelectItem>
+                  <SelectItem value="All">All</SelectItem>
+                  {brandsData?.data!.map((each) => (
+                    <SelectItem value={each}>{each}</SelectItem>
                   ))}
                 </SelectGroup>
               </SelectContent>
@@ -76,42 +104,54 @@ export default function FilterArea() {
           </div>
           <div className="mt-4 flex flex-col gap-2">
             <Label htmlFor="name" className="text-left">
-              Type
+              Category
             </Label>
-            <Select>
+            <Select
+              onValueChange={(value) => {
+                setCategories([value]);
+              }}
+              defaultValue={categories[0] ?? "All"}
+            >
               <SelectTrigger className="h-9 w-[60%]">
-                <SelectValue placeholder="Select a type" />
+                <SelectValue placeholder="Select one" />
               </SelectTrigger>
               <SelectContent>
                 <SelectGroup>
-                  <SelectLabel>Types</SelectLabel>
-                  <SelectItem value="console">Console</SelectItem>
-                  <SelectItem value="tv">TV Games</SelectItem>
-                  <SelectItem value="portable">Portable</SelectItem>
-                  <SelectItem value="station">Station</SelectItem>
-                  <SelectItem value="mobile">Mobile</SelectItem>
+                  <SelectLabel>Category</SelectLabel>
+                  <SelectItem value="All">All</SelectItem>
+                  {categoriesData?.data!.map((each, index: number) => (
+                    <SelectItem key={index} value={each}>
+                      {each}
+                    </SelectItem>
+                  ))}
                 </SelectGroup>
               </SelectContent>
             </Select>
           </div>
           <div className="mt-4 flex flex-col gap-2">
             <Label htmlFor="name" className="text-left">
-              Price {formatCurrency(price)} VND
+              Price from 0 to {formatCurrency(endPrice)} VND
             </Label>
             <Slider
-              defaultValue={[price]}
+              defaultValue={[endPrice] ?? [300000]}
               min={100000}
-              max={1000000}
+              max={500000000}
               step={1}
               onValueChange={(values) => {
-                setPrice(values[0]);
+                setPrice(0, values[0]);
               }}
             />
           </div>
         </div>
         <SheetFooter className="mt-8">
           <SheetClose asChild>
-            <Button type="submit" className="text-background">
+            <Button
+              onClick={() => {
+                toast.success("Filter is applied.");
+              }}
+              type="submit"
+              className="text-background"
+            >
               Select
             </Button>
           </SheetClose>

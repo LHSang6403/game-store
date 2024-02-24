@@ -15,19 +15,10 @@ export interface StaffType {
   dob: string;
   phone: string;
   email: string;
+  address: string;
   level: number;
   image: string;
-}
-
-export interface WriterType {
-  id: string;
-  created_at: string;
-  name: string;
-  dob: string;
-  phone: string;
-  email: string;
-  image: string;
-  blog_quantity: string;
+  role: "Seller" | "Writer" | "Manager";
 }
 
 export interface CustomerType {

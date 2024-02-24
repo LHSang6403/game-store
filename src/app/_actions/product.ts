@@ -128,22 +128,38 @@ export async function readAllCategories() {
       .select("category")
       .eq("is_deleted", false);
 
-    return { data: result.data as { category: string }[], error: result.error };
+    if (result.error) {
+      return { data: null, error: result.error.message };
+    }
+
+    const uniqueCategories = Array.from(
+      new Set(result.data.map((item: { category: string }) => item.category))
+    );
+
+    return { data: uniqueCategories, error: result.error };
   } catch (error: any) {
     return { error: error.message };
   }
 }
 
-export async function readProductNames() {
+export async function readProductBrands() {
   try {
     const supabase = await createSupabaseServerClient();
 
     const result = await supabase
       .from("product")
-      .select("name")
+      .select("brand")
       .eq("is_deleted", false);
 
-    return { data: result.data as { name: string }[], error: result.error };
+    if (result.error) {
+      return { data: null, error: result.error.message };
+    }
+
+    const uniqueBrands = Array.from(
+      new Set(result.data.map((item: { brand: string }) => item.brand))
+    );
+
+    return { data: uniqueBrands, error: result.error };
   } catch (error: any) {
     return { error: error.message };
   }

@@ -16,6 +16,9 @@ export default function About() {
         <div className="absolute left-0 top-0 z-10 flex h-full w-full items-center justify-center text-3xl font-semibold text-[#FFFFFF]">
           Game Store Setup
         </div>
+        <div className="absolute left-0 top-0 z-10 flex h-full w-full items-center justify-center pt-16 text-lg text-[#FFFFFF]">
+          Best store in the world
+        </div>
         <Image
           alt="Category"
           src="/assets/images/gameSetup/g6.png"

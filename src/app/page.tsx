@@ -18,7 +18,7 @@ export default async function Home() {
           <section className="h-[90vh] w-full bg-background sm:h-[70vh]">
             <HomeSlider />
           </section>
-          <section className="flex min-h-screen w-full flex-col gap-20 bg-foreground p-12 text-background sm:gap-10 sm:px-5">
+          <section className="flex h-fit w-full flex-col gap-20 bg-foreground p-12 pb-24 text-background sm:gap-10 sm:px-5">
             <div className="h-fit w-full">
               <h1 className="mb-10 text-center text-3xl font-medium">
                 Our 4 keys

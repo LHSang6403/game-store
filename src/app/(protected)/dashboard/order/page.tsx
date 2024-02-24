@@ -1,24 +1,25 @@
 import { readOrders } from "@app/_actions/order";
 import Link from "next/link";
 import { OrderType } from "@/utils/types";
+import { DataTable } from "@components/Table/DataTable";
+import { columns } from "./Components/Columns";
 
 export default async function page() {
-  const res = await readOrders({ limit: 10, offset: 0 });
+  const res = await readOrders({ limit: 20, offset: 0 });
   const data = res.data as OrderType[];
 
   return (
     <section className="mx-10 sm:mx-4">
-      <div className="flex flex-row justify-between items-center ">
-        <h1 className="my-2 text-2xl font-medium">All products</h1>
+      <div className="flex flex-row items-center justify-between ">
+        <h1 className="my-2 text-2xl font-medium">All orders</h1>
         <Link
           className="mx-4 hover:cursor-pointer"
-          href="/dashboard/product/create"
+          href="/dashboard/order/create"
         >
           Create
         </Link>
       </div>
-
-      {/* <DataTable columns={columns} data={data} isPaginationEnabled={false} /> */}
+      <DataTable columns={columns} data={data} isPaginationEnabled={false} />
     </section>
   );
 }
