@@ -60,9 +60,6 @@ export default function FilterArea() {
     <Sheet>
       <SheetTrigger asChild>
         <Button
-          onClick={() => {
-            console.log("test:", brands, categories, startPrice, endPrice);
-          }}
           className="bg- fixed left-0 top-[50%] rotate-90 border-none sm:-left-6"
           variant="outline"
         >

@@ -1,13 +1,3 @@
-export interface AdminType {
-  id: string;
-  created_at: string;
-  name: string;
-  dob: string;
-  phone: string;
-  email: string;
-  image: string;
-}
-
 export interface StaffType {
   id: string;
   created_at: string;
@@ -16,7 +6,6 @@ export interface StaffType {
   phone: string;
   email: string;
   address: string;
-  level: number;
   image: string;
   role: "Seller" | "Writer" | "Manager";
 }

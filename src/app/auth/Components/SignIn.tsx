@@ -16,6 +16,9 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { signInWithEmailAndPassword } from "@auth/_actions/signIn";
+import { readUserSession } from "@app/_actions/user";
+import { useSession } from "@/zustand/useSession";
+import { CustomerType, StaffType } from "@utils/types";
 
 const FormSchema = z.object({
   email: z.string().email(),
@@ -26,6 +29,7 @@ const FormSchema = z.object({
 
 export default function SignIn() {
   const router = useRouter();
+  const { setSession } = useSession();
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
@@ -36,17 +40,33 @@ export default function SignIn() {
   });
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {
-    const result = await signInWithEmailAndPassword(data);
-    const resultJson = JSON.parse(result);
+    toast.promise(
+      async () => {
+        const result = await signInWithEmailAndPassword(data);
 
-    if (resultJson?.data?.session) {
-      toast.success("Sign in successfully.");
-      router.push("/");
-    } else if (resultJson?.error?.message) {
-      toast.error(resultJson.error.message);
-    } else {
-      router.push("/");
-    }
+        if (result?.data?.session) {
+          const session = await readUserSession();
+
+          const userMetadataRole =
+            session?.data?.session?.user?.user_metadata?.role;
+
+          console.log("Session:", session);
+          console.log("Role:", userMetadataRole);
+          // fetch role table to get full data
+        }
+      },
+      {
+        loading: "Signing account...",
+        success: () => {
+          form.reset();
+          router.push("/");
+          return "Signed in successfully.";
+        },
+        error: (error) => {
+          return `Error: ${error.message ?? "Internal Server"}`;
+        },
+      }
+    );
   }
 
   return (
@@ -93,16 +113,16 @@ export default function SignIn() {
               </FormItem>
             )}
           />
-          <div className="w-full flex flex-row gap-3">
+          <div className="flex w-full flex-row gap-3">
             <Button
               type="submit"
-              className="w-full text-foreground hover:text-accent bg-background"
+              className="mt-1 w-full bg-background text-foreground hover:text-accent"
             >
               Forget Password
             </Button>
             <Button
               type="submit"
-              className="w-full bg-foreground text-background"
+              className="mt-1 w-full bg-foreground text-background"
             >
               Sign In
             </Button>

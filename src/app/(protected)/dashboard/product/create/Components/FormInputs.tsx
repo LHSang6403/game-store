@@ -144,7 +144,6 @@ export default function FormInputs({ form }: { form: any }) {
           </FormItem>
         )}
       />
-
       <FormField
         control={form.control}
         name="storage_address"

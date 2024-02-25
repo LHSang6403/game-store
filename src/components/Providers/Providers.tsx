@@ -7,7 +7,6 @@ import { Analytics } from "@vercel/analytics/react";
 import { displayFontMapper, defaultFontMapper } from "@app/styles/fonts";
 import useLocalStorage from "@/hooks/useLocalStorage";
 import { cn } from "@/lib/utils";
-
 import { readUserSession } from "@/app/_actions/user";
 import { useSession } from "@/zustand/useSession";
 import { useEffect } from "react";
@@ -48,7 +47,7 @@ export default function Providers({ children }: { children: ReactNode }) {
     const fetchSession = async () => {
       const sessionData = await readUserSession();
       if (sessionData && sessionData.data) {
-        setSession(sessionData.data);
+        setSession(sessionData?.data);
       }
     };
 

@@ -1,17 +1,17 @@
 import { create } from "zustand";
-import type { CustomerType, AdminType, StaffType } from "@utils/types";
+import type { CustomerType, StaffType } from "@utils/types";
 
-interface SessionState<T extends CustomerType | AdminType | StaffType> {
+interface SessionState<T extends CustomerType  | StaffType> {
   session: T | null;
   setSession: (session: T) => void;
   removeSession: () => void;
 }
 
 export const useSession = create<
-  SessionState<CustomerType | AdminType | StaffType>
+  SessionState<CustomerType  | StaffType>
 >((set) => ({
   session: null,
-  setSession: (session: CustomerType | AdminType | StaffType | null) =>
+  setSession: (session: CustomerType  | StaffType | null) =>
     set({ session }),
   removeSession: () => set({ session: null }),
 }));

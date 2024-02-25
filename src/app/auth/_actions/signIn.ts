@@ -12,5 +12,5 @@ export async function signInWithEmailAndPassword(data: {
     password: data.password,
   });
 
-  return JSON.stringify(result);
+  return result;
 }

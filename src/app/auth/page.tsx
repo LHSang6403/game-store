@@ -5,13 +5,13 @@ import AuthCardTabs from "@app/auth/Components/AuthCardTabs";
 export default function Login() {
   return (
     <Template>
-      <div className="w-screen min-h-screen sm:pt-10 sm:pb-16 overflow-auto flex flex-col justify-center items-center gap-2">
+      <div className="flex min-h-screen w-screen flex-col items-center justify-center overflow-auto sm:pb-16 sm:pt-10">
         <h1 className="text-lg font-semibold">App Authentication</h1>
-        <div className="w-fit sm:w-full h-fit bg-background sm:px-2 flex flex-col gap-2">
+        <div className="flex h-fit w-fit flex-col gap-2 bg-background sm:w-full sm:px-2">
           <span className="w-auto">
             <Link
               href="/"
-              className="py-2 px-4 rounded-md no-underline text-foreground bg-btn-background hover:bg-btn-background-hover flex items-center group text-sm"
+              className="group flex items-center rounded-md bg-btn-background px-4 py-2 text-sm text-foreground no-underline hover:bg-btn-background-hover"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"

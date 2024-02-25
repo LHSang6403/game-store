@@ -12,6 +12,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { signUpWithEmailAndPassword } from "@auth/_actions/signUp";
@@ -24,6 +25,8 @@ const FormSchema = z
       .string()
       .min(6, { message: "Must be a valid mobile number" })
       .max(12, { message: "Must be a valid mobile number" }),
+
+    address: z.string().min(1, { message: "Address is a compulsory." }),
     email: z.string().email(),
     password: z.string().min(6, {
       message: "Password must be greater than 5 letters.",
@@ -45,6 +48,7 @@ export default function SignUp() {
     defaultValues: {
       name: "",
       phone: "",
+      address: "",
       email: "",
       password: "",
       confirm: "",
@@ -52,22 +56,39 @@ export default function SignUp() {
   });
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {
-    const result = await signUpWithEmailAndPassword(data);
-    const resultJson = JSON.parse(result);
+    toast.promise(
+      async () => {
+        const signUpData = {
+          name: data.name,
+          phone: data.phone,
+          address: data.address,
+          email: data.email,
+          password: data.password,
+        };
 
-    if (resultJson?.error?.message) {
-      toast.error(resultJson.error.message);
-    } else {
-      toast.success("Successfully. Check your email verification.");
-      router.push("/");
-    }
+        const result = await signUpWithEmailAndPassword(signUpData);
+        if (result.error) {
+          throw new Error(result.error.message);
+        }
+      },
+      {
+        loading: "Creating account...",
+        success: () => {
+          form.reset();
+          return "User created successfully. Confirm your email.";
+        },
+        error: (error) => {
+          return `Error: ${error.message ?? "Internal Server"}`;
+        },
+      }
+    );
   }
 
   return (
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="w-fit h-fit grid grid-cols-2 gap-4 sm:w-full sm:flex sm:flex-col"
+        className="grid h-fit w-fit grid-cols-2 gap-4 sm:flex sm:w-full sm:flex-col"
       >
         <FormField
           control={form.control}
@@ -107,6 +128,24 @@ export default function SignUp() {
         />
         <FormField
           control={form.control}
+          name="address"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Address</FormLabel>
+              <FormControl>
+                <Input
+                  placeholder="Your address"
+                  {...field}
+                  type="text"
+                  onChange={field.onChange}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
           name="email"
           render={({ field }) => (
             <FormItem>
@@ -131,7 +170,7 @@ export default function SignUp() {
               <FormLabel>Password</FormLabel>
               <FormControl>
                 <Input
-                  placeholder="password"
+                  placeholder="Password"
                   {...field}
                   type="password"
                   onChange={field.onChange}
@@ -159,11 +198,10 @@ export default function SignUp() {
             </FormItem>
           )}
         />
-        <div>
-          <FormLabel>Action</FormLabel>
+        <div className="col-span-2">
           <Button
             type="submit"
-            className="w-full mt-2 bg-foreground text-background"
+            className="mt-1 w-full bg-foreground text-background"
           >
             Register
           </Button>
