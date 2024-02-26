@@ -1,8 +1,8 @@
 import SearchBar from "@components/Search/SearchBar";
-import CategoryCards from "./Components/CategoryCards";
-import ProductsContainer from "./Components/ProductsContainer";
-import SheetArea from "./Components/FilterArea";
-import Advertisement from "./Components/Advertisement";
+import CategoryCards from "@app/(main)/product/Components/CategoryCards";
+import ProductsContainer from "@app/(main)/product/Components/ProductsContainer";
+import SheetArea from "@app/(main)/product/Components/FilterArea";
+import Advertisement from "@app/(main)/product/Components/Advertisement";
 import { readProducts } from "@/app/_actions/product";
 
 export default async function Product() {

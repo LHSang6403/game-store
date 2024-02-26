@@ -1,4 +1,4 @@
-import { columns } from "./Components/Columns";
+import { columns } from "@app/(protected)/dashboard/product/Components/Columns";
 import { DataTable } from "@components/Table/DataTable";
 import Link from "next/link";
 import { readProducts } from "@/app/_actions/product";
@@ -6,8 +6,8 @@ import type { ProductType } from "@utils/types/index";
 
 export default async function Page() {
   const res = await readProducts({ limit: 10, offset: 0 });
-
   if (res.error) throw new Error(res.error.message);
+  
   const data = res.data as ProductType[];
 
   return (

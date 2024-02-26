@@ -7,12 +7,10 @@ import Link from "next/link";
 export default async function page() {
   const session = await readUserSession();
 
-  if (!session || !("detailData" in session))
+  if (!session || session.error || !("detailData" in session))
     return (
       <div className="mt-10 flex flex-col items-center">
-        <span className="text-xl font-medium">
-          You are not logged in.{" "}
-        </span>
+        <span className="text-xl font-medium">You are not logged in. </span>
         <Link
           className="text-base text-foreground/80 hover:text-foreground"
           href="/auth"
