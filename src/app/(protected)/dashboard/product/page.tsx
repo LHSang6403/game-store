@@ -6,7 +6,8 @@ import type { ProductType } from "@utils/types/index";
 
 export default async function Page() {
   const res = await readProducts({ limit: 10, offset: 0 });
-  if (res.error) throw new Error(res.error.message);
+  if (!res || res.error)
+    throw new Error(res.error.message || "An error occurred.");
 
   const data = res?.data as ProductType[];
 

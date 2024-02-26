@@ -7,7 +7,8 @@ import { readProducts } from "@/app/_actions/product";
 
 export default async function Product() {
   const productsResponse = await readProducts({ limit: 10, offset: 0 });
-  if (productsResponse.error) throw new Error(productsResponse.error.message);
+  if (!productsResponse || productsResponse.error)
+    throw new Error(productsResponse.error.message || "An error occurred.");
 
   return (
     <>
@@ -18,7 +19,7 @@ export default async function Product() {
           <SearchBar />
         </div>
         <CategoryCards />
-        {productsResponse?.data && (
+        {productsResponse && productsResponse.data && (
           <ProductsContainer productsResponse={productsResponse} />
         )}
         <SheetArea />
