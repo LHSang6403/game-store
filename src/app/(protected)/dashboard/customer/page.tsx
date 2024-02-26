@@ -11,17 +11,17 @@ export default async function page() {
   const data = res?.data as CustomerType[];
 
   return (
-    <section className="mx-10 sm:mx-4">
+    <section className="">
       <div className="flex flex-row items-center justify-between ">
         <h1 className="my-2 text-2xl font-medium">All customers</h1>
         <Link
-          className="mx-4 hover:cursor-pointer"
+          className="hover:text-accent-foreground focus:text-accent-foreground flex h-9 w-fit items-center rounded-md px-4 py-2 text-sm font-medium transition-colors hover:bg-accent focus:bg-accent focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[active]:bg-accent/50 data-[state=open]:bg-accent/50"
           href="/dashboard/order/create"
         >
           Create
         </Link>
       </div>
-      <DataTable columns={columns} data={data} isPaginationEnabled={false} />
+      <DataTable columns={columns} data={data} isPaginationEnabled={true} />
     </section>
   );
 }

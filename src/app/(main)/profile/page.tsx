@@ -21,7 +21,7 @@ export default async function page() {
     );
 
   return (
-    <div className="flex flex-col gap-8 px-10 pb-10">
+    <div className="flex flex-col gap-8 px-10 pb-10 xl:px-6 sm:px-4">
       <h1 className="text-center text-3xl font-semibold">Your profile</h1>
       <div className="flex w-full flex-col items-center gap-2">
         <div className="flex justify-center rounded-full border p-0.5">

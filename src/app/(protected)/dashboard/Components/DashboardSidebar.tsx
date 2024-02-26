@@ -18,7 +18,7 @@ export default function DashboardSidebar() {
       <h1 className="mx-4 my-2 border-b border-foreground/10 pb-2 text-lg font-medium text-foreground xl:mx-0">
         Routes
       </h1>
-      <ul className="flex flex-col gap-2 xl:h-12 xl:flex-row xl:overflow-auto">
+      <ul className="flex flex-col gap-2 xl:h-12  xl:flex-row xl:overflow-auto">
         {dashboardSidebarList.map((item, index) => (
           <Link
             key={index}

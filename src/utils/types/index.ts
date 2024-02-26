@@ -42,7 +42,6 @@ export interface ProductDescriptionType {
   id: string; // p_key
   created_at: string;
   content: string;
-  images: string[];
   writer: string;
   comments: string[];
 }

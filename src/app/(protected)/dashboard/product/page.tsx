@@ -5,25 +5,24 @@ import { readProducts } from "@/app/_actions/product";
 import type { ProductType } from "@utils/types/index";
 
 export default async function Page() {
-  const res = await readProducts({ limit: 10, offset: 0 });
+  const res = await readProducts({ limit: 20, offset: 0 });
   if (!res || res.error)
     throw new Error(res.error.message || "An error occurred.");
 
   const data = res?.data as ProductType[];
 
   return (
-    <section className="mx-10 pb-10 sm:mx-4">
+    <section className="">
       <div className="flex flex-row items-center justify-between ">
         <h1 className="my-2 text-2xl font-medium">All products</h1>
         <Link
-          className="mx-4 hover:cursor-pointer"
+          className="hover:text-accent-foreground focus:text-accent-foreground flex h-9 w-fit items-center rounded-md px-4 py-2 text-sm font-medium transition-colors hover:bg-accent focus:bg-accent focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[active]:bg-accent/50 data-[state=open]:bg-accent/50"
           href="/dashboard/product/create"
         >
           Create
         </Link>
       </div>
-
-      <DataTable columns={columns} data={data} isPaginationEnabled={false} />
+      <DataTable columns={columns} data={data} isPaginationEnabled={true} />
     </section>
   );
 }

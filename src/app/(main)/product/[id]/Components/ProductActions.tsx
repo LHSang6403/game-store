@@ -29,7 +29,7 @@ export default function ProductActions({
   return (
     <>
       <div>
-        <div className="flex flex-row items-center text-lg text-yellow-400">
+        <div className="flex flex-row items-center text-lg text-yellow-400 mb-1">
           {Array.from({ length: 5 }).map((_, index: number) => (
             <svg
               key={index}

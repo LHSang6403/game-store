@@ -53,7 +53,7 @@ export default function OrderSummary() {
           />
         </>
       ) : (
-        <div className="font-light">
+        <div className="text-center font-light">
           Please, select order in{" "}
           <Link className="hover:font-normal" href="/product">
             Product

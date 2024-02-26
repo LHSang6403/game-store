@@ -10,7 +10,7 @@ export default function MainLayout({
       <div className="w-[20%] xl:w-full">
         <DashboardSidebar />
       </div>
-      <div className="flex w-[80%] flex-col gap-4 xl:w-full">{children}</div>
+      <div className="w-[80%] xl:w-full">{children}</div>
     </div>
   );
 }

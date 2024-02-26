@@ -53,7 +53,7 @@ export async function readProductDetailById(id: string) {
       .select(
         `
   *,
-  product_description (id, content, images, writer, comments),
+  product_description (id, content, writer, comments),
   storage (id, address, quantity)
 `
       )

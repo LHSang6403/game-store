@@ -69,7 +69,6 @@ export const columns: ColumnDef<StaffType>[] = [
               id: data.id,
               updatedRole: newRole,
             });
-            console.log(result);
           },
           {
             loading: "Updating role...",
