@@ -24,7 +24,7 @@ const DropAndDragZone = ({ className }: { className: string }) => {
 
   const onDrop = useCallback(
     (acceptedFiles: File[], fileRejections: RejectedFile[]) => {
-      if (acceptedFiles.length) {
+      if (acceptedFiles?.length) {
         setFiles((previousFiles) =>
           previousFiles.concat(
             acceptedFiles.map((file) =>
@@ -34,7 +34,7 @@ const DropAndDragZone = ({ className }: { className: string }) => {
         );
       }
 
-      if (fileRejections.length) {
+      if (fileRejections?.length) {
         setRejected((previousFiles) =>
           previousFiles.concat(
             fileRejections.map(({ file, errors }) => ({
@@ -111,8 +111,8 @@ const DropAndDragZone = ({ className }: { className: string }) => {
 
       {/* Preview */}
       <section className="mt-6">
-        {files.length > 0 ||
-          (rejected.length > 0 && (
+        {files?.length > 0 ||
+          (rejected?.length > 0 && (
             <div className="flex flex-row items-center justify-between gap-4 sm:flex-col">
               <h2 className="title text-xl font-semibold">Preview</h2>
               <Button variant="outline" onClick={removeAll}>
@@ -128,7 +128,7 @@ const DropAndDragZone = ({ className }: { className: string }) => {
           ))}
 
         {/* Accepted files */}
-        {files.length > 0 && (
+        {files?.length > 0 && (
           <>
             <h3 className="title mt-6 border-b text-sm">Accepted files</h3>
             <ul className="mt-4 grid grid-cols-4 gap-10 xl:gap-4 sm:grid-cols-2">
@@ -161,7 +161,7 @@ const DropAndDragZone = ({ className }: { className: string }) => {
         )}
 
         {/* Rejected Files */}
-        {rejected.length > 0 && (
+        {rejected?.length > 0 && (
           <>
             <h3 className="title mt-6 border-b text-sm">Rejected Files</h3>
             <ul className="mt-4 flex flex-col">

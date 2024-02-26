@@ -25,14 +25,14 @@ export default function ProductsContainer({
   // Filter products based on the selected brands, categories, and highest price
   const filteredProducts = productsResponse.data.filter((product) => {
     const isBrandMatch =
-      brands.length === 0 ||
-      brands.includes("All") ||
-      brands.includes(product.brand);
+      brands?.length === 0 ||
+      brands?.includes("All") ||
+      brands?.includes(product.brand);
 
     const isCategoryMatch =
-      categories.length === 0 ||
-      categories.includes("All") ||
-      categories.includes(product.category);
+      categories?.length === 0 ||
+      categories?.includes("All") ||
+      categories?.includes(product.category);
 
     const isPriceMatch = endPrice === 0 || product.price <= endPrice;
 
@@ -47,7 +47,7 @@ export default function ProductsContainer({
         ))}
       </div>
 
-      {(brands.length > 0 || categories.length > 0 || endPrice > 0) && (
+      {(brands?.length > 0 || categories?.length > 0 || endPrice > 0) && (
         <Button
           onClick={() => {
             removeAllFilters();

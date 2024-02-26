@@ -9,7 +9,6 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import formatReadableTime from "@/utils/functions/formatTime";
@@ -26,7 +25,7 @@ export const columns: ColumnDef<OrderType>[] = [
           {data.prod_names.map((name, index) => (
             <span key={index}>
               {name} {`(x${data.prod_quantities[index]})`}
-              {index !== data.prod_names.length - 1 && ", "}
+              {index !== data.prod_names?.length - 1 && ", "}
             </span>
           ))}
         </div>

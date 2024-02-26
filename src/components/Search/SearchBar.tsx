@@ -56,7 +56,7 @@ export default function SearchBar() {
         />
       </form>
       <div className="absolute top-10 z-30">
-        {matchingKeywords.length > 0 && (
+        {matchingKeywords?.length > 0 && (
           <SelectOptions
             options={matchingKeywords}
             onClickHandler={handleKeywordClick}

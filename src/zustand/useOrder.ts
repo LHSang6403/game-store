@@ -41,7 +41,7 @@ export const useOrder = create<OrderState>((set) => ({
           updatedOrder.prod_quantities.splice(index, 1);
         }
 
-        if (updatedOrder.prod_ids.length === 0) {
+        if (updatedOrder.prod_ids?.length === 0) {
           // remove all if no product left
           return { order: null };
         }
@@ -85,7 +85,7 @@ export const useOrder = create<OrderState>((set) => ({
           updatedOrder.prod_quantities.splice(index, 1);
         }
 
-        if (updatedOrder.prod_ids.length === 0) {
+        if (updatedOrder.prod_ids?.length === 0) {
           return { order: null };
         }
 

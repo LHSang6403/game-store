@@ -18,7 +18,7 @@ export default function convertOrderToListOrder(
     note,
   } = order;
   const orderList: OrderType[] = [];
-  for (let i = 0; i < prod_ids.length; i++) {
+  for (let i = 0; i < prod_ids?.length; i++) {
     const singleOrder: OrderType = {
       id,
       created_at,

@@ -4,7 +4,7 @@ import { Dispatch, ReactNode, SetStateAction, createContext } from "react";
 import { ThemeProvider, useTheme } from "next-themes";
 import { Toaster } from "sonner";
 import { Analytics } from "@vercel/analytics/react";
-import { displayFontMapper, defaultFontMapper } from "@app/styles/fonts";
+import { defaultFontMapper } from "@app/styles/fonts";
 import useLocalStorage from "@/hooks/useLocalStorage";
 import { cn } from "@/lib/utils";
 import { readUserSession } from "@/app/_actions/user";
@@ -28,18 +28,14 @@ const ToasterProvider = () => {
 
 export default function Providers({ children }: { children: ReactNode }) {
   const [font, setFont] = useLocalStorage<string>("novel__font", "Default");
-  const { setSession, session } = useSession();
+  const { setSession } = useSession();
 
   const displayFontMapper: { [key: string]: string } = {
     Default: "",
     Serif: "",
     Mono: "",
   };
-  const defaultFontMapper: { [key: string]: string } = {
-    Default: "",
-    Serif: "",
-    Mono: "",
-  };
+
   const displayFont = displayFontMapper[font] || "";
   const defaultFont = defaultFontMapper[font] || "";
 
@@ -48,14 +44,13 @@ export default function Providers({ children }: { children: ReactNode }) {
       const session = await readUserSession();
 
       if (!session.error && "detailData" in session && session.detailData) {
-        setSession(session.detailData);
+        console.log("session.detailData: ", session.detailData);
+        setSession(session.detailData || null);
       }
     };
 
     fetchSession();
   }, []);
-
-  console.log("Client side session:", session);
 
   return (
     <ThemeProvider
