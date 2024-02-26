@@ -27,7 +27,7 @@ export default function CollectionCards() {
   ];
 
   return (
-    <div className="w-full h-full z-10 grid grid-cols-2 sm:grid-cols-1 bg-none">
+    <div className="z-10 grid h-full w-full grid-cols-2 bg-none xl:h-fit xl:py-10 sm:grid-cols-1">
       <CollectionCard data={collectionCards[0]} />
       <DescriptionCard data={descriptionCards[0]} />
       <DescriptionCard data={descriptionCards[1]} />
@@ -38,11 +38,11 @@ export default function CollectionCards() {
 
 function CollectionCard({ data }: { data: { title: string; image: string } }) {
   return (
-    <div className="w-full h-full xl:h-fit flex justify-center items-center overflow-hidden bg-none">
+    <div className="flex h-full w-full items-center justify-center overflow-hidden bg-none xl:h-fit">
       <img
         alt="Phone"
         src={data.image}
-        className="w-[90%] xl:w-full hover:scale-[1.01] hover:brightness-105 transition duration-300 ease-in-out"
+        className="w-[90%] transition duration-300 ease-in-out hover:scale-[1.01] hover:brightness-105 xl:w-full"
       />
     </div>
   );
@@ -54,17 +54,17 @@ function DescriptionCard({
   data: { title: string; description: string };
 }) {
   return (
-    <div className="w-[80%] xl:w-full sm:w-full mx-auto h-full xl:h-fit overflow-hidden p-4 bg-none">
-      <div className="mt-4 flex flex-row gap-1 text-foreground/80 hover:text-foreground transition duration-300 ease-in-out">
+    <div className="mx-auto h-full w-[80%] overflow-hidden bg-none p-4 xl:h-fit xl:w-full sm:w-full">
+      <div className="mt-4 flex flex-row gap-1 text-foreground/80 transition duration-300 ease-in-out hover:text-foreground">
         <Link
           href="/product"
           className="w-fit text-2xl font-medium hover:cursor-pointer"
         >
           {data.title}
         </Link>
-        <ChevronDoubleRightIcon className="w-7 h-7 mt-0.5" />
+        <ChevronDoubleRightIcon className="mt-0.5 h-7 w-7" />
       </div>
-      <p className="overflow-ellipsis line-clamp-7 text-sm mt-4 text-foreground/90 hover:text-foreground transition duration-300 ease-in-out">
+      <p className="line-clamp-7 mt-4 overflow-ellipsis text-sm text-foreground/90 transition duration-300 ease-in-out hover:text-foreground">
         {data.description}
       </p>
     </div>

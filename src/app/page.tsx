@@ -15,10 +15,10 @@ export default async function Home() {
       <Header />
       <Template>
         <main className="min-h-screen w-full animate-in">
-          <section className="h-[90vh] w-full bg-background sm:h-[70vh]">
+          <section className="h-[90vh] w-full bg-background sm:h-fit">
             <HomeSlider />
           </section>
-          <section className="flex h-fit w-full flex-col gap-20 bg-foreground p-12 pb-24 text-background sm:gap-10 sm:px-5">
+          <section className="flex h-fit w-full flex-col gap-20 bg-foreground p-12 pb-20 text-background sm:gap-10 sm:px-5 sm:pb-16">
             <div className="h-fit w-full">
               <h1 className="mb-10 text-center text-3xl font-medium">
                 Our 4 keys
@@ -32,7 +32,7 @@ export default async function Home() {
               <ClientCards />
             </div>
           </section>
-          <section className="relative z-0 h-screen w-full bg-background p-12 xl:px-6 sm:h-fit sm:px-5">
+          <section className="relative z-0 h-screen w-full bg-background p-12 xl:px-6 xl:h-fit sm:px-5">
             <CollectionCards />
             <div className="absolute left-16 top-0 -z-10 flex h-full w-full flex-row items-end gap-4 xl:-left-44 xl:-top-24 sm:-top-40">
               {Array.from({ length: 4 }).map((_, index: number) => (

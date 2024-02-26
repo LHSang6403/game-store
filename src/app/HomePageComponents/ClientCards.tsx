@@ -19,7 +19,7 @@ export default function ClientCards() {
   ];
 
   return (
-    <div className="flex h-fit w-full flex-row items-center justify-center gap-8xl:flex-col">
+    <div className="gap-8 xl:flex-col flex h-fit w-full flex-row items-center justify-center">
       {clientSays.map((client, index: number) => (
         <ClientCard data={client} key={index} />
       ))}
