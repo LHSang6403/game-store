@@ -161,10 +161,7 @@ export default function CreateForm() {
         loading: "Creating product...",
         success: () => {
           form.reset();
-          // revalidate(/dashboard/product);
           router.push("/dashboard/product");
-
-          // *** revalidate the product list in dashboard ***
 
           return "Product created successfully. Redirecting to dashboard...";
         },

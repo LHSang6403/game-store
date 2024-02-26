@@ -1,18 +1,59 @@
 "use server";
 
 import type { CustomerType, StaffType } from "@utils/types";
-import createSupabaseServerClient, {
-  createSupabaseAdmin,
-} from "@supabase/server";
+import createSupabaseServerClient from "@supabase/server";
+import { revalidatePath } from "next/cache";
+import { UUID } from "crypto";
 
 export async function readUserSession() {
   const supabase = await createSupabaseServerClient();
   const result = await supabase.auth.getSession();
 
-  if (!result?.data?.session) return null;
-  // get customer/ staff table data
+  if (!result?.data?.session) return { data: null, error: "No session" };
+  const userMetadataRole = result?.data?.session?.user?.user_metadata?.role;
+  const userId = result?.data?.session?.user?.id;
 
-  return { ...result };
+  if (userMetadataRole === "Staff") {
+    const staffResult = await supabase
+      .from("staff")
+      .select("*")
+      .eq("id", userId);
+
+    return {
+      ...(result as { data: any; error: any }),
+      detailData: (staffResult.data?.[0] as StaffType) || null,
+    };
+  } else {
+    const customerResult = await supabase
+      .from("customer")
+      .select("*")
+      .eq("id", userId);
+
+    return {
+      ...(result as { data: any; error: any }),
+      detailData: (customerResult.data?.[0] as CustomerType) || null,
+    };
+  }
+}
+
+export async function updateStaffRole({
+  id,
+  updatedRole,
+}: {
+  id: string;
+  updatedRole: string;
+}) {
+  const supabase = await createSupabaseServerClient();
+
+  const { data, error } = await supabase
+    .from("staff")
+    .update({ role: updatedRole })
+    .eq("id", id);
+
+  console.log(id, updatedRole, data, error);
+  if (!error) revalidatePath("/dashboard/staff");
+
+  return { data, error };
 }
 
 export async function updateToStaff(
@@ -25,6 +66,8 @@ export async function updateToStaff(
     user_metadata: { role: role },
   });
 
+  // check has any order?
+
   // remove user from customer table
 
   // add user to staff table
@@ -32,29 +75,54 @@ export async function updateToStaff(
   return result;
 }
 
-// ask if this is the right way to do it
-// export async function readRoleTableById(
-//   id: string
-// ): Promise<CustomerType | StaffType | null> {
-//   const supabase = await createSupabaseServerClient();
-//   const tables = ["customer", "staff", "writer"];
+export async function updateUserProfile<T>({
+  id,
+  role,
+  updatingData,
+}: {
+  id: string;
+  role: "Staff" | "Customer";
+  updatingData: T;
+}) {
+  const supabase = await createSupabaseServerClient();
 
-//   for (const table of tables) {
-//     const { data } = await supabase.from(table).select("*").eq("id", id);
+  const result = await supabase
+    .from(role.toLowerCase())
+    .update(updatingData)
+    .eq("id", id);
 
-//     if (data && data.length > 0) {
-//       const rowData = data[0];
-//       let resultData: CustomerType | StaffType;
+  if (!result.error) revalidatePath("/profile");
 
-//       if (table === "customer") {
-//         resultData = rowData as CustomerType;
-//       } else {
-//         resultData = rowData as StaffType;
-//       }
+  return result;
+}
 
-//       return resultData;
-//     }
-//   }
+export async function readStaffs({
+  limit,
+  offset,
+}: {
+  limit: number;
+  offset: number;
+}) {
+  const supabase = await createSupabaseServerClient();
 
-//   return null;
-// }
+  const result = await supabase.from("staff").select("*").range(offset, limit);
+
+  return result as { data: StaffType[]; error: any };
+}
+
+export async function readCustomers({
+  limit,
+  offset,
+}: {
+  limit: number;
+  offset: number;
+}) {
+  const supabase = await createSupabaseServerClient();
+
+  const result = await supabase
+    .from("customer")
+    .select("*")
+    .range(offset, limit);
+
+  return result as { data: CustomerType[]; error: any };
+}

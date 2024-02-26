@@ -4,7 +4,6 @@ import Image from "next/image";
 import { useCallback, useEffect, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { ArrowUpTrayIcon, XMarkIcon } from "@heroicons/react/24/solid";
-import { getSignature, saveToDatabase } from "./_actions/index";
 import { Button } from "@components/ui/button";
 import useFiles from "@/zustand/useFiles";
 
@@ -89,23 +88,7 @@ const DropAndDragZone = ({ className }: { className: string }) => {
   const action = async () => {
     const file = files[0];
     if (!file) return;
-    const { timestamp, signature } = await getSignature();
-    const formData = new FormData();
-    formData.append("file", file);
-    formData.append("api_key", process.env.NEXT_PUBLIC_CLOUDINARY_API_KEY!);
-    formData.append("signature", signature);
-    formData.append("timestamp", timestamp.toString());
-    formData.append("folder", "next");
-    const endpoint = process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_URL!;
-    const response = await fetch(endpoint, {
-      method: "POST",
-      body: formData,
-    }).then((res) => res.json());
-    await saveToDatabase({
-      version: response?.version,
-      signature: response?.signature,
-      public_id: response?.public_id,
-    });
+    console.log(file);
   };
 
   return (

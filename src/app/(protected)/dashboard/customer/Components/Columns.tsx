@@ -19,11 +19,11 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import type { StaffType } from "@utils/types";
+import type { CustomerType } from "@utils/types";
 import { updateStaffRole } from "@/app/_actions/user";
 import { toast } from "sonner";
 
-export const columns: ColumnDef<StaffType>[] = [
+export const columns: ColumnDef<CustomerType>[] = [
   {
     accessorKey: "name",
     header: "Name",
@@ -53,52 +53,26 @@ export const columns: ColumnDef<StaffType>[] = [
     header: "Phone",
   },
   {
-    accessorKey: "role",
+    accessorKey: "address",
+    header: "Address",
+  },
+  {
+    accessorKey: "level",
     header: ({ column }) => {
-      return <div className="w-28 text-center">Role</div>;
+      return (
+        <Button
+          variant="outline"
+          className="w-24 border-none"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Level
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
     },
     cell: ({ row }) => {
       const data = row.original;
-
-      const handleUpdateRole = async (
-        newRole: "Writer" | "Manager" | "Seller"
-      ) => {
-        toast.promise(
-          async () => {
-            const result = await updateStaffRole({
-              id: data.id,
-              updatedRole: newRole,
-            });
-            console.log(result);
-          },
-          {
-            loading: "Updating role...",
-            success: "Role updated successfully.",
-            error: "Failed to update role. Please try again.",
-          }
-        );
-      };
-
-      return (
-        <Select
-          defaultValue={data.role ?? "Unknown"}
-          onValueChange={(value: "Seller" | "Writer" | "Manager") => {
-            handleUpdateRole(value);
-          }}
-        >
-          <SelectTrigger className="w-28 border-none">
-            <SelectValue placeholder="Select a role" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectGroup>
-              <SelectLabel>Staff</SelectLabel>
-              <SelectItem value="Seller">Seller</SelectItem>
-              <SelectItem value="Writer">Writer</SelectItem>
-              <SelectItem value="Manager">Manager</SelectItem>
-            </SelectGroup>
-          </SelectContent>
-        </Select>
-      );
+      return <div className="w-24 text-center">{data.level}</div>;
     },
   },
   {
@@ -120,7 +94,7 @@ export const columns: ColumnDef<StaffType>[] = [
             <DropdownMenuItem
               onClick={() => navigator.clipboard.writeText(data.id)}
             >
-              Copy staff ID
+              Copy customer ID
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

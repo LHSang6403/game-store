@@ -41,6 +41,7 @@ export const columns: ColumnDef<ProductType>[] = [
       return (
         <Button
           variant="outline"
+          className="border-none"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           Created

@@ -12,6 +12,8 @@ const nextConfig = {
       "i0.wp.com/www.mobileworldlive.com",
       "www.zdnet.com",
       "ybpsohhfffcqexnuazos.supabase.co",
+      "png.pngtree.com",
+      "img.freepik.com",
     ],
   },
 };

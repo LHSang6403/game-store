@@ -9,7 +9,7 @@ export default async function OrderHistory() {
   if (!sessionResponse) return <div>You are not logged in.</div>;
 
   const historyResponse = await readOrdersByCustomerId(
-    sessionResponse.data?.id as string
+    sessionResponse.data?.session?.user?.id
   );
 
   return (

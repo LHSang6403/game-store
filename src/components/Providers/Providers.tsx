@@ -28,6 +28,7 @@ const ToasterProvider = () => {
 
 export default function Providers({ children }: { children: ReactNode }) {
   const [font, setFont] = useLocalStorage<string>("novel__font", "Default");
+  const { setSession, session } = useSession();
 
   const displayFontMapper: { [key: string]: string } = {
     Default: "",
@@ -42,17 +43,19 @@ export default function Providers({ children }: { children: ReactNode }) {
   const displayFont = displayFontMapper[font] || "";
   const defaultFont = defaultFontMapper[font] || "";
 
-  const { setSession } = useSession();
   useEffect(() => {
     const fetchSession = async () => {
-      const sessionData = await readUserSession();
-      if (sessionData && sessionData.data) {
-        setSession(sessionData?.data);
+      const session = await readUserSession();
+
+      if (!session.error && "detailData" in session && session.detailData) {
+        setSession(session.detailData);
       }
     };
 
     fetchSession();
   }, []);
+
+  console.log("Client side session:", session);
 
   return (
     <ThemeProvider

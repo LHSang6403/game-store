@@ -7,7 +7,6 @@ import { updateSoldQuantityByProductId } from "@/app/_actions/product";
 import { zip } from "lodash";
 import { revalidatePath } from "next/cache";
 
-
 export async function createOrder(order: OrderType) {
   try {
     const supabase = await createSupabaseServerClient();
@@ -36,14 +35,22 @@ export async function createOrder(order: OrderType) {
   }
 }
 
-export async function updateStateOrder(
-  id: string,
-  state: "pending" | "shipping" | "delivered" | "canceled" | "returned"
-) {
+export async function updateStateOrder({
+  id,
+  state,
+}: {
+  id: string;
+  state: "pending" | "shipping" | "delivered" | "canceled" | "returned";
+}) {
   try {
     const supabase = await createSupabaseServerClient();
 
-    const result = await supabase.from("order").update(state).eq("id", id);
+    const result = await supabase
+      .from("order")
+      .update({ state: state })
+      .eq("id", id);
+
+    if (!result.error) revalidatePath("/dashboard/order");
 
     return result;
   } catch (error: any) {
