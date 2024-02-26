@@ -7,8 +7,8 @@ import type { ProductType } from "@utils/types/index";
 export default async function Page() {
   const res = await readProducts({ limit: 10, offset: 0 });
   if (res.error) throw new Error(res.error.message);
-  
-  const data = res.data as ProductType[];
+
+  const data = res?.data as ProductType[];
 
   return (
     <section className="mx-10 pb-10 sm:mx-4">

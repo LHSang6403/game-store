@@ -18,7 +18,7 @@ export default async function Product() {
           <SearchBar />
         </div>
         <CategoryCards />
-        {productsResponse.data && (
+        {productsResponse?.data && (
           <ProductsContainer productsResponse={productsResponse} />
         )}
         <SheetArea />

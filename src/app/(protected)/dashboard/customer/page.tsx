@@ -8,7 +8,7 @@ export default async function page() {
   const res = await readCustomers({ limit: 20, offset: 0 });
   if (res.error) throw new Error(res.error.message);
 
-  const data = res.data as CustomerType[];
+  const data = res?.data as CustomerType[];
 
   return (
     <section className="mx-10 sm:mx-4">
