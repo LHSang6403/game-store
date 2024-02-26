@@ -48,7 +48,7 @@ export default function HomeSlider() {
       <CarouselContent>
         {sliderImages.map((image, index) => (
           <CarouselItem key={index}>
-            <Card className="h-full border-none sm:h-[500px] sm:p-0">
+            <Card className="h-full border-none sm:h-[600px] sm:p-0 ssm:h-[550px]">
               <CardContent className="relative mx-auto h-[84vh] w-[90%] overflow-hidden sm:w-full sm:p-0">
                 <div className="absolute top-6 flex w-full flex-row justify-center gap-4 text-sm font-light text-foreground/80">
                   <button className="transition duration-300 ease-in-out hover:text-foreground">
@@ -66,7 +66,7 @@ export default function HomeSlider() {
                   className="h-full w-full object-cover object-center xl:h-[80%] sm:mt-4 sm:h-[300px]"
                   src={image.src}
                 />
-                <div className="absolute bottom-12 left-6 h-fit w-72 p-3 sm:bottom-44 sm:left-0 sm:w-full sm:px-3">
+                <div className="absolute bottom-2 left-6 h-fit w-72 p-3 sm:bottom-40 sm:left-0 sm:w-full sm:px-3 ssm:bottom-20">
                   <h1 className="-mb-2 text-3xl font-semibold">{image.name}</h1>
                   <button className="mt-1 text-foreground/70 hover:text-foreground">
                     View more

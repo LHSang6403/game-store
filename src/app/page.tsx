@@ -32,7 +32,7 @@ export default async function Home() {
               <ClientCards />
             </div>
           </section>
-          <section className="relative z-0 h-screen w-full bg-background p-12 xl:px-6 xl:h-fit sm:px-5">
+          <section className="relative z-0 h-screen w-full bg-background p-12 xl:h-fit xl:px-6 sm:px-5">
             <CollectionCards />
             <div className="absolute left-16 top-0 -z-10 flex h-full w-full flex-row items-end gap-4 xl:-left-44 xl:-top-24 sm:-top-40">
               {Array.from({ length: 4 }).map((_, index: number) => (
@@ -47,7 +47,7 @@ export default async function Home() {
               Phone & Accessories Store
             </h2>
           </section>
-          <section className="flex h-screen w-full flex-col gap-10 bg-foreground p-12 text-background xl:h-fit sm:px-5">
+          <section className="flex h-fit w-full flex-col gap-10 bg-foreground p-12 text-background sm:px-5">
             <h1 className="text-center text-3xl font-medium">
               Typical Products
             </h1>
@@ -61,7 +61,7 @@ export default async function Home() {
               </Link>
             </div>
           </section>
-          <section className="flex h-screen w-full flex-col gap-10 bg-background p-12 text-foreground xl:h-fit sm:px-5">
+          <section className="flex h-fit w-full flex-col gap-10 bg-background p-12 text-foreground sm:px-5">
             <h1 className="text-center text-3xl font-medium">Promotions</h1>
             <Promotions />
             <div className="-mt-2 text-center xl:m-0">
