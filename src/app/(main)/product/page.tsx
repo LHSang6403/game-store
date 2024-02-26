@@ -9,10 +9,6 @@ export default async function Product() {
   const productsResponse = await readProducts({ limit: 10, offset: 0 });
   if (productsResponse.error) throw new Error(productsResponse.error.message);
 
-  if (productsResponse.error) {
-    return <div className="mx-auto w-fit">Product not found</div>;
-  }
-
   return (
     <>
       <Advertisement />

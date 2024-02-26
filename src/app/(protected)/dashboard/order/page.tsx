@@ -1,8 +1,8 @@
 import { readOrders } from "@app/_actions/order";
 import Link from "next/link";
-import { OrderType } from "@/utils/types";
+import { OrderType } from "@utils/types";
 import { DataTable } from "@components/Table/DataTable";
-import { columns } from "./Components/Columns";
+import { columns } from "@app/(protected)/dashboard/order/Components/Columns";
 
 export default async function page() {
   const res = await readOrders({ limit: 20, offset: 0 });
