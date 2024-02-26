@@ -6,11 +6,12 @@ import { readUserSession } from "@/app/_actions/user";
 
 export default async function OrderHistory() {
   const sessionResponse = await readUserSession();
-  if (!sessionResponse) return <div>You are not logged in.</div>;
+  if (sessionResponse.error) throw new Error(sessionResponse.error.message);
 
   const historyResponse = await readOrdersByCustomerId(
     sessionResponse.data?.session?.user?.id
   );
+  if (historyResponse.error) throw new Error(historyResponse.error.message);
 
   return (
     <div className="mx-auto w-fit xl:w-auto">
