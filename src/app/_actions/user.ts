@@ -3,7 +3,6 @@
 import type { CustomerType, StaffType } from "@utils/types";
 import createSupabaseServerClient from "@supabase/server";
 import { revalidatePath } from "next/cache";
-import { UUID } from "crypto";
 
 export async function readUserSession() {
   const supabase = await createSupabaseServerClient();
