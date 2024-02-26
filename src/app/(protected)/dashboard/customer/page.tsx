@@ -13,7 +13,7 @@ export default async function page() {
   return (
     <section className="mx-10 sm:mx-4">
       <div className="flex flex-row items-center justify-between ">
-        <h1 className="my-2 text-2xl font-medium">All orders</h1>
+        <h1 className="my-2 text-2xl font-medium">All customers</h1>
         <Link
           className="mx-4 hover:cursor-pointer"
           href="/dashboard/order/create"
