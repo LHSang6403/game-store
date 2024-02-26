@@ -48,8 +48,8 @@ export default function HomeSlider() {
       <CarouselContent>
         {sliderImages.map((image, index) => (
           <CarouselItem key={index}>
-            <Card className="h-full border-none sm:h-[600px] sm:p-0 ssm:h-[550px]">
-              <CardContent className="relative mx-auto h-[84vh] w-[90%] overflow-hidden sm:w-full sm:p-0">
+            <Card className="h-full border-none sm:h-[600px] ssm:h-[550px]">
+              <CardContent className="relative mx-auto h-[84vh] w-[90%] overflow-hidden xl:w-full sm:p-0">
                 <div className="absolute top-6 flex w-full flex-row justify-center gap-4 text-sm font-light text-foreground/80">
                   <button className="transition duration-300 ease-in-out hover:text-foreground">
                     Explore
