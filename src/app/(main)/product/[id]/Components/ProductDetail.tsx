@@ -1,7 +1,11 @@
-import Decoration from "./Decoration";
-import Title from "./Title";
-import ProductActions from "./ProductActions";
-import ProductImages from "./ProductImages";
+"use client";
+
+import { useState, useEffect } from "react";
+import Decoration from "@app/(main)/product/[id]/Components/Decoration";
+import Title from "@app/(main)/product/[id]/Components/Title";
+import ProductActions from "@app/(main)/product/[id]/Components/ProductActions";
+import ProductImages from "@app/(main)/product/[id]/Components/ProductImages";
+import AlternateTitle from "@app/(main)/product/[id]/Components/AlternateTitle";
 import type { ProductWithDescriptionAndStorageType } from "@utils/types/index";
 
 export default function ProductDetail({
@@ -9,16 +13,40 @@ export default function ProductDetail({
 }: {
   product: ProductWithDescriptionAndStorageType;
 }) {
+  const [showAlternateTitle, setShowAlternateTitle] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const titleElement = document.getElementById("main-title");
+      if (!titleElement) return;
+
+      const rect = titleElement.getBoundingClientRect();
+      if (rect.bottom < 0) {
+        setShowAlternateTitle(true);
+      } else {
+        setShowAlternateTitle(false);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
   return (
-    <div className="min-h-[90vh] h-fit pb-6 relative flex flex-row xl:flex-col">
-      <div className="absolute w-[60%] h-[75%] -z-10 ml-12 xl:ml-6 sm:ml-0 rounded-2xl transform -skew-x-[20deg] bg-gradient-to-r from-foreground/5 to-hsl(222.2, 84%, 4%)"></div>
-      <div className="w-3/5 xl:w-full h-fit pl-10 xl:p-0 sm:px-2">
+    <div className="relative flex h-fit min-h-[90vh] flex-row pb-6 xl:flex-col">
+      <div className="to-hsl(222.2, 84%, 4%) absolute -z-10 ml-12 h-[75%] w-[60%] -skew-x-[20deg] transform rounded-2xl bg-gradient-to-r from-foreground/5 xl:ml-6 sm:ml-0"></div>
+      <div className="h-fit w-3/5 pl-10 xl:w-full xl:p-0 sm:px-2">
         <ProductImages images={product.images} />
       </div>
-      <div className="w-2/5 xl:w-[80%] lg:w-[90%] sm:w-full pt-28 xl:pt-10 lg:pt-0 px-6 xl:mx-auto flex flex-col gap-4">
+      <div className="flex w-2/5 flex-col gap-4 px-6 pt-28 xl:mx-auto xl:w-[80%] xl:pt-10 lg:w-[90%] lg:pt-0 sm:w-full">
         <ProductActions product={product} />
       </div>
       <Decoration />
+      {showAlternateTitle ? (
+        <AlternateTitle brand={product.brand} name={product.name} />
+      ) : null}
       <Title brand={product.brand} name={product.name} />
     </div>
   );

@@ -28,7 +28,7 @@ export default function RootLayout({
         <ThemeProvider>
           <ReactQueryProvider>
             <Providers>
-              <main className="mx-auto flex min-h-screen w-full max-w-[2200px] flex-col items-center overflow-hidden">
+              <main className="mx-auto flex min-h-screen w-full max-w-[2200px] flex-col items-center overflow-hidden pt-16 xl:pt-0">
                 {children}
                 <NavDrawer />
               </main>
