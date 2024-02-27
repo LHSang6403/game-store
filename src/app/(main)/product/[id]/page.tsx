@@ -1,8 +1,8 @@
 "use client";
 
-import ProductDetail from "./Components/ProductDetail";
-import ProductDescription from "./Components/ProductDescription";
-import ProductReview from "./Components/Review/ProductReview";
+import ProductDetail from "@app/(main)/product/[id]/Components/ProductDetail";
+import ProductDescription from "@app/(main)/product/[id]/Components/ProductDescription";
+import ProductReview from "@app/(main)/product/[id]/Components/Review/ProductReview";
 import useProductQuery from "@/hooks/useProductQuery";
 import Template from "@app/(protected)/template";
 
