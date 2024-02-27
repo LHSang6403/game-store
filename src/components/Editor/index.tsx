@@ -13,7 +13,7 @@ import DEFAULT_EDITOR_CONTENT from "./default-content";
 import { EditorBubbleMenu } from "./components";
 import { getPrevText } from "./components/editor";
 
-export default function Editor() {
+export default function Editor({ editable }: { editable: boolean }) {
   const [content, setContent] = useLocalStorage(
     "content",
     DEFAULT_EDITOR_CONTENT
@@ -33,6 +33,7 @@ export default function Editor() {
   }, 750);
 
   const editor = useEditor({
+    editable: editable,
     extensions: TiptapExtensions,
     editorProps: TiptapEditorProps,
     onUpdate: (e) => {

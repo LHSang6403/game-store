@@ -195,7 +195,7 @@ export default function CreateForm() {
         <div className="col-span-2">
           <h2 className="title mb-1 ml-1 text-sm font-medium">Description</h2>
           <div className="mt-2 h-fit overflow-hidden rounded-md border">
-            <Editor />
+            <Editor editable={true} />
           </div>
         </div>
         <div className="col-span-2 flex justify-center">

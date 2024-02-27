@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { Card, CardContent } from "@/components/ui/card";
 import {
   Carousel,
@@ -50,16 +51,25 @@ export default function HomeSlider() {
           <CarouselItem key={index}>
             <Card className="h-full border-none sm:h-[600px] ssm:h-[550px]">
               <CardContent className="relative mx-auto h-[84vh] w-[90%] overflow-hidden xl:w-full sm:p-0">
-                <div className="absolute top-6 flex w-full flex-row justify-center gap-4 text-sm font-light text-foreground/80">
-                  <button className="transition duration-300 ease-in-out hover:text-foreground">
+                <div className="absolute top-0 flex w-full flex-row justify-center gap-4 text-sm font-light text-foreground/80">
+                  <Link
+                    href="/product"
+                    className="transition duration-300 ease-in-out hover:text-foreground"
+                  >
                     Explore
-                  </button>
-                  <button className="transition duration-300 ease-in-out hover:text-foreground">
+                  </Link>
+                  <Link
+                    href="/product"
+                    className="transition duration-300 ease-in-out hover:text-foreground"
+                  >
                     Shop Now
-                  </button>
-                  <button className="transition duration-300 ease-in-out hover:text-foreground">
+                  </Link>
+                  <Link
+                    href="/about"
+                    className="transition duration-300 ease-in-out hover:text-foreground"
+                  >
                     Services
-                  </button>
+                  </Link>
                 </div>
                 <img
                   alt="Slider"

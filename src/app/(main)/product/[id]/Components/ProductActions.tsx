@@ -29,7 +29,7 @@ export default function ProductActions({
   return (
     <>
       <div>
-        <div className="flex flex-row items-center text-lg text-yellow-400 mb-1">
+        <div className="mb-1 flex flex-row items-center text-lg text-yellow-400">
           {Array.from({ length: 5 }).map((_, index: number) => (
             <svg
               key={index}
@@ -54,22 +54,22 @@ export default function ProductActions({
         </div>
       </div>
       <div>
-        <div className="-mt-1 font-medium text-foreground">
+        <div className="-mt-2 text-sm font-medium text-foreground">
           Availble:{" "}
           <span className="font-light">{product.storage[0].quantity}</span>
         </div>
-        <div className="font-medium text-foreground">
+        <div className="text-sm font-medium text-foreground">
           Storage:{" "}
           <span className="font-light">{product.storage[0].address}</span>
         </div>
-        <div className="font-medium text-foreground">
+        <div className="text-sm font-medium text-foreground">
           Sold: <span className="font-light">{product.sold_quantity}</span>
         </div>
         <hr className="my-2 w-[60%] rounded border dark:opacity-20 sm:w-full"></hr>
         <div className="font-medium text-foreground">Choose options:</div>
         <div className="mt-0.5">
           <Select>
-            <SelectTrigger className="w-[180px]">
+            <SelectTrigger className="w-[180px] border-none ">
               <SelectValue placeholder="Select option" />
             </SelectTrigger>
             <SelectContent>
