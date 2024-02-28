@@ -15,7 +15,7 @@ export default function MainLayout({
   return (
     <>
       <Header />
-      <div className="w-full h-fit min-h-screen flex flex-col gap-4">
+      <div className="flex h-fit min-h-screen w-full flex-col gap-4 pt-16 xl:pt-0">
         {children}
       </div>
       <Footer />

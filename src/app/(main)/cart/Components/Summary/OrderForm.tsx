@@ -20,6 +20,7 @@ import { useOrder } from "@/zustand/useOrder";
 import type { CustomerType, OrderType } from "@utils/types";
 import { createOrder } from "@app/_actions/order";
 import { useMutation } from "@tanstack/react-query";
+// import generatePaymentUrl from "@app/_actions/payment";
 
 const FormSchema = z.object({
   name: z.string().min(1, { message: "Name is a compulsory." }),
@@ -57,6 +58,13 @@ export default function OrderForm() {
   });
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {
+    // const result = await generatePaymentUrl(
+    //   100000,
+    //   "Sang's Order payment test 1.",
+    //   `${window.location.href}/payment/success`
+    // );
+    // console.log("----result", result);
+
     const orderData: OrderType = {
       id: order?.id || "",
       created_at: new Date().toISOString(),
@@ -70,7 +78,6 @@ export default function OrderForm() {
       note: data?.note || "",
       address: data?.address || customerSession?.address || "Unknown",
     };
-
     toast.promise(mutation.mutateAsync(orderData), {
       loading: "Creating order...",
       success: "Order is created successfully!",

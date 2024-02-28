@@ -30,11 +30,20 @@ function buildSignature(data: string, secret: string): string {
   return token;
 }
 
-export default function generatePaymentUrl(
+export default async function generatePaymentUrl(
   amount: number,
   description: string,
   returnUrl: string
-): string {
+) {
+  console.log(
+    "amount",
+    amount,
+    "description",
+    description,
+    "returnUrl",
+    returnUrl
+  );
+
   const time = Date.now();
   const invoiceNo = getInvoiceNo(8);
 
@@ -58,6 +67,9 @@ export default function generatePaymentUrl(
     time +
     "\n" +
     httpQuery;
+
+  console.log("*** message", message);
+
   const signature = buildSignature(
     message,
     process.env.MERCHANT_SECRET_KEY || ""
@@ -73,5 +85,20 @@ export default function generatePaymentUrl(
   const directUrl =
     process.env.PAYMENT_END_POINT + "/portal?" + buildHttpQuery(httpBuild);
 
-  return directUrl;
+  const response = await fetch(
+    process.env.PAYMENT_END_POINT + "/payments/create",
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Signature Algorithm=HS256,Credential=${process.env.MERCHANT_KEY},SignedHeaders=,Signature=${signature}`,
+        Date: time.toString(),
+      },
+      body: JSON.stringify(parameters),
+    }
+  );
+
+  const result = JSON.stringify({ directUrl, response });
+
+  return result;
 }
