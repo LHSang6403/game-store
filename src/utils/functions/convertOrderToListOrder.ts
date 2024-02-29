@@ -22,6 +22,8 @@ export default function convertOrderToListOrder(
     const singleOrder: OrderType = {
       id,
       created_at,
+      shipment_name: "",
+      shipment_label: "",
       prod_ids: [prod_ids[i]],
       prod_names: [prod_names[i]],
       prod_quantities: [prod_quantities[i]],
