@@ -7,7 +7,11 @@ import useProductQuery from "@/hooks/useProductQuery";
 import Template from "@app/(protected)/template";
 
 export default async function Product({ params }: { params: { id: string } }) {
-  const { data: productResponse, error, isSuccess } = useProductQuery(params);
+  const {
+    data: productResponse,
+    error,
+    isSuccess,
+  } = useProductQuery({ id: params.id });
 
   if (error) {
     throw new Error(error.message || "Failed to fetch product.");
@@ -15,7 +19,7 @@ export default async function Product({ params }: { params: { id: string } }) {
 
   return (
     <>
-      {isSuccess && (
+      {isSuccess && productResponse && (
         <Template>
           <div className="flex h-fit min-h-screen w-full flex-col gap-10 pb-10">
             <ProductDetail product={productResponse} />

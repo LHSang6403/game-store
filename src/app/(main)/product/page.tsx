@@ -19,9 +19,11 @@ export default async function Product() {
           <SearchBar />
         </div>
         <CategoryCards />
-        {productsResponse && productsResponse.data && (
-          <ProductsContainer productsResponse={productsResponse} />
-        )}
+        {productsResponse &&
+          productsResponse.data &&
+          !productsResponse.error && (
+            <ProductsContainer productsResponse={productsResponse} />
+          )}
         <SheetArea />
       </div>
     </>

@@ -23,7 +23,7 @@ export default function ProductsContainer({
   const { brands, categories, endPrice, removeAllFilters } = useProductFilter();
 
   // Filter products based on the selected brands, categories, and highest price
-  const filteredProducts = productsResponse.data.filter((product) => {
+  const filteredProducts = productsResponse?.data?.filter((product) => {
     const isBrandMatch =
       brands?.length === 0 ||
       brands?.includes("All") ||
@@ -42,9 +42,10 @@ export default function ProductsContainer({
   return (
     <div className="flex h-fit w-full flex-col items-center justify-center gap-6">
       <div className="grid h-fit w-fit grid-cols-4 justify-items-center gap-5 xl:grid-cols-3 lg:grid-cols-2 sm:gap-2">
-        {filteredProducts.map((each: ProductType, index: number) => (
-          <Product key={index} data={each} />
-        ))}
+        {filteredProducts.length > 0 &&
+          filteredProducts.map((each: ProductType, index: number) => (
+            <Product key={index} data={each} />
+          ))}
       </div>
 
       {(brands?.length > 0 || categories?.length > 0 || endPrice > 0) && (

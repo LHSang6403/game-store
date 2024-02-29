@@ -16,10 +16,13 @@ export interface CustomerType {
   name: string; // p_key
   dob: string;
   phone: string;
-  address: string;
   email: string;
   level: number;
   image: string;
+  address: string;
+  ward: string;
+  district: string;
+  province: string;
 }
 
 export interface ProductType {
@@ -67,6 +70,8 @@ export interface ProductWithDescriptionAndStorageType {
 export interface OrderType {
   id: string;
   created_at: string;
+  shipment_name: "GHTK" | "GHN" | "VNPost" | "NinjaVan" | "J&T" | null | "";
+  shipment_label: string | null;
   prod_ids: string[]; // array
   prod_names: string[]; // array
   prod_quantities: number[]; // array

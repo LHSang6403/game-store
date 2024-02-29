@@ -12,6 +12,8 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import formatReadableTime from "@/utils/functions/formatTime";
+import { cancelOrder } from "@/app/_actions/GHTKShipment";
+import { toast } from "sonner";
 
 export const columns: ColumnDef<OrderType>[] = [
   {
@@ -21,7 +23,7 @@ export const columns: ColumnDef<OrderType>[] = [
       const data = row.original;
 
       return (
-        <div className="w-80 sm:w-36 line-clamp-5 overflow-ellipsis">
+        <div className="line-clamp-5 w-80 overflow-ellipsis sm:w-36">
           {data.prod_names.map((name, index) => (
             <span key={index}>
               {name} {`(x${data.prod_quantities[index]})`}
@@ -83,8 +85,33 @@ export const columns: ColumnDef<OrderType>[] = [
               >
                 Copy order ID
               </DropdownMenuItem>
+              {data.shipment_label && (
+                <DropdownMenuItem
+                  disabled={data.state === "canceled"}
+                  onClick={() => {
+                    toast.promise(
+                      async () => {
+                        const createResult = (await cancelOrder({
+                          id: data.id,
+                          label: data.shipment_label!,
+                        })) as { success: boolean; message: string };
 
-              {/* <DropdownMenuSeparator /> */}
+                        if (!createResult.success) {
+                          toast.error(createResult.message);
+                        }
+
+                        console.log("---- create result", createResult);
+                      },
+                      {
+                        loading: "Canceling order...",
+                        success: "Order is canceled successfully!",
+                      }
+                    );
+                  }}
+                >
+                  Cancel order
+                </DropdownMenuItem>
+              )}
             </DropdownMenuContent>
           </DropdownMenu>
         </div>

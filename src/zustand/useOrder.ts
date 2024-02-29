@@ -5,6 +5,10 @@ import { v4 as uuidv4 } from "uuid";
 
 interface OrderState {
   order: OrderType | null;
+  setShipment: (
+    shipment_name: "" | "GHTK" | "GHN" | "VNPost" | "NinjaVan" | "J&T" | null,
+    shipment_label: string | null
+  ) => void;
   addProduct: (prod: ProductWithDescriptionAndStorageType) => void;
   removeProduct: (id: string, price: number) => void;
   removeAll: () => void;
@@ -14,6 +18,23 @@ interface OrderState {
 
 export const useOrder = create<OrderState>((set) => ({
   order: null,
+  setShipment: (
+    name: "" | "GHTK" | "GHN" | "VNPost" | "NinjaVan" | "J&T" | null,
+    label: string | null
+  ) =>
+    set((state: OrderState) => {
+      if (state.order) {
+        return {
+          order: {
+            ...state.order,
+            shipment_name: name,
+            shipment_label: label,
+          },
+        };
+      } else {
+        return state;
+      }
+    }),
   addProduct: (prod: ProductWithDescriptionAndStorageType) =>
     set((state: OrderState) => {
       if (!state.order) {
@@ -102,6 +123,8 @@ function createOrderFromProduct(
   return {
     id: uuidv4(),
     created_at: new Date().toISOString(),
+    shipment_name: "",
+    shipment_label: "",
     prod_ids: [prod.id],
     prod_names: [prod.name],
     prod_quantities: [1],
