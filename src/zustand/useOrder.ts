@@ -42,7 +42,6 @@ export const useOrder = create<OrderState>((set) => ({
       updatedOrder.price += prod.price;
 
       return {
-        ...state,
         order: updatedOrder,
       };
     }),
@@ -66,7 +65,7 @@ export const useOrder = create<OrderState>((set) => ({
         console.log("---- resultOrder", updatedOrder);
 
         // can not update ui ???
-        return { ...state, order: updatedOrder };
+        return { order: updatedOrder };
       } else {
         return state;
       }

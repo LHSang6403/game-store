@@ -44,10 +44,6 @@ export const columns: ColumnDef<ProductWithDescriptionAndStorageType>[] = [
     header: "Actions",
     cell: ({ row }) => {
       const data = row.original;
-      const { data: product, isSuccess } = useProductQuery({
-        id: data.id,
-      });
-
       const { removeProduct } = useOrder();
 
       return (
@@ -67,7 +63,7 @@ export const columns: ColumnDef<ProductWithDescriptionAndStorageType>[] = [
             </DropdownMenuItem>
             <DropdownMenuItem
               onClick={() => {
-                isSuccess && removeProduct(product.id);
+                removeProduct(data.id);
               }}
             >
               Remove
