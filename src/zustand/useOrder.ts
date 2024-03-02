@@ -13,8 +13,6 @@ interface OrderState {
   addProduct: (prod: ProductWithDescriptionAndStorageType) => void;
   removeProduct: (id: string) => void;
   removeAll: () => void;
-  increaseQuantity: (id: string, price: number) => void;
-  decreaseQuantity: (id: string, price: number) => void;
 }
 
 export const useOrder = create<OrderState>((set) => ({
@@ -67,45 +65,13 @@ export const useOrder = create<OrderState>((set) => ({
 
         console.log("---- resultOrder", updatedOrder);
 
-        // can not update ui ??? 
+        // can not update ui ???
         return { ...state, order: updatedOrder };
       } else {
         return state;
       }
     }),
   removeAll: () => set(() => ({ order: null })),
-  increaseQuantity: (id: string, price: number) =>
-    set((state: OrderState) => {
-      if (state.order) {
-        const updatedOrder = { ...state.order };
-        const index = updatedOrder.products.findIndex((prod) => prod.id === id);
-
-        if (index !== -1) {
-          updatedOrder.price += price;
-        }
-
-        // updateOrderPrices(updatedOrder);
-        return { order: updatedOrder };
-      } else {
-        return state;
-      }
-    }),
-  decreaseQuantity: (id: string, price: number) =>
-    set((state: OrderState) => {
-      if (state.order) {
-        const updatedOrder = { ...state.order };
-        const index = updatedOrder.products.findIndex((prod) => prod.id === id);
-
-        if (index !== -1) {
-          updatedOrder.price -= price;
-        }
-
-        // updateOrderPrices(updatedOrder);
-        return { order: updatedOrder };
-      } else {
-        return state;
-      }
-    }),
 }));
 
 function createOrderFromProduct(
