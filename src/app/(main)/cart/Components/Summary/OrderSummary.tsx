@@ -7,13 +7,20 @@ import { useOrder } from "@/zustand/useOrder";
 import { DataTable } from "@components/Table/DataTable";
 import { columns } from "./Columns";
 import Link from "next/link";
+import { useState, useEffect } from "react";
 
 export default function OrderSummary() {
   const { removeAll, order } = useOrder();
 
+  const [orderState, setOrderState] = useState(order);
+  useEffect(() => {
+    setOrderState(order);
+    console.log("re-render orderState", orderState);
+  }, [order?.products.length, order?.price]);
+
   return (
     <>
-      {order ? (
+      {orderState ? (
         <>
           <div className="flex h-fit w-full flex-col gap-1">
             <div className="flex w-full flex-row items-center justify-between sm:flex-col-reverse sm:items-start sm:justify-start sm:gap-2">
@@ -29,35 +36,35 @@ export default function OrderSummary() {
             </div>
             <p>
               <span className="font-semibold">Customer:</span>{" "}
-              {order.customer_name}
+              {orderState.customer_name}
             </p>
             <p>
               <span className="font-semibold">Created at:</span>{" "}
-              {formatReadableTime(order.created_at)}
+              {formatReadableTime(orderState.created_at)}
             </p>
             <p>
-              <span className="font-semibold">State:</span> {order.state}
+              <span className="font-semibold">State:</span> {orderState.state}
             </p>
             <p>
               <span className="font-semibold">Price:</span>{" "}
-              {formatCurrency(order.price)} VND
+              {formatCurrency(orderState.price)} VND
             </p>
             <p>
               <span className="font-semibold">Shipping fee:</span>{" "}
-              {formatCurrency(order.shipping_fee)} VND
+              {formatCurrency(orderState.shipping_fee)} VND
             </p>
             <p>
               <span className="font-semibold">Insurance fee:</span>{" "}
-              {formatCurrency(order.insurance_fee)} VND
+              {formatCurrency(orderState.insurance_fee)} VND
             </p>
             <p>
               <span className="font-semibold">Total:</span>{" "}
-              {formatCurrency(order.total_price)} VND
+              {formatCurrency(orderState.total_price)} VND
             </p>
           </div>
           <DataTable
             columns={columns}
-            data={order.products}
+            data={orderState.products}
             isPaginationEnabled={false}
             isCollumnVisibilityEnabled={false}
             isSearchEnabled={false}
