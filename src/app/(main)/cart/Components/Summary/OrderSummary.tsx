@@ -22,7 +22,7 @@ export default function OrderSummary() {
     <>
       {orderState ? (
         <>
-          <div className="flex h-fit w-full flex-col gap-1">
+          <div className="flex h-fit w-[700px] flex-col gap-1 sm:w-full">
             <div className="flex w-full flex-row items-center justify-between sm:flex-col-reverse sm:items-start sm:justify-start sm:gap-2">
               <h2 className="text-lg font-semibold">Your order summary</h2>
               <Button
@@ -46,20 +46,8 @@ export default function OrderSummary() {
               <span className="font-semibold">State:</span> {orderState.state}
             </p>
             <p>
-              <span className="font-semibold">Price:</span>{" "}
+              <span className="font-semibold">Price without fees:</span>{" "}
               {formatCurrency(orderState.price)} VND
-            </p>
-            <p>
-              <span className="font-semibold">Shipping fee:</span>{" "}
-              {formatCurrency(orderState.shipping_fee)} VND
-            </p>
-            <p>
-              <span className="font-semibold">Insurance fee:</span>{" "}
-              {formatCurrency(orderState.insurance_fee)} VND
-            </p>
-            <p>
-              <span className="font-semibold">Total:</span>{" "}
-              {formatCurrency(orderState.total_price)} VND
             </p>
           </div>
           <DataTable

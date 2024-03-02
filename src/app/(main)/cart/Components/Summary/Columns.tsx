@@ -13,7 +13,6 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import useProductQuery from "@/hooks/useProductQuery";
 import { useOrder } from "@/zustand/useOrder";
 
 export const columns: ColumnDef<ProductWithDescriptionAndStorageType>[] = [
