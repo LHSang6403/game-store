@@ -2,7 +2,6 @@ import { create } from "zustand";
 import type { ProductWithDescriptionAndStorageType } from "@utils/types/index";
 import { v4 as uuidv4 } from "uuid";
 import type { ShipmentNameType, OrderType } from "@utils/types/index";
-import { getShipmentFees, OrderFeesParams } from "@app/_actions/GHTKShipment";
 
 interface OrderState {
   order: OrderType | null;
@@ -13,8 +12,6 @@ interface OrderState {
   addProduct: (prod: ProductWithDescriptionAndStorageType) => void;
   removeProduct: (id: string) => void;
   removeAll: () => void;
-  increaseQuantity: (id: string, price: number) => void;
-  decreaseQuantity: (id: string, price: number) => void;
 }
 
 export const useOrder = create<OrderState>((set) => ({
@@ -35,23 +32,27 @@ export const useOrder = create<OrderState>((set) => ({
     }),
   addProduct: (prod: ProductWithDescriptionAndStorageType) =>
     set((state: OrderState) => {
-      let updatedOrder: OrderType | null = state.order;
-      if (!updatedOrder) updatedOrder = createOrderFromProduct(prod);
-      else updatedOrder.products.push(prod);
+      if (!state.order) {
+        return { order: createOrderFromProduct(prod) };
+      }
 
-      const resultOrder = updateOrderPrices(updatedOrder);
+      const updatedOrder = { ...state.order };
+      updatedOrder.products.push(prod);
+      updatedOrder.price += prod.price;
 
-      return { ...state, order: resultOrder };
+      return {
+        order: updatedOrder,
+      };
     }),
   removeProduct: (id: string) =>
     set((state: OrderState) => {
       if (state.order) {
         const updatedOrder = { ...state.order };
 
-        // auto get the first index of  products if have same id
         const index = updatedOrder.products.findIndex((prod) => prod.id === id);
 
         if (index !== -1) {
+          updatedOrder.price -= updatedOrder.products[index].price;
           updatedOrder.products.splice(index, 1);
         }
 
@@ -59,48 +60,15 @@ export const useOrder = create<OrderState>((set) => ({
           return { order: null };
         }
 
-        const resultOrder = updateOrderPrices(updatedOrder);
-        console.log("---- resultOrder", resultOrder);
+        console.log("---- resultOrder", updatedOrder);
 
-        // can not update ui ???
-        return { order: resultOrder };
+        //Bug: can not update ui ???
+        return { order: updatedOrder };
       } else {
         return state;
       }
     }),
   removeAll: () => set(() => ({ order: null })),
-  increaseQuantity: (id: string, price: number) =>
-    set((state: OrderState) => {
-      if (state.order) {
-        const updatedOrder = { ...state.order };
-        const index = updatedOrder.products.findIndex((prod) => prod.id === id);
-
-        if (index !== -1) {
-          updatedOrder.price += price;
-        }
-
-        updateOrderPrices(updatedOrder);
-        return { order: updatedOrder };
-      } else {
-        return state;
-      }
-    }),
-  decreaseQuantity: (id: string, price: number) =>
-    set((state: OrderState) => {
-      if (state.order) {
-        const updatedOrder = { ...state.order };
-        const index = updatedOrder.products.findIndex((prod) => prod.id === id);
-
-        if (index !== -1) {
-          updatedOrder.price -= price;
-        }
-
-        updateOrderPrices(updatedOrder);
-        return { order: updatedOrder };
-      } else {
-        return state;
-      }
-    }),
 }));
 
 function createOrderFromProduct(
@@ -118,7 +86,7 @@ function createOrderFromProduct(
     price: prod.price,
     shipping_fee: 0,
     insurance_fee: 0,
-    total_price: prod.price,
+    total_price: 0,
     note: "",
     address: "255 đường 30/4",
     ward: "Phường 3",
@@ -130,47 +98,4 @@ function createOrderFromProduct(
     pick_province: "TP. Hồ Chí Minh",
     weight: 500, // dynamic after
   };
-}
-
-function updateOrderPrices(order: OrderType) {
-  const orderTemp = { ...order };
-
-  // re-calculating total price
-  orderTemp.total_price = 0;
-  for (const product of order.products) {
-    orderTemp.total_price += product.price;
-  }
-  orderTemp.price = orderTemp.total_price;
-
-  // const params: OrderFeesParams = {
-  //   pick_province: order.pick_province,
-  //   pick_district: order.pick_district,
-  //   pick_ward: order.pick_ward,
-  //   pick_address: order.pick_address,
-  //   province: order.province,
-  //   district: order.district,
-  //   ward: order.ward,
-  //   address: order.address,
-  //   weight: order.weight,
-  //   value: order.price,
-  //   deliver_option: "xteam",
-  // };
-
-  // const calResponse = await getShipmentFees(params);
-
-  // if (calResponse.success && calResponse.fee) {
-  //   // being bug here
-  //   const shippingFee = calResponse.fee.fee ?? 0;
-  //   const insuranceFee = calResponse.fee.insurance_fee ?? 0;
-
-  //   totalPrice += shippingFee + insuranceFee;
-
-  //   order.shipping_fee = shippingFee;
-  //   order.insurance_fee = insuranceFee;
-  //   order.total_price = totalPrice;
-
-  //   console.log("---- order in update fees", order);
-  // }
-
-  return orderTemp;
 }

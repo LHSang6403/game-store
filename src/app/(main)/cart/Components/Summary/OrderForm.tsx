@@ -20,9 +20,10 @@ import { useOrder } from "@/zustand/useOrder";
 import type { CustomerType, OrderType } from "@utils/types";
 import { createOrder } from "@app/_actions/order";
 import { useMutation } from "@tanstack/react-query";
-// import generatePaymentUrl from "@app/_actions/payment";
 import { requestOrder } from "@/app/_actions/GHTKShipment";
 import { generate } from "randomstring";
+import ConfirmDialog from "./ConfirmDialog";
+import { getShipmentFees, OrderFeesParams } from "@app/_actions/GHTKShipment";
 
 const FormSchema = z.object({
   name: z.string().min(1, { message: "Name is a compulsory." }),
@@ -83,9 +84,11 @@ export default function OrderForm() {
 
     // *** GHTK shipment ***
 
-    const productsRequest = order?.prod_names.map((name, index) => ({
-      name: name,
-      quantity: order?.prod_quantities[index],
+    // call api to get fees -> set fee to order -> pass to confirm dialog
+
+    const productsRequest = order?.products.map((prod, index) => ({
+      name: prod.name,
+      quantity: 1,
       weight: 0.1, // modify weights after
     }));
 
@@ -119,7 +122,7 @@ export default function OrderForm() {
           products: productsRequest,
           order: orderRequest,
         });
-        console.log("----result", result);
+        console.log("----request order result", result);
 
         // store label of response to zustand
         if (result.order) {
@@ -136,28 +139,28 @@ export default function OrderForm() {
             created_at: new Date().toISOString(),
             shipment_name: "GHTK",
             shipment_label: result.order.label || "",
-            prod_ids: order?.prod_ids || [],
-            prod_names: order?.prod_names || [],
-            prod_quantities: order?.prod_quantities || [],
+            products: order?.products || [],
             state: order?.state || "pending",
             customer_id: customerSession?.id || "",
             customer_name: data.name || customerSession?.name || "Unknown",
             price: order?.price || 0,
+            shipping_fee: 0,
+            insurance_fee: 0,
+            total_price: 0,
             note: data?.note || "",
-            address:
-              data?.address +
-                ", " +
-                data?.ward +
-                ", " +
-                data?.district +
-                ", " +
-                data?.province ||
-              customerSession?.address ||
-              "Unknown",
+            address: data?.address,
+            ward: data?.ward || customerSession?.ward || "Unknown",
+            district: data?.district || customerSession?.district || "Unknown",
+            province: data?.province || customerSession?.province || "Unknown",
+            pick_address: order?.pick_address ?? "",
+            pick_ward: order?.pick_ward ?? "",
+            pick_district: order?.pick_district ?? "",
+            pick_province: order?.pick_province ?? "",
+            weight: order?.weight ?? 0,
           };
 
           mutation.mutateAsync(orderData);
-          console.log("Order data:", orderData);
+          console.log("Save Order data to DB:", orderData);
         }
       },
       {
@@ -307,12 +310,13 @@ export default function OrderForm() {
                 )}
               />
 
-              <Button
-                type="submit"
+              {/* <Button
+                type="submit" // calculate price and show popup to comfirm to buy
                 className="mt-8 w-full bg-foreground text-background"
               >
-                Send order
-              </Button>
+                Calculate prices
+              </Button> */}
+              <ConfirmDialog order={order} />
             </form>
           </Form>
         </div>

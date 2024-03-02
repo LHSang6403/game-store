@@ -11,7 +11,7 @@ export default function Page() {
         Your selected products
       </h1>
       <div className="mx-auto flex w-full flex-row justify-center gap-6 xl:flex-col xl:items-center sm:w-full">
-        <div className="flex w-fit  flex-col gap-3 sm:w-full">
+        <div className="flex w-fit flex-col gap-3 sm:w-full">
           <OrderSummary />
         </div>
         <div className="w-fit sm:w-full">
