@@ -14,7 +14,7 @@ export default async function OrderHistory() {
   if (historyResponse.error) throw new Error(historyResponse.error.message);
 
   return (
-    <div className="mx-auto w-[700px] sm:w-auto">
+    <div className="mx-auto w-fit xl:w-auto">
       {sessionResponse &&
         !historyResponse.error &&
         "data" in historyResponse && (

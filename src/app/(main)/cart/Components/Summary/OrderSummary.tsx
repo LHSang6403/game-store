@@ -7,20 +7,13 @@ import { useOrder } from "@/zustand/useOrder";
 import { DataTable } from "@components/Table/DataTable";
 import { columns } from "./Columns";
 import Link from "next/link";
-import { useState, useEffect } from "react";
 
 export default function OrderSummary() {
   const { removeAll, order } = useOrder();
 
-  const [orderState, setOrderState] = useState(order);
-  useEffect(() => {
-    setOrderState(order);
-    console.log("re-render orderState", orderState);
-  }, [order?.products.length, order?.price]);
-
   return (
     <>
-      {orderState ? (
+      {order ? (
         <>
           <div className="flex h-fit w-[700px] flex-col gap-1 sm:w-full">
             <div className="flex w-full flex-row items-center justify-between sm:flex-col-reverse sm:items-start sm:justify-start sm:gap-2">
@@ -36,23 +29,23 @@ export default function OrderSummary() {
             </div>
             <p>
               <span className="font-semibold">Customer:</span>{" "}
-              {orderState.customer_name}
+              {order.customer_name}
             </p>
             <p>
               <span className="font-semibold">Created at:</span>{" "}
-              {formatReadableTime(orderState.created_at)}
+              {formatReadableTime(order.created_at)}
             </p>
             <p>
-              <span className="font-semibold">State:</span> {orderState.state}
+              <span className="font-semibold">State:</span> {order.state}
             </p>
             <p>
               <span className="font-semibold">Price without fees:</span>{" "}
-              {formatCurrency(orderState.price)} VND
+              {formatCurrency(order.price)} VND
             </p>
           </div>
           <DataTable
             columns={columns}
-            data={orderState.products}
+            data={order.products}
             isPaginationEnabled={false}
             isCollumnVisibilityEnabled={false}
             isSearchEnabled={false}

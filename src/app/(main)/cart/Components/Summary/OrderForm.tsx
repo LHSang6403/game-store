@@ -18,12 +18,11 @@ import { Button } from "@/components/ui/button";
 import { useSession } from "@/zustand/useSession";
 import { useOrder } from "@/zustand/useOrder";
 import type { CustomerType, OrderType } from "@utils/types";
-import { createOrder } from "@app/_actions/order";
-import { useMutation } from "@tanstack/react-query";
-import { requestOrder } from "@/app/_actions/GHTKShipment";
 import { generate } from "randomstring";
 import ConfirmDialog from "./ConfirmDialog";
 import { getShipmentFees, OrderFeesParams } from "@app/_actions/GHTKShipment";
+import { useState } from "react";
+import type { ProductRequest, OrderRequest } from "./ConfirmDialog";
 
 const FormSchema = z.object({
   name: z.string().min(1, { message: "Name is a compulsory." }),
@@ -47,8 +46,9 @@ const FormSchema = z.object({
 });
 
 export default function OrderForm() {
-  const { order, removeAll, setShipment } = useOrder();
+  const { order, setPrices } = useOrder();
   const { session } = useSession();
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   // fill customer info automatically if logged in
   const customerSession = session as CustomerType;
@@ -65,108 +65,50 @@ export default function OrderForm() {
     },
   });
 
-  const mutation = useMutation({
-    mutationFn: async (orderData: OrderType) => await createOrder(orderData),
-    onSuccess: () => {
-      removeAll();
-    },
-  });
+  const [productsRequest, setProductsRequest] = useState<ProductRequest[]>([]);
+  const [orderRequest, setOrderRequest] = useState<OrderRequest>();
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {
-    // *** 9pay payment gateway ***
+    if (!order) {
+      return <></>;
+    }
 
-    // const result = await generatePaymentUrl(
-    //   100000,
-    //   "Sang's Order payment test 1.",
-    //   `${window.location.href}/payment/success`
-    // );
-    // console.log("----result", result);
-
-    // *** GHTK shipment ***
-
-    // call api to get fees -> set fee to order -> pass to confirm dialog
-
-    const productsRequest = order?.products.map((prod, index) => ({
-      name: prod.name,
-      quantity: 1,
-      weight: 0.1, // modify weights after
-    }));
-
-    const orderRequest = {
-      id: generate(12),
-      pick_name: "Game store HCM",
-      pick_address: "590 CMT8 P.11",
-      pick_province: "TP. Hồ Chí Minh",
-      pick_district: "Quận 3",
-      pick_ward: "Phường 1",
-      pick_tel: "0922262456",
-      tel: data?.phone || "0123456789",
-      name: data?.name || customerSession?.name || "Unknown",
-      address: data?.address || customerSession?.address || "Unknown",
-      province: data?.province || customerSession?.province || "Unknown",
-      district: data?.district || customerSession?.district || "Unknown",
-      ward: data?.ward || customerSession?.ward || "Unknown",
-      hamlet: "Khác",
-      is_freeship: "1",
-      pick_money: 0,
-      note: order?.note ?? "Khong.",
-      value: order?.price || 0,
-      pick_option: "cod",
-      email: "test@gmail.com",
-      return_email: "test2@gmail.com",
+    const { productsRequest, orderRequest, shipFeesRequest } = createRequests({
+      order: order,
+      data: data,
+      customerSession: customerSession,
+    }) as {
+      productsRequest: ProductRequest[];
+      orderRequest: OrderRequest;
+      shipFeesRequest: OrderFeesParams;
     };
+
+    setProductsRequest(productsRequest);
+    setOrderRequest(orderRequest);
+
+    console.log("---- productsRequest", productsRequest);
 
     toast.promise(
       async () => {
-        const result = await requestOrder({
-          products: productsRequest,
-          order: orderRequest,
+        const calFeesResult = await getShipmentFees({
+          params: shipFeesRequest,
         });
-        console.log("----request order result", result);
 
-        // store label of response to zustand
-        if (result.order) {
-          setShipment("GHTK", result.order.label);
-        }
+        console.log("---- cal fees result", calFeesResult);
 
-        if (!result.success) {
-          toast.error(result.message);
-        } else {
-          // *** Save to database after payment and shipment ***
-
-          const orderData: OrderType = {
-            id: order?.id || "",
-            created_at: new Date().toISOString(),
-            shipment_name: "GHTK",
-            shipment_label: result.order.label || "",
-            products: order?.products || [],
-            state: order?.state || "pending",
-            customer_id: customerSession?.id || "",
-            customer_name: data.name || customerSession?.name || "Unknown",
-            price: order?.price || 0,
-            shipping_fee: 0,
-            insurance_fee: 0,
-            total_price: 0,
-            note: data?.note || "",
-            address: data?.address,
-            ward: data?.ward || customerSession?.ward || "Unknown",
-            district: data?.district || customerSession?.district || "Unknown",
-            province: data?.province || customerSession?.province || "Unknown",
-            pick_address: order?.pick_address ?? "",
-            pick_ward: order?.pick_ward ?? "",
-            pick_district: order?.pick_district ?? "",
-            pick_province: order?.pick_province ?? "",
-            weight: order?.weight ?? 0,
-          };
-
-          mutation.mutateAsync(orderData);
-          console.log("Save Order data to DB:", orderData);
+        if (calFeesResult.success && orderRequest && productsRequest) {
+          setPrices(
+            calFeesResult.fee.ship_fee_only,
+            calFeesResult.fee.insurance_fee
+          );
+          setIsDialogOpen(true);
         }
       },
       {
-        loading: "Creating order...",
-        success: "Order is created successfully!",
-        error: "Error creating order.",
+        loading: "Calculating order...",
+        error: (error) => {
+          return `Failed to calculate order ${error}`;
+        },
       }
     );
   }
@@ -310,17 +252,84 @@ export default function OrderForm() {
                 )}
               />
 
-              {/* <Button
-                type="submit" // calculate price and show popup to comfirm to buy
+              <Button
+                type="submit"
                 className="mt-8 w-full bg-foreground text-background"
               >
                 Calculate prices
-              </Button> */}
-              <ConfirmDialog order={order} />
+              </Button>
             </form>
           </Form>
         </div>
       )}
+      {orderRequest && productsRequest && (
+        <ConfirmDialog
+          orderRequest={orderRequest}
+          productsRequest={productsRequest}
+          isOpen={isDialogOpen}
+          onOpenChange={() => setIsDialogOpen(!isDialogOpen)}
+        />
+      )}
     </>
   );
+}
+
+function createRequests({
+  order,
+  data,
+  customerSession,
+}: {
+  order: OrderType;
+  data: z.infer<typeof FormSchema>;
+  customerSession: CustomerType;
+}) {
+  const productsRequest: ProductRequest[] = order?.products.map((prod) => ({
+    name: prod.name,
+    quantity: 1,
+    weight: 1, // dynamic after
+  }));
+
+  const orderRequest: OrderRequest = {
+    id: generate(12),
+    pick_name: "Game store HCM",
+    pick_province: "TP. Hồ Chí Minh",
+    pick_district: "Quận 3",
+    pick_ward: "Phường 1",
+    pick_address: "590 CMT8 P.11",
+    pick_tel: "0922262456",
+    tel: data?.phone || "0123456789",
+    name: data?.name || customerSession?.name || "Unknown",
+    address: data?.address || customerSession?.address || "Unknown",
+    province: data?.province || customerSession?.province || "Unknown",
+    district: data?.district || customerSession?.district || "Unknown",
+    ward: data?.ward || customerSession?.ward || "Unknown",
+    hamlet: "Khác",
+    is_freeship: "1",
+    pick_money: 0,
+    note: order?.note ?? "Khong",
+    value: order?.price || 0,
+    pick_option: "cod",
+    email: "test@gmail.com",
+    return_email: "test2@gmail.com",
+  };
+
+  const shipFeesRequest: OrderFeesParams = {
+    pick_province: "TP. Hồ Chí Minh",
+    pick_district: "Quận 3",
+    pick_ward: "Phường 1",
+    pick_address: "590 CMT8 P.11",
+    province: data?.province || customerSession?.province || "Unknown",
+    district: data?.district || customerSession?.district || "Unknown",
+    ward: data?.ward || customerSession?.ward || "Unknown",
+    address: data?.address || customerSession?.address || "Unknown",
+    weight: 3000,
+    value: order?.price || 0,
+    deliver_option: "xteam",
+  };
+
+  return {
+    productsRequest,
+    orderRequest,
+    shipFeesRequest,
+  };
 }

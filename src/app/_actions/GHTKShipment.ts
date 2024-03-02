@@ -81,16 +81,9 @@ export type OrderFeesParams = {
   deliver_option: "xteam";
 };
 
-export async function getShipmentFees(params: OrderFeesParams) {
+export async function getShipmentFees({ params }: { params: OrderFeesParams }) {
   try {
-    // const paramsJson = JSON.stringify(params);
-    // console.log("---- paramsJson", params.toString());
-
     const queryParams = parseOrderFeesParams(params).toString();
-
-    // const queryParams = new URLSearchParams(params.toString()).toString();
-    console.log("---- queryParams", queryParams);
-
     const response = await axios.get(
       process.env.GHTK_URL + "/services/shipment/fee?" + queryParams,
       {
@@ -100,13 +93,9 @@ export async function getShipmentFees(params: OrderFeesParams) {
       }
     );
 
-    console.log("---- response", response);
+    console.log("---- response", response.data);
 
-    return response as unknown as {
-      success: boolean;
-      message: string;
-      fee: { fee: number; insurance_fee: number };
-    };
+    return response.data;
   } catch (error) {
     throw new Error("Failed to get shipment fee");
   }

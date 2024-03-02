@@ -9,6 +9,7 @@ interface OrderState {
     shipment_name: ShipmentNameType,
     shipment_label: string | null
   ) => void;
+  setPrices: (shipping_fee: number, insurance_fee: number) => void;
   addProduct: (prod: ProductWithDescriptionAndStorageType) => void;
   removeProduct: (id: string) => void;
   removeAll: () => void;
@@ -30,6 +31,22 @@ export const useOrder = create<OrderState>((set) => ({
         return state;
       }
     }),
+  setPrices: (shipping_fee: number, insurance_fee: number) => {
+    set((state: OrderState) => {
+      if (state.order) {
+        return {
+          order: {
+            ...state.order,
+            shipping_fee: shipping_fee,
+            insurance_fee: insurance_fee,
+            total_price: state.order.price + shipping_fee + insurance_fee,
+          },
+        };
+      } else {
+        return state;
+      }
+    });
+  },
   addProduct: (prod: ProductWithDescriptionAndStorageType) =>
     set((state: OrderState) => {
       if (!state.order) {
