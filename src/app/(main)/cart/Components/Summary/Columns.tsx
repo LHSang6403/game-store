@@ -18,7 +18,7 @@ import { useOrder } from "@/zustand/useOrder";
 
 export const columns: ColumnDef<ProductWithDescriptionAndStorageType>[] = [
   {
-    accessorKey: "prod_names",
+    accessorKey: "name",
     header: "Name",
     cell: ({ row }) => {
       const data = row.original;
@@ -109,6 +109,7 @@ export const columns: ColumnDef<ProductWithDescriptionAndStorageType>[] = [
       const { data: product, isSuccess } = useProductQuery({
         id: data.id,
       });
+
       const { removeProduct } = useOrder();
 
       return (
@@ -128,7 +129,7 @@ export const columns: ColumnDef<ProductWithDescriptionAndStorageType>[] = [
             </DropdownMenuItem>
             <DropdownMenuItem
               onClick={() => {
-                isSuccess && removeProduct(data.id);
+                isSuccess && removeProduct(product.id);
               }}
             >
               Remove
