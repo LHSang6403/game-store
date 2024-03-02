@@ -67,6 +67,51 @@ export async function getOrderStatus(label: string) {
   }
 }
 
+export type OrderFeesParams = {
+  pick_province: string;
+  pick_district: string;
+  pick_ward: string;
+  pick_address: string;
+  province: string;
+  district: string;
+  ward: string;
+  address: string;
+  weight: number;
+  value: number;
+  deliver_option: "xteam";
+};
+
+export async function getShipmentFees(params: OrderFeesParams) {
+  try {
+    // const paramsJson = JSON.stringify(params);
+    // console.log("---- paramsJson", params.toString());
+
+    const queryParams = parseOrderFeesParams(params).toString();
+
+    // const queryParams = new URLSearchParams(params.toString()).toString();
+    console.log("---- queryParams", queryParams);
+
+    const response = await axios.get(
+      process.env.GHTK_URL + "/services/shipment/fee?" + queryParams,
+      {
+        headers: {
+          Token: `${process.env.GHTK_API_TOKEN}`,
+        },
+      }
+    );
+
+    console.log("---- response", response);
+
+    return response as unknown as {
+      success: boolean;
+      message: string;
+      fee: { fee: number; insurance_fee: number };
+    };
+  } catch (error) {
+    throw new Error("Failed to get shipment fee");
+  }
+}
+
 export async function cancelOrder({
   id,
   label,
@@ -97,4 +142,35 @@ export async function cancelOrder({
   } catch (error) {
     return error;
   }
+}
+
+function parseOrderFeesParams(params: OrderFeesParams): URLSearchParams {
+  const {
+    pick_province,
+    pick_district,
+    pick_ward,
+    pick_address,
+    province,
+    district,
+    ward,
+    address,
+    weight,
+    value,
+    deliver_option,
+  } = params;
+
+  const searchParams = new URLSearchParams();
+  searchParams.set("pick_province", pick_province);
+  searchParams.set("pick_district", pick_district);
+  searchParams.set("pick_ward", pick_ward);
+  searchParams.set("pick_address", pick_address);
+  searchParams.set("province", province);
+  searchParams.set("district", district);
+  searchParams.set("ward", ward);
+  searchParams.set("address", address);
+  searchParams.set("weight", weight.toString());
+  searchParams.set("value", value.toString());
+  searchParams.set("deliver_option", deliver_option);
+
+  return searchParams;
 }

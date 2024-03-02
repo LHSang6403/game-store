@@ -67,20 +67,38 @@ export interface ProductWithDescriptionAndStorageType {
   storage: StorageType[];
 }
 
+export type ShipmentNameType =
+  | ""
+  | "GHTK"
+  | "GHN"
+  | "VNPost"
+  | "NinjaVan"
+  | "J&T"
+  | null;
+
 export interface OrderType {
   id: string;
   created_at: string;
-  shipment_name: "GHTK" | "GHN" | "VNPost" | "NinjaVan" | "J&T" | null | "";
+  shipment_name: ShipmentNameType;
   shipment_label: string | null;
-  prod_ids: string[]; // array
-  prod_names: string[]; // array
-  prod_quantities: number[]; // array
+  products: ProductWithDescriptionAndStorageType[];
   state: "pending" | "shipping" | "delivered" | "canceled" | "returned";
   customer_id: string; // f_key
   customer_name: string; // f_key
   price: number;
+  shipping_fee: number; // api call
+  insurance_fee: number; // api call
+  total_price: number;
   note: string;
   address: string;
+  ward: string;
+  district: string;
+  province: string;
+  pick_address: string;
+  pick_ward: string;
+  pick_district: string;
+  pick_province: string;
+  weight: number;
 }
 
 export interface BlogType {

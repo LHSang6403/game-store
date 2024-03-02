@@ -6,7 +6,6 @@ import { Button } from "@/components/ui/button";
 import { useOrder } from "@/zustand/useOrder";
 import { DataTable } from "@components/Table/DataTable";
 import { columns } from "./Columns";
-import convertOrderToListOrder from "@utils/functions/convertOrderToListOrder";
 import Link from "next/link";
 
 export default function OrderSummary() {
@@ -40,13 +39,25 @@ export default function OrderSummary() {
               <span className="font-semibold">State:</span> {order.state}
             </p>
             <p>
-              <span className="font-semibold">Total Price:</span>{" "}
+              <span className="font-semibold">Price:</span>{" "}
               {formatCurrency(order.price)} VND
+            </p>
+            <p>
+              <span className="font-semibold">Shipping fee:</span>{" "}
+              {formatCurrency(order.shipping_fee)} VND
+            </p>
+            <p>
+              <span className="font-semibold">Insurance fee:</span>{" "}
+              {formatCurrency(order.insurance_fee)} VND
+            </p>
+            <p>
+              <span className="font-semibold">Total:</span>{" "}
+              {formatCurrency(order.total_price)} VND
             </p>
           </div>
           <DataTable
             columns={columns}
-            data={convertOrderToListOrder(order)}
+            data={order.products}
             isPaginationEnabled={false}
             isCollumnVisibilityEnabled={false}
             isSearchEnabled={false}

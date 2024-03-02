@@ -1,16 +1,17 @@
 import { create } from "zustand";
-import type { OrderType } from "@utils/types";
 import type { ProductWithDescriptionAndStorageType } from "@utils/types/index";
 import { v4 as uuidv4 } from "uuid";
+import type { ShipmentNameType, OrderType } from "@utils/types/index";
+import { getShipmentFees, OrderFeesParams } from "@app/_actions/GHTKShipment";
 
 interface OrderState {
   order: OrderType | null;
   setShipment: (
-    shipment_name: "" | "GHTK" | "GHN" | "VNPost" | "NinjaVan" | "J&T" | null,
+    shipment_name: ShipmentNameType,
     shipment_label: string | null
   ) => void;
   addProduct: (prod: ProductWithDescriptionAndStorageType) => void;
-  removeProduct: (id: string, price: number) => void;
+  removeProduct: (id: string) => void;
   removeAll: () => void;
   increaseQuantity: (id: string, price: number) => void;
   decreaseQuantity: (id: string, price: number) => void;
@@ -18,10 +19,7 @@ interface OrderState {
 
 export const useOrder = create<OrderState>((set) => ({
   order: null,
-  setShipment: (
-    name: "" | "GHTK" | "GHN" | "VNPost" | "NinjaVan" | "J&T" | null,
-    label: string | null
-  ) =>
+  setShipment: (name: ShipmentNameType, label: string | null) =>
     set((state: OrderState) => {
       if (state.order) {
         return {
@@ -37,37 +35,35 @@ export const useOrder = create<OrderState>((set) => ({
     }),
   addProduct: (prod: ProductWithDescriptionAndStorageType) =>
     set((state: OrderState) => {
-      if (!state.order) {
-        // add at the first time
-        return { order: createOrderFromProduct(prod) };
-      }
+      let updatedOrder: OrderType | null = state.order;
+      if (!updatedOrder) updatedOrder = createOrderFromProduct(prod);
+      else updatedOrder.products.push(prod);
 
-      const updatedOrder = createOrderFromProduct(prod);
-      const updatedState = {
-        ...state,
-        order: updateOrderWithExistingProduct(state.order, updatedOrder),
-      };
-      return updatedState;
+      const resultOrder = updateOrderPrices(updatedOrder);
+
+      return { ...state, order: resultOrder };
     }),
-  removeProduct: (id: string, price: number) =>
+  removeProduct: (id: string) =>
     set((state: OrderState) => {
       if (state.order) {
         const updatedOrder = { ...state.order };
-        const index = updatedOrder.prod_ids.indexOf(id);
+
+        // auto get the first index of  products if have same id
+        const index = updatedOrder.products.findIndex((prod) => prod.id === id);
 
         if (index !== -1) {
-          updatedOrder.price -= updatedOrder.prod_quantities[index] * price; // error price
-          updatedOrder.prod_ids.splice(index, 1);
-          updatedOrder.prod_names.splice(index, 1);
-          updatedOrder.prod_quantities.splice(index, 1);
+          updatedOrder.products.splice(index, 1);
         }
 
-        if (updatedOrder.prod_ids?.length === 0) {
-          // remove all if no product left
+        if (updatedOrder.products.length === 0) {
           return { order: null };
         }
 
-        return { order: updatedOrder };
+        const resultOrder = updateOrderPrices(updatedOrder);
+        console.log("---- resultOrder", resultOrder);
+
+        // can not update ui ???
+        return { order: resultOrder };
       } else {
         return state;
       }
@@ -77,13 +73,13 @@ export const useOrder = create<OrderState>((set) => ({
     set((state: OrderState) => {
       if (state.order) {
         const updatedOrder = { ...state.order };
-        const index = updatedOrder.prod_ids.indexOf(id);
+        const index = updatedOrder.products.findIndex((prod) => prod.id === id);
 
         if (index !== -1) {
-          updatedOrder.prod_quantities[index] += 1;
           updatedOrder.price += price;
         }
 
+        updateOrderPrices(updatedOrder);
         return { order: updatedOrder };
       } else {
         return state;
@@ -93,23 +89,13 @@ export const useOrder = create<OrderState>((set) => ({
     set((state: OrderState) => {
       if (state.order) {
         const updatedOrder = { ...state.order };
-        const index = updatedOrder.prod_ids.indexOf(id);
+        const index = updatedOrder.products.findIndex((prod) => prod.id === id);
 
         if (index !== -1) {
-          updatedOrder.prod_quantities[index] -= 1;
           updatedOrder.price -= price;
         }
 
-        if (updatedOrder.prod_quantities[index] === 0) {
-          updatedOrder.prod_ids.splice(index, 1);
-          updatedOrder.prod_names.splice(index, 1);
-          updatedOrder.prod_quantities.splice(index, 1);
-        }
-
-        if (updatedOrder.prod_ids?.length === 0) {
-          return { order: null };
-        }
-
+        updateOrderPrices(updatedOrder);
         return { order: updatedOrder };
       } else {
         return state;
@@ -125,35 +111,66 @@ function createOrderFromProduct(
     created_at: new Date().toISOString(),
     shipment_name: "",
     shipment_label: "",
-    prod_ids: [prod.id],
-    prod_names: [prod.name],
-    prod_quantities: [1],
+    products: [prod],
     state: "pending",
     customer_id: "anonymous",
     customer_name: "anonymous",
     price: prod.price,
+    shipping_fee: 0,
+    insurance_fee: 0,
+    total_price: prod.price,
     note: "",
-    address: "",
+    address: "255 đường 30/4",
+    ward: "Phường 3",
+    district: "Tp. Tây Ninh",
+    province: "Tây Ninh",
+    pick_address: "227, Nguyễn Văn Cừ",
+    pick_ward: "Phường 4",
+    pick_district: "Quận 5",
+    pick_province: "TP. Hồ Chí Minh",
+    weight: 500, // dynamic after
   };
 }
 
-function updateOrderWithExistingProduct(
-  order: OrderType,
-  newOrder: OrderType
-): OrderType {
-  const updatedOrder = { ...order };
+function updateOrderPrices(order: OrderType) {
+  const orderTemp = { ...order };
 
-  newOrder.prod_ids.forEach((prodId, index) => {
-    const existingIndex = updatedOrder.prod_ids.indexOf(prodId);
-    if (existingIndex !== -1) {
-      updatedOrder.prod_quantities[existingIndex] +=
-        newOrder.prod_quantities[index];
-    } else {
-      updatedOrder.prod_ids.push(prodId);
-      updatedOrder.prod_names.push(newOrder.prod_names[index]);
-      updatedOrder.prod_quantities.push(newOrder.prod_quantities[index]);
-    }
-  });
-  updatedOrder.price += newOrder.price;
-  return updatedOrder;
+  // re-calculating total price
+  orderTemp.total_price = 0;
+  for (const product of order.products) {
+    orderTemp.total_price += product.price;
+  }
+  orderTemp.price = orderTemp.total_price;
+
+  // const params: OrderFeesParams = {
+  //   pick_province: order.pick_province,
+  //   pick_district: order.pick_district,
+  //   pick_ward: order.pick_ward,
+  //   pick_address: order.pick_address,
+  //   province: order.province,
+  //   district: order.district,
+  //   ward: order.ward,
+  //   address: order.address,
+  //   weight: order.weight,
+  //   value: order.price,
+  //   deliver_option: "xteam",
+  // };
+
+  // const calResponse = await getShipmentFees(params);
+
+  // if (calResponse.success && calResponse.fee) {
+  //   // being bug here
+  //   const shippingFee = calResponse.fee.fee ?? 0;
+  //   const insuranceFee = calResponse.fee.insurance_fee ?? 0;
+
+  //   totalPrice += shippingFee + insuranceFee;
+
+  //   order.shipping_fee = shippingFee;
+  //   order.insurance_fee = insuranceFee;
+  //   order.total_price = totalPrice;
+
+  //   console.log("---- order in update fees", order);
+  // }
+
+  return orderTemp;
 }
