@@ -13,20 +13,20 @@ export async function createOrder(order: OrderType) {
 
     const result = await supabase.from("order").insert(order);
 
-    if (!result.error) {
-      const prodQuantities = order.prod_quantities;
-      const prodIds = order.prod_ids;
+    // if (!result.error) {
+    //   const prodQuantities = order.prod_quantities;
+    //   const prodIds = order.prod_ids;
 
-      for (const [prodQuantity, prodId] of zip(prodQuantities, prodIds)) {
-        if (prodId && prodQuantity) {
-          // update storage quantity for each product
-          await updateStorageQuantityByProductId(prodId, -1 * prodQuantity);
+    //   for (const [prodQuantity, prodId] of zip(prodQuantities, prodIds)) {
+    //     if (prodId && prodQuantity) {
+    //       // update storage quantity for each product
+    //       // await updateStorageQuantityByProductId(prodId, -1 * prodQuantity);
 
-          // update sold quantity for each product
-          await updateSoldQuantityByProductId(prodId, prodQuantity);
-        }
-      }
-    }
+    //       // update sold quantity for each product
+    //       // await updateSoldQuantityByProductId(prodId, prodQuantity);
+    //     }
+    //   }
+    // }
 
     revalidatePath("/cart");
     return result;
