@@ -6,7 +6,7 @@ import { columns } from "./Components/Columns";
 
 export default async function page() {
   const res = await readCustomers({ limit: 20, offset: 0 });
-  if (!res || res.error) throw new Error(res.error.message || "An error occurred.");
+  if (res.error) throw new Error(res.error.message || "An error occurred.");
 
   const data = res?.data as CustomerType[];
 
