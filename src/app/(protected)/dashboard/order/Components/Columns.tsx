@@ -33,10 +33,10 @@ export const columns: ColumnDef<OrderType>[] = [
 
       return (
         <div className="line-clamp-5 w-52 overflow-ellipsis sm:w-36">
-          {data.prod_names.map((name, index) => (
+          {data.products.map((prod, index) => (
             <span key={index}>
-              {name} {`(x${data.prod_quantities[index]})`}
-              {index !== data.prod_names.length - 1 && ", "}
+              {prod.name}
+              {index !== data.products.length - 1 && ", "}
             </span>
           ))}
         </div>
