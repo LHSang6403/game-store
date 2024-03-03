@@ -34,13 +34,13 @@ const FormSchema = z.object({
     .max(12, { message: "Must be a valid mobile number" }),
   address: z
     .string()
-    .min(5, { message: "Your address is a compulsory for shipping." }),
+    .min(2, { message: "Your address is a compulsory for shipping." }),
   ward: z
     .string()
-    .min(5, { message: "Your address is a compulsory for shipping." }),
+    .min(2, { message: "Your address is a compulsory for shipping." }),
   district: z
     .string()
-    .min(5, { message: "Your address is a compulsory for shipping." }),
+    .min(2, { message: "Your address is a compulsory for shipping." }),
   province: z
     .string()
     .min(5, { message: "Your address is a compulsory for shipping." }),
@@ -50,8 +50,8 @@ const FormSchema = z.object({
 export default function OrderForm() {
   const { order, setPrices } = useOrder();
   const { session } = useSession();
+  const { addressValues } = useAddressSelects();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const { values } = useAddressSelects();
 
   // fill customer info automatically if logged in
   const customerSession = session as CustomerType;
@@ -61,22 +61,22 @@ export default function OrderForm() {
       name: customerSession?.name || "",
       phone: customerSession?.phone || "",
       address: customerSession?.address || "",
-      ward: values?.commune || customerSession?.ward || "",
-      district: values?.district || customerSession?.district || "",
-      province: values?.province || customerSession?.province || "",
+      ward: addressValues?.commune || customerSession?.ward || "",
+      district: addressValues?.district || customerSession?.district || "",
+      province: addressValues?.province || customerSession?.province || "",
       note: "",
     },
   });
 
-  // set to from's address if avctivate selects
+  // set to from's address if select selects
   const { setValue } = form;
   useEffect(() => {
     if (customerSession) {
-      setValue("province", values.province);
-      setValue("district", values.district);
-      setValue("ward", values.commune);
+      setValue("province", addressValues.province);
+      setValue("district", addressValues.district);
+      setValue("ward", addressValues.commune);
     }
-  }, [values]);
+  }, [addressValues]);
 
   const [productsRequest, setProductsRequest] = useState<ProductRequest[]>([]);
   const [orderRequest, setOrderRequest] = useState<OrderRequest>();
@@ -125,7 +125,7 @@ export default function OrderForm() {
   return (
     <>
       {order && (
-        <div className="flex h-fit w-full flex-col gap-2 rounded-md border px-3 py-2 pb-4">
+        <div className="flex h-fit w-[600px] flex-col gap-2 rounded-md border px-3 py-2 pb-4 sm:w-full">
           <h2 className="text-lg font-semibold">Your order summary</h2>
           <Form {...form}>
             <form
@@ -164,15 +164,23 @@ export default function OrderForm() {
                         onChange={field.onChange}
                       />
                     </FormControl>
-
                     <FormMessage />
                   </FormItem>
                 )}
               />
-              <div className="">
-                <FormLabel>Your local</FormLabel>
-                <FormAddressSelects />
-              </div>
+              <FormField
+                control={form.control}
+                name="district"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Your local</FormLabel>
+                    <FormControl>
+                      <FormAddressSelects />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
               <FormField
                 control={form.control}
                 name="note"

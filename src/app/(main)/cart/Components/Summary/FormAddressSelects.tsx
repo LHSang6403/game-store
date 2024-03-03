@@ -10,25 +10,20 @@ import {
   SelectValue,
 } from "@components/ui/select";
 import useAddressSelects from "@/zustand/useAddressSelects";
-import { useSession } from "@/zustand/useSession";
 import province from "@/static-data/provinces.json";
 import district from "@/static-data/districts.json";
 import communes from "@/static-data/communes.json";
 
 export default function FormAddressSelects() {
-  const { session } = useSession();
-  const { values, setProvince, setDistrict, setCommune, clearAll } =
+  const { addressValues, setProvince, setDistrict, setCommune } =
     useAddressSelects();
 
   const districtsInProvince = district.filter(
-    (dis) => dis.idProvince === values.provinceId
+    (dis) => dis.idProvince === addressValues.provinceId
   );
-
   const communesInDistrict = communes.filter(
-    (com) => com.idDistrict === values.districtId
+    (com) => com.idDistrict === addressValues.districtId
   );
-
-  console.log("Values", values);
 
   return (
     <div className="mt-2 flex flex-col gap-2">
@@ -58,7 +53,7 @@ export default function FormAddressSelects() {
         </SelectContent>
       </Select>
       <Select
-        disabled={values.provinceId === ""}
+        disabled={addressValues.provinceId === ""}
         onValueChange={(value) => {
           const parsedValue = JSON.parse(value);
           setDistrict(parsedValue.name, parsedValue.id);
@@ -83,7 +78,7 @@ export default function FormAddressSelects() {
         </SelectContent>
       </Select>
       <Select
-        disabled={values.districtId === ""}
+        disabled={addressValues.districtId === ""}
         onValueChange={(value) => {
           const parsedValue = JSON.parse(value);
           setCommune(parsedValue.name, parsedValue.id);

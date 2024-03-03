@@ -7,8 +7,8 @@ import { readProducts } from "@/app/_actions/product";
 
 export default async function Product() {
   const productsResponse = await readProducts({ limit: 10, offset: 0 });
-  if (!productsResponse || productsResponse.error)
-    throw new Error(productsResponse.error.message || "An error occurred.");
+  // if (productsResponse.error)
+  //   throw new Error(productsResponse.error.message || "An error occurred.");
 
   return (
     <>

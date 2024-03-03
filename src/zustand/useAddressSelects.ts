@@ -1,7 +1,7 @@
 import { create } from "zustand";
 
 interface useAddressSelectsState {
-  values: {
+  addressValues: {
     address: string;
     province: string;
     provinceId: string;
@@ -18,7 +18,7 @@ interface useAddressSelectsState {
 }
 
 const useAddressSelects = create<useAddressSelectsState>((set) => ({
-  values: {
+  addressValues: {
     address: "",
     province: "",
     provinceId: "",
@@ -28,13 +28,19 @@ const useAddressSelects = create<useAddressSelectsState>((set) => ({
     communeId: "",
   },
   setAddress: (address: string) =>
-    set((state) => ({ values: { ...state.values, address } })),
+    set((state) => ({ addressValues: { ...state.addressValues, address } })),
   setProvince: (province: string, provinceId: string) =>
-    set((state) => ({ values: { ...state.values, province, provinceId } })),
+    set((state) => ({
+      addressValues: { ...state.addressValues, province, provinceId },
+    })),
   setDistrict: (district: string, districtId: string) =>
-    set((state) => ({ values: { ...state.values, district, districtId } })),
+    set((state) => ({
+      addressValues: { ...state.addressValues, district, districtId },
+    })),
   setCommune: (commune: string, communeId: string) =>
-    set((state) => ({ values: { ...state.values, commune, communeId } })),
+    set((state) => ({
+      addressValues: { ...state.addressValues, commune, communeId },
+    })),
   clearAll: () => {},
 }));
 
