@@ -2,6 +2,7 @@
 
 import axios from "axios";
 import { updateStateOrder } from "./order";
+import type { OrderFeesParams } from "@/app/(main)/cart/Components/Summary/types";
 
 export async function requestOrder({
   products,
@@ -67,20 +68,6 @@ export async function getOrderStatus(label: string) {
   }
 }
 
-export type OrderFeesParams = {
-  pick_province: string;
-  pick_district: string;
-  pick_ward: string;
-  pick_address: string;
-  province: string;
-  district: string;
-  ward: string;
-  address: string;
-  weight: number;
-  value: number;
-  deliver_option: "xteam";
-};
-
 export async function getShipmentFees({ params }: { params: OrderFeesParams }) {
   try {
     const queryParams = parseOrderFeesParams(params).toString();
@@ -92,8 +79,6 @@ export async function getShipmentFees({ params }: { params: OrderFeesParams }) {
         },
       }
     );
-
-    console.log("---- response", response.data);
 
     return response.data;
   } catch (error) {

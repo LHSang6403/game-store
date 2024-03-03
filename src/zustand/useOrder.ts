@@ -77,7 +77,8 @@ export const useOrder = create<OrderState>((set) => ({
           return { order: null };
         }
 
-        console.log("---- resultOrder", updatedOrder);
+        // console.log("---- resultOrder", updatedOrder);
+        console.log("products length", updatedOrder.products.length);
 
         //Bug: can not update ui ???
         return { order: updatedOrder };

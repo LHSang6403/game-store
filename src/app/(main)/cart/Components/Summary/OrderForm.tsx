@@ -11,18 +11,20 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { Textarea } from "@/components/ui/textarea";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
+} from "@components/ui/form";
+import { Textarea } from "@components/ui/textarea";
+import { Input } from "@components/ui/input";
+import { Button } from "@components/ui/button";
 import { useSession } from "@/zustand/useSession";
 import { useOrder } from "@/zustand/useOrder";
 import type { CustomerType, OrderType } from "@utils/types";
 import { generate } from "randomstring";
 import ConfirmDialog from "./ConfirmDialog";
-import { getShipmentFees, OrderFeesParams } from "@app/_actions/GHTKShipment";
-import { useState } from "react";
-import type { ProductRequest, OrderRequest } from "./ConfirmDialog";
+import { getShipmentFees } from "@app/_actions/GHTKShipment";
+import { useState, useEffect } from "react";
+import type { ProductRequest, OrderRequest, OrderFeesParams } from "./types";
+import FormAddressSelects from "./FormAddressSelects";
+import useAddressSelects from "@/zustand/useAddressSelects";
 
 const FormSchema = z.object({
   name: z.string().min(1, { message: "Name is a compulsory." }),
@@ -49,6 +51,7 @@ export default function OrderForm() {
   const { order, setPrices } = useOrder();
   const { session } = useSession();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const { values } = useAddressSelects();
 
   // fill customer info automatically if logged in
   const customerSession = session as CustomerType;
@@ -58,12 +61,22 @@ export default function OrderForm() {
       name: customerSession?.name || "",
       phone: customerSession?.phone || "",
       address: customerSession?.address || "",
-      ward: customerSession?.ward || "",
-      district: customerSession?.district || "",
-      province: customerSession?.province || "",
+      ward: values?.commune || customerSession?.ward || "",
+      district: values?.district || customerSession?.district || "",
+      province: values?.province || customerSession?.province || "",
       note: "",
     },
   });
+
+  // set to from's address if avctivate selects
+  const { setValue } = form;
+  useEffect(() => {
+    if (customerSession) {
+      setValue("province", values.province);
+      setValue("district", values.district);
+      setValue("ward", values.commune);
+    }
+  }, [values]);
 
   const [productsRequest, setProductsRequest] = useState<ProductRequest[]>([]);
   const [orderRequest, setOrderRequest] = useState<OrderRequest>();
@@ -86,15 +99,11 @@ export default function OrderForm() {
     setProductsRequest(productsRequest);
     setOrderRequest(orderRequest);
 
-    console.log("---- productsRequest", productsRequest);
-
     toast.promise(
       async () => {
         const calFeesResult = await getShipmentFees({
           params: shipFeesRequest,
         });
-
-        console.log("---- cal fees result", calFeesResult);
 
         if (calFeesResult.success && orderRequest && productsRequest) {
           setPrices(
@@ -160,6 +169,10 @@ export default function OrderForm() {
                   </FormItem>
                 )}
               />
+              <div className="">
+                <FormLabel>Your local</FormLabel>
+                <FormAddressSelects />
+              </div>
               <FormField
                 control={form.control}
                 name="note"
@@ -168,6 +181,7 @@ export default function OrderForm() {
                     <FormLabel>Your note</FormLabel>
                     <FormControl>
                       <Textarea
+                        className="min-h-28"
                         placeholder="Enter note here..."
                         {...field}
                         onChange={field.onChange}
@@ -194,64 +208,6 @@ export default function OrderForm() {
                   </FormItem>
                 )}
               />
-              <FormField
-                control={form.control}
-                name="ward"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Ward</FormLabel>
-                    <FormControl>
-                      <Input
-                        placeholder="Enter ward"
-                        {...field}
-                        type="text"
-                        onChange={field.onChange}
-                      />
-                    </FormControl>
-
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="district"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>District</FormLabel>
-                    <FormControl>
-                      <Input
-                        placeholder="Enter district"
-                        {...field}
-                        type="text"
-                        onChange={field.onChange}
-                      />
-                    </FormControl>
-
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="province"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Province</FormLabel>
-                    <FormControl>
-                      <Input
-                        placeholder="Enter province"
-                        {...field}
-                        type="text"
-                        onChange={field.onChange}
-                      />
-                    </FormControl>
-
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
               <Button
                 type="submit"
                 className="mt-8 w-full bg-foreground text-background"

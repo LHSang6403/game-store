@@ -18,36 +18,7 @@ import type { CustomerType } from "@utils/types";
 import { createOrder } from "@app/_actions/order";
 import { useMutation } from "@tanstack/react-query";
 import formatCurrency from "@/utils/functions/formatCurrency";
-
-export interface ProductRequest {
-  name: string;
-  quantity: number;
-  weight: number;
-}
-
-export interface OrderRequest {
-  id: string;
-  pick_name: string;
-  pick_province: string;
-  pick_district: string;
-  pick_ward: string;
-  pick_address: string;
-  pick_tel: string;
-  tel: string;
-  name: string;
-  address: string;
-  province: string;
-  district: string;
-  ward: string;
-  hamlet: string;
-  is_freeship: string;
-  pick_money: number;
-  note: string;
-  value: number;
-  pick_option: string;
-  email: string;
-  return_email: string;
-}
+import type { OrderRequest, ProductRequest } from "./types";
 
 export default function ConfirmDialog({
   orderRequest,
@@ -91,8 +62,6 @@ export default function ConfirmDialog({
           order: orderRequest,
         });
 
-        console.log("---- request order result", requestOrderResult);
-
         // store label of response to zustand
         if (requestOrderResult.order) {
           setShipment("GHTK", requestOrderResult.order.label);
@@ -109,7 +78,6 @@ export default function ConfirmDialog({
             customerSession
           );
           mutation.mutateAsync(orderData);
-          console.log("Save Order data to DB:", orderData);
         }
       },
       {
@@ -131,8 +99,8 @@ export default function ConfirmDialog({
             Check your order and fees carefully and click buy when you're done.
           </DialogDescription>
         </DialogHeader>
-        <div className="mt-2 flex flex-col gap-2 text-sm">
-          <div className="">
+        <div className="mt-2 flex flex-col gap-1 text-sm">
+          <div>
             <Label htmlFor="name" className="text-right">
               Selected products:{" "}
             </Label>
@@ -145,52 +113,40 @@ export default function ConfirmDialog({
               </>
             ))}
           </div>
-          <div className="">
-            <Label htmlFor="name" className="text-right">
-              Ship to:{" "}
-            </Label>
+          <div>
+            <Label>Ship to: </Label>
             <span className="font-light">
               {orderRequest.address}, {orderRequest.ward},{" "}
               {orderRequest.district}, {orderRequest.province}
             </span>
           </div>
-          <div className="">
-            <Label htmlFor="name" className="text-right">
-              Products price:{" "}
-            </Label>
+          <div>
+            <Label>Products price: </Label>
             <span className="font-light">
               {formatCurrency(order.price)} VND
             </span>
           </div>
-          <div className="">
-            <Label htmlFor="name" className="text-right">
-              Shipping fee:{" "}
-            </Label>
+          <div>
+            <Label>Shipping fee: </Label>
             <span className="font-light">
               {formatCurrency(order.shipping_fee)} VND
             </span>
           </div>
-          <div className="">
-            <Label htmlFor="name" className="text-right">
-              Insurance fee:{" "}
-            </Label>
+          <div>
+            <Label>Insurance fee: </Label>
             <span className="font-light">
               {formatCurrency(order.insurance_fee)} VND
             </span>
           </div>
-          <div className="">
-            <Label htmlFor="name" className="text-right">
-              Total price:{" "}
-            </Label>
-            <span className="font-light">
-              {formatCurrency(order.total_price)} VND
-            </span>
+          <div className="mt-5 font-semibold">
+            <Label className="font-semibold">Total price: </Label>
+            <span className="">{formatCurrency(order.total_price)} VND</span>
           </div>
         </div>
         <Button
           type="submit"
           onClick={handleBuy}
-          className="mt-3 w-full bg-foreground text-background"
+          className="w-full bg-foreground text-background"
         >
           Buy
         </Button>

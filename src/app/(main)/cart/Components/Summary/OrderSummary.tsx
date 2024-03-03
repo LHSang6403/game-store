@@ -9,11 +9,12 @@ import { columns } from "./Columns";
 import Link from "next/link";
 
 export default function OrderSummary() {
-  const { removeAll, order } = useOrder();
+  const { order, removeAll } = useOrder();
+  const products = order?.products;
 
   return (
     <>
-      {order ? (
+      {products ? (
         <>
           <div className="flex h-fit w-[700px] flex-col gap-1 sm:w-full">
             <div className="flex w-full flex-row items-center justify-between sm:flex-col-reverse sm:items-start sm:justify-start sm:gap-2">
@@ -44,8 +45,9 @@ export default function OrderSummary() {
             </p>
           </div>
           <DataTable
+            key={JSON.stringify(products)}
             columns={columns}
-            data={order.products}
+            data={products}
             isPaginationEnabled={false}
             isCollumnVisibilityEnabled={false}
             isSearchEnabled={false}
