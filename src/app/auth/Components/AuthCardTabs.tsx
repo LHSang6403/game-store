@@ -13,17 +13,17 @@ export default function AuthCardTabs() {
   return (
     <Tabs
       defaultValue="sign-in"
-      className="w-[520px] sm:w-full p-2 rounded-lg shadow-sm border border-gray-200"
+      className="w-[520px] rounded-lg border border-gray-200 p-2 shadow-sm sm:w-full"
     >
-      <TabsList className="w-full grid grid-cols-2">
+      <TabsList className="grid w-full grid-cols-2">
         <TabsTrigger
-          className="data-[state=active]:bg-foreground data-[state=active]:text-accent rounded-md"
+          className="rounded-md data-[state=active]:bg-foreground data-[state=active]:text-accent"
           value="sign-in"
         >
           Sign In
         </TabsTrigger>
         <TabsTrigger
-          className="data-[state=active]:bg-foreground data-[state=active]:text-accent rounded-md"
+          className="rounded-md data-[state=active]:bg-foreground data-[state=active]:text-accent"
           value="sign-up"
         >
           Sign Up
@@ -34,7 +34,8 @@ export default function AuthCardTabs() {
           <CardHeader>
             <CardTitle>Log in</CardTitle>
             <CardDescription>
-              Enter your account information here, and click Sign In.
+              Use account: hoangsang6403@gmail.com and password: 123456, and
+              click Sign In.
             </CardDescription>
           </CardHeader>
           <CardContent>
