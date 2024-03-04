@@ -6,8 +6,8 @@ import { columns } from "@app/(protected)/dashboard/order/Components/Columns";
 
 export default async function page() {
   const res = await readOrders({ limit: 20, offset: 0 });
-  if ( res.error)
-    throw new Error(res.error.message || "An error occurred.");
+  // if ( res.error)
+  // throw new Error(res.error.message || "An error occurred.");
 
   const data = res?.data as OrderType[];
 
@@ -22,7 +22,9 @@ export default async function page() {
           Create
         </Link>
       </div>
-      <DataTable columns={columns} data={data} isPaginationEnabled={true} />
+      {data && (
+        <DataTable columns={columns} data={data} isPaginationEnabled={true} />
+      )}
     </section>
   );
 }

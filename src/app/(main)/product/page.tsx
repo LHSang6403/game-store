@@ -10,6 +10,8 @@ export default async function Product() {
   // if (productsResponse.error)
   //   throw new Error(productsResponse.error.message || "An error occurred.");
 
+  const data = productsResponse.data;
+
   return (
     <>
       <Advertisement />
@@ -19,11 +21,7 @@ export default async function Product() {
           <SearchBar />
         </div>
         <CategoryCards />
-        {productsResponse &&
-          productsResponse.data &&
-          !productsResponse.error && (
-            <ProductsContainer productsResponse={productsResponse} />
-          )}
+        {data && <ProductsContainer products={data} />}
         <SheetArea />
       </div>
     </>

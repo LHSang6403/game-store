@@ -254,7 +254,7 @@ function createRequests({
   }));
 
   const orderRequest: OrderRequest = {
-    id: generate(12),
+    id: order.id || generate(12),
     pick_name: "Game store HCM",
     pick_province: "TP. Hồ Chí Minh",
     pick_district: "Quận 3",

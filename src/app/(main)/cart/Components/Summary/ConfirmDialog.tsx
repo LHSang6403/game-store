@@ -176,7 +176,7 @@ function createOrderData(
   customerSession: CustomerType
 ): OrderType {
   return {
-    id: order?.id || "",
+    id: orderRequest.id || "",
     created_at: new Date().toISOString(),
     shipment_name: "GHTK",
     shipment_label: requestOrderResult?.order?.label || "",

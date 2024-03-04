@@ -16,14 +16,14 @@ import { Button } from "@components/ui/button";
 import { toast } from "sonner";
 
 export default function ProductsContainer({
-  productsResponse,
+  products,
 }: {
-  productsResponse: { data: ProductType[]; error: unknown };
+  products: ProductType[] ;
 }) {
   const { brands, categories, endPrice, removeAllFilters } = useProductFilter();
 
   // Filter products based on the selected brands, categories, and highest price
-  const filteredProducts = productsResponse?.data?.filter((product) => {
+  const filteredProducts = products.filter((product) => {
     const isBrandMatch =
       brands?.length === 0 ||
       brands?.includes("All") ||

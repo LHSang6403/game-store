@@ -26,7 +26,7 @@ import { updateStateOrder } from "@/app/_actions/order";
 
 export const columns: ColumnDef<OrderType>[] = [
   {
-    accessorKey: "prod_names",
+    accessorKey: "name",
     header: "Products",
     cell: ({ row }) => {
       const data = row.original;
@@ -153,6 +153,11 @@ export const columns: ColumnDef<OrderType>[] = [
               onClick={() => navigator.clipboard.writeText(data.id)}
             >
               Copy order ID
+            </DropdownMenuItem>
+            <DropdownMenuItem
+              onClick={() => {}}
+            >
+              Print label
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

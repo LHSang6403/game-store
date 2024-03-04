@@ -40,21 +40,17 @@ export default function FilterArea() {
     setCategories,
   } = useProductFilter();
 
-  const { data: brandsData, isError: brandsError } = useQuery({
+  const { data: brandsData } = useQuery({
     queryKey: ["brands"],
     queryFn: async () => await readProductBrands(),
     staleTime: 1000 * 60 * 60,
   });
 
-  const { data: categoriesData, isError: categoriesError } = useQuery({
+  const { data: categoriesData } = useQuery({
     queryKey: ["categories"],
     queryFn: async () => await readAllCategories(),
     staleTime: 1000 * 60 * 60,
   });
-
-  if (brandsError || categoriesError) {
-    return <div>Something went wrong when fetching data.</div>;
-  }
 
   return (
     <Sheet>

@@ -3,7 +3,7 @@ import CategoryCard from "./CategoryCard";
 
 export default async function CategoryCards() {
   const response = await readAllCategories();
-  if (response.error) throw new Error(response.error);
+  // if (response.error) throw new Error(response.error);
 
   return (
     <ul

@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import type { ProductWithDescriptionAndStorageType } from "@utils/types/index";
-import { v4 as uuidv4 } from "uuid";
+import { generate } from "randomstring";
 import type { ShipmentNameType, OrderType } from "@utils/types/index";
 
 interface OrderState {
@@ -77,10 +77,6 @@ export const useOrder = create<OrderState>((set) => ({
           return { order: null };
         }
 
-        // console.log("---- resultOrder", updatedOrder);
-        console.log("products length", updatedOrder.products.length);
-
-        //Bug: can not update ui ???
         return { order: updatedOrder };
       } else {
         return state;
@@ -93,7 +89,7 @@ function createOrderFromProduct(
   prod: ProductWithDescriptionAndStorageType
 ): OrderType {
   return {
-    id: uuidv4(),
+    id: generate(12),
     created_at: new Date().toISOString(),
     shipment_name: "",
     shipment_label: "",

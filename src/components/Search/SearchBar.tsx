@@ -1,6 +1,5 @@
 "use client";
 
-import { usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
 import { Input } from "@/components/ui/input";
 import { useForm } from "react-hook-form";
@@ -11,13 +10,11 @@ import { useRouter } from "next/navigation";
 export default function SearchBar() {
   const router = useRouter();
 
-  const { data, isLoading, isError } = useQuery({
+  const { data } = useQuery({
     queryKey: ["search"],
     queryFn: async () => await readAllProductsWithNameAndId(),
     staleTime: 1000 * 60 * 60,
   });
-
-  if (isError) throw new Error("Error fetching data for searching.");
 
   const { register, setValue } = useForm({
     defaultValues: { search: "" },
