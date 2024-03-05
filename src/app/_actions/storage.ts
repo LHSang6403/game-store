@@ -15,6 +15,27 @@ export async function createStorage(storage: StorageType) {
   }
 }
 
+export async function readStorage({
+  limit,
+  offset,
+}: {
+  limit: number;
+  offset: number;
+}) {
+  try {
+    const supabase = await createSupabaseServerClient();
+
+    const result = await supabase
+      .from("storage")
+      .select("*")
+      .range(offset, limit);
+
+    return { data: result.data as StorageType[], error: result.error };
+  } catch (error: any) {
+    return { error: error.message };
+  }
+}
+
 export async function readStorageQuantityByProductId(id: string) {
   try {
     const supabase = await createSupabaseServerClient();

@@ -4,7 +4,6 @@ import createSupabaseServerClient from "@supabase/server";
 import type { OrderType } from "@utils/types/index";
 import { updateStorageQuantityByProductId } from "@/app/_actions/storage";
 import { updateSoldQuantityByProductId } from "@/app/_actions/product";
-import { zip } from "lodash";
 import { revalidatePath } from "next/cache";
 
 export async function createOrder(order: OrderType) {
@@ -86,4 +85,48 @@ export async function readOrders({
   } catch (error: any) {
     return { error: error.message };
   }
+}
+
+export async function readOrderByMonth({
+  month,
+  year,
+}: {
+  month: number;
+  year: number;
+}) {
+  try {
+    const supabase = await createSupabaseServerClient();
+
+    const firstDayOfMonth = new Date(year, month - 1, 1);
+    const lastDayOfMonth = new Date(year, month, 0);
+
+    const result = await supabase
+      .from("order")
+      .select("*")
+      .gte("created_at", firstDayOfMonth.toISOString())
+      .lte("created_at", lastDayOfMonth.toISOString());
+
+    return result;
+  } catch (error: any) {
+    return { error: error.message };
+  }
+}
+
+export async function getOrderPricesByYear({ year }: { year: number }) {
+  const orderPricesByYear: number[] = [];
+
+  for (let month = 1; month <= 12; month++) {
+    const orderByMonthResponse = await readOrderByMonth({ month, year });
+    let totalRevenueOfMonth = 0;
+
+    if ("data" in orderByMonthResponse) {
+      orderByMonthResponse.data?.forEach((order) => {
+        totalRevenueOfMonth += order.price;
+      });
+    }
+
+    orderPricesByYear.push(totalRevenueOfMonth);
+  }
+
+  return orderPricesByYear;
 }
