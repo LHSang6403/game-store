@@ -1,46 +1,25 @@
 "use client";
 
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue,
-} from "@components/ui/select";
-import { useState } from "react";
+import { Slider } from "@/components/ui/slider";
+import useDateSelect from "@/zustand/useDateSelect";
 
 export default function RangeTimeSelect() {
+  const { date, setYear } = useDateSelect();
+
   const startYear = 2021;
   const endYear = new Date().getFullYear();
-  const years = Array.from(
-    { length: endYear - startYear + 1 },
-    (_, index) => startYear + index
-  );
-
-  const [selectedYear, setSelectedYear] = useState<string>(endYear.toString());
 
   return (
-    <div className="">
-      <Select
-        defaultValue={endYear.toString()}
-        onValueChange={(value) => setSelectedYear(value)}
-      >
-        <SelectTrigger className="h-9 w-[110px]">
-          <SelectValue placeholder="Select a year" />
-        </SelectTrigger>
-        <SelectContent>
-          <SelectGroup>
-            <SelectLabel>Year</SelectLabel>
-            {years.map((year) => (
-              <SelectItem key={year} value={year.toString()}>
-                {year}
-              </SelectItem>
-            ))}
-          </SelectGroup>
-        </SelectContent>
-      </Select>
+    <div className="flex flex-row items-center gap-2">
+      <h2 className="text-sm font-medium">Year: {date.year}</h2>
+      <Slider
+        className="w-[200px]"
+        onValueChange={(value) => setYear(value[0])}
+        defaultValue={[endYear]}
+        min={startYear}
+        max={endYear}
+        step={1}
+      />
     </div>
   );
 }
