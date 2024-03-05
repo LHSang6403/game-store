@@ -44,7 +44,7 @@ const FormSchema = z.object({
   province: z
     .string()
     .min(5, { message: "Your address is a compulsory for shipping." }),
-  note: z.string(),
+  note: z.string().nullable(),
 });
 
 export default function OrderForm() {
@@ -55,27 +55,30 @@ export default function OrderForm() {
 
   // fill customer info automatically if logged in
   const customerSession = session as CustomerType;
+
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
-      name: customerSession?.name || "",
-      phone: customerSession?.phone || "",
-      address: customerSession?.address || "",
-      ward: addressValues?.commune || customerSession?.ward || "",
-      district: addressValues?.district || customerSession?.district || "",
-      province: addressValues?.province || customerSession?.province || "",
+      name: customerSession?.name,
+      phone: customerSession?.phone,
+      address: customerSession?.address,
+      ward: addressValues?.commune,
+      district: addressValues?.district,
+      province: addressValues?.province,
       note: "",
     },
   });
 
   // set to from's address if select selects
   const { setValue } = form;
+
   useEffect(() => {
-    if (customerSession) {
+    if (addressValues) {
       setValue("province", addressValues.province);
       setValue("district", addressValues.district);
       setValue("ward", addressValues.commune);
     }
+    form.trigger("ward");
   }, [addressValues]);
 
   const [productsRequest, setProductsRequest] = useState<ProductRequest[]>([]);
@@ -140,6 +143,7 @@ export default function OrderForm() {
                     <FormLabel>Name</FormLabel>
                     <FormControl>
                       <Input
+                        className="border-[#E5E7EB]"
                         placeholder="Your name"
                         {...field}
                         type="text"
@@ -158,6 +162,7 @@ export default function OrderForm() {
                     <FormLabel>Phone number</FormLabel>
                     <FormControl>
                       <Input
+                        className="border-[#E5E7EB]"
                         placeholder="Enter number"
                         {...field}
                         type="text"
@@ -171,7 +176,7 @@ export default function OrderForm() {
               <FormField
                 control={form.control}
                 name="district"
-                render={({ field }) => (
+                render={() => (
                   <FormItem>
                     <FormLabel>Your local</FormLabel>
                     <FormControl>
@@ -189,9 +194,10 @@ export default function OrderForm() {
                     <FormLabel>Your note</FormLabel>
                     <FormControl>
                       <Textarea
-                        className="min-h-28"
+                        className="min-h-28 border-[#E5E7EB]"
                         placeholder="Enter note here..."
                         {...field}
+                        value={field.value ?? ""}
                         onChange={field.onChange}
                       />
                     </FormControl>
@@ -207,6 +213,7 @@ export default function OrderForm() {
                     <FormLabel>Address</FormLabel>
                     <FormControl>
                       <Input
+                        className="border-[#E5E7EB]"
                         placeholder="Enter address"
                         {...field}
                         onChange={field.onChange}
@@ -217,6 +224,7 @@ export default function OrderForm() {
                 )}
               />
               <Button
+                disabled={!form.formState.isValid}
                 type="submit"
                 className="mt-8 w-full bg-foreground text-background"
               >

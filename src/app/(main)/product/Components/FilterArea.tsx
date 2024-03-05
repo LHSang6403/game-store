@@ -88,7 +88,7 @@ export default function FilterArea() {
                 <SelectGroup>
                   <SelectLabel>Brands</SelectLabel>
                   <SelectItem value="All">All</SelectItem>
-                  {brandsData?.data!.map((each) => (
+                  {brandsData?.data?.map((each) => (
                     <SelectItem value={each}>{each}</SelectItem>
                   ))}
                 </SelectGroup>
