@@ -2,9 +2,9 @@
 
 import { BarList, Title } from "@tremor/react";
 import { useQuery } from "@tanstack/react-query";
-import { Skeleton } from "@/components/ui/skeleton";
 import { readProducts } from "@/app/_actions/product";
 import type { ProductType } from "@utils/types/index";
+import ChartLoading from "@/app/(protected)/dashboard/Components/ChartLoading";
 
 export default function RevenueBarChart() {
   const limit = 20;
@@ -34,18 +34,16 @@ export default function RevenueBarChart() {
   }
 
   return (
-    <div className="h-fit min-h-[100px] w-full overflow-hidden rounded-xl border border-foreground/10 p-2 pb-4">
+    <div className="w-full">
       {isLoading ? (
-        <div className="flex h-full w-full flex-col items-center justify-center gap-3">
-          <Skeleton className="h-full w-full rounded-xl bg-foreground/10" />
-          <Skeleton className="h-full w-full rounded-xl bg-foreground/10" />
-          <Skeleton className="h-full w-full rounded-xl bg-foreground/10" />
+        <div className="h-[400px]">
+          <ChartLoading />
         </div>
       ) : (
-        <>
+        <div className="min-h-[400px] w-full overflow-hidden rounded-xl border border-foreground/10 p-2 pb-3">
           <Title className="ml-1">Sold Products</Title>
           <BarList data={chartData} className="mx-2 mt-3 w-auto" />
-        </>
+        </div>
       )}
     </div>
   );

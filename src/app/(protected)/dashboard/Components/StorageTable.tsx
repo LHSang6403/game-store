@@ -6,6 +6,7 @@ import { readStorage } from "@/app/_actions/storage";
 import type { StorageType } from "@utils/types/index";
 import { useQuery } from "@tanstack/react-query";
 import { Skeleton } from "@/components/ui/skeleton";
+import ChartLoading from "@app/(protected)/dashboard/Components/ChartLoading";
 
 export default async function OrderHistory() {
   const limit = 20;
@@ -20,15 +21,13 @@ export default async function OrderHistory() {
   const storage = storageResponse?.data as StorageType[];
 
   return (
-    <div className="h-fit min-h-[100px] w-full overflow-hidden">
+    <div className="w-full">
       {isLoading ? (
-        <div className="flex h-full w-full flex-col items-center justify-center gap-3">
-          <Skeleton className="h-full w-full rounded-xl bg-foreground/10" />
-          <Skeleton className="h-full w-full rounded-xl bg-foreground/10" />
-          <Skeleton className="h-full w-full rounded-xl bg-foreground/10" />
+        <div className="h-[400px]">
+          <ChartLoading />
         </div>
       ) : (
-        <div className="w-full">
+        <div className="min-h-[100px] w-full overflow-hidden">
           <h2 className="mb-1 text-lg font-semibold">Availble Storage</h2>
           <DataTable
             columns={columns}

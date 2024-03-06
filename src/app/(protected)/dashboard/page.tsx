@@ -1,14 +1,14 @@
 import RevenueBarChart from "@/app/(protected)/dashboard/Components/Charts/RevenueBarChart";
 import SoldBarChart from "@/app/(protected)/dashboard/Components/Charts/SoldBarChart";
 import StorageTable from "@/app/(protected)/dashboard/Components/StorageTable";
-import RangeTimeSelect from "@/app/(protected)/dashboard/Components/RangeTimeSelect";
+import RangeTime from "@/components/Picker/RangeTime";
 
 export default function OverviewChart() {
   return (
-    <section className="flex flex-col gap-2 pb-10">
-      <div className="flex h-fit w-full flex-row items-center justify-between py-1">
-        <h1 className="ml-1 text-xl font-medium">Your Business Overview</h1>
-        <RangeTimeSelect />
+    <section className="flex w-full flex-col gap-2 pb-10">
+      <div className="mt-2 flex h-fit w-full flex-row items-center justify-between pl-2 sm:mb-2 sm:flex-col sm:gap-2">
+        <h1 className="text-xl font-medium">Your Business Overview</h1>
+        <RangeTime />
       </div>
       <div className="grid h-fit w-full grid-cols-2 gap-3">
         <div className="col-span-2">

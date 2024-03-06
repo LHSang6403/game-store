@@ -87,46 +87,56 @@ export async function readOrders({
   }
 }
 
-export async function readOrderByMonth({
-  month,
-  year,
+export async function readOrdersNumbersByDateRange({
+  from,
+  to,
 }: {
-  month: number;
-  year: number;
+  from: Date;
+  to: Date;
 }) {
   try {
     const supabase = await createSupabaseServerClient();
 
-    const firstDayOfMonth = new Date(year, month - 1, 1);
-    const lastDayOfMonth = new Date(year, month, 0);
+    // Initialize an array to store total order prices for each month
+    const orderPricesByMonth: { month: number; year: number; total: number }[] =
+      [];
 
     const result = await supabase
       .from("order")
       .select("*")
-      .gte("created_at", firstDayOfMonth.toISOString())
-      .lte("created_at", lastDayOfMonth.toISOString());
+      .gte("created_at", from.toISOString())
+      .lte("created_at", to.toISOString());
 
-    return result;
-  } catch (error: any) {
-    return { error: error.message };
-  }
-}
+    if ("data" in result) {
+      const orders = result.data ?? [];
 
-export async function getOrderPricesByYear({ year }: { year: number }) {
-  const orderPricesByYear: number[] = [];
+      // Initialize an object to store total order prices for each month
+      const monthlyTotal: { [key: string]: number } = {};
 
-  for (let month = 1; month <= 12; month++) {
-    const orderByMonthResponse = await readOrderByMonth({ month, year });
-    let totalRevenueOfMonth = 0;
+      // Calculate total order prices for each month
+      orders.forEach((order) => {
+        const date = new Date(order.created_at);
+        const month = date.getMonth() + 1; // Month starts from 0, so add 1
+        const year = date.getFullYear();
 
-    if ("data" in orderByMonthResponse) {
-      orderByMonthResponse.data?.forEach((order) => {
-        totalRevenueOfMonth += order.price;
+        const key = `${month}-${year}`;
+        if (!monthlyTotal[key]) {
+          monthlyTotal[key] = 0;
+        }
+        monthlyTotal[key] += order.price;
+      });
+
+      // Convert monthlyTotal object to array with "month", "year", and "total" properties
+      Object.entries(monthlyTotal).forEach(([key, total]) => {
+        const [monthStr, yearStr] = key.split("-");
+        const month = parseInt(monthStr, 10);
+        const year = parseInt(yearStr, 10);
+        orderPricesByMonth.push({ month, year, total });
       });
     }
 
-    orderPricesByYear.push(totalRevenueOfMonth);
+    return orderPricesByMonth;
+  } catch (error: any) {
+    return { error: error.message };
   }
-
-  return orderPricesByYear;
 }
