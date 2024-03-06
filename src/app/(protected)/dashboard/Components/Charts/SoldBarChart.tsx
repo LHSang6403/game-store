@@ -5,8 +5,11 @@ import { useQuery } from "@tanstack/react-query";
 import { readProducts } from "@/app/_actions/product";
 import type { ProductType } from "@utils/types/index";
 import ChartLoading from "@/app/(protected)/dashboard/Components/ChartLoading";
+import useDatePicker from "@/zustand/useDatePicker";
 
 export default function RevenueBarChart() {
+  const { from, to } = useDatePicker();
+  
   const limit = 20;
   const offset = 0;
 

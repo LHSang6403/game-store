@@ -97,7 +97,6 @@ export async function readOrdersNumbersByDateRange({
   try {
     const supabase = await createSupabaseServerClient();
 
-    // Initialize an array to store total order prices for each month
     const orderPricesByMonth: { month: number; year: number; total: number }[] =
       [];
 
@@ -109,14 +108,11 @@ export async function readOrdersNumbersByDateRange({
 
     if ("data" in result) {
       const orders = result.data ?? [];
-
-      // Initialize an object to store total order prices for each month
       const monthlyTotal: { [key: string]: number } = {};
 
-      // Calculate total order prices for each month
       orders.forEach((order) => {
         const date = new Date(order.created_at);
-        const month = date.getMonth() + 1; // Month starts from 0, so add 1
+        const month = date.getMonth() + 1; 
         const year = date.getFullYear();
 
         const key = `${month}-${year}`;
@@ -126,7 +122,6 @@ export async function readOrdersNumbersByDateRange({
         monthlyTotal[key] += order.price;
       });
 
-      // Convert monthlyTotal object to array with "month", "year", and "total" properties
       Object.entries(monthlyTotal).forEach(([key, total]) => {
         const [monthStr, yearStr] = key.split("-");
         const month = parseInt(monthStr, 10);
