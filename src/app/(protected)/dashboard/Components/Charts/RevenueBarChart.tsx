@@ -12,39 +12,19 @@ const dataFormatter = (number: number) =>
 export default function RevenueBarChart() {
   const { from, to } = useDatePicker();
 
-  const { data: orders, isLoading } = useQuery({
-    queryKey: ["order", { from }, { to }],
+  const { data: orderPricesByMonth, isLoading } = useQuery({
+    queryKey: ["orders-revenues", from, to],
     queryFn: async () => readOrdersNumbersByDateRange({ from: from, to: to }),
     staleTime: 1000 * 60 * 60,
   });
 
-  let chartData: {
-    name: string;
-    Revenue: number;
-  }[] = [];
-
-  let totalRevenue = 0;
-
-  if (Array.isArray(orders) && orders.length > 0) {
-    orders.sort((a, b) => {
-      if (a.year !== b.year) {
-        return a.year - b.year;
-      }
-      return a.month - b.month;
-    });
-
-    for (let i = 0; i < orders.length; i++) {
-      chartData.push({
-        name: `${orders[i].month}, ${orders[i].year}`,
-        Revenue: orders[i].total,
-      });
-      totalRevenue += orders[i].total;
-    }
-  }
+  const { chartData, totalRevenue } = ordersToChartData(
+    orderPricesByMonth as { month: number; year: number; total: number }[]
+  ) as OrdersToChartData;
 
   return (
     <div>
-      {isLoading || !orders ? (
+      {isLoading || !orderPricesByMonth ? (
         <div className="h-[600px] w-full">
           <ChartLoading />
         </div>
@@ -57,7 +37,7 @@ export default function RevenueBarChart() {
               {totalRevenue > 0 ? dataFormatter(totalRevenue) : "No data"}
             </span>
           </h2>
-          {orders && (
+          {orderPricesByMonth && (
             <BarChart
               className="h-[80%] w-full"
               data={chartData}
@@ -74,3 +54,46 @@ export default function RevenueBarChart() {
     </div>
   );
 }
+
+interface OrdersToChartData {
+  chartData: { name: string; Revenue: number }[];
+  totalRevenue: number;
+}
+
+const ordersToChartData = (
+  orders:
+    | {
+        month: number;
+        year: number;
+        total: number;
+      }[]
+    | null
+) => {
+  let chartData: {
+    name: string;
+    Revenue: number;
+  }[] = [];
+
+  let totalRevenue = 0;
+
+  if (orders && orders.length > 0) {
+    if (Array.isArray(orders) && orders.length > 0) {
+      orders.sort((a, b) => {
+        if (a.year !== b.year) {
+          return a.year - b.year;
+        }
+        return a.month - b.month;
+      });
+
+      for (let i = 0; i < orders.length; i++) {
+        chartData.push({
+          name: `${orders[i].month}, ${orders[i].year}`,
+          Revenue: orders[i].total,
+        });
+        totalRevenue += orders[i].total;
+      }
+    }
+
+    return { chartData, totalRevenue } as OrdersToChartData;
+  } else return [];
+};

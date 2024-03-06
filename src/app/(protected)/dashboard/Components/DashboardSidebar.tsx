@@ -24,9 +24,7 @@ export default function DashboardSidebar() {
             key={index}
             href={item.link}
             className={`${
-              "/dashboard/" + item.name.toLowerCase() === pathname
-                ? "bg-accent"
-                : "bg-background"
+              item.link === pathname ? "bg-accent" : "bg-background"
             } hover:text-accent-foreground 
             focus:text-accent-foreground mx-auto flex h-9 w-[96%] 
             items-center rounded-md  px-4 py-2 text-sm 

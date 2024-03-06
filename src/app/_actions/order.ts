@@ -81,7 +81,29 @@ export async function readOrders({
       .select("*")
       .range(offset, limit);
 
-    return { data: result.data as OrderType[] };
+    return { data: result.data as OrderType[], error: result.error };
+  } catch (error: any) {
+    return { error: error.message };
+  }
+}
+
+export async function readOrdersByDateRange({
+  from,
+  to,
+}: {
+  from: Date;
+  to: Date;
+}) {
+  try {
+    const supabase = await createSupabaseServerClient();
+
+    const result = await supabase
+      .from("order")
+      .select("*")
+      .gte("created_at", from.toISOString())
+      .lte("created_at", to.toISOString());
+
+    return { data: result.data as OrderType[], error: result.error };
   } catch (error: any) {
     return { error: error.message };
   }
@@ -112,7 +134,7 @@ export async function readOrdersNumbersByDateRange({
 
       orders.forEach((order) => {
         const date = new Date(order.created_at);
-        const month = date.getMonth() + 1; 
+        const month = date.getMonth() + 1;
         const year = date.getFullYear();
 
         const key = `${month}-${year}`;
