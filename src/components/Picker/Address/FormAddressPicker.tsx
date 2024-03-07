@@ -14,7 +14,7 @@ import province from "@/static-data/provinces.json";
 import district from "@/static-data/districts.json";
 import communes from "@/static-data/communes.json";
 
-export default function FormAddressSelects() {
+export default function FormAddressPicker() {
   const { addressValues, setProvince, setDistrict, setCommune } =
     useAddressSelects();
 

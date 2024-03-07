@@ -1,18 +1,26 @@
 "use server";
 
 import createSupabaseServerClient from "@supabase/server";
-import type { CustomerType } from "@utils/types";
+import convertToTimestampz from "@utils/functions/dateToTimestampz";
 
 export async function signUpWithEmailAndPassword({
   name,
   phone,
+  dob,
   address,
+  ward,
+  district,
+  province,
   email,
   password,
 }: {
   name: string;
   phone: string;
+  dob: string;
   address: string;
+  ward: string;
+  district: string;
+  province: string;
   email: string;
   password: string;
 }) {
@@ -39,9 +47,14 @@ export async function signUpWithEmailAndPassword({
       name: name,
       email: email,
       phone: phone,
+      dob: convertToTimestampz(dob),
       address: address,
+      ward: ward,
+      district: district,
+      province: province,
       level: 0,
-      image: "",
+      image:
+        "https://img.freepik.com/free-vector/cute-boy-playing-game-sofa-with-headphone-cartoon-vector-icon-illustration-people-technology_138676-5483.jpg",
     };
 
     const customerCreated = await supabase

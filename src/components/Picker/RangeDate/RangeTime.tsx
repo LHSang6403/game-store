@@ -1,6 +1,6 @@
 "use client";
 
-import { DateRangePicker } from "@components/Picker/DateRangePicker";
+import { DateRangePicker } from "@/components/Picker/RangeDate/DateRangePicker";
 import useDatePicker from "@/zustand/useDatePicker";
 
 export default function RangeTime() {

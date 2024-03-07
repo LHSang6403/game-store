@@ -1,12 +1,20 @@
 import * as React from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import { DayPicker } from "react-day-picker";
+import { DayPicker, DropdownProps } from "react-day-picker";
 import { cn } from "@/lib/utils";
 import { buttonVariants } from "@/components/ui/button";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 export type CalendarProps = React.ComponentProps<typeof DayPicker>;
 
-function Calendar({
+function CustomCalendar({
   className,
   classNames,
   showOutsideDays = true,
@@ -15,7 +23,7 @@ function Calendar({
   return (
     <DayPicker
       showOutsideDays={showOutsideDays}
-      className={cn("p-0", className)}
+      className={cn("p-2", className)}
       classNames={{
         months: "flex flex-row gap-4 sm:space-x-4 sm:space-y-0",
         month: "space-y-4",
@@ -40,7 +48,7 @@ function Calendar({
         ),
         day_range_end: "day-range-end",
         day_selected:
-          "bg-foreground/20 text-primary-foreground hover:bg--foreground/20 hover:text-primary-foreground focus:bg-foreground/20 focus:text-primary-foreground",
+          "bg-foreground/20 text-primary-foreground hover:bg-foreground/20 hover:text-primary-foreground focus:bg-foreground/20 focus:text-primary-foreground",
         day_today: "bg-accent text-accent-foreground",
         day_outside:
           "day-outside text-muted-foreground opacity-50 aria-selected:bg-accent/50 aria-selected:text-muted-foreground aria-selected:opacity-30",
@@ -51,6 +59,44 @@ function Calendar({
         ...classNames,
       }}
       components={{
+        Dropdown: ({ value, onChange, children, ...props }: DropdownProps) => {
+          const options = React.Children.toArray(
+            children
+          ) as React.ReactElement<React.HTMLProps<HTMLOptionElement>>[];
+          const selected = options.find((child) => child.props.value === value);
+          const handleChange = (value: string) => {
+            const changeEvent = {
+              target: { value },
+            } as React.ChangeEvent<HTMLSelectElement>;
+            onChange?.(changeEvent);
+          };
+          return (
+            <div className="flex w-auto flex-row gap-1">
+              <Select
+                value={value?.toString()}
+                onValueChange={(value) => {
+                  handleChange(value);
+                }}
+              >
+                <SelectTrigger className="pr-1.2 mt-2 h-8 focus:ring-0">
+                  <SelectValue>{selected?.props?.children}</SelectValue>
+                </SelectTrigger>
+                <SelectContent position="popper">
+                  <ScrollArea className="h-80">
+                    {options.map((option, id: number) => (
+                      <SelectItem
+                        key={`${option.props.value}-${id}`}
+                        value={option.props.value?.toString() ?? ""}
+                      >
+                        {option.props.children}
+                      </SelectItem>
+                    ))}
+                  </ScrollArea>
+                </SelectContent>
+              </Select>
+            </div>
+          );
+        },
         IconLeft: ({ ...props }) => <ChevronLeft className="h-4 w-4" />,
         IconRight: ({ ...props }) => <ChevronRight className="h-4 w-4" />,
       }}
@@ -58,6 +104,6 @@ function Calendar({
     />
   );
 }
-Calendar.displayName = "Calendar";
+CustomCalendar.displayName = "CustomCalendar";
 
-export { Calendar };
+export { CustomCalendar };

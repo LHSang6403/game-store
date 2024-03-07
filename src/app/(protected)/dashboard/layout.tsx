@@ -1,6 +1,6 @@
 import DashboardSidebar from "@app/(protected)/dashboard/Components/DashboardSidebar";
 
-export default function MainLayout({
+export default function DashboardLayout({
   children,
 }: {
   children: React.ReactNode;

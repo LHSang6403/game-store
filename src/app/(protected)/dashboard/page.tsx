@@ -1,7 +1,7 @@
 import RevenueBarChart from "@/app/(protected)/dashboard/Components/Charts/RevenueBarChart";
 import SoldBarChart from "@/app/(protected)/dashboard/Components/Charts/SoldBarChart";
 import StorageTable from "@/app/(protected)/dashboard/Components/StorageTable";
-import RangeTime from "@/components/Picker/RangeTime";
+import RangeTime from "@/components/Picker/RangeDate/RangeTime";
 
 export default function OverviewChart() {
   return (
@@ -24,9 +24,3 @@ export default function OverviewChart() {
     </section>
   );
 }
-
-// Bar chart: doanh thu, loi nhuan, lo theo thang/ nam -> done
-// Bar: sold quantity hien tai tat ca cac san pham -> done
-
-// tinh loi nhuan theo thang (loi nhuan = 20% * each order.price)
-// -> tinh loi nhuan theo nam

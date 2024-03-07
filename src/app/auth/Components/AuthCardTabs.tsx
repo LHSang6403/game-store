@@ -13,7 +13,7 @@ export default function AuthCardTabs() {
   return (
     <Tabs
       defaultValue="sign-in"
-      className="w-[520px] rounded-lg border border-gray-200 p-2 shadow-sm sm:w-full"
+      className="w-[550px] rounded-lg border border-gray-200 p-2 shadow-sm sm:w-full"
     >
       <TabsList className="grid w-full grid-cols-2">
         <TabsTrigger
@@ -34,8 +34,9 @@ export default function AuthCardTabs() {
           <CardHeader>
             <CardTitle>Log in</CardTitle>
             <CardDescription>
-              Use account: hoangsang6403@gmail.com and password: 123456, and
-              click Sign In.
+              Use account: hoangsang6403@gmail.com (customer),
+              vatvo469@gmail.com (staff), and password: 123456, and click
+              Sign In.
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -47,9 +48,9 @@ export default function AuthCardTabs() {
         <Card>
           <CardHeader>
             <CardTitle>Register</CardTitle>
-            <CardDescription>
+            {/* <CardDescription>
               Create your account information, we will use this to verify users.
-            </CardDescription>
+            </CardDescription> */}
           </CardHeader>
           <CardContent>
             <SignUp />

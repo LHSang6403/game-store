@@ -45,7 +45,7 @@ export default function Providers({ children }: { children: ReactNode }) {
 
       if (!session.error && "detailData" in session && session.detailData) {
         console.log("session.detailData: ", session.detailData);
-        setSession(session.detailData || null);
+        setSession(session.detailData);
       }
     };
 

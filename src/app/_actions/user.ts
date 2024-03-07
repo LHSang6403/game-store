@@ -1,8 +1,11 @@
 "use server";
 
 import type { CustomerType, StaffType } from "@utils/types";
-import createSupabaseServerClient from "@supabase/server";
+import createSupabaseServerClient, {
+  createSupabaseAdmin,
+} from "@supabase/server";
 import { revalidatePath } from "next/cache";
+import customerToStaff from "@utils/functions/customerToStaff";
 
 export async function readUserSession() {
   const supabase = await createSupabaseServerClient();
@@ -12,7 +15,11 @@ export async function readUserSession() {
   const userMetadataRole = result?.data?.session?.user?.user_metadata?.role;
   const userId = result?.data?.session?.user?.id;
 
-  if (userMetadataRole === "Staff") {
+  if (
+    userMetadataRole === "Seller" ||
+    userMetadataRole === "Writer" ||
+    userMetadataRole === "Manager"
+  ) {
     const staffResult = await supabase
       .from("staff")
       .select("*")
@@ -55,23 +62,42 @@ export async function updateStaffRole({
   return { data, error };
 }
 
-export async function updateToStaff(
-  id: string,
-  role: "Staff" | "Writer" | "Manager"
-) {
+export async function updateToStaff({
+  id,
+  role,
+}: {
+  id: string;
+  role: "Seller" | "Writer" | "Manager";
+}) {
   const supabase = await createSupabaseServerClient();
+  const supabaseAdmin = await createSupabaseAdmin();
 
-  const result = await supabase.auth.admin.updateUserById(id, {
-    user_metadata: { role: role },
-  });
+  const orders = await supabase.from("order").select("*").eq("customer_id", id);
+  const hasOrders = orders?.data && orders?.data.length > 0;
 
-  // check has any order?
+  if (hasOrders) {
+    return { data: null, error: "Customer is having orders." };
+  } else {
+    const customer = await supabase
+      .from("customer")
+      .select("*")
+      .eq("id", id)
+      .single();
+    const customerData = customer.data;
 
-  // remove user from customer table
+    if (customerData) {
+      await supabaseAdmin.auth.admin.updateUserById(id, {
+        user_metadata: { role: role },
+      });
+      await supabase.from("customer").delete().eq("id", id);
 
-  // add user to staff table
+      const result = await supabase
+        .from("staff")
+        .insert(customerToStaff(customerData, role));
 
-  return result;
+      return result;
+    } else return { data: null, error: "User can not found." };
+  }
 }
 
 export async function updateUserProfile<T>({

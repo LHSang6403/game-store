@@ -11,12 +11,22 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { Textarea } from "@/components/ui/textarea";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
+} from "@components/ui/form";
+import { Input } from "@components/ui/input";
+import { Button } from "@components/ui/button";
 import { signUpWithEmailAndPassword } from "@auth/_actions/signUp";
-import { useRouter } from "next/navigation";
+import FormAddressPicker from "@components/Picker/Address/FormAddressPicker";
+import { format } from "date-fns";
+import { Calendar as CalendarIcon } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { CustomCalendar } from "@components/Picker/Date/CustomCalendar";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@components/ui/popover";
+import { useState, useEffect } from "react";
+import useAddressSelects from "@/zustand/useAddressSelects";
 
 const FormSchema = z
   .object({
@@ -25,8 +35,11 @@ const FormSchema = z
       .string()
       .min(6, { message: "Must be a valid mobile number" })
       .max(12, { message: "Must be a valid mobile number" }),
-
-    address: z.string().min(1, { message: "Address is a compulsory." }),
+    dob: z.string().min(2, { message: "Birthday is a compulsory." }),
+    address: z.string().min(2, { message: "Address is a compulsory." }),
+    ward: z.string().min(2, { message: "Ward is a compulsory." }),
+    district: z.string().min(2, { message: "District is a compulsory." }),
+    province: z.string().min(2, { message: "Province is a compulsory." }),
     email: z.string().email(),
     password: z.string().min(6, {
       message: "Password must be greater than 5 letters.",
@@ -41,19 +54,35 @@ const FormSchema = z
   });
 
 export default function SignUp() {
-  const router = useRouter();
-
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
       name: "",
       phone: "",
+      dob: "",
       address: "",
+      ward: "",
+      district: "",
+      province: "",
       email: "",
       password: "",
       confirm: "",
     },
   });
+
+  const [date, setDate] = useState<Date>();
+  // const date = new Date(form.getValues("dob")) || Date();
+
+  const { addressValues, clearAll } = useAddressSelects();
+
+  useEffect(() => {
+    if (addressValues) {
+      form.setValue("province", addressValues.province);
+      form.setValue("district", addressValues.district);
+      form.setValue("ward", addressValues.commune);
+    }
+    form.trigger("ward");
+  }, [addressValues]);
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {
     toast.promise(
@@ -61,7 +90,11 @@ export default function SignUp() {
         const signUpData = {
           name: data.name,
           phone: data.phone,
+          dob: data.dob,
           address: data.address,
+          ward: data.ward,
+          district: data.district,
+          province: data.province,
           email: data.email,
           password: data.password,
         };
@@ -75,6 +108,8 @@ export default function SignUp() {
         loading: "Creating account...",
         success: () => {
           form.reset();
+          clearAll();
+          setDate(undefined);
           return "User created successfully. Confirm your email.";
         },
         error: (error) => {
@@ -88,7 +123,7 @@ export default function SignUp() {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="grid h-fit w-fit grid-cols-2 gap-4 sm:flex sm:w-full sm:flex-col"
+        className="grid h-fit w-full grid-cols-2 gap-4 sm:flex sm:w-full sm:flex-col"
       >
         <FormField
           control={form.control}
@@ -128,6 +163,62 @@ export default function SignUp() {
         />
         <FormField
           control={form.control}
+          name="email"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Email</FormLabel>
+              <FormControl>
+                <Input
+                  placeholder="example@gmail.com"
+                  {...field}
+                  type="email"
+                  onChange={field.onChange}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormItem>
+          <FormLabel>Birthday</FormLabel>
+          <Popover>
+            <PopoverTrigger asChild>
+              <Button
+                variant={"outline"}
+                className={cn(
+                  "w-full justify-start text-left font-normal",
+                  !date && "text-muted-foreground"
+                )}
+              >
+                <CalendarIcon className="mr-2 h-4 w-4" />
+                {date ? (
+                  format(date, "PPP")
+                ) : (
+                  <span className="text-muted-foreground">Pick birthday</span>
+                )}
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent className="w-auto p-0">
+              <CustomCalendar
+                mode="single"
+                captionLayout="dropdown-buttons"
+                selected={date}
+                onSelect={(value) => {
+                  {
+                    setDate(value);
+                    if (value) {
+                      form.setValue("dob", value.toString());
+                    }
+                  }
+                }}
+                fromYear={1960}
+                toYear={2030}
+              />
+            </PopoverContent>
+          </Popover>
+        </FormItem>
+        <FormField
+          control={form.control}
           name="address"
           render={({ field }) => (
             <FormItem>
@@ -146,17 +237,12 @@ export default function SignUp() {
         />
         <FormField
           control={form.control}
-          name="email"
-          render={({ field }) => (
+          name="district"
+          render={() => (
             <FormItem>
-              <FormLabel>Email</FormLabel>
+              <FormLabel>Your local</FormLabel>
               <FormControl>
-                <Input
-                  placeholder="example@gmail.com"
-                  {...field}
-                  type="email"
-                  onChange={field.onChange}
-                />
+                <FormAddressPicker />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -200,6 +286,7 @@ export default function SignUp() {
         />
         <div className="col-span-2">
           <Button
+            disabled={!form.formState.isValid}
             type="submit"
             className="mt-1 w-full bg-foreground text-background"
           >

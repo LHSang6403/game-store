@@ -20,6 +20,14 @@ export default async function page() {
       </div>
     );
 
+  const dobDate = new Date(session.detailData.dob.toString() ?? "");
+
+  const day = dobDate.getDate();
+  const month = dobDate.getMonth() + 1;
+  const year = dobDate.getFullYear();
+
+  const formattedDOB = `${day}/${month}/${year}`;
+
   return (
     <div className="flex flex-col gap-8 px-10 pb-10 xl:px-6 sm:px-4">
       <h1 className="text-center text-3xl font-semibold">Your profile</h1>
@@ -48,7 +56,7 @@ export default async function page() {
           </p>
           <p className="text-left">
             <span className="font-semibold">Birdthday: </span>{" "}
-            {session.detailData.dob ?? "Unknown"}
+            {formattedDOB ?? "Unknown"}
           </p>
           <p className="text-left">
             <span className="font-semibold">Phone: </span>{" "}

@@ -23,7 +23,7 @@ import ConfirmDialog from "./ConfirmDialog";
 import { getShipmentFees } from "@app/_actions/GHTKShipment";
 import { useState, useEffect } from "react";
 import type { ProductRequest, OrderRequest, OrderFeesParams } from "./types";
-import FormAddressSelects from "./FormAddressSelects";
+import FormAddressPicker from "@components/Picker/Address/FormAddressPicker";
 import useAddressSelects from "@/zustand/useAddressSelects";
 
 const FormSchema = z.object({
@@ -180,7 +180,7 @@ export default function OrderForm() {
                   <FormItem>
                     <FormLabel>Your local</FormLabel>
                     <FormControl>
-                      <FormAddressSelects />
+                      <FormAddressPicker />
                     </FormControl>
                     <FormMessage />
                   </FormItem>

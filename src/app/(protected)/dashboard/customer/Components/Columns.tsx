@@ -10,17 +10,8 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import type { CustomerType } from "@utils/types";
-import { updateStaffRole } from "@/app/_actions/user";
+import { updateToStaff } from "@/app/_actions/user";
 import { toast } from "sonner";
 
 export const columns: ColumnDef<CustomerType>[] = [
@@ -80,6 +71,7 @@ export const columns: ColumnDef<CustomerType>[] = [
     header: "Actions",
     cell: ({ row }) => {
       const data = row.original;
+      const availbleRoles = ["Seller", "Writer", "Manager"];
 
       return (
         <DropdownMenu>
@@ -96,6 +88,35 @@ export const columns: ColumnDef<CustomerType>[] = [
             >
               Copy customer ID
             </DropdownMenuItem>
+            {(availbleRoles as ("Seller" | "Writer" | "Manager")[]).map(
+              (eachRole, index) => (
+                <DropdownMenuItem
+                  key={index}
+                  onClick={() =>
+                    toast.promise(
+                      async () => {
+                        const response = await updateToStaff({
+                          id: data.id,
+                          role: eachRole,
+                        });
+
+                        if (response.error)
+                          toast.error(response.error.toString());
+                        else toast.error("Updated successfully!");
+                      },
+                      {
+                        loading: "Updating...",
+                        error: (error) => {
+                          return error;
+                        },
+                      }
+                    )
+                  }
+                >
+                  Update to {eachRole}
+                </DropdownMenuItem>
+              )
+            )}
           </DropdownMenuContent>
         </DropdownMenu>
       );

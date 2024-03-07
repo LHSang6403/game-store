@@ -6,6 +6,9 @@ export interface StaffType {
   phone: string;
   email: string;
   address: string;
+  ward: string;
+  district: string;
+  province: string;
   image: string;
   role: "Seller" | "Writer" | "Manager";
 }
