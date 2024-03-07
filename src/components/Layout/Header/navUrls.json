@@ -1,22 +1,27 @@
 [
   {
     "name": "Home",
-    "url": "/"
+    "url": "/",
+    "permission": ""
   },
   {
     "name": "Product",
-    "url": "/product"
+    "url": "/product",
+    "permission": ""
   },
   {
     "name": "Cart",
-    "url": "/cart"
+    "url": "/cart",
+    "permission": ""
   },
   {
     "name": "Dashboard",
-    "url": "/dashboard"
+    "url": "/dashboard",
+    "permission": "Staff"
   },
   {
     "name": "About",
-    "url": "/about"
+    "url": "/about",
+    "permission": ""
   }
 ]
