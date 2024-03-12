@@ -11,20 +11,13 @@ import {
 } from "@components/ui/dialog";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@components/ui/label";
-import { requestGHTKOrder } from "@/app/_actions/GHTKShipment";
-import { requestGHNOrder } from "@/app/_actions/GHNShipment";
 import { toast } from "sonner";
 import { useOrder } from "@/zustand/useOrder";
-import { useSession } from "@/zustand/useSession";
 import type { CustomerType } from "@utils/types";
 import { createOrder } from "@app/_actions/order";
 import { useMutation } from "@tanstack/react-query";
 import formatCurrency from "@/utils/functions/formatCurrency";
-import {
-  GHNDataType,
-  GHTKDataType,
-  processOrderRequestData,
-} from "../../_actions";
+import { processOrderRequestData } from "../../_actions";
 
 export default function ConfirmDialog({
   formData,

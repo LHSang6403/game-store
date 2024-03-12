@@ -17,17 +17,11 @@ import { Input } from "@components/ui/input";
 import { Button } from "@components/ui/button";
 import { useSession } from "@/zustand/useSession";
 import { useOrder } from "@/zustand/useOrder";
-import type { CustomerType, OrderType } from "@utils/types";
+import type { CustomerType } from "@utils/types";
 import ConfirmDialog from "./ConfirmDialog";
 import { useState, useEffect } from "react";
-import type { ProductRequest } from "./types";
 import FormAddressPicker from "@components/Picker/Address/FormAddressPicker";
 import useAddressSelects from "@/zustand/useAddressSelects";
-import type {
-  GHNDataType,
-  GHTKDataType,
-} from "@app/(main)/cart/_actions/index";
-import { processOrderRequestData } from "@app/(main)/cart/_actions/index";
 import SelectShipmentForm from "./SelectShipmentForm";
 import { calShipmentFees } from "@app/(main)/cart/_actions/index";
 
