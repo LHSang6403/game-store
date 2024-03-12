@@ -17,7 +17,7 @@ import { Input } from "@components/ui/input";
 import { Button } from "@components/ui/button";
 import { useSession } from "@/zustand/useSession";
 import { useOrder } from "@/zustand/useOrder";
-import type { CustomerType } from "@utils/types";
+import type { CustomerType, ShipmentNameType } from "@utils/types";
 import ConfirmDialog from "./ConfirmDialog";
 import { useState, useEffect } from "react";
 import FormAddressPicker from "@components/Picker/Address/FormAddressPicker";
@@ -50,12 +50,10 @@ const FormSchema = z.object({
 });
 
 export default function OrderForm() {
-  const { order, setPrices } = useOrder();
+  const { order, setPrices, setCustomer, setNewID, setShipment } = useOrder();
   const { session } = useSession();
   const { addressValues } = useAddressSelects();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-
-  // fill customer info automatically if logged in
   const customerSession = session as CustomerType;
 
   const form = useForm<z.infer<typeof FormSchema>>({
@@ -72,14 +70,11 @@ export default function OrderForm() {
     },
   });
 
-  // set to from's address if select selects
-  const { setValue } = form;
-
   useEffect(() => {
     if (addressValues) {
-      setValue("province", addressValues.province);
-      setValue("district", addressValues.district);
-      setValue("ward", addressValues.commune);
+      form.setValue("province", addressValues.province);
+      form.setValue("district", addressValues.district);
+      form.setValue("ward", addressValues.commune);
     }
     form.trigger("ward");
   }, [addressValues]);
@@ -99,6 +94,8 @@ export default function OrderForm() {
 
         if (calFeesResult) {
           setPrices(calFeesResult.service_fee, calFeesResult.insurance_fee);
+          setCustomer(customerSession.id, customerSession.name);
+          setNewID();
           setIsDialogOpen(true);
         }
       },
@@ -172,23 +169,7 @@ export default function OrderForm() {
                   </FormItem>
                 )}
               />
-              <FormField
-                control={form.control}
-                name="shipment"
-                render={() => (
-                  <FormItem>
-                    <FormLabel>Your local</FormLabel>
-                    <FormControl>
-                      <SelectShipmentForm
-                        onChange={(value) => {
-                          setValue("shipment", value);
-                        }}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+
               <FormField
                 control={form.control}
                 name="note"
@@ -226,10 +207,28 @@ export default function OrderForm() {
                   </FormItem>
                 )}
               />
+              <FormField
+                control={form.control}
+                name="shipment"
+                render={() => (
+                  <FormItem>
+                    <FormLabel>Shiping service</FormLabel>
+                    <FormControl>
+                      <SelectShipmentForm
+                        onChange={(value) => {
+                          form.setValue("shipment", value);
+                          setShipment(value as ShipmentNameType, "");
+                        }}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
               <Button
                 disabled={!form.formState.isValid}
                 type="submit"
-                className="mt-8 w-full bg-foreground text-background"
+                className="mt-3 w-full bg-foreground text-background"
               >
                 Calculate prices
               </Button>

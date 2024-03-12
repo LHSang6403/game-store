@@ -76,7 +76,7 @@ export async function processOrderRequestData({
         to_address: formData?.address || customerSession?.address || "Unknown",
         to_ward_code: "20308",
         to_district_id: 1444,
-        weight: 300,
+        weight: order.weight || 100,
         service_id: 0,
         service_type_id: 2,
         payment_type_id: 1,
@@ -120,7 +120,6 @@ export async function processOrderRequestData({
           email: "test@gmail.com",
           return_email: "test2@gmail.com",
         },
-
         products: [
           ...order.products.map((prod) => ({
             name: prod.name,

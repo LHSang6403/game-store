@@ -32,17 +32,26 @@ export default function ConfirmDialog({
   isOpen: boolean;
   onOpenChange: Function;
 }) {
-  const { setShipment, setCustomer } = useOrder();
+  const { setShipment } = useOrder();
 
   const mutation = useMutation({
-    mutationFn: async (orderData: OrderType) => await createOrder(orderData),
+    mutationFn: async (orderData: OrderType) => {
+      const response = await createOrder(orderData);
+      if (response.error) {
+        toast.error(response.error);
+      }
+    },
     onSuccess: () => {
       onOpenChange(false);
+    },
+    onError: (error) => {
+      toast.error("Failed to create order " + error);
     },
   });
 
   async function handleBuy() {
     // *** 9pay payment gateway ***
+
     // const result = await generatePaymentUrl(
     //   100000,
     //   "Sang's Order payment test 1.",
@@ -50,20 +59,23 @@ export default function ConfirmDialog({
     // );
     // console.log("----result", result);
 
-    // *** GHTK create order & save order ***
-
     toast.promise(
+      // *** create ship order & save order ***
+
       async () => {
         let requestOrderResult: any;
+        console.log("---- ship", formData.shipment);
         switch (formData.shipment) {
           case "GHN":
             const ghnDataResponse = await processOrderRequestData({
               formData: formData,
               order: order,
               customerSession: customerSession,
+            }).then((ghnResponse) => {
+              const order_code = ghnResponse?.data?.order_code;
+              setShipment("GHN", order_code);
             });
 
-            setShipment("GHN", ghnDataResponse.data.order_code);
             requestOrderResult = ghnDataResponse;
             break;
 
@@ -72,30 +84,27 @@ export default function ConfirmDialog({
               formData: formData,
               order: order,
               customerSession: customerSession,
+            }).then((ghtkResponse) => {
+              const label = ghtkResponse?.order?.label;
+              setShipment("GHTK", label);
             });
 
-            console.log("----ghtkResponse label", ghtkResponse.order.label);
-
-            setShipment("GHTK", ghtkResponse.order.label);
             requestOrderResult = ghtkResponse;
             break;
         }
 
-        if (!requestOrderResult.success && requestOrderResult.code !== 200) {
-          toast.error(requestOrderResult.message);
+        if (!order.shipment_label_code) {
+          toast.error("Failed to create order, please try again.");
         } else {
-          // *** Save to database after payment and shipment ***
-
-          setCustomer(customerSession.id, customerSession.name);
+          // *** Save to DB after payment and shipment ***
           mutation.mutateAsync(order);
-          console.log("----order to db", order);
         }
       },
       {
         loading: "Creating order...",
         success: "Order is created successfully!",
         error: (error) => {
-          return `Failed to create order ${error}`;
+          return `Failed to create order: ${error}`;
         },
       }
     );
@@ -111,6 +120,14 @@ export default function ConfirmDialog({
           </DialogDescription>
         </DialogHeader>
         <div className="mt-2 flex flex-col gap-1 text-sm">
+          <div>
+            <Label>Customer: </Label>
+            <span className="font-light">{formData.name}</span>
+          </div>
+          <div>
+            <Label>Phone: </Label>
+            <span className="font-light">{formData.phone}</span>
+          </div>
           <div>
             <Label htmlFor="name" className="text-right">
               Selected products:{" "}
@@ -136,6 +153,10 @@ export default function ConfirmDialog({
             <span className="font-light">
               {formatCurrency(order.price)} VND
             </span>
+          </div>
+          <div>
+            <Label>Ship service: </Label>
+            <span className="font-light">{formData.shipment}</span>
           </div>
           <div>
             <Label>Shipping fee: </Label>

@@ -48,7 +48,7 @@ export const columns: ColumnDef<OrderType>[] = [
     header: "Price",
     cell: ({ row }) => {
       const data = row.original;
-      return <div className="">{formatCurrency(data.price)} VND</div>;
+      return <div className="">{formatCurrency(data.total_price)} VND</div>;
     },
   },
   {
@@ -59,7 +59,7 @@ export const columns: ColumnDef<OrderType>[] = [
     cell: ({ row }) => {
       const data = row.original;
 
-      const handleUpdateRole = async (
+      const handleUpdateState = async (
         newState: "pending" | "shipping" | "delivered" | "canceled" | "returned"
       ) => {
         toast.promise(
@@ -89,7 +89,7 @@ export const columns: ColumnDef<OrderType>[] = [
               | "canceled"
               | "returned"
           ) => {
-            handleUpdateRole(value);
+            handleUpdateState(value);
           }}
         >
           <SelectTrigger className="w-28 border-none">
@@ -107,6 +107,14 @@ export const columns: ColumnDef<OrderType>[] = [
           </SelectContent>
         </Select>
       );
+    },
+  },
+  {
+    accessorKey: "ship",
+    header: "Ship",
+    cell: ({ row }) => {
+      const data = row.original;
+      return <div className="">{data.shipment_name}</div>;
     },
   },
   {
@@ -154,11 +162,7 @@ export const columns: ColumnDef<OrderType>[] = [
             >
               Copy order ID
             </DropdownMenuItem>
-            <DropdownMenuItem
-              onClick={() => {}}
-            >
-              Print label
-            </DropdownMenuItem>
+            <DropdownMenuItem onClick={() => {}}>Print label</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       );

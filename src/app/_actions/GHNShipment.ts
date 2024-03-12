@@ -1,7 +1,6 @@
 "use server";
 
 import axios from "axios";
-import { updateStateOrder } from "./order";
 import { GHNDataType } from "../(main)/cart/_actions";
 
 const headers = {

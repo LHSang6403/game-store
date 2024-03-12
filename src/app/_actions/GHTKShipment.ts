@@ -17,6 +17,8 @@ export async function requestGHTKOrder(data: GHTKDataType) {
       { headers }
     );
 
+    console.log("----response", response.data);
+
     return response.data;
   } catch (error) {
     throw error;

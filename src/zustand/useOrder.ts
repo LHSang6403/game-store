@@ -7,9 +7,10 @@ interface OrderState {
   order: OrderType | null;
   shipment_name: ShipmentNameType;
   shipment_label_code: string | null;
+  setNewID: () => void;
   setShipment: (
     shipment_name: ShipmentNameType,
-    shipment_label_code: string // to getOrder, print,...
+    shipment_label_code: string
   ) => void;
   setCustomer: (id: string, name: string) => void;
   setPrices: (shipping_fee: number, insurance_fee: number) => void;
@@ -20,8 +21,21 @@ interface OrderState {
 
 export const useOrder = create<OrderState>((set) => ({
   order: null,
-  shipment_name: "",
+  shipment_name: "GHTK",
   shipment_label_code: null,
+  setNewID: () =>
+    set((state: OrderState) => {
+      if (state.order) {
+        return {
+          order: {
+            ...state.order,
+            id: generate(12),
+          },
+        };
+      } else {
+        return state;
+      }
+    }),
   setShipment: (name: ShipmentNameType, label_code: string) =>
     set((state: OrderState) => {
       if (state.order) {
@@ -130,6 +144,6 @@ function createOrderFromProduct(
     pick_ward: "Phường 4",
     pick_district: "Quận 5",
     pick_province: "TP. Hồ Chí Minh",
-    weight: 500, // dynamic after
+    weight: 500,
   };
 }
