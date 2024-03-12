@@ -5,5 +5,6 @@
   "deno.enablePaths": ["supabase/functions"],
   "deno.lint": true,
   "deno.unstable": true,
-  "explorer.compactFolders": false
+  "explorer.compactFolders": false,
+  "deno.enable": true
 }

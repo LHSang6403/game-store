@@ -2,6 +2,8 @@
 
 import axios from "axios";
 import { GHNDataType } from "../(main)/cart/_actions";
+import createSupabaseServerClient from "@supabase/server";
+import { revalidatePath } from "next/cache";
 
 const headers = {
   "Content-Type": "application/json",
@@ -11,7 +13,6 @@ const headers = {
 
 export async function requestGHNOrder(data: GHNDataType) {
   try {
-
     const response = await axios.post(
       process.env.GHN_URL + "/shipping-order/create",
       data,
@@ -80,28 +81,20 @@ export async function printGHNOrder({
   size: "A5" | "80x80" | "52x70";
 }) {
   try {
-    const tokenResponse = await axios.post(
+    const response = await axios.post(
       process.env.GHN_URL + "/a5/gen-token",
-      { order_codes: [order_codes] },
-      {
-        headers,
-      }
+      { order_codes: order_codes },
+      { headers }
     );
 
     const printResponse = await axios.get(
-      process.env.GHN_PRINT_URL +
-        size +
-        "?token=" +
-        tokenResponse.data.data.token,
-      {
-        headers,
-      }
+      process.env.GHN_PRINT_URL + size + "?token=" + response.data.data.token,
+      { headers }
     );
-
-    console.log("Response data:", printResponse.data);
 
     return printResponse.data;
   } catch (error) {
     console.error("Error:", error);
+    throw error;
   }
 }

@@ -1,24 +1,19 @@
 "use server";
 
 import createSupabaseServerClient from "@supabase/server";
-// import { readUserSession } from "@app/_actions/user";
 
 export async function uploadFile(file: File, pathName: string) {
   try {
     const supabase = await createSupabaseServerClient();
 
-    // const session = await readUserSession();
-
     const result = await supabase.storage
       .from("public_files")
       .upload("/public/" + file.name, file);
-    // .upload("/" + pathName + "/" + file.name, file);
 
     if (result.error) {
       console.log("ERR", result.error);
     }
 
-    // return result;
     const response = {
       body: null,
       locked: false,

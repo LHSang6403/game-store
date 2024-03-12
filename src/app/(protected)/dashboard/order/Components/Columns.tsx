@@ -23,6 +23,9 @@ import type { OrderType } from "@utils/types";
 import formatCurrency from "@utils/functions/formatCurrency";
 import { toast } from "sonner";
 import { updateStateOrder } from "@/app/_actions/order";
+import { PrintDialog } from "./PrintDialog";
+import { useState } from "react";
+import { printGHNOrder } from "@/app/_actions/GHNShipment";
 
 export const columns: ColumnDef<OrderType>[] = [
   {
@@ -146,25 +149,97 @@ export const columns: ColumnDef<OrderType>[] = [
     header: "Actions",
     cell: ({ row }) => {
       const data = row.original;
+      const [isPrintOpen, setIsPrintOpen] = useState(false);
+      const [printResult, setPrintResult] = useState("");
+
+      const printHandler = async ({
+        label_code,
+        size,
+      }: {
+        label_code: string;
+        size: "A5" | "80x80" | "52x70";
+      }) => {
+        const printResult = await printGHNOrder({
+          order_codes: [label_code],
+          size: size,
+        });
+        setPrintResult(printResult);
+      };
 
       return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="ml-3 h-8 w-8 p-0">
-              <span className="sr-only">Open menu</span>
-              <MoreHorizontal className="h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(data.id)}
-            >
-              Copy order ID
-            </DropdownMenuItem>
-            <DropdownMenuItem onClick={() => {}}>Print label</DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+        <>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" className="ml-3 h-8 w-8 p-0">
+                <span className="sr-only">Open menu</span>
+                <MoreHorizontal className="h-4 w-4" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuLabel>Actions</DropdownMenuLabel>
+              <DropdownMenuItem
+                onClick={() => navigator.clipboard.writeText(data.id)}
+              >
+                Copy order ID
+              </DropdownMenuItem>
+              <DropdownMenuItem
+                disabled={data.shipment_name == "GHTK"} // because do not have api for this
+                onClick={() => {
+                  setIsPrintOpen(!isPrintOpen);
+                  printHandler({
+                    label_code: data.shipment_label_code!,
+                    size: "A5",
+                  });
+                }}
+              >
+                Print A5
+              </DropdownMenuItem>
+              {/* <DropdownMenuItem // only GHTK have siza A6
+                disabled={data.shipment_name == "GHN"} 
+                onClick={() => {
+                  setIsPrintOpen(!isPrintOpen);
+                  printHandler({
+                    label_code: data.shipment_label_code!,
+                    size: "A5",
+                  });
+                }}
+              >
+                Print A6
+              </DropdownMenuItem> */}
+              <DropdownMenuItem
+                disabled={data.shipment_name == "GHTK"}
+                onClick={() => {
+                  setIsPrintOpen(!isPrintOpen);
+                  printHandler({
+                    label_code: data.shipment_label_code!,
+                    size: "80x80",
+                  });
+                }}
+              >
+                Print 80x80
+              </DropdownMenuItem>
+              <DropdownMenuItem
+                disabled={data.shipment_name == "GHTK"}
+                onClick={() => {
+                  setIsPrintOpen(!isPrintOpen);
+                  printHandler({
+                    label_code: data.shipment_label_code!,
+                    size: "52x70",
+                  });
+                }}
+              >
+                Print 52x70
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+          <PrintDialog
+            content={printResult.toString()}
+            isOpen={isPrintOpen}
+            onOpenChange={(value) => {
+              setIsPrintOpen(value);
+            }}
+          />
+        </>
       );
     },
   },
