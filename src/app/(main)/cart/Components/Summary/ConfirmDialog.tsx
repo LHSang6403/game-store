@@ -11,7 +11,8 @@ import {
 } from "@components/ui/dialog";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@components/ui/label";
-import { requestOrder } from "@/app/_actions/GHTKShipment";
+import { requestGHTKOrder } from "@/app/_actions/GHTKShipment";
+import { requestGHNOrder } from "@/app/_actions/GHNShipment";
 import { toast } from "sonner";
 import { useOrder } from "@/zustand/useOrder";
 import { useSession } from "@/zustand/useSession";
@@ -19,24 +20,26 @@ import type { CustomerType } from "@utils/types";
 import { createOrder } from "@app/_actions/order";
 import { useMutation } from "@tanstack/react-query";
 import formatCurrency from "@/utils/functions/formatCurrency";
-import type { OrderRequest, ProductRequest } from "./types";
+import {
+  GHNDataType,
+  GHTKDataType,
+  processOrderRequestData,
+} from "../../_actions";
 
 export default function ConfirmDialog({
-  orderRequest,
-  productsRequest,
+  formData,
+  order,
+  customerSession,
   isOpen,
   onOpenChange,
 }: {
-  orderRequest: OrderRequest;
-  productsRequest: ProductRequest[];
+  formData: any;
+  order: OrderType;
+  customerSession: CustomerType;
   isOpen: boolean;
   onOpenChange: Function;
 }) {
-  const { order, setShipment } = useOrder();
-  const { session } = useSession();
-  const customerSession = session as CustomerType;
-
-  if (!order) return <></>;
+  const { setShipment, setCustomer } = useOrder();
 
   const mutation = useMutation({
     mutationFn: async (orderData: OrderType) => await createOrder(orderData),
@@ -58,27 +61,41 @@ export default function ConfirmDialog({
 
     toast.promise(
       async () => {
-        const requestOrderResult = await requestOrder({
-          products: productsRequest,
-          order: orderRequest,
-        });
+        let requestOrderResult: any;
+        switch (formData.shipment) {
+          case "GHN":
+            const ghnDataResponse = await processOrderRequestData({
+              formData: formData,
+              order: order,
+              customerSession: customerSession,
+            });
 
-        // store label of response to zustand
-        if (requestOrderResult.order) {
-          setShipment("GHTK", requestOrderResult.order.label);
+            setShipment("GHN", ghnDataResponse.data.order_code);
+            requestOrderResult = ghnDataResponse;
+            break;
+
+          case "GHTK":
+            const ghtkResponse = await processOrderRequestData({
+              formData: formData,
+              order: order,
+              customerSession: customerSession,
+            });
+
+            console.log("----ghtkResponse label", ghtkResponse.order.label);
+
+            setShipment("GHTK", ghtkResponse.order.label);
+            requestOrderResult = ghtkResponse;
+            break;
         }
 
-        if (!requestOrderResult.success) {
+        if (!requestOrderResult.success && requestOrderResult.code !== 200) {
           toast.error(requestOrderResult.message);
         } else {
           // *** Save to database after payment and shipment ***
-          const orderData: OrderType = createOrderData(
-            order!,
-            orderRequest,
-            requestOrderResult,
-            customerSession
-          );
-          mutation.mutateAsync(orderData);
+
+          setCustomer(customerSession.id, customerSession.name);
+          mutation.mutateAsync(order);
+          console.log("----order to db", order);
         }
       },
       {
@@ -105,20 +122,20 @@ export default function ConfirmDialog({
             <Label htmlFor="name" className="text-right">
               Selected products:{" "}
             </Label>
-            {productsRequest.map((prod, index) => (
+            {order.products.map((prod, index) => (
               <>
                 <span key={index} className="font-light">
                   {prod.name}
                 </span>
-                {index !== productsRequest.length - 1 && <span>, </span>}
+                {index !== order.products.length - 1 && <span>, </span>}
               </>
             ))}
           </div>
           <div>
             <Label>Ship to: </Label>
             <span className="font-light">
-              {orderRequest.address}, {orderRequest.ward},{" "}
-              {orderRequest.district}, {orderRequest.province}
+              {order.pick_address}, {order.pick_ward}, {order.pick_district},{" "}
+              {order.pick_province}
             </span>
           </div>
           <div>
@@ -167,36 +184,4 @@ export default function ConfirmDialog({
       </DialogContent>
     </Dialog>
   );
-}
-
-function createOrderData(
-  order: OrderType,
-  orderRequest: OrderRequest,
-  requestOrderResult: any,
-  customerSession: CustomerType
-): OrderType {
-  return {
-    id: orderRequest.id || "",
-    created_at: new Date().toISOString(),
-    shipment_name: "GHTK",
-    shipment_label: requestOrderResult?.order?.label || "",
-    products: order?.products || [],
-    state: order?.state || "pending",
-    customer_id: customerSession?.id || "",
-    customer_name: orderRequest?.name || customerSession?.name || "Unknown",
-    price: order?.price || 0,
-    shipping_fee: 0,
-    insurance_fee: 0,
-    total_price: 0,
-    note: orderRequest?.note || "",
-    address: orderRequest?.address || customerSession?.ward || "Unknown",
-    ward: orderRequest?.ward || customerSession?.ward || "Unknown",
-    district: orderRequest?.district || customerSession?.district || "Unknown",
-    province: orderRequest?.province || customerSession?.province || "Unknown",
-    pick_address: order?.pick_address ?? "",
-    pick_ward: order?.pick_ward ?? "",
-    pick_district: order?.pick_district ?? "",
-    pick_province: order?.pick_province ?? "",
-    weight: order?.weight ?? 0,
-  };
 }

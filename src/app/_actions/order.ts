@@ -22,6 +22,7 @@ export async function createOrder(order: OrderType) {
     }
 
     revalidatePath("/cart");
+    console.log("Create order result:", result);``
     return result;
   } catch (error: any) {
     return { error: error.message };

@@ -82,8 +82,6 @@ export default function FormAddressPicker() {
         onValueChange={(value) => {
           const parsedValue = JSON.parse(value);
           setCommune(parsedValue.name, parsedValue.id);
-
-          console.log("--- address:", addressValues);
         }}
       >
         <SelectTrigger className="w-full">

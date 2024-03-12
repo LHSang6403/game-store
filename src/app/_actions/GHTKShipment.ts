@@ -2,23 +2,10 @@
 
 import axios from "axios";
 import { updateStateOrder } from "./order";
-import type { OrderFeesParams } from "@/app/(main)/cart/Components/Summary/types";
+import { GHTKDataType } from "../(main)/cart/_actions";
 
-export async function requestOrder({
-  products,
-  order,
-}: {
-  products: unknown;
-  order: unknown;
-}) {
+export async function requestGHTKOrder(data: GHTKDataType) {
   try {
-    const requestData = {
-      products: products,
-      order: order,
-    };
-
-    const requestDataString = JSON.stringify(requestData);
-
     const headers = {
       Token: process.env.GHTK_API_TOKEN,
       "Content-Type": "application/json",
@@ -26,7 +13,7 @@ export async function requestOrder({
 
     const response = await axios.post(
       process.env.GHTK_URL + "/services/shipment/order",
-      requestDataString,
+      data,
       { headers }
     );
 
@@ -36,7 +23,7 @@ export async function requestOrder({
   }
 }
 
-export async function getOrder(label: string): Promise<any> {
+export async function getGHTKOrder(label: string): Promise<any> {
   try {
     const response = await fetch(
       process.env.GHTK_URL + "/services/shipment/v2/$" + label,
@@ -52,7 +39,7 @@ export async function getOrder(label: string): Promise<any> {
   }
 }
 
-export async function getOrderStatus(label: string) {
+export async function getGHTKOrderStatus(label: string) {
   try {
     const response = await fetch(
       process.env.GHTK_URL + "/services/shipment/v2/" + label,
@@ -68,9 +55,10 @@ export async function getOrderStatus(label: string) {
   }
 }
 
-export async function getShipmentFees({ params }: { params: OrderFeesParams }) {
+export async function calGHTKFees(params: any) {
   try {
     const queryParams = parseOrderFeesParams(params).toString();
+
     const response = await axios.get(
       process.env.GHTK_URL + "/services/shipment/fee?" + queryParams,
       {
@@ -86,7 +74,7 @@ export async function getShipmentFees({ params }: { params: OrderFeesParams }) {
   }
 }
 
-export async function cancelOrder({
+export async function cancelGHTKOrder({
   id,
   label,
 }: {
@@ -118,7 +106,7 @@ export async function cancelOrder({
   }
 }
 
-function parseOrderFeesParams(params: OrderFeesParams): URLSearchParams {
+function parseOrderFeesParams(params: any): URLSearchParams {
   const {
     pick_province,
     pick_district,

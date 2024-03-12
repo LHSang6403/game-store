@@ -5,10 +5,13 @@ import type { ShipmentNameType, OrderType } from "@utils/types/index";
 
 interface OrderState {
   order: OrderType | null;
+  shipment_name: ShipmentNameType;
+  shipment_label_code: string | null;
   setShipment: (
     shipment_name: ShipmentNameType,
-    shipment_label: string | null
+    shipment_label_code: string // to getOrder, print,...
   ) => void;
+  setCustomer: (id: string, name: string) => void;
   setPrices: (shipping_fee: number, insurance_fee: number) => void;
   addProduct: (prod: ProductWithDescriptionAndStorageType) => void;
   removeProduct: (id: string) => void;
@@ -17,20 +20,37 @@ interface OrderState {
 
 export const useOrder = create<OrderState>((set) => ({
   order: null,
-  setShipment: (name: ShipmentNameType, label: string | null) =>
+  shipment_name: "",
+  shipment_label_code: null,
+  setShipment: (name: ShipmentNameType, label_code: string) =>
     set((state: OrderState) => {
       if (state.order) {
         return {
           order: {
             ...state.order,
             shipment_name: name,
-            shipment_label: label,
+            shipment_label_code: label_code,
           },
         };
       } else {
         return state;
       }
     }),
+  setCustomer(id: string, name: string) {
+    set((state: OrderState) => {
+      if (state.order) {
+        return {
+          order: {
+            ...state.order,
+            customer_id: id,
+            customer_name: name,
+          },
+        };
+      } else {
+        return state;
+      }
+    });
+  },
   setPrices: (shipping_fee: number, insurance_fee: number) => {
     set((state: OrderState) => {
       if (state.order) {
@@ -92,7 +112,7 @@ function createOrderFromProduct(
     id: generate(12),
     created_at: new Date().toISOString(),
     shipment_name: "",
-    shipment_label: "",
+    shipment_label_code: "",
     products: [prod],
     state: "pending",
     customer_id: "anonymous",

@@ -70,20 +70,13 @@ export interface ProductWithDescriptionAndStorageType {
   storage: StorageType[];
 }
 
-export type ShipmentNameType =
-  | ""
-  | "GHTK"
-  | "GHN"
-  | "VNPost"
-  | "NinjaVan"
-  | "J&T"
-  | null;
+export type ShipmentNameType = "" | "GHTK" | "GHN" | null;
 
 export interface OrderType {
   id: string;
   created_at: string;
   shipment_name: ShipmentNameType;
-  shipment_label: string | null;
+  shipment_label_code: string | null;
   products: ProductWithDescriptionAndStorageType[];
   state: "pending" | "shipping" | "delivered" | "canceled" | "returned";
   customer_id: string; // f_key

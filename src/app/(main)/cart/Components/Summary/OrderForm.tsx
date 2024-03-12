@@ -18,13 +18,18 @@ import { Button } from "@components/ui/button";
 import { useSession } from "@/zustand/useSession";
 import { useOrder } from "@/zustand/useOrder";
 import type { CustomerType, OrderType } from "@utils/types";
-import { generate } from "randomstring";
 import ConfirmDialog from "./ConfirmDialog";
-import { getShipmentFees } from "@app/_actions/GHTKShipment";
 import { useState, useEffect } from "react";
-import type { ProductRequest, OrderRequest, OrderFeesParams } from "./types";
+import type { ProductRequest } from "./types";
 import FormAddressPicker from "@components/Picker/Address/FormAddressPicker";
 import useAddressSelects from "@/zustand/useAddressSelects";
+import type {
+  GHNDataType,
+  GHTKDataType,
+} from "@app/(main)/cart/_actions/index";
+import { processOrderRequestData } from "@app/(main)/cart/_actions/index";
+import SelectShipmentForm from "./SelectShipmentForm";
+import { calShipmentFees } from "@app/(main)/cart/_actions/index";
 
 const FormSchema = z.object({
   name: z.string().min(1, { message: "Name is a compulsory." }),
@@ -44,6 +49,9 @@ const FormSchema = z.object({
   province: z
     .string()
     .min(5, { message: "Your address is a compulsory for shipping." }),
+  shipment: z
+    .string()
+    .min(2, { message: "Service name is a compulsory for shipping." }),
   note: z.string().nullable(),
 });
 
@@ -65,6 +73,7 @@ export default function OrderForm() {
       ward: addressValues?.commune,
       district: addressValues?.district,
       province: addressValues?.province,
+      shipment: "GHTK",
       note: "",
     },
   });
@@ -81,38 +90,21 @@ export default function OrderForm() {
     form.trigger("ward");
   }, [addressValues]);
 
-  const [productsRequest, setProductsRequest] = useState<ProductRequest[]>([]);
-  const [orderRequest, setOrderRequest] = useState<OrderRequest>();
-
   async function onSubmit(data: z.infer<typeof FormSchema>) {
     if (!order) {
       return <></>;
     }
 
-    const { productsRequest, orderRequest, shipFeesRequest } = createRequests({
-      order: order,
-      data: data,
-      customerSession: customerSession,
-    }) as {
-      productsRequest: ProductRequest[];
-      orderRequest: OrderRequest;
-      shipFeesRequest: OrderFeesParams;
-    };
-
-    setProductsRequest(productsRequest);
-    setOrderRequest(orderRequest);
-
     toast.promise(
       async () => {
-        const calFeesResult = await getShipmentFees({
-          params: shipFeesRequest,
+        const calFeesResult = await calShipmentFees({
+          formData: data,
+          order: order,
+          customerSession: customerSession,
         });
 
-        if (calFeesResult.success && orderRequest && productsRequest) {
-          setPrices(
-            calFeesResult.fee.ship_fee_only,
-            calFeesResult.fee.insurance_fee
-          );
+        if (calFeesResult) {
+          setPrices(calFeesResult.service_fee, calFeesResult.insurance_fee);
           setIsDialogOpen(true);
         }
       },
@@ -188,6 +180,23 @@ export default function OrderForm() {
               />
               <FormField
                 control={form.control}
+                name="shipment"
+                render={() => (
+                  <FormItem>
+                    <FormLabel>Your local</FormLabel>
+                    <FormControl>
+                      <SelectShipmentForm
+                        onChange={(value) => {
+                          setValue("shipment", value);
+                        }}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
                 name="note"
                 render={({ field }) => (
                   <FormItem>
@@ -234,74 +243,15 @@ export default function OrderForm() {
           </Form>
         </div>
       )}
-      {orderRequest && productsRequest && (
+      {order && customerSession && (
         <ConfirmDialog
-          orderRequest={orderRequest}
-          productsRequest={productsRequest}
+          formData={form.getValues()}
+          order={order}
+          customerSession={customerSession}
           isOpen={isDialogOpen}
           onOpenChange={() => setIsDialogOpen(!isDialogOpen)}
         />
       )}
     </>
   );
-}
-
-function createRequests({
-  order,
-  data,
-  customerSession,
-}: {
-  order: OrderType;
-  data: z.infer<typeof FormSchema>;
-  customerSession: CustomerType;
-}) {
-  const productsRequest: ProductRequest[] = order?.products.map((prod) => ({
-    name: prod.name,
-    quantity: 1,
-    weight: 1, // dynamic after
-  }));
-
-  const orderRequest: OrderRequest = {
-    id: order.id || generate(12),
-    pick_name: "Game store HCM",
-    pick_province: "TP. Hồ Chí Minh",
-    pick_district: "Quận 3",
-    pick_ward: "Phường 1",
-    pick_address: "590 CMT8 P.11",
-    pick_tel: "0922262456",
-    tel: data?.phone || "0123456789",
-    name: data?.name || customerSession?.name || "Unknown",
-    address: data?.address || customerSession?.address || "Unknown",
-    province: data?.province || customerSession?.province || "Unknown",
-    district: data?.district || customerSession?.district || "Unknown",
-    ward: data?.ward || customerSession?.ward || "Unknown",
-    hamlet: "Khác",
-    is_freeship: "1",
-    pick_money: 0,
-    note: order?.note ?? "Khong",
-    value: order?.price || 0,
-    pick_option: "cod",
-    email: "test@gmail.com",
-    return_email: "test2@gmail.com",
-  };
-
-  const shipFeesRequest: OrderFeesParams = {
-    pick_province: "TP. Hồ Chí Minh",
-    pick_district: "Quận 3",
-    pick_ward: "Phường 1",
-    pick_address: "590 CMT8 P.11",
-    province: data?.province || customerSession?.province || "Unknown",
-    district: data?.district || customerSession?.district || "Unknown",
-    ward: data?.ward || customerSession?.ward || "Unknown",
-    address: data?.address || customerSession?.address || "Unknown",
-    weight: 3000,
-    value: order?.price || 0,
-    deliver_option: "xteam",
-  };
-
-  return {
-    productsRequest,
-    orderRequest,
-    shipFeesRequest,
-  };
 }
