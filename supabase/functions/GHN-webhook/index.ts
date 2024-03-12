@@ -1,5 +1,4 @@
-import { createClient } from "@supabase/supabase-js";
-
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 // import "https://deno.land/x/dotenv/load.ts";
 
 // End point: https://ybpsohhfffcqexnuazos.supabase.co/functions/v1/GHN-webhook
@@ -49,3 +48,4 @@ Deno.serve(async (req) => {
     });
   }
 });
+
