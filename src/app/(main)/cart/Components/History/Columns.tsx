@@ -12,7 +12,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import formatReadableTime from "@/utils/functions/formatTime";
-import { cancelOrder } from "@/app/_actions/GHTKShipment";
+import { cancelGHTKOrder } from "@/app/_actions/GHTKShipment";
 import { toast } from "sonner";
 
 export const columns: ColumnDef<OrderType>[] = [
