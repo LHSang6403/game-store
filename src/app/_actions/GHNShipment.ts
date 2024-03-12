@@ -2,8 +2,8 @@
 
 import axios from "axios";
 import { GHNDataType } from "../(main)/cart/_actions";
-import createSupabaseServerClient from "@supabase/server";
 import { revalidatePath } from "next/cache";
+import { updateStateOrder } from "./order";
 
 const headers = {
   "Content-Type": "application/json",
@@ -42,16 +42,29 @@ export async function calGHNFees(params: any) {
 }
 
 export async function cancelGHNOrder({
+  id,
   order_codes,
 }: {
+  id: string;
   order_codes: string[];
 }) {
   try {
     const response = await axios.post(
       process.env.GHN_URL + "/switch-status/cancel",
-      { order_codes: [order_codes] },
+      { order_codes: order_codes },
       { headers }
     );
+
+    console.log("Cancel GHN Order Response:", response.data);
+
+    if (response?.data?.code === 200) {
+      await updateStateOrder({
+        id: id,
+        state: "canceled",
+      });
+    }
+
+    revalidatePath("/cart");
 
     return response.data;
   } catch (error) {

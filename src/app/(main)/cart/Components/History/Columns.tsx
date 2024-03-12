@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import formatReadableTime from "@/utils/functions/formatTime";
 import { cancelGHTKOrder } from "@/app/_actions/GHTKShipment";
+import { cancelGHNOrder } from "@/app/_actions/GHNShipment";
 import { toast } from "sonner";
 
 export const columns: ColumnDef<OrderType>[] = [
@@ -85,19 +86,33 @@ export const columns: ColumnDef<OrderType>[] = [
               >
                 Copy order ID
               </DropdownMenuItem>
-              {data.shipment_label && (
+              {data.shipment_label_code && (
                 <DropdownMenuItem
                   disabled={data.state === "canceled"}
                   onClick={() => {
                     toast.promise(
                       async () => {
-                        const createResult = (await cancelOrder({
-                          id: data.id,
-                          label: data.shipment_label!,
-                        })) as { success: boolean; message: string };
+                        let cancelResult;
+                        switch (data.shipment_name) {
+                          case "GHN":
+                            cancelResult = (await cancelGHNOrder({
+                              id: data.id,
+                              order_codes: [data.shipment_label_code!],
+                            })) as { success: boolean; message: string };
 
-                        if (!createResult.success) {
-                          toast.error(createResult.message);
+                            break;
+
+                          case "GHTK":
+                            cancelResult = (await cancelGHTKOrder({
+                              id: data.id,
+                              label: data.shipment_label_code!,
+                            })) as { success: boolean; message: string };
+
+                            break;
+                        }
+
+                        if (!cancelResult.success) {
+                          toast.error(cancelResult.message);
                         }
                       },
                       {

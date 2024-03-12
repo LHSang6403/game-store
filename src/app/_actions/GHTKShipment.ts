@@ -3,6 +3,7 @@
 import axios from "axios";
 import { updateStateOrder } from "./order";
 import { GHTKDataType } from "../(main)/cart/_actions";
+import { revalidatePath } from "next/cache";
 
 export async function requestGHTKOrder(data: GHTKDataType) {
   try {
@@ -16,8 +17,6 @@ export async function requestGHTKOrder(data: GHTKDataType) {
       data,
       { headers }
     );
-
-    console.log("----response", response.data);
 
     return response.data;
   } catch (error) {
@@ -95,12 +94,13 @@ export async function cancelGHTKOrder({
     );
 
     if (response.data.success) {
-      const updateResult = await updateStateOrder({
+      await updateStateOrder({
         id: id,
         state: "canceled",
       });
-      console.log("---- update result", updateResult);
     }
+
+    revalidatePath("/cart");
 
     return response;
   } catch (error) {
