@@ -21,9 +21,9 @@ export async function requestGHNOrder(data: GHNDataType) {
 
     return {
       status: response?.data?.code,
-      statusText: response?.data?.message,
+      statusText: response?.data?.message_display,
       data: response?.data?.data,
-      error: response?.data?.error,
+      error: response?.data?.message_display,
     };
   } catch (error: any) {
     return {
@@ -46,10 +46,10 @@ export async function calGHNFees(params: any) {
     );
 
     return {
-      code: response?.data?.code,
-      message: response?.data?.message,
+      status: response?.data?.code,
+      statusText: response?.data?.message,
       data: response?.data?.data,
-      error: response?.data?.error,
+      error: response?.data?.message,
     };
   } catch (error: any) {
     return {
@@ -75,8 +75,6 @@ export async function cancelGHNOrder({
       { headers }
     );
 
-    console.log("Cancel GHN Order Response:", response.data);
-
     if (response?.data?.code === 200) {
       await updateStateOrder({
         id: id,
@@ -90,7 +88,7 @@ export async function cancelGHNOrder({
       status: response?.data?.code,
       statusText: response?.data?.message,
       data: response?.data?.data,
-      error: response?.data?.error,
+      error: response?.data?.message,
     };
   } catch (error: any) {
     return {
@@ -114,7 +112,7 @@ export async function getGHNOrder({ order_codes }: { order_codes: string[] }) {
       status: response?.data?.code,
       statusText: response?.data?.message,
       data: response?.data?.data,
-      error: response?.data?.error,
+      error: response?.data?.message,
     };
   } catch (error: any) {
     return {

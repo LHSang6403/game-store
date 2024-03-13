@@ -93,10 +93,10 @@ export async function processOrderRequestData({
       const ghnOrderResult = await requestGHNOrder(ghnData as GHNDataType);
 
       return {
-        status: ghnOrderResult?.data.code,
-        statusText: ghnOrderResult?.data.message,
+        status: ghnOrderResult?.status,
+        statusText: ghnOrderResult?.statusText,
         data: ghnOrderResult?.data,
-        error: ghnOrderResult?.data.error,
+        error: ghnOrderResult?.error,
       };
 
     case "GHTK":
@@ -138,8 +138,8 @@ export async function processOrderRequestData({
       const ghtkOrderResult = await requestGHTKOrder(ghtkData as GHTKDataType);
 
       return {
-        status: ghtkOrderResult?.success ? 200 : 500,
-        statusText: ghtkOrderResult?.message,
+        status: ghtkOrderResult?.status,
+        statusText: ghtkOrderResult?.statusText,
         data: ghtkOrderResult?.data,
         error: ghtkOrderResult?.error,
       };
@@ -182,8 +182,8 @@ export async function calShipmentFees({
       const responseGHN = await calGHNFees(shipFeesRequestGHN);
 
       return {
-        status: responseGHN?.code,
-        statusText: responseGHN?.message,
+        status: responseGHN?.status,
+        statusText: responseGHN?.statusText,
         data: {
           service_fee: responseGHN?.data?.service_fee,
           insurance_fee: responseGHN?.data?.insurance_fee,
@@ -209,11 +209,11 @@ export async function calShipmentFees({
       const responseGHTK = await calGHTKFees(shipFeesRequestGHTK);
 
       return {
-        status: responseGHTK?.success === true ? 200 : 500,
-        statusText: responseGHTK?.message,
+        status: responseGHTK?.status,
+        statusText: responseGHTK?.statusText,
         data: {
-          service_fee: responseGHTK?.fee.ship_fee_only,
-          insurance_fee: responseGHTK?.fee.insurance_fee,
+          service_fee: responseGHTK?.data?.fee?.ship_fee_only,
+          insurance_fee: responseGHTK?.data?.fee?.insurance_fee,
         },
         error: responseGHTK?.error,
       };

@@ -18,9 +18,19 @@ export async function requestGHTKOrder(data: GHTKDataType) {
       { headers }
     );
 
-    return response.data;
-  } catch (error) {
-    throw error;
+    return {
+      status: response?.data?.success ? 200 : 500,
+      statusText: response?.data?.message,
+      data: response?.data?.order,
+      error: response?.data?.message,
+    };
+  } catch (error: any) {
+    return {
+      status: 500,
+      statusText: "Internal Server Error",
+      data: null,
+      error: error.message,
+    };
   }
 }
 
@@ -34,7 +44,14 @@ export async function getGHTKOrder(label: string): Promise<any> {
       }
     );
 
-    return response;
+    const responseData = await response.json();
+
+    return {
+      status: responseData.data.success ? 200 : 500,
+      statusText: responseData.data.message,
+      data: responseData.data.order,
+      error: responseData.data.message,
+    };
   } catch (error) {
     return error;
   }
@@ -50,9 +67,21 @@ export async function getGHTKOrderStatus(label: string) {
       }
     );
 
-    return response;
-  } catch (error) {
-    return error;
+    const responseData = await response.json();
+
+    return {
+      status: responseData.success ? 200 : 500,
+      statusText: responseData.message,
+      data: responseData.message,
+      error: responseData.message,
+    };
+  } catch (error: any) {
+    return {
+      status: 500,
+      statusText: "Internal Server Error",
+      data: null,
+      error: error.message,
+    };
   }
 }
 
@@ -69,9 +98,19 @@ export async function calGHTKFees(params: any) {
       }
     );
 
-    return response.data;
-  } catch (error) {
-    throw new Error("Failed to get shipment fee");
+    return {
+      status: response.data.success ? 200 : 500,
+      statusText: response.data.message,
+      data: response.data.fee,
+      error: response.data.message,
+    };
+  } catch (error: any) {
+    return {
+      status: 500,
+      statusText: "Internal Server Error",
+      data: null,
+      error: error.message,
+    };
   }
 }
 
@@ -102,9 +141,19 @@ export async function cancelGHTKOrder({
 
     revalidatePath("/cart");
 
-    return response;
-  } catch (error) {
-    return error;
+    return {
+      status: response.data.success ? 200 : 500,
+      statusText: response.data.message,
+      data: response.data.message,
+      error: response.data.message,
+    };
+  } catch (error: any) {
+    return {
+      status: 500,
+      statusText: "Internal Server Error",
+      data: null,
+      error: error.message,
+    };
   }
 }
 

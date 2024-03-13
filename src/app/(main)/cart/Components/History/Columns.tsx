@@ -15,6 +15,7 @@ import formatReadableTime from "@/utils/functions/formatTime";
 import { cancelGHTKOrder } from "@/app/_actions/GHTKShipment";
 import { cancelGHNOrder } from "@/app/_actions/GHNShipment";
 import { toast } from "sonner";
+import { ApiErrorHandlerClient } from "@/utils/errorHandler/apiErrorHandler";
 
 export const columns: ColumnDef<OrderType>[] = [
   {
@@ -92,32 +93,32 @@ export const columns: ColumnDef<OrderType>[] = [
                   onClick={() => {
                     toast.promise(
                       async () => {
-                        let cancelResult;
                         switch (data.shipment_name) {
                           case "GHN":
-                            cancelResult = (await cancelGHNOrder({
-                              id: data.id,
-                              order_codes: [data.shipment_label_code!],
-                            })) as { success: boolean; message: string };
+                            // cancelResult = () as { success: boolean; message: string };
+
+                            const responseGHN = ApiErrorHandlerClient({
+                              response: await cancelGHNOrder({
+                                id: data.id,
+                                order_codes: [data.shipment_label_code!],
+                              }),
+                            });
 
                             break;
 
                           case "GHTK":
-                            cancelResult = (await cancelGHTKOrder({
-                              id: data.id,
-                              label: data.shipment_label_code!,
-                            })) as { success: boolean; message: string };
+                            const responseGHTK = ApiErrorHandlerClient({
+                              response: await cancelGHTKOrder({
+                                id: data.id,
+                                label: data.shipment_label_code!,
+                              }),
+                            });
 
                             break;
-                        }
-
-                        if (!cancelResult.success) {
-                          toast.error(cancelResult.message);
                         }
                       },
                       {
                         loading: "Canceling order...",
-                        success: "Order is canceled successfully!",
                       }
                     );
                   }}

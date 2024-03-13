@@ -77,7 +77,7 @@ export const columns: ColumnDef<OrderType>[] = [
             });
           },
           {
-            loading: "Updating role...",
+            loading: "Updating order...",
           }
         );
       };
