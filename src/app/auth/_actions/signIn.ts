@@ -6,11 +6,15 @@ export async function signInWithEmailAndPassword(data: {
   email: string;
   password: string;
 }) {
-  const supabase = await createSupabaseServerClient();
-  const result = await supabase.auth.signInWithPassword({
-    email: data.email,
-    password: data.password,
-  });
+  try {
+    const supabase = await createSupabaseServerClient();
+    const result = await supabase.auth.signInWithPassword({
+      email: data.email,
+      password: data.password,
+    });
 
-  return result;
+    return result;
+  } catch {
+    return { data: null, error: "Failed to sign in." };
+  }
 }

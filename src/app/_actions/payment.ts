@@ -35,70 +35,71 @@ export default async function generatePaymentUrl(
   description: string,
   returnUrl: string
 ) {
-  console.log(
-    "amount",
-    amount,
-    "description",
-    description,
-    "returnUrl",
-    returnUrl
-  );
+  try {
+    const time = Date.now();
+    const invoiceNo = getInvoiceNo(8);
 
-  const time = Date.now();
-  const invoiceNo = getInvoiceNo(8);
+    const parameters = {
+      merchantKey: process.env.MERCHANT_KEY,
+      time: time,
+      invoice_no: invoiceNo,
+      amount: amount,
+      description: description,
+      return_url: returnUrl,
+      back_url: returnUrl,
+    };
 
-  const parameters = {
-    merchantKey: process.env.MERCHANT_KEY,
-    time: time,
-    invoice_no: invoiceNo,
-    amount: amount,
-    description: description,
-    return_url: returnUrl,
-    back_url: returnUrl,
-  };
+    const httpQuery = buildHttpQuery(parameters);
+    const message =
+      "POST" +
+      "\n" +
+      process.env.PAYMENT_END_POINT +
+      "/payments/create" +
+      "\n" +
+      time +
+      "\n" +
+      httpQuery;
 
-  const httpQuery = buildHttpQuery(parameters);
-  const message =
-    "POST" +
-    "\n" +
-    process.env.PAYMENT_END_POINT +
-    "/payments/create" +
-    "\n" +
-    time +
-    "\n" +
-    httpQuery;
+    console.log("*** message", message);
 
-  console.log("*** message", message);
+    const signature = buildSignature(
+      message,
+      process.env.MERCHANT_SECRET_KEY || ""
+    );
 
-  const signature = buildSignature(
-    message,
-    process.env.MERCHANT_SECRET_KEY || ""
-  );
+    const baseEncode = Buffer.from(JSON.stringify(parameters)).toString(
+      "base64"
+    );
 
-  const baseEncode = Buffer.from(JSON.stringify(parameters)).toString("base64");
+    const httpBuild = {
+      baseEncode: baseEncode,
+      signature: signature,
+    };
 
-  const httpBuild = {
-    baseEncode: baseEncode,
-    signature: signature,
-  };
+    const directUrl =
+      process.env.PAYMENT_END_POINT + "/portal?" + buildHttpQuery(httpBuild);
 
-  const directUrl =
-    process.env.PAYMENT_END_POINT + "/portal?" + buildHttpQuery(httpBuild);
+    const response = await fetch(
+      process.env.PAYMENT_END_POINT + "/payments/create",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Signature Algorithm=HS256,Credential=${process.env.MERCHANT_KEY},SignedHeaders=,Signature=${signature}`,
+          Date: time.toString(),
+        },
+        body: JSON.stringify(parameters),
+      }
+    );
 
-  const response = await fetch(
-    process.env.PAYMENT_END_POINT + "/payments/create",
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Signature Algorithm=HS256,Credential=${process.env.MERCHANT_KEY},SignedHeaders=,Signature=${signature}`,
-        Date: time.toString(),
-      },
-      body: JSON.stringify(parameters),
+    if (!response.ok) {
+      throw new Error("Failed to fetch payment URL");
     }
-  );
 
-  const result = JSON.stringify({ directUrl, response });
+    const result = JSON.stringify({ directUrl, response });
 
-  return result;
+    return result;
+  } catch (error) {
+    throw new Error("Failed to generate payment URL");
+  }
 }

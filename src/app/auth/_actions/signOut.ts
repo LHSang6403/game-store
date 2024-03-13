@@ -3,9 +3,16 @@
 import createSupabaseServerClient from "@supabase/server";
 
 export async function signOutHandler() {
-  const supabase = await createSupabaseServerClient();
+  try {
+    const supabase = await createSupabaseServerClient();
 
-  const result = await supabase.auth.signOut();
+    const result = await supabase.auth.signOut();
 
-  return result;
+    return result;
+  } catch {
+    return {
+      data: null,
+      error: "Failed to sign out.",
+    };
+  }
 }
