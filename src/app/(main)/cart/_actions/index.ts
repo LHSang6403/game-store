@@ -91,6 +91,7 @@ export async function processOrderRequestData({
       };
 
       const ghnOrderResult = await requestGHNOrder(ghnData as GHNDataType);
+      console.log("GHN", ghnOrderResult);
 
       return {
         status: ghnOrderResult?.status,
@@ -136,6 +137,7 @@ export async function processOrderRequestData({
       };
 
       const ghtkOrderResult = await requestGHTKOrder(ghtkData as GHTKDataType);
+      console.log("GHTK", ghtkOrderResult);
 
       return {
         status: ghtkOrderResult?.status,
@@ -212,8 +214,8 @@ export async function calShipmentFees({
         status: responseGHTK?.status,
         statusText: responseGHTK?.statusText,
         data: {
-          service_fee: responseGHTK?.data?.fee?.ship_fee_only,
-          insurance_fee: responseGHTK?.data?.fee?.insurance_fee,
+          service_fee: responseGHTK?.data?.service_fee,
+          insurance_fee: responseGHTK?.data?.insurance_fee,
         },
         error: responseGHTK?.error,
       };

@@ -98,10 +98,9 @@ export default function OrderForm() {
           }),
         });
 
-        if (
-          processedCalFeesResponse?.data?.service_fee &&
-          processedCalFeesResponse?.data?.insurance_fee
-        ) {
+        console.log(processedCalFeesResponse);
+
+        if (processedCalFeesResponse?.data?.service_fee) {
           setPrices(
             processedCalFeesResponse?.data?.service_fee,
             processedCalFeesResponse?.data?.insurance_fee

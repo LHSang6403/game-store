@@ -101,7 +101,10 @@ export async function calGHTKFees(params: any) {
     return {
       status: response.data.success ? 200 : 500,
       statusText: response.data.message,
-      data: response.data.fee,
+      data: {
+        service_fee: response.data.fee?.ship_fee_only,
+        insurance_fee: response.data.fee?.insurance_fee,
+      },
       error: response.data.message,
     };
   } catch (error: any) {

@@ -77,7 +77,6 @@ export function ApiErrorHandlerClient<T>({
 }) {
   if (response.status && response.status >= 200 && response.status < 300) {
     // ok
-    toast.success("Successfully!");
 
     return {
       status: response.status,
