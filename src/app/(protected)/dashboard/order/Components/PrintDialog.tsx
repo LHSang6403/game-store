@@ -9,6 +9,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export function PrintDialog({
   content,
@@ -42,12 +43,20 @@ export function PrintDialog({
             version.
           </DialogDescription>
         </DialogHeader>
-        <div className="max-h-[550px] w-full overflow-auto">
-          <div
-            dangerouslySetInnerHTML={{ __html: modifiedHtmlString ?? "" }}
-            className="flex h-auto w-full justify-center"
-          />
-        </div>
+        {modifiedHtmlString === "" ? (
+          <>
+            <Skeleton className="h-[80px] w-full rounded-xl bg-foreground/10 sm:h-[60px]" />
+            <Skeleton className="h-[80px] w-full rounded-xl bg-foreground/10 sm:h-[60px]" />
+            <Skeleton className="h-[80px] w-full rounded-xl bg-foreground/10 sm:h-[60px]" />
+          </>
+        ) : (
+          <div className="max-h-[550px] w-full overflow-auto">
+            <div
+              dangerouslySetInnerHTML={{ __html: modifiedHtmlString ?? "" }}
+              className="flex h-auto w-full justify-center"
+            />
+          </div>
+        )}
         <DialogFooter>
           <Button
             onClick={() => {
