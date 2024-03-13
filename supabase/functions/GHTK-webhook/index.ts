@@ -1,7 +1,6 @@
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
-// import "https://deno.land/x/dotenv/load.ts";
 
-// End point: https://ybpsohhfffcqexnuazos.supabase.co/functions/v1/GHN-webhook
+// End point: https://ybpsohhfffcqexnuazos.supabase.co/functions/v1/GHTK-webhook
 
 Deno.serve(async (req) => {
   try {
@@ -12,24 +11,42 @@ Deno.serve(async (req) => {
       });
     }
 
-    // const supabase = createClient(
-    //   Deno.env.get("NEXT_PUBLIC_SUPABASE_URL") ?? "",
-    //   Deno.env.get("NEXT_PUBLIC_SUPABASE_ANON_KEY") ?? ""
-    // );
-
     const supabase = createClient(
       "https://ybpsohhfffcqexnuazos.supabase.co",
       "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlicHNvaGhmZmZjcWV4bnVhem9zIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDcyOTYxNTMsImV4cCI6MjAyMjg3MjE1M30.lNR-z_qltwnzOroh3Ooc7uybSEqaX_gnZ3WX17eEFLc"
     );
 
     const data = await req.json();
-    const updatedState = data.Status;
-    const orderId = data.OrderCode;
+
+    const labelId = data.label_id;
+    const statusId = data.status_id;
+
+    let updatedState:
+      | "pending"
+      | "shipping"
+      | "delivered"
+      | "canceled"
+      | "returned"
+      | null = null;
+
+    if (Number(statusId) === -1) {
+      updatedState = "canceled";
+    } else if (1 <= Number(statusId) && Number(statusId) <= 3) {
+      updatedState = "pending";
+    } else if (Number(statusId) === 4) {
+      updatedState = "shipping";
+    } else if (Number(statusId) === 5 || Number(statusId) === 45) {
+      updatedState = "delivered";
+    } else if (Number(statusId) === 21) {
+      updatedState = "returned";
+    } else {
+      updatedState = "pending";
+    }
 
     const { data: responseData, error } = await supabase
       .from("order")
-      .update({ state: updatedState.toString() })
-      .eq("shipment_label_code", orderId.toString());
+      .update({ state: updatedState })
+      .eq("shipment_label_code", labelId.toString());
 
     return new Response(JSON.stringify({ message: "OK" }), {
       status: 200,
