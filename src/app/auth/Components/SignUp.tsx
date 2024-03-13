@@ -101,7 +101,7 @@ export default function SignUp() {
 
         const result = await signUpWithEmailAndPassword(signUpData);
         if (result.error) {
-          throw new Error(result.error.message);
+          toast.error(result?.error.toString());
         }
       },
       {
