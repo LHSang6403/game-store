@@ -25,7 +25,6 @@ export async function uploadFile(file: File, pathName: string) {
       type: "basic",
       url: "http://localhost:3001/api/upload",
     };
-    console.log(response);
 
     return response;
   } catch (error: any) {
@@ -38,7 +37,7 @@ export async function uploadFiles(files: File[], folderName: string) {
   try {
     const supabase = await createSupabaseServerClient();
 
-    var results = [] as { data: unknown; error: unknown }[];
+    let results = [] as { data: unknown; error: unknown }[];
 
     for (const file of files) {
       const result = await supabase.storage
@@ -50,48 +49,58 @@ export async function uploadFiles(files: File[], folderName: string) {
       }
     }
 
-    return results;
-  } catch (error) {
-    console.log(error);
+    return {
+      status: 200,
+      statusText: "OK",
+      data: results?.map((result) => result.data),
+      error: results[results.length - 1].error,
+    };
+  } catch (error: any) {
+    return {
+      status: 500,
+      statusText: "Internal Server Error.",
+      data: null,
+      error: error.message,
+    };
   }
 }
 
-export async function readFile() {
-  try {
-    const supabase = await createSupabaseServerClient();
+// export async function readFile() {
+//   try {
+//     const supabase = await createSupabaseServerClient();
 
-    const { data, error } = await supabase.storage
-      .from("avatars")
-      .download("folder/avatar1.png");
+//     const { data, error } = await supabase.storage
+//       .from("avatars")
+//       .download("folder/avatar1.png");
 
-    if (data) {
-      // Handle success
-    } else {
-      console.log(error);
-    }
-  } catch (error) {
-    console.log(error);
-  }
-}
+//     if (data) {
+//       // Handle success
+//     } else {
+//       console.log(error);
+//     }
+//   } catch (error) {
+//     console.log(error);
+//   }
+// }
 
-export async function readAllFiles() {
-  try {
-    const supabase = await createSupabaseServerClient();
+// export async function readAllFiles() {
+//   try {
+//     const supabase = await createSupabaseServerClient();
 
-    const { data, error } = await supabase.storage
-      .from("avatars")
-      .list("folder", {
-        limit: 100,
-        offset: 0,
-        sortBy: { column: "name", order: "asc" },
-      });
+//     const { data, error } = await supabase.storage
+//       .from("avatars")
+//       .list("folder", {
+//         limit: 100,
+//         offset: 0,
+//         sortBy: { column: "name", order: "asc" },
+//       });
 
-    if (data) {
-      // Handle success
-    } else {
-      console.log(error);
-    }
-  } catch (error) {
-    console.log(error);
-  }
-}
+//     if (data) {
+//       // Handle success
+//     } else {
+//       console.log(error);
+//     }
+//   } catch (error) {
+//     console.log(error);
+//   }
+// }

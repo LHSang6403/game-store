@@ -24,6 +24,7 @@ import FormAddressPicker from "@components/Picker/Address/FormAddressPicker";
 import useAddressSelects from "@/zustand/useAddressSelects";
 import SelectShipmentForm from "./SelectShipmentForm";
 import { calShipmentFees } from "@app/(main)/cart/_actions/index";
+import { ApiErrorHandlerClient } from "@utils/errorHandler/apiErrorHandler";
 
 const FormSchema = z.object({
   name: z.string().min(1, { message: "Name is a compulsory." }),
@@ -86,14 +87,25 @@ export default function OrderForm() {
 
     toast.promise(
       async () => {
-        const calFeesResult = await calShipmentFees({
-          formData: data,
-          order: order,
-          customerSession: customerSession,
+        const processedCalFeesResponse = ApiErrorHandlerClient<{
+          service_fee: number;
+          insurance_fee: number;
+        }>({
+          response: await calShipmentFees({
+            formData: data,
+            order: order,
+            customerSession: customerSession,
+          }),
         });
 
-        if (calFeesResult) {
-          setPrices(calFeesResult.service_fee, calFeesResult.insurance_fee);
+        if (
+          processedCalFeesResponse?.data?.service_fee &&
+          processedCalFeesResponse?.data?.insurance_fee
+        ) {
+          setPrices(
+            processedCalFeesResponse?.data?.service_fee,
+            processedCalFeesResponse?.data?.insurance_fee
+          );
           setCustomer(customerSession.id, customerSession.name);
           setNewID();
           setIsDialogOpen(true);

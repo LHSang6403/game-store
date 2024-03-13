@@ -4,13 +4,13 @@ import ProductsContainer from "@app/(main)/product/Components/ProductsContainer"
 import SheetArea from "@app/(main)/product/Components/FilterArea";
 import Advertisement from "@app/(main)/product/Components/Advertisement";
 import { readProducts } from "@/app/_actions/product";
+import { ProductType } from "@utils/types/index";
+import { ApiErrorHandlerServer } from "@utils/errorHandler/apiErrorHandler";
 
 export default async function Product() {
-  const productsResponse = await readProducts({ limit: 10, offset: 0 });
-  // if (productsResponse.error)
-  //   throw new Error(productsResponse.error.message || "An error occurred.");
-
-  const data = productsResponse.data;
+  const productsResponse = ApiErrorHandlerServer<ProductType[]>({
+    response: await readProducts({ limit: 10, offset: 0 }),
+  });
 
   return (
     <>
@@ -21,7 +21,9 @@ export default async function Product() {
           <SearchBar />
         </div>
         <CategoryCards />
-        {data && <ProductsContainer products={data} />}
+        {productsResponse.data && (
+          <ProductsContainer products={productsResponse.data} />
+        )}
         <SheetArea />
       </div>
     </>

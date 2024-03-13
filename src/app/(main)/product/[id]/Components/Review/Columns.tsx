@@ -17,7 +17,7 @@ export const columns: ColumnDef<Review>[] = [
       const data = row.original;
 
       return (
-        <div className="w-20 sm:w-16 line-clamp-3 overflow-ellipsis">
+        <div className="line-clamp-3 w-20 overflow-ellipsis sm:w-16">
           {data.name}
         </div>
       );
@@ -37,12 +37,10 @@ export const columns: ColumnDef<Review>[] = [
   {
     accessorKey: "created_at",
     header: "Date",
-    // header: () => {
-    //   return <div className="sm:hidden">Date</div>;
-    // },
     cell: ({ row }) => {
       const date = new Date(row.getValue("created_at"));
       const formatted = date.toLocaleDateString();
+
       return <div className="line-clamp-3 overflow-ellipsis">{formatted}</div>;
     },
   },

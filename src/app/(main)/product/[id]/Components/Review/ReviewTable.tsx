@@ -1,12 +1,3 @@
-// import {
-//   Table,
-//   TableBody,
-//   TableCell,
-//   TableHead,
-//   TableHeader,
-//   TableRow,
-// } from "@components/ui/table";
-// import Image from "next/image";
 import { DataTable } from "@components/Table/DataTable";
 import { columns } from "./Columns";
 
@@ -29,7 +20,7 @@ export default function ReviewTable() {
   ];
 
   return (
-    <div className="max-w-[1000px] xl:max-w-[700px] sm:w-full h-fit mx-auto overflow-auto bg-background">
+    <div className="mx-auto h-fit max-w-[1000px] overflow-auto bg-background xl:max-w-[700px] sm:w-full">
       <DataTable
         columns={columns}
         data={reviewData}

@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 
 export default function DashboardSidebar() {
   const pathname = usePathname();
+
   const dashboardSidebarList = [
     { name: "Overview", link: "/dashboard" },
     { name: "Product", link: "/dashboard/product" },

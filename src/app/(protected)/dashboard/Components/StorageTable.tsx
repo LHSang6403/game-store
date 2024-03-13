@@ -5,7 +5,6 @@ import { DataTable } from "@components/Table/DataTable";
 import { readStorage } from "@/app/_actions/storage";
 import type { StorageType } from "@utils/types/index";
 import { useQuery } from "@tanstack/react-query";
-import { Skeleton } from "@/components/ui/skeleton";
 import ChartLoading from "@app/(protected)/dashboard/Components/ChartLoading";
 
 export default async function OrderHistory() {

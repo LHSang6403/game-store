@@ -26,6 +26,7 @@ import { updateStateOrder } from "@/app/_actions/order";
 import { PrintDialog } from "./PrintDialog";
 import { useState } from "react";
 import { printGHNOrder } from "@/app/_actions/GHNShipment";
+import { ApiErrorHandlerClient } from "@/utils/errorHandler/apiErrorHandler";
 
 export const columns: ColumnDef<OrderType>[] = [
   {
@@ -51,6 +52,7 @@ export const columns: ColumnDef<OrderType>[] = [
     header: "Price",
     cell: ({ row }) => {
       const data = row.original;
+
       return <div className="">{formatCurrency(data.total_price)} VND</div>;
     },
   },
@@ -67,16 +69,15 @@ export const columns: ColumnDef<OrderType>[] = [
       ) => {
         toast.promise(
           async () => {
-            const result = await updateStateOrder({
-              id: data.id,
-              state: newState,
+            const response = ApiErrorHandlerClient({
+              response: await updateStateOrder({
+                id: data.id,
+                state: newState,
+              }),
             });
-            console.log(result);
           },
           {
             loading: "Updating role...",
-            success: "Role updated successfully.",
-            error: "Failed to update role. Please try again.",
           }
         );
       };
@@ -117,6 +118,7 @@ export const columns: ColumnDef<OrderType>[] = [
     header: "Ship",
     cell: ({ row }) => {
       const data = row.original;
+
       return <div className="">{data.shipment_name}</div>;
     },
   },
@@ -159,11 +161,13 @@ export const columns: ColumnDef<OrderType>[] = [
         label_code: string;
         size: "A5" | "80x80" | "52x70";
       }) => {
-        const printResult = await printGHNOrder({
-          order_codes: [label_code],
-          size: size,
+        const response = ApiErrorHandlerClient({
+          response: await printGHNOrder({
+            order_codes: [label_code],
+            size: size,
+          }),
         });
-        setPrintResult(printResult);
+        setPrintResult(response.data);
       };
 
       return (

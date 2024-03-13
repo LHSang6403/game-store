@@ -39,6 +39,10 @@ export default function SignIn() {
     toast.promise(
       async () => {
         const result = await signInWithEmailAndPassword(data);
+
+        if (result.error) {
+          toast.error(result?.error.toString());
+        }
       },
       {
         loading: "Signing account...",
@@ -46,9 +50,6 @@ export default function SignIn() {
           form.reset();
           router.push("/");
           return "Signed in successfully.";
-        },
-        error: (error) => {
-          return `Error: ${error.message ?? "Internal Server"}`;
         },
       }
     );

@@ -10,6 +10,7 @@ import { cn } from "@/lib/utils";
 import { readUserSession } from "@/app/_actions/user";
 import { useSession } from "@/zustand/useSession";
 import { useEffect } from "react";
+import { ApiErrorHandlerClient } from "@/utils/errorHandler/apiErrorHandler";
 
 export const AppContext = createContext<{
   font: string;
@@ -41,11 +42,17 @@ export default function Providers({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     const fetchSession = async () => {
-      const session = await readUserSession();
+      const session = ApiErrorHandlerClient<any>({
+        response: await readUserSession(),
+      });
 
-      if (!session.error && "detailData" in session && session.detailData) {
-        console.log("session.detailData: ", session.detailData);
-        setSession(session.detailData);
+      if (
+        session.data &&
+        "detailData" in session.data &&
+        session.data.detailData
+      ) {
+        console.log("session.detailData: ", session.data.detailData);
+        setSession(session.data.detailData);
       }
     };
 

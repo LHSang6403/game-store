@@ -91,7 +91,13 @@ export async function processOrderRequestData({
       };
 
       const ghnOrderResult = await requestGHNOrder(ghnData as GHNDataType);
-      return ghnOrderResult;
+
+      return {
+        status: ghnOrderResult?.data.code,
+        statusText: ghnOrderResult?.data.message,
+        data: ghnOrderResult?.data,
+        error: ghnOrderResult?.data.error,
+      };
 
     case "GHTK":
       const ghtkData: GHTKDataType = {
@@ -130,10 +136,21 @@ export async function processOrderRequestData({
       };
 
       const ghtkOrderResult = await requestGHTKOrder(ghtkData as GHTKDataType);
-      return ghtkOrderResult;
+
+      return {
+        status: ghtkOrderResult?.success ? 200 : 500,
+        statusText: ghtkOrderResult?.message,
+        data: ghtkOrderResult?.data,
+        error: ghtkOrderResult?.error,
+      };
   }
 
-  return undefined;
+  return {
+    status: 500,
+    statusText: "Unknown shipment type.",
+    data: undefined,
+    error: "Unknown shipment type.",
+  };
 }
 
 export async function calShipmentFees({
@@ -163,9 +180,15 @@ export async function calShipmentFees({
       };
 
       const responseGHN = await calGHNFees(shipFeesRequestGHN);
+
       return {
-        service_fee: responseGHN?.data?.service_fee,
-        insurance_fee: responseGHN?.data?.insurance_fee,
+        status: responseGHN?.code,
+        statusText: responseGHN?.message,
+        data: {
+          service_fee: responseGHN?.data?.service_fee,
+          insurance_fee: responseGHN?.data?.insurance_fee,
+        },
+        error: responseGHN?.error,
       };
 
     case "GHTK":
@@ -184,11 +207,22 @@ export async function calShipmentFees({
       };
 
       const responseGHTK = await calGHTKFees(shipFeesRequestGHTK);
+
       return {
-        service_fee: responseGHTK?.fee.ship_fee_only,
-        insurance_fee: responseGHTK?.fee.insurance_fee,
+        status: responseGHTK?.success === true ? 200 : 500,
+        statusText: responseGHTK?.message,
+        data: {
+          service_fee: responseGHTK?.fee.ship_fee_only,
+          insurance_fee: responseGHTK?.fee.insurance_fee,
+        },
+        error: responseGHTK?.error,
       };
   }
 
-  return 0;
+  return {
+    status: 500,
+    statusText: "Unknown shipment type.",
+    data: undefined,
+    error: "Unknown shipment type.",
+  };
 }

@@ -3,13 +3,12 @@ import Link from "next/link";
 import { OrderType } from "@utils/types";
 import { DataTable } from "@components/Table/DataTable";
 import { columns } from "@app/(protected)/dashboard/order/Components/Columns";
+import { ApiErrorHandlerServer } from "@utils/errorHandler/apiErrorHandler";
 
 export default async function page() {
-  const res = await readOrders({ limit: 20, offset: 0 });
-  // if ( res.error)
-  // throw new Error(res.error.message || "An error occurred.");
-
-  const data = res?.data as OrderType[];
+  const response = ApiErrorHandlerServer<OrderType[]>({
+    response: await readOrders({ limit: 20, offset: 0 }),
+  });
 
   return (
     <section className="">
@@ -22,8 +21,12 @@ export default async function page() {
           Create
         </Link>
       </div>
-      {data && (
-        <DataTable columns={columns} data={data} isPaginationEnabled={true} />
+      {response.data && (
+        <DataTable
+          columns={columns}
+          data={response.data}
+          isPaginationEnabled={true}
+        />
       )}
     </section>
   );

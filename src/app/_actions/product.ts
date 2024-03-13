@@ -10,15 +10,23 @@ import { revalidatePath } from "next/cache";
 export async function createProduct(product: ProductType) {
   try {
     const supabase = await createSupabaseServerClient();
-
     const result = await supabase.from("product").insert(product);
-
     revalidatePath("/dashboard/product");
     revalidatePath("/product");
 
-    return result as { data: unknown; error: unknown };
+    return {
+      status: result.status,
+      statusText: result.statusText,
+      data: result.data,
+      error: result.error,
+    };
   } catch (error: any) {
-    return { error: error.message };
+    return {
+      status: 500,
+      statusText: "Internal Server Error.",
+      data: null,
+      error: error,
+    };
   }
 }
 
@@ -38,9 +46,14 @@ export async function readProducts({
       .range(offset, limit)
       .eq("is_deleted", false);
 
-    return { data: result.data as ProductType[], error: result.error };
+    return {
+      status: result.status,
+      statusText: result.statusText,
+      data: result.data as ProductType[],
+      error: result.error,
+    };
   } catch (error: any) {
-    return { error: error.message };
+    return { status: 500, error: error };
   }
 }
 
@@ -136,9 +149,19 @@ export async function readAllCategories() {
       new Set(result.data.map((item: { category: string }) => item.category))
     );
 
-    return { data: uniqueCategories, error: result.error };
+    return {
+      status: result.status,
+      statusText: result.statusText,
+      data: uniqueCategories,
+      error: result.error,
+    };
   } catch (error: any) {
-    return { error: error.message };
+    return {
+      status: 500,
+      statusText: "Internal Server Error.",
+      data: null,
+      error: error?.message,
+    };
   }
 }
 

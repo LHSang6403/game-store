@@ -24,6 +24,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { updateUserProfile } from "@app/_actions/user";
 import { toast } from "sonner";
+import { ApiErrorHandlerClient } from "@/utils/errorHandler/apiErrorHandler";
 
 export interface UpdatingData {
   //   name: string;
@@ -54,10 +55,12 @@ export default function Edit({
   const onSubmit = async (data: UpdatingData) => {
     toast.promise(
       async () => {
-        const result = await updateUserProfile<UpdatingData>({
-          id: profile.id,
-          role: "role" in profile ? "Staff" : "Customer",
-          updatingData: data,
+        const result = ApiErrorHandlerClient({
+          response: await updateUserProfile<UpdatingData>({
+            id: profile.id,
+            role: "role" in profile ? "Staff" : "Customer",
+            updatingData: data,
+          }),
         });
 
         return result;

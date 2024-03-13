@@ -27,8 +27,13 @@ export async function readUserSession() {
         .eq("id", userId);
 
       return {
-        ...(result as { data: any; error: any }),
-        detailData: (staffResult.data?.[0] as StaffType) || null,
+        status: staffResult.status,
+        statusText: staffResult.statusText,
+        data: {
+          ...(result as { data: any; error: any }),
+          detailData: (staffResult.data?.[0] as StaffType) || null,
+        },
+        error: staffResult.error,
       };
     } else {
       const customerResult = await supabase
@@ -37,12 +42,22 @@ export async function readUserSession() {
         .eq("id", userId);
 
       return {
-        ...(result as { data: any; error: any }),
-        detailData: (customerResult.data?.[0] as CustomerType) || null,
+        status: customerResult.status,
+        statusText: customerResult.statusText,
+        data: {
+          ...(result as { data: any; error: any }),
+          detailData: (customerResult.data?.[0] as CustomerType) || null,
+        },
+        error: customerResult.error,
       };
     }
   } catch {
-    return { data: null, error: "No session." };
+    return {
+      status: 500,
+      statusText: "Internal server error",
+      data: null,
+      error: "No session.",
+    };
   }
 }
 
@@ -56,17 +71,26 @@ export async function updateStaffRole({
   try {
     const supabase = await createSupabaseServerClient();
 
-    const { data, error } = await supabase
+    const result = await supabase
       .from("staff")
       .update({ role: updatedRole })
       .eq("id", id);
 
-    console.log(id, updatedRole, data, error);
-    if (!error) revalidatePath("/dashboard/staff");
+    if (!result.error) revalidatePath("/dashboard/staff");
 
-    return { data, error };
-  } catch {
-    return { data: null, error: "Error on update." };
+    return {
+      status: result.status,
+      statusText: result.statusText,
+      data: result.data,
+      error: result.error,
+    };
+  } catch (error: any) {
+    return {
+      status: 500,
+      statusText: "Internal Server Error",
+      data: null,
+      error: "Error on update.",
+    };
   }
 }
 
@@ -85,10 +109,16 @@ export async function updateToStaff({
       .from("order")
       .select("*")
       .eq("customer_id", id);
+
     const hasOrders = orders?.data && orders?.data.length > 0;
 
     if (hasOrders) {
-      return { data: null, error: "Customer is having orders." };
+      return {
+        status: 400,
+        statusText: "Customer is having orders.",
+        data: null,
+        error: "Customer is having orders.",
+      };
     } else {
       const customer = await supabase
         .from("customer")
@@ -101,17 +131,34 @@ export async function updateToStaff({
         await supabaseAdmin.auth.admin.updateUserById(id, {
           user_metadata: { role: role },
         });
+
         await supabase.from("customer").delete().eq("id", id);
 
         const result = await supabase
           .from("staff")
           .insert(customerToStaff(customerData, role));
 
-        return result;
-      } else return { data: null, error: "User can not found." };
+        return {
+          status: result.status,
+          statusText: result.statusText,
+          data: result.data,
+          error: result.error,
+        };
+      } else
+        return {
+          status: 404,
+          statusText: "Customer data error.",
+          data: null,
+          error: "User can not found.",
+        };
     }
   } catch {
-    return { data: null, error: "Error on update." };
+    return {
+      status: 500,
+      statusText: "Internal server error.",
+      data: null,
+      error: "Error on update.",
+    };
   }
 }
 
@@ -134,9 +181,19 @@ export async function updateUserProfile<T>({
 
     if (!result.error) revalidatePath("/profile");
 
-    return result;
+    return {
+      status: result.status,
+      statusText: result.statusText,
+      data: result.data,
+      error: result.error,
+    };
   } catch {
-    return { data: null, error: "Error on update." };
+    return {
+      status: 500,
+      statusText: "Error on update.",
+      data: null,
+      error: "Error on update.",
+    };
   }
 }
 
@@ -176,8 +233,18 @@ export async function readCustomers({
       .select("*")
       .range(offset, limit);
 
-    return result as { data: CustomerType[]; error: any };
+    return {
+      status: result.status,
+      statusText: result.statusText,
+      data: result.data as CustomerType[],
+      error: result.error,
+    };
   } catch {
-    return { data: null, error: "Error on read." };
+    return {
+      status: 500,
+      statusText: "Internal server error.",
+      data: null,
+      error: "Error on read.",
+    };
   }
 }

@@ -9,9 +9,19 @@ export async function createStorage(storage: StorageType) {
 
     const result = await supabase.from("storage").insert(storage);
 
-    return result as { data: unknown; error: unknown };
+    return {
+      status: result.status,
+      statusText: result.statusText,
+      data: result.data,
+      error: result.error,
+    };
   } catch (error: any) {
-    return { error: error.message };
+    return {
+      status: 500,
+      statusText: "Internal Server Error",
+      data: null,
+      error: error.message,
+    };
   }
 }
 

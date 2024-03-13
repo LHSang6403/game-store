@@ -19,11 +19,7 @@ import createSupabaseBrowserClient from "@/supabase/client";
 import { createProduct } from "@app/_actions/product";
 import { createStorage } from "@app/_actions/storage";
 import { createProductDescription } from "@app/_actions/product_description";
-import type {
-  ProductType,
-  ProductDescriptionType,
-  StorageType,
-} from "@/utils/types";
+import { ApiErrorHandlerClient } from "@/utils/errorHandler/apiErrorHandler";
 
 const FormSchema = z.object({
   brand: z.string().min(1, { message: "Brand is a compulsory." }),
@@ -93,12 +89,9 @@ export default function CreateForm() {
           comments: [],
         };
 
-        const productDescriptionUploadResult = await createProductDescription(
-          descriptionObject
-        );
-        if (productDescriptionUploadResult.error) {
-          throw new Error(productDescriptionUploadResult.error);
-        }
+        const productDescriptionUploadResponse = ApiErrorHandlerClient<any>({
+          response: await createProductDescription(descriptionObject),
+        });
 
         // upload product images --------------
         const supabase = createSupabaseBrowserClient();
@@ -137,10 +130,9 @@ export default function CreateForm() {
           is_deleted: false,
         };
 
-        const productUploadResult = await createProduct(product);
-        if (productUploadResult.error) {
-          throw new Error(productUploadResult.error);
-        }
+        const productUploadResponse = ApiErrorHandlerClient<any>({
+          response: await createProduct(product),
+        });
 
         // create storage for this product ---------------
         const storageObject = {
@@ -152,10 +144,9 @@ export default function CreateForm() {
           quantity: parseInt(data.storage_quantity),
         };
 
-        const storageUploadResult = await createStorage(storageObject);
-        if (storageUploadResult.error) {
-          throw new Error(storageUploadResult.error);
-        }
+        const storageUploadResponse = ApiErrorHandlerClient<any>({
+          response: await createStorage(storageObject),
+        });
       },
       {
         loading: "Creating product...",

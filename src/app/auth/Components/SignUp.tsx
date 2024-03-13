@@ -71,8 +71,6 @@ export default function SignUp() {
   });
 
   const [date, setDate] = useState<Date>();
-  // const date = new Date(form.getValues("dob")) || Date();
-
   const { addressValues, clearAll } = useAddressSelects();
 
   useEffect(() => {
@@ -100,6 +98,7 @@ export default function SignUp() {
         };
 
         const result = await signUpWithEmailAndPassword(signUpData);
+
         if (result.error) {
           toast.error(result?.error.toString());
         }
@@ -111,9 +110,6 @@ export default function SignUp() {
           clearAll();
           setDate(undefined);
           return "User created successfully. Confirm your email.";
-        },
-        error: (error) => {
-          return `Error: ${error.message ?? "Internal Server"}`;
         },
       }
     );

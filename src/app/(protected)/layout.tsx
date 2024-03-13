@@ -13,7 +13,7 @@ export default async function ProtectedLayout({
   const { session } = useSession();
   console.log(session);
 
-  if (!session || !("role" in session)) {
+  if (session && !("role" in session)) {
     return (
       <div className="mt-10 flex flex-col items-center">
         <span className="text-xl font-medium">

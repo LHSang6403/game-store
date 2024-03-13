@@ -19,9 +19,19 @@ export async function requestGHNOrder(data: GHNDataType) {
       { headers }
     );
 
-    return response.data;
-  } catch (error) {
-    throw error;
+    return {
+      status: response?.data?.code,
+      statusText: response?.data?.message,
+      data: response?.data?.data,
+      error: response?.data?.error,
+    };
+  } catch (error: any) {
+    return {
+      status: 500,
+      statusText: "Internal Server Error",
+      data: null,
+      error: error.message,
+    };
   }
 }
 
@@ -35,9 +45,19 @@ export async function calGHNFees(params: any) {
       }
     );
 
-    return response.data;
-  } catch (error) {
-    throw error;
+    return {
+      code: response?.data?.code,
+      message: response?.data?.message,
+      data: response?.data?.data,
+      error: response?.data?.error,
+    };
+  } catch (error: any) {
+    return {
+      status: 500,
+      statusText: "Internal Server Error",
+      data: null,
+      error: error.message,
+    };
   }
 }
 
@@ -66,9 +86,19 @@ export async function cancelGHNOrder({
 
     revalidatePath("/cart");
 
-    return response.data;
-  } catch (error) {
-    return error;
+    return {
+      status: response?.data?.code,
+      statusText: response?.data?.message,
+      data: response?.data?.data,
+      error: response?.data?.error,
+    };
+  } catch (error: any) {
+    return {
+      status: 500,
+      statusText: "Internal Server Error",
+      data: null,
+      error: error.message,
+    };
   }
 }
 
@@ -80,9 +110,19 @@ export async function getGHNOrder({ order_codes }: { order_codes: string[] }) {
       { headers }
     );
 
-    return response.data;
-  } catch (error) {
-    throw error;
+    return {
+      status: response?.data?.code,
+      statusText: response?.data?.message,
+      data: response?.data?.data,
+      error: response?.data?.error,
+    };
+  } catch (error: any) {
+    return {
+      status: 500,
+      statusText: "Internal Server Error",
+      data: null,
+      error: error.message,
+    };
   }
 }
 
@@ -105,9 +145,27 @@ export async function printGHNOrder({
       { headers }
     );
 
-    return printResponse.data;
-  } catch (error) {
-    console.error("Error:", error);
-    throw error;
+    if (!printResponse.data) {
+      return {
+        status: 500,
+        statusText: "Internal Server Error",
+        data: null,
+        error: "Print Error.",
+      };
+    }
+
+    return {
+      status: 200,
+      statusText: "OK",
+      data: printResponse?.data,
+      error: undefined,
+    };
+  } catch (error: any) {
+    return {
+      status: 500,
+      statusText: "Internal Server Error",
+      data: null,
+      error: error.message,
+    };
   }
 }

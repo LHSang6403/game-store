@@ -22,6 +22,7 @@ import {
 import type { StaffType } from "@utils/types";
 import { updateStaffRole } from "@/app/_actions/user";
 import { toast } from "sonner";
+import { ApiErrorHandlerClient } from "@/utils/errorHandler/apiErrorHandler";
 
 export const columns: ColumnDef<StaffType>[] = [
   {
@@ -65,14 +66,15 @@ export const columns: ColumnDef<StaffType>[] = [
       ) => {
         toast.promise(
           async () => {
-            const result = await updateStaffRole({
-              id: data.id,
-              updatedRole: newRole,
+            const response = ApiErrorHandlerClient<any>({
+              response: await updateStaffRole({
+                id: data.id,
+                updatedRole: newRole,
+              }),
             });
           },
           {
             loading: "Updating role...",
-            success: "Role updated successfully.",
             error: "Failed to update role. Please try again.",
           }
         );

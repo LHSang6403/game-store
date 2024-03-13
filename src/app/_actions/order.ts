@@ -60,9 +60,19 @@ export async function readOrdersByCustomerId(customerId: string) {
       .select("*")
       .eq("customer_id", customerId);
 
-    return result;
+    return {
+      status: result.status,
+      statusText: result.statusText,
+      data: result.data as OrderType[],
+      error: result.error,
+    };
   } catch (error: any) {
-    return { error: error.message };
+    return {
+      status: 500,
+      statusText: "Internal server error",
+      data: null,
+      error: "No data.",
+    };
   }
 }
 
@@ -81,9 +91,19 @@ export async function readOrders({
       .select("*")
       .range(offset, limit);
 
-    return { data: result.data as OrderType[], error: result.error };
+    return {
+      status: result.status,
+      statusText: result.statusText,
+      data: result.data as OrderType[],
+      error: result.error,
+    };
   } catch (error: any) {
-    return { error: error.message };
+    return {
+      status: 500,
+      statusText: "Internal server error.",
+      data: null,
+      error: error.message,
+    };
   }
 }
 

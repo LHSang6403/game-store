@@ -13,6 +13,7 @@ import {
 import type { CustomerType } from "@utils/types";
 import { updateToStaff } from "@/app/_actions/user";
 import { toast } from "sonner";
+import { ApiErrorHandlerClient } from "@/utils/errorHandler/apiErrorHandler";
 
 export const columns: ColumnDef<CustomerType>[] = [
   {
@@ -36,6 +37,7 @@ export const columns: ColumnDef<CustomerType>[] = [
     cell: ({ row }) => {
       const date = new Date(row.getValue("dob"));
       const formatted = date.toLocaleDateString();
+
       return <div className="ml-4">{formatted}</div>;
     },
   },
@@ -63,6 +65,7 @@ export const columns: ColumnDef<CustomerType>[] = [
     },
     cell: ({ row }) => {
       const data = row.original;
+
       return <div className="w-24 text-center">{data.level}</div>;
     },
   },
@@ -95,20 +98,15 @@ export const columns: ColumnDef<CustomerType>[] = [
                   onClick={() =>
                     toast.promise(
                       async () => {
-                        const response = await updateToStaff({
-                          id: data.id,
-                          role: eachRole,
+                        const response = ApiErrorHandlerClient({
+                          response: await updateToStaff({
+                            id: data.id,
+                            role: eachRole,
+                          }),
                         });
-
-                        if (response.error)
-                          toast.error(response.error.toString());
-                        else toast.error("Updated successfully!");
                       },
                       {
                         loading: "Updating...",
-                        error: (error) => {
-                          return error;
-                        },
                       }
                     )
                   }

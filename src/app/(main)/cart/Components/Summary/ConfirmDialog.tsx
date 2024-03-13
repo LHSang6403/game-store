@@ -18,6 +18,7 @@ import { createOrder } from "@app/_actions/order";
 import { useMutation } from "@tanstack/react-query";
 import formatCurrency from "@/utils/functions/formatCurrency";
 import { processOrderRequestData } from "../../_actions";
+import { ApiErrorHandlerClient } from "@/utils/errorHandler/apiErrorHandler";
 
 export default function ConfirmDialog({
   formData,
@@ -64,30 +65,33 @@ export default function ConfirmDialog({
 
       async () => {
         let requestOrderResult: any;
-        console.log("---- ship", formData.shipment);
         switch (formData.shipment) {
           case "GHN":
-            const ghnDataResponse = await processOrderRequestData({
-              formData: formData,
-              order: order,
-              customerSession: customerSession,
-            }).then((ghnResponse) => {
-              const order_code = ghnResponse?.data?.order_code;
-              setShipment("GHN", order_code);
+            const ghnResponse = ApiErrorHandlerClient<any>({
+              response: await processOrderRequestData({
+                formData: formData,
+                order: order,
+                customerSession: customerSession,
+              }),
             });
 
-            requestOrderResult = ghnDataResponse;
+            const order_code = ghnResponse?.data?.order_code;
+            setShipment("GHN", order_code);
+
+            requestOrderResult = ghnResponse.data;
             break;
 
           case "GHTK":
-            const ghtkResponse = await processOrderRequestData({
-              formData: formData,
-              order: order,
-              customerSession: customerSession,
-            }).then((ghtkResponse) => {
-              const label = ghtkResponse?.order?.label;
-              setShipment("GHTK", label);
+            const ghtkResponse = ApiErrorHandlerClient<any>({
+              response: await processOrderRequestData({
+                formData: formData,
+                order: order,
+                customerSession: customerSession,
+              }),
             });
+
+            const label = ghtkResponse?.data?.order?.label;
+            setShipment("GHTK", label);
 
             requestOrderResult = ghtkResponse;
             break;

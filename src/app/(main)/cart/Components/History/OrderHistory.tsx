@@ -3,19 +3,22 @@ import { columns } from "@app/(main)/cart/Components/History/Columns";
 import { DataTable } from "@components/Table/DataTable";
 import type { OrderType } from "@utils/types";
 import { readUserSession } from "@/app/_actions/user";
+import { ApiErrorHandlerServer } from "@/utils/errorHandler/apiErrorHandler";
 
 export default async function OrderHistory() {
-  const sessionResponse = await readUserSession();
-  // if (sessionResponse.error) throw new Error(sessionResponse.error.message);
+  const sessionResponse = ApiErrorHandlerServer<any>({
+    response: await readUserSession(),
+  });
 
-  const historyResponse = await readOrdersByCustomerId(
-    sessionResponse.data?.session?.user?.id
-  );
-  // if (historyResponse.error) throw new Error(historyResponse.error.message);
+  const historyResponse = ApiErrorHandlerServer<OrderType[]>({
+    response: await readOrdersByCustomerId(
+      sessionResponse.data?.data?.session?.user?.id
+    ),
+  });
 
   return (
     <div className="mx-auto w-fit xl:w-auto">
-      {sessionResponse &&
+      {sessionResponse.data &&
         !historyResponse.error &&
         "data" in historyResponse && (
           <>

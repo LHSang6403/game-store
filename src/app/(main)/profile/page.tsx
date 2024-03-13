@@ -3,11 +3,14 @@ import { readUserSession } from "@/app/_actions/user";
 import OrderHistory from "@app/(main)/cart/Components/History/OrderHistory";
 import Edit from "@app/(main)/profile/Components/Edit";
 import Link from "next/link";
+import { ApiErrorHandlerServer } from "@/utils/errorHandler/apiErrorHandler";
 
 export default async function page() {
-  const session = await readUserSession();
+  const session = ApiErrorHandlerServer<any>({
+    response: await readUserSession(),
+  });
 
-  if (!session || session.error || !("detailData" in session))
+  if (!session.data || session.error)
     return (
       <div className="mt-10 flex flex-col items-center">
         <span className="text-xl font-medium">You are not logged in. </span>
@@ -20,12 +23,10 @@ export default async function page() {
       </div>
     );
 
-  const dobDate = new Date(session.detailData.dob.toString() ?? "");
-
+  const dobDate = new Date(session.data.detailData.dob.toString() ?? "");
   const day = dobDate.getDate();
   const month = dobDate.getMonth() + 1;
   const year = dobDate.getFullYear();
-
   const formattedDOB = `${day}/${month}/${year}`;
 
   return (
@@ -35,7 +36,7 @@ export default async function page() {
         <div className="flex justify-center rounded-full border p-0.5">
           <Image
             src={
-              session.detailData?.image ??
+              session.data.detailData?.image ??
               "https://png.pngtree.com/png-vector/20191026/ourlarge/pngtree-avatar-vector-icon-white-background-png-image_1870181.jpg"
             }
             alt="profile"
@@ -44,15 +45,15 @@ export default async function page() {
             className="rounded-full"
           />
         </div>
-        <Edit profile={session.detailData} />
+        <Edit profile={session.data.detailData} />
         <div className="w-fit rounded-md">
           <p className="text-left">
             <span className="font-semibold">Name: </span>
-            {session.detailData.name}
+            {session.data.detailData.name}
           </p>
           <p className="text-left">
             <span className="font-semibold">Email: </span>{" "}
-            {session.detailData.email}
+            {session.data.detailData.email}
           </p>
           <p className="text-left">
             <span className="font-semibold">Birdthday: </span>{" "}
@@ -60,21 +61,21 @@ export default async function page() {
           </p>
           <p className="text-left">
             <span className="font-semibold">Phone: </span>{" "}
-            {session.detailData.phone ?? "Unknown"}
+            {session.data.detailData.phone ?? "Unknown"}
           </p>
           <p className="text-left">
             <span className="font-semibold">Address: </span>{" "}
-            {session.detailData.address ?? "Unknown"}
+            {session.data.detailData.address ?? "Unknown"}
           </p>
-          {"role" in session.detailData ? (
+          {"role" in session.data.detailData ? (
             <p className="text-left">
               <span className="font-semibold">Role: </span>{" "}
-              {session.detailData.role}
+              {session.data.detailData.role}
             </p>
           ) : (
             <p className="text-left">
               <span className="font-semibold">Level: </span>{" "}
-              {session.detailData.level}
+              {session.data.detailData.level}
             </p>
           )}
         </div>

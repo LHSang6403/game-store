@@ -9,9 +9,19 @@ export async function createProductDescription(des: ProductDescriptionType) {
 
     const result = await supabase.from("product_description").insert([des]);
 
-    return result as { data: unknown; error: unknown };
+    return {
+      status: result.status,
+      statusText: result.statusText,
+      data: result.data,
+      error: result.error,
+    };
   } catch (error: any) {
-    return { error: error.message };
+    return {
+      status: 500,
+      statusText: "Internal Server Error",
+      data: null,
+      error: error.message,
+    };
   }
 }
 
@@ -25,8 +35,18 @@ export async function readProductDescription({ id }: { id: string }) {
       .eq("id", id)
       .single();
 
-    return { data: result.data as ProductDescriptionType, error: result.error };
+    return {
+      status: result.status,
+      statusText: result.statusText,
+      data: result.data as ProductDescriptionType,
+      error: result.error,
+    };
   } catch (error: any) {
-    return { error: error.message };
+    return {
+      status: 500,
+      statusText: "Internal Server Error",
+      data: null,
+      error: error.message,
+    };
   }
 }
