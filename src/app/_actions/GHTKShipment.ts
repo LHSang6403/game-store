@@ -52,8 +52,13 @@ export async function getGHTKOrder(label: string): Promise<any> {
       data: responseData.data.order,
       error: responseData.data.message,
     };
-  } catch (error) {
-    return error;
+  } catch (error: any) {
+    return {
+      status: 500,
+      statusText: "Internal Server Error",
+      data: null,
+      error: error.message,
+    };
   }
 }
 
