@@ -47,7 +47,7 @@ export default function FAQ() {
                     viewBox="0 0 24 24"
                     stroke-width="1.5"
                     stroke="currentColor"
-                    className="h-4 w-4 sm:h-7 sm:w-7"
+                    className="h-4 w-4 sm:h-5 sm:w-5"
                   >
                     <path
                       stroke-linecap="round"
