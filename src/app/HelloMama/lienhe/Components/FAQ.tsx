@@ -39,7 +39,7 @@ export default function FAQ() {
               key={index}
               className="-mt-4 border-none"
             >
-              <AccordionTrigger className="justify-start gap-2 font-light sm:gap-0">
+              <AccordionTrigger className="justify-start gap-2 font-light hover:no-underline sm:gap-0">
                 <div>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
