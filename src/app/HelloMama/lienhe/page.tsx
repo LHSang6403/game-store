@@ -1,5 +1,6 @@
 import ContactForm from "./Components/ContactForm";
 import { Button } from "../Shadcn/Button";
+import Image from "next/image";
 
 export default function page() {
   return (
@@ -73,7 +74,7 @@ export default function page() {
             commodi sint, similique cupiditate possimus suscipit delectus illum
             eos iure magnam!
           </div>
-          <div className="my-2 flex h-fit flex-row items-center gap-1 font-light">
+          <div className="my-2 flex h-fit w-full flex-row items-center gap-1 font-light">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -89,6 +90,12 @@ export default function page() {
               />
             </svg>
             <span>Làm thế nào để phân biệt sữa chính hãng và sữa giả?</span>
+            <Image
+              src="/assets/images/HelloMama/up_arrow_icon.png"
+              alt="Up"
+              width={15}
+              height={15}
+            />
           </div>
           <div className="mb-2 flex h-fit flex-row items-center gap-1 font-light">
             <svg
@@ -105,7 +112,13 @@ export default function page() {
                 d="m5.25 4.5 7.5 7.5-7.5 7.5m6-15 7.5 7.5-7.5 7.5"
               />
             </svg>
-            <span> Tôi cần chờ bao lâu mới nhận được đơn hàng?</span>
+            <span>Tôi cần chờ bao lâu mới nhận được đơn hàng?</span>
+            <Image
+              src="/assets/images/HelloMama/down_arrow_icon.png"
+              alt="Down"
+              width={15}
+              height={15}
+            />
           </div>
           <p className="h-fit font-extralight">
             Lorem ipsum dolor sit, amet consectetur adipisicing elit. Minus
