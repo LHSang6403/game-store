@@ -40,6 +40,7 @@ export default function Search() {
                   />
                 </FormControl>
                 <button
+                  onClick={() => form.setFocus("searchText")}
                   className="flex h-fit w-fit items-center justify-center"
                   type="submit"
                 >

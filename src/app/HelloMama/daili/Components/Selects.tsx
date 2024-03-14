@@ -18,8 +18,9 @@ export default function Selects() {
           </SelectTrigger>
           <SelectContent>
             <SelectGroup>
-              <SelectLabel></SelectLabel>
+              <SelectLabel>Vùng</SelectLabel>
               <SelectItem value="Vung1">Vùng 1</SelectItem>
+              <SelectItem value="Vung2">Vùng 2</SelectItem>
             </SelectGroup>
           </SelectContent>
         </Select>
@@ -31,12 +32,8 @@ export default function Selects() {
           </SelectTrigger>
           <SelectContent>
             <SelectGroup>
-              <SelectLabel>Fruits</SelectLabel>
-              <SelectItem value="apple">Apple</SelectItem>
-              <SelectItem value="banana">Banana</SelectItem>
-              <SelectItem value="blueberry">Blueberry</SelectItem>
-              <SelectItem value="grapes">Grapes</SelectItem>
-              <SelectItem value="pineapple">Pineapple</SelectItem>
+              <SelectLabel>Tỉnh</SelectLabel>
+              <SelectItem value="TP.HCM">TP. Hồ Chí Minh</SelectItem>
             </SelectGroup>
           </SelectContent>
         </Select>
@@ -48,12 +45,8 @@ export default function Selects() {
           </SelectTrigger>
           <SelectContent>
             <SelectGroup>
-              <SelectLabel>Fruits</SelectLabel>
-              <SelectItem value="apple">Apple</SelectItem>
-              <SelectItem value="banana">Banana</SelectItem>
-              <SelectItem value="blueberry">Blueberry</SelectItem>
-              <SelectItem value="grapes">Grapes</SelectItem>
-              <SelectItem value="pineapple">Pineapple</SelectItem>
+              <SelectLabel>Quận</SelectLabel>
+              <SelectItem value="Quan1">Quận 1</SelectItem>
             </SelectGroup>
           </SelectContent>
         </Select>

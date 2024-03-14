@@ -35,7 +35,7 @@ export default function ContactForm() {
   async function onSubmit(data: z.infer<typeof FormSchema>) {}
 
   return (
-    <div className="w-[450px] rounded-md bg-[#E7F2F8] px-3 py-6 xl:w-full">
+    <div className="w-[550px] rounded-md bg-[#E7F2F8] px-3 py-6 sm:w-full">
       <Form {...form}>
         <form
           className="flex w-full flex-col gap-3"
@@ -95,10 +95,10 @@ export default function ContactForm() {
             )}
           />
           <Button
-            className="mx-auto flex w-fit flex-row gap-1 px-16"
+            className="group mx-auto flex w-fit flex-row gap-1 px-16"
             type="submit"
           >
-            <span className="bg-gradient-to-b from-[#1E588F] via-[#0E7BB8] to-[#0E7BB8] bg-clip-text text-transparent">
+            <span className="bg-gradient-to-b from-[#1E588F] via-[#0E7BB8] to-[#0E7BB8] bg-clip-text text-lg font-light text-transparent group-hover:text-white">
               Gửi
             </span>
             <Image
