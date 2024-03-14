@@ -3,7 +3,7 @@ import {
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from "@/components/ui/accordion";
+} from "@components/ui/accordion";
 import Image from "next/image";
 import { Button } from "../../Shadcn/Button";
 
@@ -40,20 +40,22 @@ export default function FAQ() {
               className="-mt-4 border-none"
             >
               <AccordionTrigger className="justify-start gap-2 font-light sm:gap-0">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke-width="1.5"
-                  stroke="currentColor"
-                  className="h-4 w-4 sm:h-7 sm:w-7"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    d="m5.25 4.5 7.5 7.5-7.5 7.5m6-15 7.5 7.5-7.5 7.5"
-                  />
-                </svg>
+                <div>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="currentColor"
+                    className="h-4 w-4 sm:h-7 sm:w-7"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="m5.25 4.5 7.5 7.5-7.5 7.5m6-15 7.5 7.5-7.5 7.5"
+                    />
+                  </svg>
+                </div>
                 <span>{question.question}</span>
               </AccordionTrigger>
               <AccordionContent className="font-extralight">
