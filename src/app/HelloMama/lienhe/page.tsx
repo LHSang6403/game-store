@@ -90,7 +90,7 @@ export default function page() {
             </svg>
             <span>Làm thế nào để phân biệt sữa chính hãng và sữa giả?</span>
           </div>
-          <div className="my-2 flex h-fit flex-row items-center gap-1 font-light">
+          <div className="mb-2 flex h-fit flex-row items-center gap-1 font-light">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
