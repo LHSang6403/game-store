@@ -1,4 +1,4 @@
-import createSupabaseServerClient from "@supabase/server";
+import createSupabaseServerClient from "@/supabase-query/server";
 
 export const runtime = "edge";
 

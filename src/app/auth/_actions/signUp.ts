@@ -1,6 +1,6 @@
 "use server";
 
-import createSupabaseServerClient from "@supabase/server";
+import createSupabaseServerClient from "@/supabase-query/server";
 import convertToTimestampz from "@utils/functions/dateToTimestampz";
 
 export async function signUpWithEmailAndPassword({

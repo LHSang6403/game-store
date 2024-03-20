@@ -1,5 +1,4 @@
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
-// import "https://deno.land/x/dotenv/load.ts";
 
 // End point: https://ybpsohhfffcqexnuazos.supabase.co/functions/v1/GHN-webhook
 
@@ -12,15 +11,10 @@ Deno.serve(async (req) => {
       });
     }
 
-    // const supabase = createClient(
-    //   Deno.env.get("NEXT_PUBLIC_SUPABASE_URL") ?? "",
-    //   Deno.env.get("NEXT_PUBLIC_SUPABASE_ANON_KEY") ?? ""
-    // );
+    const supabase_url = Deno.env.get("NEXT_PUBLIC_SUPABASE_URL") ?? "";
+    const supabase_key = Deno.env.get("NEXT_PUBLIC_SUPABASE_ANON_KEY") ?? "";
 
-    const supabase = createClient(
-      "https://ybpsohhfffcqexnuazos.supabase.co",
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlicHNvaGhmZmZjcWV4bnVhem9zIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDcyOTYxNTMsImV4cCI6MjAyMjg3MjE1M30.lNR-z_qltwnzOroh3Ooc7uybSEqaX_gnZ3WX17eEFLc"
-    );
+    const supabase = createClient(supabase_url, supabase_key);
 
     const data = await req.json();
     const updatedState = data.Status;

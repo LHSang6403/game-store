@@ -15,7 +15,7 @@ import { useEffect } from "react";
 import useLocalStorage from "@/hooks/useLocalStorage";
 import { useSession } from "@/zustand/useSession";
 import { v4 as uuidv4 } from "uuid";
-import createSupabaseBrowserClient from "@/supabase/client";
+import createSupabaseBrowserClient from "@/supabase-query/client";
 import { createProduct } from "@app/_actions/product";
 import { createStorage } from "@app/_actions/storage";
 import { createProductDescription } from "@app/_actions/product_description";

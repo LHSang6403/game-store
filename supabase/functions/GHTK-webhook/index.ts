@@ -11,10 +11,10 @@ Deno.serve(async (req) => {
       });
     }
 
-    const supabase = createClient(
-      "https://ybpsohhfffcqexnuazos.supabase.co",
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlicHNvaGhmZmZjcWV4bnVhem9zIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDcyOTYxNTMsImV4cCI6MjAyMjg3MjE1M30.lNR-z_qltwnzOroh3Ooc7uybSEqaX_gnZ3WX17eEFLc"
-    );
+    const supabase_url = Deno.env.get("NEXT_PUBLIC_SUPABASE_URL") ?? "";
+    const supabase_key = Deno.env.get("NEXT_PUBLIC_SUPABASE_ANON_KEY") ?? "";
+
+    const supabase = createClient(supabase_url, supabase_key);
 
     const data = await req.json();
 
@@ -59,3 +59,28 @@ Deno.serve(async (req) => {
     });
   }
 });
+
+// *** GTTK order state code request ***
+
+// -1	Hủy đơn hàng
+// 1	Chưa tiếp nhận
+// 2	Đã tiếp nhận
+// 3	Đã lấy hàng/Đã nhập kho
+// 4	Đã điều phối giao hàng/Đang giao hàng
+// 5	Đã giao hàng/Chưa đối soát
+// 6	Đã đối soát
+// 7	Không lấy được hàng
+// 8	Hoãn lấy hàng
+// 9	Không giao được hàng
+// 10	Delay giao hàng
+// 11	Đã đối soát công nợ trả hàng
+// 12	Đã điều phối lấy hàng/Đang lấy hàng
+// 13	Đơn hàng bồi hoàn
+// 20	Đang trả hàng (COD cầm hàng đi trả)
+// 21	Đã trả hàng (COD đã trả xong hàng)
+// 45	Shipper báo đã giao hàng-
+// 49	Shipper báo không giao được giao hàng
+// 123 Shipper báo đã lấy hàng
+// 127 Shipper (nhân viên lấy/giao hàng) báo không lấy được hàng
+// 128 Shipper báo delay lấy hàng
+// 410 Shipper báo delay giao hàng

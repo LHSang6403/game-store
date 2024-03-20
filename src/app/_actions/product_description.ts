@@ -1,6 +1,6 @@
 "use server";
 
-import createSupabaseServerClient from "@supabase/server";
+import createSupabaseServerClient from "@/supabase-query/server";
 import type { ProductDescriptionType } from "@utils/types/index";
 
 export async function createProductDescription(des: ProductDescriptionType) {

@@ -3,7 +3,7 @@
 import type { CustomerType, StaffType } from "@utils/types";
 import createSupabaseServerClient, {
   createSupabaseAdmin,
-} from "@supabase/server";
+} from "@/supabase-query/server";
 import { revalidatePath } from "next/cache";
 import customerToStaff from "@utils/functions/customerToStaff";
 
