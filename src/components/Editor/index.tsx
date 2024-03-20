@@ -58,7 +58,7 @@ export default function Editor({ editable }: { editable: boolean }) {
         debouncedUpdates(e);
       }
     },
-    autofocus: "end",
+    autofocus: false,
   });
 
   const { complete, completion, isLoading, stop } = useCompletion({
