@@ -96,9 +96,8 @@ export default function OrderForm() {
             order: order,
             customerSession: customerSession,
           }),
+          isShowToast: false,
         });
-
-        console.log(processedCalFeesResponse);
 
         if (processedCalFeesResponse?.data?.service_fee) {
           setPrices(

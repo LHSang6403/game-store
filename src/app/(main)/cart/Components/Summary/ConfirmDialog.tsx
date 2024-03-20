@@ -75,8 +75,8 @@ export default function ConfirmDialog({
               }),
             });
 
-            const order_code = ghnResponse?.data?.order_code;
-            setShipment("GHN", order_code);
+            console.log(ghnResponse);
+            setShipment("GHN", ghnResponse?.data?.order_code);
 
             requestOrderResult = ghnResponse.data;
             break;
@@ -89,15 +89,16 @@ export default function ConfirmDialog({
                 customerSession: customerSession,
               }),
             });
-
-            const label = ghtkResponse?.data?.order?.label;
-            setShipment("GHTK", label);
+            
+            console.log(ghtkResponse);
+            setShipment("GHTK", ghtkResponse?.data?.label);
 
             requestOrderResult = ghtkResponse;
             break;
         }
 
         if (!order.shipment_label_code) {
+          console.log(order);
           toast.error("Failed to create order, please try again.");
         } else {
           // *** Save to DB after payment and shipment ***
@@ -106,10 +107,6 @@ export default function ConfirmDialog({
       },
       {
         loading: "Creating order...",
-        success: "Order is created successfully!",
-        error: (error) => {
-          return `Failed to create order: ${error}`;
-        },
       }
     );
   }

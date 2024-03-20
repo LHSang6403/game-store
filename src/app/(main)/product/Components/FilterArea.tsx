@@ -128,7 +128,7 @@ export default function FilterArea() {
             <Slider
               defaultValue={[endPrice] ?? [300000]}
               min={100000}
-              max={500000000}
+              max={50000000}
               step={1}
               onValueChange={(values) => {
                 setPrice(0, values[0]);

@@ -66,7 +66,7 @@ export default function ProductActions({
           Sold: <span className="font-light">{product.sold_quantity}</span>
         </div>
         <hr className="my-2 w-[60%] rounded border dark:opacity-20 sm:w-full"></hr>
-        <div className="font-medium text-foreground">Choose options:</div>
+        {/* <div className="font-medium text-foreground">Choose options:</div>
         <div className="mt-0.5">
           <Select>
             <SelectTrigger className="w-[180px] border-none ">
@@ -83,7 +83,7 @@ export default function ProductActions({
               </SelectGroup>
             </SelectContent>
           </Select>
-        </div>
+        </div> */}
         <div className="mt-4 flex flex-col gap-4 lg:flex-row sm:px-1">
           <div className="flex items-center space-x-2">
             <Checkbox id="terms" />
