@@ -66,11 +66,13 @@ export const columns: ColumnDef<StaffType>[] = [
       ) => {
         toast.promise(
           async () => {
+            const unprocessedResponse = await updateStaffRole({
+              id: data.id,
+              updatedRole: newRole,
+            });
+
             const response = ApiErrorHandlerClient<any>({
-              response: await updateStaffRole({
-                id: data.id,
-                updatedRole: newRole,
-              }),
+              response: unprocessedResponse,
             });
           },
           {

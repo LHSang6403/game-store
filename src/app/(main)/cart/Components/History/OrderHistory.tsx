@@ -6,14 +6,16 @@ import { readUserSession } from "@/app/_actions/user";
 import { ApiErrorHandlerServer } from "@/utils/errorHandler/apiErrorHandler";
 
 export default async function OrderHistory() {
+  const unprocessedSessionResponse = await readUserSession();
   const sessionResponse = ApiErrorHandlerServer<any>({
-    response: await readUserSession(),
+    response: unprocessedSessionResponse,
   });
 
+  const unprocessedHistoryResponse = await readOrdersByCustomerId(
+    sessionResponse.data?.data?.session?.user?.id
+  );
   const historyResponse = ApiErrorHandlerServer<OrderType[]>({
-    response: await readOrdersByCustomerId(
-      sessionResponse.data?.data?.session?.user?.id
-    ),
+    response: unprocessedHistoryResponse,
   });
 
   return (

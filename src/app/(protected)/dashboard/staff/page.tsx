@@ -6,8 +6,9 @@ import { columns } from "./Components/Columns";
 import { ApiErrorHandlerServer } from "@/utils/errorHandler/apiErrorHandler";
 
 export default async function page() {
+  const unprocessedResponse = await readStaffs({ limit: 20, offset: 0 });
   const response = ApiErrorHandlerServer<StaffType[]>({
-    response: await readStaffs({ limit: 20, offset: 0 }),
+    response: unprocessedResponse,
   });
 
   return (

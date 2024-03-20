@@ -3,8 +3,9 @@ import CategoryCard from "./CategoryCard";
 import { ApiErrorHandlerServer } from "@/utils/errorHandler/apiErrorHandler";
 
 export default async function CategoryCards() {
+  const unprocessedCategoriesResponse = await readAllCategories();
   const categoriesResponse = ApiErrorHandlerServer<string[]>({
-    response: await readAllCategories(),
+    response: unprocessedCategoriesResponse,
   });
 
   return (

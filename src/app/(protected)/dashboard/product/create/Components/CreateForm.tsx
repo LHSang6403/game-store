@@ -89,8 +89,11 @@ export default function CreateForm() {
           comments: [],
         };
 
+        const unprocessedProductDescriptionUploadResponse =
+          await createProductDescription(descriptionObject);
+
         const productDescriptionUploadResponse = ApiErrorHandlerClient<any>({
-          response: await createProductDescription(descriptionObject),
+          response: unprocessedProductDescriptionUploadResponse,
         });
 
         // upload product images --------------
@@ -130,8 +133,10 @@ export default function CreateForm() {
           is_deleted: false,
         };
 
+        const unprocessedProductUploadResponse = await createProduct(product);
+        
         const productUploadResponse = ApiErrorHandlerClient<any>({
-          response: await createProduct(product),
+          response: unprocessedProductUploadResponse,
         });
 
         // create storage for this product ---------------
@@ -144,8 +149,12 @@ export default function CreateForm() {
           quantity: parseInt(data.storage_quantity),
         };
 
+        const unprocessedStorageUploadResponse = await createStorage(
+          storageObject
+        );
+
         const storageUploadResponse = ApiErrorHandlerClient<any>({
-          response: await createStorage(storageObject),
+          response: unprocessedStorageUploadResponse,
         });
       },
       {

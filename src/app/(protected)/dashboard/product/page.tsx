@@ -6,8 +6,9 @@ import type { ProductType } from "@utils/types/index";
 import { ApiErrorHandlerServer } from "@utils/errorHandler/apiErrorHandler";
 
 export default async function Page() {
+  const unprocessedResponse = await readProducts({ limit: 20, offset: 0 });
   const response = ApiErrorHandlerServer<ProductType[]>({
-    response: await readProducts({ limit: 20, offset: 0 }),
+    response: unprocessedResponse,
   });
 
   return (

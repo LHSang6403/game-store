@@ -6,8 +6,9 @@ import Link from "next/link";
 import { ApiErrorHandlerServer } from "@/utils/errorHandler/apiErrorHandler";
 
 export default async function page() {
+  const unprocessedSessionResponse = await readUserSession();
   const session = ApiErrorHandlerServer<any>({
-    response: await readUserSession(),
+    response: unprocessedSessionResponse,
   });
 
   if (!session.data || session.error)

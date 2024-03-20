@@ -67,12 +67,13 @@ export default function ConfirmDialog({
         let requestOrderResult: any;
         switch (formData.shipment) {
           case "GHN":
+            const unprocessedGHNResponse = await processOrderRequestData({
+              formData: formData,
+              order: order,
+              customerSession: customerSession,
+            });
             const ghnResponse = ApiErrorHandlerClient<any>({
-              response: await processOrderRequestData({
-                formData: formData,
-                order: order,
-                customerSession: customerSession,
-              }),
+              response: unprocessedGHNResponse,
             });
 
             console.log(ghnResponse);
@@ -82,14 +83,15 @@ export default function ConfirmDialog({
             break;
 
           case "GHTK":
-            const ghtkResponse = ApiErrorHandlerClient<any>({
-              response: await processOrderRequestData({
-                formData: formData,
-                order: order,
-                customerSession: customerSession,
-              }),
+            const unprocessedGHTKResponse = await processOrderRequestData({
+              formData: formData,
+              order: order,
+              customerSession: customerSession,
             });
-            
+            const ghtkResponse = ApiErrorHandlerClient<any>({
+              response: unprocessedGHTKResponse,
+            });
+
             console.log(ghtkResponse);
             setShipment("GHTK", ghtkResponse?.data?.label);
 

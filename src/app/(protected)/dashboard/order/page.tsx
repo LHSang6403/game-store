@@ -6,8 +6,9 @@ import { columns } from "@app/(protected)/dashboard/order/Components/Columns";
 import { ApiErrorHandlerServer } from "@utils/errorHandler/apiErrorHandler";
 
 export default async function page() {
+  const unprocessedResponse = await readOrders({ limit: 20, offset: 0 });
   const response = ApiErrorHandlerServer<OrderType[]>({
-    response: await readOrders({ limit: 20, offset: 0 }),
+    response: unprocessedResponse,
   });
 
   return (

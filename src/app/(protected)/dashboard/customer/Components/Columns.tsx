@@ -98,11 +98,13 @@ export const columns: ColumnDef<CustomerType>[] = [
                   onClick={() =>
                     toast.promise(
                       async () => {
+                        const unprocessedResponse = await updateToStaff({
+                          id: data.id,
+                          role: eachRole,
+                        });
+                        
                         const response = ApiErrorHandlerClient({
-                          response: await updateToStaff({
-                            id: data.id,
-                            role: eachRole,
-                          }),
+                          response: unprocessedResponse,
                         });
                       },
                       {

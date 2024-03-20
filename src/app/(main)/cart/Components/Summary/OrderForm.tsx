@@ -87,15 +87,17 @@ export default function OrderForm() {
 
     toast.promise(
       async () => {
+        const unprocessedCalFeesResponse = await calShipmentFees({
+          formData: data,
+          order: order,
+          customerSession: customerSession,
+        });
+
         const processedCalFeesResponse = ApiErrorHandlerClient<{
           service_fee: number;
           insurance_fee: number;
         }>({
-          response: await calShipmentFees({
-            formData: data,
-            order: order,
-            customerSession: customerSession,
-          }),
+          response: unprocessedCalFeesResponse,
           isShowToast: false,
         });
 
@@ -112,7 +114,7 @@ export default function OrderForm() {
       {
         loading: "Calculating order...",
         error: (error) => {
-          return `Failed to calculate order ${error}`;
+          return `Failed to calculate order: ${error}`;
         },
       }
     );
