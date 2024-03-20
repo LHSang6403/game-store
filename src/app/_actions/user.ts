@@ -12,7 +12,8 @@ export async function readUserSession() {
     const supabase = await createSupabaseServerClient();
     const result = await supabase.auth.getSession();
 
-    if (!result?.data?.session) return { data: null, error: "No session" };
+    if (!result?.data?.session) throw new Error("No session.");
+    
     const userMetadataRole = result?.data?.session?.user?.user_metadata?.role;
     const userId = result?.data?.session?.user?.id;
 
