@@ -67,6 +67,7 @@ export function ApiErrorHandlerServer<T>({
 
 export function ApiErrorHandlerClient<T>({
   response,
+  isShowToast = true,
 }: {
   response: {
     status?: number | undefined;
@@ -74,9 +75,11 @@ export function ApiErrorHandlerClient<T>({
     statusText?: string | undefined;
     data?: T | undefined | null;
   };
+  isShowToast?: boolean;
 }) {
   if (response.status && response.status >= 200 && response.status < 300) {
     // ok
+    if (isShowToast) toast.success("Success.");
 
     return {
       status: response.status,
@@ -90,7 +93,7 @@ export function ApiErrorHandlerClient<T>({
     response.status < 400
   ) {
     // redirect
-    toast.success("Redirected.");
+    if (isShowToast) toast.success("Redirected.");
 
     return {
       status: response.status,
@@ -104,7 +107,8 @@ export function ApiErrorHandlerClient<T>({
     response.status < 500
   ) {
     // client error
-    toast.error(response.statusText ?? response.error ?? "Client error.");
+    if (isShowToast)
+      toast.error(response.statusText ?? response.error ?? "Client error.");
 
     return {
       status: response.status,
@@ -118,7 +122,8 @@ export function ApiErrorHandlerClient<T>({
     response.status < 600
   ) {
     // server error
-    toast.error(response.statusText ?? response.error ?? "Server error.");
+    if (isShowToast)
+      toast.error(response.statusText ?? response.error ?? "Server error.");
 
     return {
       status: response.status,
@@ -128,7 +133,8 @@ export function ApiErrorHandlerClient<T>({
     };
   } else {
     // unknown error
-    toast.error(response.statusText ?? response.error ?? "Unknown error.");
+    if (isShowToast)
+      toast.error(response.statusText ?? response.error ?? "Unknown error.");
 
     return {
       status: response.status,

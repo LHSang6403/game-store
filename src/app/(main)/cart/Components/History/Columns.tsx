@@ -95,8 +95,6 @@ export const columns: ColumnDef<OrderType>[] = [
                       async () => {
                         switch (data.shipment_name) {
                           case "GHN":
-                            // cancelResult = () as { success: boolean; message: string };
-
                             const responseGHN = ApiErrorHandlerClient({
                               response: await cancelGHNOrder({
                                 id: data.id,

@@ -44,6 +44,7 @@ export default function Providers({ children }: { children: ReactNode }) {
     const fetchSession = async () => {
       const session = ApiErrorHandlerClient<any>({
         response: await readUserSession(),
+        isShowToast: false,
       });
 
       if (
