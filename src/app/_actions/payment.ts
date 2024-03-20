@@ -32,8 +32,6 @@ export default async function generatePaymentUrl(
       "\n" +
       httpQuery;
 
-    console.log("*** message", message);
-
     const signature = buildSignature(
       message,
       process.env.MERCHANT_SECRET_KEY || ""

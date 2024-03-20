@@ -91,11 +91,7 @@ export async function updateStorageQuantityByProductId(
       .eq("prod_id", id)
       .single();
 
-    if (readResult.error) {
-      return { error: readResult.error.message };
-    }
-
-    const currentQuantity = readResult.data.quantity as number;
+    const currentQuantity = readResult?.data?.quantity as number;
     const newQuantity = currentQuantity + updaingQuantity;
 
     const result = await supabase

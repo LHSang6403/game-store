@@ -74,8 +74,8 @@ export async function processOrderRequestData({
         to_name: formData?.name || customerSession?.name || "Unknown",
         to_phone: formData?.phone || "0123456789",
         to_address: formData?.address || customerSession?.address || "Unknown",
-        to_ward_code: "20308",
-        to_district_id: 1444,
+        to_ward_code: "20308", // dynamic with api after, must call GHN api to get ward code
+        to_district_id: 1444, // dynamic with api after, must call GHN api to get district id
         weight: order.weight || 100,
         service_id: 0,
         service_type_id: 2,

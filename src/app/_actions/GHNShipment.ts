@@ -76,20 +76,24 @@ export async function cancelGHNOrder({
     );
 
     if (response?.data?.code === 200) {
-      await updateStateOrder({
+      const updateResult = await updateStateOrder({
         id: id,
         state: "canceled",
       });
+
+      if (updateResult?.error) {
+        throw new Error(updateResult.error);
+      }
+
+      revalidatePath("/cart");
+
+      return {
+        status: response?.data?.code,
+        statusText: response?.data?.message,
+        data: response?.data?.data,
+        error: response?.data?.message,
+      };
     }
-
-    revalidatePath("/cart");
-
-    return {
-      status: response?.data?.code,
-      statusText: response?.data?.message,
-      data: response?.data?.data,
-      error: response?.data?.message,
-    };
   } catch (error: any) {
     return {
       status: 500,
@@ -142,15 +146,6 @@ export async function printGHNOrder({
       process.env.GHN_PRINT_URL + size + "?token=" + response.data.data.token,
       { headers }
     );
-
-    if (!printResponse.data) {
-      return {
-        status: 500,
-        statusText: "Internal Server Error",
-        data: null,
-        error: "Print Error.",
-      };
-    }
 
     return {
       status: 200,

@@ -11,6 +11,7 @@ export async function createProduct(product: ProductType) {
   try {
     const supabase = await createSupabaseServerClient();
     const result = await supabase.from("product").insert(product);
+
     revalidatePath("/dashboard/product");
     revalidatePath("/product");
 
@@ -203,12 +204,8 @@ export async function readProductBrands() {
       .select("brand")
       .eq("is_deleted", false);
 
-    if (result.error) {
-      return { data: null, error: result.error.message };
-    }
-
     const uniqueBrands = Array.from(
-      new Set(result.data.map((item: { brand: string }) => item.brand))
+      new Set(result?.data?.map((item: { brand: string }) => item.brand))
     );
 
     return {
