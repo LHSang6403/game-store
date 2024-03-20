@@ -75,7 +75,7 @@ export async function cancelGHNOrder({
       { headers }
     );
 
-    if (response?.data?.code === 200) {
+    if (response.data.code === 200) {
       const updateResult = await updateStateOrder({
         id: id,
         state: "canceled",
@@ -88,12 +88,14 @@ export async function cancelGHNOrder({
       revalidatePath("/cart");
 
       return {
-        status: response?.data?.code,
-        statusText: response?.data?.message,
-        data: response?.data?.data,
-        error: response?.data?.message,
+        status: response.data.code,
+        statusText: response.data.message,
+        data: response.data.data,
+        error: response.data?.message,
       };
     }
+
+    throw new Error(response.data.message);
   } catch (error: any) {
     return {
       status: 500,
