@@ -2,34 +2,6 @@
 
 import * as crypto from "crypto";
 
-function getInvoiceNo(length: number): string {
-  let result = "";
-  let characters =
-    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-  let charactersLength = characters.length;
-  for (let i = 0; i < length; i++) {
-    result += characters.charAt(Math.floor(Math.random() * charactersLength));
-  }
-  return result;
-}
-
-function buildHttpQuery(data: Record<string, any>): string {
-  let httpQuery = new URLSearchParams();
-  Object.keys(data).forEach(function (parameterName) {
-    httpQuery.append(parameterName, data[parameterName]);
-  });
-  return httpQuery.toString();
-}
-
-function buildSignature(data: string, secret: string): string {
-  let token = crypto
-    .createHmac("sha256", secret)
-    .update(data)
-    .digest()
-    .toString("base64");
-  return token;
-}
-
 export default async function generatePaymentUrl(
   amount: number,
   description: string,
@@ -102,4 +74,32 @@ export default async function generatePaymentUrl(
   } catch (error) {
     throw new Error("Failed to generate payment URL");
   }
+}
+
+function getInvoiceNo(length: number): string {
+  let result = "";
+  let characters =
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  let charactersLength = characters.length;
+  for (let i = 0; i < length; i++) {
+    result += characters.charAt(Math.floor(Math.random() * charactersLength));
+  }
+  return result;
+}
+
+function buildHttpQuery(data: Record<string, any>): string {
+  let httpQuery = new URLSearchParams();
+  Object.keys(data).forEach(function (parameterName) {
+    httpQuery.append(parameterName, data[parameterName]);
+  });
+  return httpQuery.toString();
+}
+
+function buildSignature(data: string, secret: string): string {
+  let token = crypto
+    .createHmac("sha256", secret)
+    .update(data)
+    .digest()
+    .toString("base64");
+  return token;
 }

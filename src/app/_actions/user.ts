@@ -212,9 +212,19 @@ export async function readStaffs({
       .select("*")
       .range(offset, limit);
 
-    return result as { data: StaffType[]; error: any };
+    return {
+      status: result.status,
+      statusText: result.statusText,
+      data: result.data as StaffType[],
+      error: result.error,
+    };
   } catch {
-    return { data: null, error: "Error on read." };
+    return {
+      status: 500,
+      statusText: "Internal server error.",
+      data: null,
+      error: "Error on read.",
+    };
   }
 }
 

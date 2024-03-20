@@ -53,7 +53,12 @@ export async function readProducts({
       error: result.error,
     };
   } catch (error: any) {
-    return { status: 500, error: error };
+    return {
+      status: 500,
+      statusText: "Internal Server Error.",
+      data: null,
+      error: error,
+    };
   }
 }
 
@@ -75,11 +80,18 @@ export async function readProductDetailById(id: string) {
       .single();
 
     return {
+      status: result.status,
+      statusText: result.statusText,
       data: result.data as ProductWithDescriptionAndStorageType,
       error: result.error,
     };
   } catch (error: any) {
-    return { error: error.message };
+    return {
+      status: 500,
+      statusText: "Internal Server Error.",
+      data: null,
+      error: error,
+    };
   }
 }
 
@@ -103,14 +115,24 @@ export async function updateSoldQuantityByProductId(
     const currentSoldQuantity = result.data.sold_quantity as number;
     const newSoldQuantity = currentSoldQuantity + updatingQuantity;
 
-    await supabase
+    const updateResult = await supabase
       .from("product")
       .update({ sold_quantity: newSoldQuantity })
       .eq("id", id);
 
-    return result as { data: unknown; error: unknown };
+    return {
+      status: updateResult.status,
+      statusText: updateResult.statusText,
+      data: updateResult.data,
+      error: updateResult.error,
+    };
   } catch (error: any) {
-    return { error: error.message };
+    return {
+      status: 500,
+      statusText: "Internal Server Error.",
+      data: null,
+      error: error,
+    };
   }
 }
 
@@ -124,11 +146,18 @@ export async function readAllProductsWithNameAndId() {
       .eq("is_deleted", false);
 
     return {
+      status: result.status,
+      statusText: result.statusText,
       data: result.data as { id: string; name: string }[],
       error: result.error,
     };
   } catch (error: any) {
-    return { error: error.message };
+    return {
+      status: 500,
+      statusText: "Internal Server Error.",
+      data: null,
+      error: error,
+    };
   }
 }
 
@@ -182,8 +211,18 @@ export async function readProductBrands() {
       new Set(result.data.map((item: { brand: string }) => item.brand))
     );
 
-    return { data: uniqueBrands, error: result.error };
+    return {
+      status: result.status,
+      statusText: result.statusText,
+      data: uniqueBrands,
+      error: result.error,
+    };
   } catch (error: any) {
-    return { error: error.message };
+    return {
+      status: 500,
+      statusText: "Internal Server Error.",
+      data: null,
+      error: error,
+    };
   }
 }
