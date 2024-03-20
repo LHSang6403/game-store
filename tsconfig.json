@@ -24,7 +24,7 @@
       "@/*": ["./src/*"],
       "@app/*": ["./src/app/*"],
       "@components/*": ["./src/components/*"],
-      "@supabase/*": ["src/supabase-query/*"],
+      "@supabase/*": ["./src/supabase-query/*"],
       "@hooks/*": ["./src/hooks/*"],
       "@utils/*": ["./src/utils/*"],
       "@auth/*": ["./src/app/auth/*"]
