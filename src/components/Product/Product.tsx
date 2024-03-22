@@ -2,7 +2,6 @@ import Image from "next/image";
 import Link from "next/link";
 import formatCurrency from "@utils/functions/formatCurrency";
 import type { ProductType } from "@utils/types/index";
-//https://ybpsohhfffcqexnuazos.supabase.co/storage/v1/object/public/public_files/product_images/g15.png
 
 export default function Product({ data }: { data: ProductType }) {
   return (
@@ -13,7 +12,11 @@ export default function Product({ data }: { data: ProductType }) {
       <div className="h-36 w-48 sm:h-28 sm:w-full">
         <Image
           alt="Category"
-          src={`https://ybpsohhfffcqexnuazos.supabase.co/storage/v1/object/public/public_files/${data.images[0]}`}
+          src={
+            process.env.NEXT_PUBLIC_SUPABASE_URL +
+            "/storage/v1/object/public/public_files/" +
+            data.images[0]
+          }
           className="!relative !w-full object-contain"
           layout="fill"
         />

@@ -70,25 +70,6 @@ export default function FormInputs({ form }: { form: any }) {
       />
       <FormField
         control={form.control}
-        name="options"
-        render={({ field }) => (
-          <FormItem>
-            <FormLabel>Product Options</FormLabel>
-            <FormControl>
-              <Input
-                placeholder="Options (comma-separated)"
-                className="border-[#E5E7EB]"
-                {...field}
-                type="text"
-                onChange={field.onChange}
-              />
-            </FormControl>
-            <FormMessage />
-          </FormItem>
-        )}
-      />
-      <FormField
-        control={form.control}
         name="price"
         render={({ field }) => (
           <FormItem>

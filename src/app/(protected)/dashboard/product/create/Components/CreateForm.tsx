@@ -29,7 +29,6 @@ const FormSchema = z.object({
   price: z.string().refine((val) => !Number.isNaN(parseInt(val, 10)), {
     message: "Expected number, received a string",
   }),
-  options: z.string(),
   rate: z.string().refine((val) => !Number.isNaN(parseInt(val, 10)), {
     message: "Expected number, received a string",
   }),
@@ -55,7 +54,6 @@ export default function CreateForm() {
     name: "",
     description: "",
     price: "1000000",
-    options: "",
     rate: "4",
     sold_quantity: "0",
     category: "",
@@ -79,87 +77,90 @@ export default function CreateForm() {
       async () => {
         // **** should create a tranction for these uploads ****
         const editorContent = window.localStorage.getItem("content");
+        const cleanedJsonString = editorContent?.replace(/\\/g, "");
 
         // upload description -------------
         const descriptionObject: ProductDescriptionType = {
           id: uuidv4(),
           created_at: new Date().toISOString(),
-          content: JSON.stringify(editorContent),
+          content: JSON.parse(cleanedJsonString ?? "{}"),
           writer: session?.name ?? "Anonymous",
           comments: [],
         };
 
-        const unprocessedProductDescriptionUploadResponse =
-          await createProductDescription(descriptionObject);
+        console.log(descriptionObject);
 
-        const productDescriptionUploadResponse = ApiErrorHandlerClient<any>({
-          response: unprocessedProductDescriptionUploadResponse,
-          isShowToast: false,
-        });
+        // const unprocessedProductDescriptionUploadResponse =
+        //   await createProductDescription(descriptionObject);
 
-        // upload product images --------------
-        const supabase = createSupabaseBrowserClient();
-        const productImagesUploadResults: string[] = [];
+        // const productDescriptionUploadResponse = ApiErrorHandlerClient<any>({
+        //   response: unprocessedProductDescriptionUploadResponse,
+        //   isShowToast: false,
+        // });
 
-        for (const file of files) {
-          const uploadingFile = file as File;
-          const result = await supabase.storage
-            .from("public_files")
-            .upload("/product_images/" + uploadingFile.name, uploadingFile);
-          if (!result.error) productImagesUploadResults.push(result.data.path);
-          else {
-            console.error("upload files here", result.error);
-            toast.error(`Error uploading image: ${uploadingFile.name}`);
-          }
-        }
-        if (!productImagesUploadResults.length)
-          throw new Error("No image uploaded.");
+        // // upload product images --------------
+        // const supabase = createSupabaseBrowserClient();
+        // const productImagesUploadResults: string[] = [];
 
-        // upload product ---------------
-        const product = {
-          id: uuidv4(),
-          created_at: new Date().toISOString(),
-          brand: data.brand,
-          name: data.name,
-          description: data.description,
-          images: productImagesUploadResults,
-          price: parseInt(data.price),
-          options: data.options
-            .split(",")
-            .map((item) => item.trim())
-            .flat(),
-          rate: parseFloat(data.rate),
-          sold_quantity: parseInt(data.sold_quantity),
-          description_id: descriptionObject.id,
-          category: data.category,
-          is_deleted: false,
-        };
+        // for (const file of files) {
+        //   const uploadingFile = file as File;
+        //   const result = await supabase.storage
+        //     .from("public_files")
+        //     .upload("/product_images/" + uploadingFile.name, uploadingFile, {
+        //       upsert: true,
+        //       duplex: "half",
+        //     });
 
-        const unprocessedProductUploadResponse = await createProduct(product);
+        //   if (!result.error) productImagesUploadResults.push(result.data.path);
+        //   else {
+        //     console.error("upload files here", result.error);
+        //     toast.error(`Error uploading image: ${uploadingFile.name}`);
+        //   }
+        // }
+        // if (!productImagesUploadResults.length)
+        //   throw new Error("No image uploaded.");
 
-        const productUploadResponse = ApiErrorHandlerClient<any>({
-          response: unprocessedProductUploadResponse,
-          isShowToast: false,
-        });
+        // // upload product ---------------
+        // const product = {
+        //   id: uuidv4(),
+        //   created_at: new Date().toISOString(),
+        //   brand: data.brand,
+        //   name: data.name,
+        //   description: data.description,
+        //   images: productImagesUploadResults,
+        //   price: parseInt(data.price),
+        //   rate: parseFloat(data.rate),
+        //   sold_quantity: parseInt(data.sold_quantity),
+        //   description_id: descriptionObject.id,
+        //   category: data.category,
+        //   is_deleted: false,
+        // };
 
-        // create storage for this product ---------------
-        const storageObject = {
-          id: uuidv4(),
-          created_at: new Date().toISOString(),
-          prod_id: product.id,
-          prod_name: product.name,
-          address: data.storage_address,
-          quantity: parseInt(data.storage_quantity),
-        };
+        // const unprocessedProductUploadResponse = await createProduct(product);
 
-        const unprocessedStorageUploadResponse = await createStorage(
-          storageObject
-        );
+        // const productUploadResponse = ApiErrorHandlerClient<any>({
+        //   response: unprocessedProductUploadResponse,
+        //   isShowToast: false,
+        // });
 
-        const storageUploadResponse = ApiErrorHandlerClient<any>({
-          response: unprocessedStorageUploadResponse,
-          isShowToast: false,
-        });
+        // // create storage for this product ---------------
+        // const storageObject = {
+        //   id: uuidv4(),
+        //   created_at: new Date().toISOString(),
+        //   prod_id: product.id,
+        //   prod_name: product.name,
+        //   address: data.storage_address,
+        //   quantity: parseInt(data.storage_quantity),
+        // };
+
+        // const unprocessedStorageUploadResponse = await createStorage(
+        //   storageObject
+        // );
+
+        // const storageUploadResponse = ApiErrorHandlerClient<any>({
+        //   response: unprocessedStorageUploadResponse,
+        //   isShowToast: false,
+        // });
       },
       {
         loading: "Creating product...",

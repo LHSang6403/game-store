@@ -1,6 +1,7 @@
 import { toast } from "sonner";
 import { EditorState, Plugin, PluginKey } from "@tiptap/pm/state";
 import { Decoration, DecorationSet, EditorView } from "@tiptap/pm/view";
+import { generate } from "randomstring";
 
 const uploadKey = new PluginKey("upload-image");
 
@@ -121,7 +122,7 @@ export const handleImageUpload = (file: File) => {
         method: "POST",
         headers: {
           "content-type": file?.type || "application/octet-stream",
-          "x-vercel-filename": file?.name || "image.jpg",
+          "x-vercel-filename": file?.name || "image" + generate(4) + ".jpg",
         },
         body: file,
       }).then(async (res) => {

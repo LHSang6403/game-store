@@ -14,11 +14,12 @@ import type { ProductType } from "@utils/types/index";
 import useProductFilter from "@/zustand/useProductFilter";
 import { Button } from "@components/ui/button";
 import { toast } from "sonner";
+import { MAX_PRICE } from "@/zustand/useProductFilter";
 
 export default function ProductsContainer({
   products,
 }: {
-  products: ProductType[] ;
+  products: ProductType[];
 }) {
   const { brands, categories, endPrice, removeAllFilters } = useProductFilter();
 
@@ -39,6 +40,8 @@ export default function ProductsContainer({
     return isBrandMatch && isCategoryMatch && isPriceMatch;
   });
 
+  console.log(filteredProducts);
+
   return (
     <div className="flex h-fit w-full flex-col items-center justify-center gap-6">
       <div className="grid h-fit w-fit grid-cols-4 justify-items-center gap-5 xl:grid-cols-3 lg:grid-cols-2 sm:gap-2">
@@ -48,7 +51,9 @@ export default function ProductsContainer({
           ))}
       </div>
 
-      {(brands?.length > 0 || categories?.length > 0 || endPrice > 0) && (
+      {(brands?.length > 0 ||
+        categories?.length > 0 ||
+        endPrice < MAX_PRICE) && (
         <Button
           onClick={() => {
             removeAllFilters();

@@ -1,6 +1,6 @@
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
-// End point: https://ybpsohhfffcqexnuazos.supabase.co/functions/v1/GHN-webhook
+// End point: https://ocxohkgmygzfysykcspe.supabase.co/functions/v1/GHN-webhook
 
 Deno.serve(async (req) => {
   try {

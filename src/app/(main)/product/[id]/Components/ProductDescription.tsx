@@ -10,17 +10,14 @@ export default function ProductDescription({
 }: {
   description: ProductDescriptionType;
 }) {
-  const [content, setContent] = useLocalStorage(
-    "content",
-    JSON.parse(description.content)
-  );
+  const [content, setContent] = useLocalStorage("content", description.content);
 
   useEffect(() => {
-    setContent(JSON.parse(description.content));
+    setContent(description.content);
   }, []);
 
   return (
-    <div className="-mt-10 h-fit min-h-screen w-full rounded-3xl bg-gradient-to-t from-accent p-10 pb-2 !pt-0 xl:p-4 sm:p-2">
+    <div className="-mt-10 h-fit min-h-screen w-full rounded-3xl bg-gradient-to-t from-accent p-10 !pt-0 pb-2 xl:p-4 sm:p-2">
       <Editor editable={false} />
     </div>
   );

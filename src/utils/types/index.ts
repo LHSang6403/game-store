@@ -36,7 +36,6 @@ export interface ProductType {
   description: string;
   images: string[];
   price: number;
-  options: string[];
   rate: number;
   sold_quantity: number;
   description_id: string; // f_key
@@ -47,7 +46,7 @@ export interface ProductType {
 export interface ProductDescriptionType {
   id: string; // p_key
   created_at: string;
-  content: string;
+  content: any;
   writer: string;
   comments: string[];
 }
@@ -60,7 +59,6 @@ export interface ProductWithDescriptionAndStorageType {
   description: string;
   images: string[];
   price: number;
-  options: string[];
   rate: number;
   sold_quantity: number;
   description_id: string;

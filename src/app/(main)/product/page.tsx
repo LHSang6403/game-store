@@ -9,7 +9,7 @@ import { ApiErrorHandlerServer } from "@utils/errorHandler/apiErrorHandler";
 
 export default async function Product() {
   const unprocessedProductsResponse = await readProducts({
-    limit: 10,
+    limit: 40,
     offset: 0,
   });
   const productsResponse = ApiErrorHandlerServer<ProductType[]>({

@@ -45,7 +45,11 @@ export default function ProductImages({ images }: { images: string[] }) {
           <SwiperSlide key={index}>
             <div className="mx-auto flex h-full w-[90%] items-center justify-center overflow-hidden p-4 sm:w-full sm:p-1">
               <Image
-                src={`https://ybpsohhfffcqexnuazos.supabase.co/storage/v1/object/public/public_files/${image}`}
+                src={
+                  process.env.NEXT_PUBLIC_SUPABASE_URL +
+                  "/storage/v1/object/public/public_files/" +
+                  image
+                }
                 alt="Product"
                 className="!relative !w-full object-contain"
                 layout="fill"
@@ -90,7 +94,11 @@ export default function ProductImages({ images }: { images: string[] }) {
               } m-1 h-24 w-32 rounded-lg border transition duration-300 ease-in-out hover:scale-[1.02] hover:cursor-pointer lg:h-16 lg:w-20 ssm:h-12 ssm:w-16`}
             >
               <Image
-                src={`https://ybpsohhfffcqexnuazos.supabase.co/storage/v1/object/public/public_files/${image}`}
+                src={
+                  process.env.NEXT_PUBLIC_SUPABASE_URL +
+                  "/storage/v1/object/public/public_files/" +
+                  image
+                }
                 width={200}
                 height={200}
                 alt="Product Thumbnail"
