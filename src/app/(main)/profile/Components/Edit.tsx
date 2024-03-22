@@ -25,6 +25,8 @@ import { z } from "zod";
 import { updateUserProfile } from "@app/_actions/user";
 import { toast } from "sonner";
 import { ApiErrorHandlerClient } from "@/utils/errorHandler/apiErrorHandler";
+import { useState } from "react";
+import { set } from "date-fns";
 
 export interface UpdatingData {
   //   name: string;
@@ -43,6 +45,8 @@ export default function Edit({
 }: {
   profile: CustomerType | StaffType;
 }) {
+  const [isOpen, setIsOpen] = useState(false);
+
   const form = useForm({
     resolver: zodResolver(schema),
     defaultValues: {
@@ -63,14 +67,14 @@ export default function Edit({
 
         const result = ApiErrorHandlerClient({
           response: unprocessedResult,
+          isShowToast: false,
         });
-
-        return result;
       },
       {
         loading: "Updating profile...",
         success: () => {
           form.reset();
+          setIsOpen(false);
           return "Profile updated successfully!";
         },
         error: (error) => {
@@ -81,7 +85,7 @@ export default function Edit({
   };
 
   return (
-    <Dialog>
+    <Dialog open={isOpen} onOpenChange={() => setIsOpen(!isOpen)}>
       <DialogTrigger asChild>
         <Button variant="outline" className="border-none">
           Edit Profile

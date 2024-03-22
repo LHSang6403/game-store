@@ -16,7 +16,7 @@ const useProductFilter = create<ProductFilter>((set) => ({
   brands: [],
   categories: [],
   startPrice: 0,
-  endPrice: 0,
+  endPrice: 50000000,
   setFilter: (filter: ProductFilter) => set(filter),
   setBrands: (brands: string[]) => set({ brands }),
   setCategories: (categories: string[]) => set({ categories }),

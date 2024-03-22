@@ -126,7 +126,7 @@ export default function FilterArea() {
               Price from 0 to {formatCurrency(endPrice)} VND
             </Label>
             <Slider
-              defaultValue={[endPrice] ?? [300000]}
+              defaultValue={[endPrice]}
               min={100000}
               max={50000000}
               step={1}
