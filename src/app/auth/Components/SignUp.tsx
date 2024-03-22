@@ -85,7 +85,7 @@ export default function SignUp() {
   async function onSubmit(data: z.infer<typeof FormSchema>) {
     toast.promise(
       async () => {
-        const signUpData = {
+        const result = await signUpWithEmailAndPassword({
           name: data.name,
           phone: data.phone,
           dob: data.dob,
@@ -95,12 +95,15 @@ export default function SignUp() {
           province: data.province,
           email: data.email,
           password: data.password,
-        };
-
-        const result = await signUpWithEmailAndPassword(signUpData);
+        });
 
         if (result.error) {
-          toast.error(result?.error.toString());
+          console.log("ERROR", result.error);
+          if (typeof result.error === "string") {
+            toast.error(result.error);
+          } else {
+            toast.error(result.error.message);
+          }
         }
       },
       {

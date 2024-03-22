@@ -77,7 +77,7 @@ export default function ConfirmDialog({
             });
 
             console.log(ghnResponse);
-            setShipment("GHN", ghnResponse?.data?.order_code);
+            setShipment("GHN", ghnResponse.data.order_code);
 
             requestOrderResult = ghnResponse.data;
             break;
@@ -93,7 +93,7 @@ export default function ConfirmDialog({
             });
 
             console.log(ghtkResponse);
-            setShipment("GHTK", ghtkResponse?.data?.label);
+            setShipment("GHTK", ghtkResponse.data.label);
 
             requestOrderResult = ghtkResponse;
             break;

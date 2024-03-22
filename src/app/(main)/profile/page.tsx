@@ -24,7 +24,7 @@ export default async function page() {
       </div>
     );
 
-  const dobDate = new Date(session.data.detailData.dob.toString() ?? "");
+  const dobDate = new Date(session?.data?.detailData?.dob.toString() ?? "");
   const day = dobDate.getDate();
   const month = dobDate.getMonth() + 1;
   const year = dobDate.getFullYear();
@@ -37,7 +37,7 @@ export default async function page() {
         <div className="flex justify-center rounded-full border p-0.5">
           <Image
             src={
-              session.data.detailData?.image ??
+              session.data?.detailData?.image ??
               "https://png.pngtree.com/png-vector/20191026/ourlarge/pngtree-avatar-vector-icon-white-background-png-image_1870181.jpg"
             }
             alt="profile"
@@ -50,11 +50,11 @@ export default async function page() {
         <div className="w-fit rounded-md">
           <p className="text-left">
             <span className="font-semibold">Name: </span>
-            {session.data.detailData.name}
+            {session.data?.detailData?.name}
           </p>
           <p className="text-left">
             <span className="font-semibold">Email: </span>{" "}
-            {session.data.detailData.email}
+            {session.data?.detailData?.email}
           </p>
           <p className="text-left">
             <span className="font-semibold">Birdthday: </span>{" "}
@@ -62,21 +62,21 @@ export default async function page() {
           </p>
           <p className="text-left">
             <span className="font-semibold">Phone: </span>{" "}
-            {session.data.detailData.phone ?? "Unknown"}
+            {session.data?.detailData?.phone ?? "Unknown"}
           </p>
           <p className="text-left">
             <span className="font-semibold">Address: </span>{" "}
-            {session.data.detailData.address ?? "Unknown"}
+            {session.data?.detailData?.address ?? "Unknown"}
           </p>
-          {"role" in session.data.detailData ? (
+          {"role" in session.data?.detailData ? (
             <p className="text-left">
               <span className="font-semibold">Role: </span>{" "}
-              {session.data.detailData.role}
+              {session.data?.detailData.role}
             </p>
           ) : (
             <p className="text-left">
               <span className="font-semibold">Level: </span>{" "}
-              {session.data.detailData.level}
+              {session.data?.detailData?.level}
             </p>
           )}
         </div>

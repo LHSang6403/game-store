@@ -39,6 +39,8 @@ export async function signUpWithEmailAndPassword({
       },
     });
 
+    console.log(createResult);
+
     // store more data in customer table
     const createdUserId = createResult?.data?.user?.id;
 
@@ -58,7 +60,11 @@ export async function signUpWithEmailAndPassword({
           "https://img.freepik.com/free-vector/cute-boy-playing-game-sofa-with-headphone-cartoon-vector-icon-illustration-people-technology_138676-5483.jpg",
       };
 
-      await supabase.from("customer").insert(customerObject);
+      const customerInsertResult = await supabase
+        .from("customer")
+        .insert(customerObject);
+
+      console.log(customerInsertResult);
     }
 
     return createResult;

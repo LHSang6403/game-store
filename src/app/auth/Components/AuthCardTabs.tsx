@@ -34,9 +34,11 @@ export default function AuthCardTabs() {
           <CardHeader>
             <CardTitle>Log in</CardTitle>
             <CardDescription>
-              Use account: hoangsang6403@gmail.com (customer),
-              vatvo469@gmail.com (staff), and password: 123456, and click
-              Sign In.
+              Use account: <br />
+              lhsang6403@gmail.com (customer), <br />
+              lhsang21@clc.fitus.edu.vn (customer), <br />
+              gamestorevn2024@gmail.com (admin), <br />
+              and password: 123456, and click Sign In.
             </CardDescription>
           </CardHeader>
           <CardContent>
