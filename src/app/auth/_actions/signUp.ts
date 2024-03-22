@@ -39,8 +39,6 @@ export async function signUpWithEmailAndPassword({
       },
     });
 
-    console.log(createResult);
-
     // store more data in customer table
     const createdUserId = createResult?.data?.user?.id;
 
@@ -63,8 +61,6 @@ export async function signUpWithEmailAndPassword({
       const customerInsertResult = await supabase
         .from("customer")
         .insert(customerObject);
-
-      console.log(customerInsertResult);
     }
 
     return createResult;

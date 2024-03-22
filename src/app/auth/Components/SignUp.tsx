@@ -98,7 +98,6 @@ export default function SignUp() {
         });
 
         if (result.error) {
-          console.log("ERROR", result.error);
           if (typeof result.error === "string") {
             toast.error(result.error);
           } else {
