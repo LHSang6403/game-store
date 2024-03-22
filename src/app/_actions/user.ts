@@ -13,7 +13,7 @@ export async function readUserSession() {
     const result = await supabase.auth.getSession();
 
     if (!result?.data?.session) throw new Error("No session.");
-    
+
     const userMetadataRole = result?.data?.session?.user?.user_metadata?.role;
     const userId = result?.data?.session?.user?.id;
 
@@ -71,11 +71,16 @@ export async function updateStaffRole({
 }) {
   try {
     const supabase = await createSupabaseServerClient();
+    const supabaseAdmin = await createSupabaseAdmin();
 
     const result = await supabase
       .from("staff")
       .update({ role: updatedRole })
       .eq("id", id);
+
+    await supabaseAdmin.auth.admin.updateUserById(id, {
+      user_metadata: { role: updatedRole },
+    });
 
     if (!result.error) revalidatePath("/dashboard/staff");
 
