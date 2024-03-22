@@ -1,7 +1,7 @@
 import SearchBar from "@components/Search/SearchBar";
 import CategoryCards from "@app/(main)/product/Components/CategoryCards";
 import ProductsContainer from "@app/(main)/product/Components/ProductsContainer";
-import SheetArea from "@app/(main)/product/Components/FilterArea";
+import FilterArea from "@app/(main)/product/Components/FilterArea";
 import Advertisement from "@app/(main)/product/Components/Advertisement";
 import { readProducts } from "@/app/_actions/product";
 import { ProductType } from "@utils/types/index";
@@ -28,7 +28,7 @@ export default async function Product() {
         {productsResponse.data && (
           <ProductsContainer products={productsResponse.data} />
         )}
-        <SheetArea />
+        <FilterArea />
       </div>
     </>
   );

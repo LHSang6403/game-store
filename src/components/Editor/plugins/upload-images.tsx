@@ -114,7 +114,7 @@ export function startImageUpload(file: File, view: EditorView, pos: number) {
 }
 
 export const handleImageUpload = (file: File) => {
-  // upload to Vercel Blob
+  // upload to supabase storage
   return new Promise((resolve) => {
     toast.promise(
       fetch("/api/upload", {
@@ -128,7 +128,7 @@ export const handleImageUpload = (file: File) => {
         // Successfully uploaded image
         if (res.status === 200) {
           const url = await res.json().then((data) => data.url);
-          console.log("===url", url);
+          console.log("url", url);
 
           // preload the image
           let image = new Image();

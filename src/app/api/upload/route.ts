@@ -31,7 +31,7 @@ export async function POST(req: Request) {
     return Response.json({
       data: "ok",
       url:
-        "https://ybpsohhfffcqexnuazos.supabase.co/storage/v1/object/public/public_files/" +
+        "https://ocxohkgmygzfysykcspe.supabase.co/storage/v1/object/public/public_files/" +
         data!.path,
     });
   } catch (error) {

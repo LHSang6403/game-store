@@ -17,7 +17,7 @@ import { Input } from "@components/ui/input";
 import { Button } from "@components/ui/button";
 import { useSession } from "@/zustand/useSession";
 import { useOrder } from "@/zustand/useOrder";
-import type { CustomerType, ShipmentNameType } from "@utils/types";
+import type { CustomerType, ShipmentNameType, StaffType } from "@utils/types";
 import ConfirmDialog from "./ConfirmDialog";
 import { useState, useEffect } from "react";
 import FormAddressPicker from "@components/Picker/Address/FormAddressPicker";
@@ -82,6 +82,17 @@ export default function OrderForm() {
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {
     if (!order) {
+      return <></>;
+    }
+
+    if (!customerSession) {
+      toast.error("Please login to buy items.");
+      return <></>;
+    }
+
+    const staffSession = session as StaffType;
+    if (staffSession) {
+      toast.error("Staffs can't buy items.");
       return <></>;
     }
 

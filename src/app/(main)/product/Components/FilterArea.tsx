@@ -112,7 +112,7 @@ export default function FilterArea() {
                 <SelectGroup>
                   <SelectLabel>Category</SelectLabel>
                   <SelectItem value="All">All</SelectItem>
-                  {categoriesData?.data!.map((each, index: number) => (
+                  {categoriesData?.data?.map((each, index: number) => (
                     <SelectItem key={index} value={each}>
                       {each}
                     </SelectItem>

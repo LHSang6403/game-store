@@ -20,6 +20,7 @@ import { createProduct } from "@app/_actions/product";
 import { createStorage } from "@app/_actions/storage";
 import { createProductDescription } from "@app/_actions/product_description";
 import { ApiErrorHandlerClient } from "@/utils/errorHandler/apiErrorHandler";
+import { ProductDescriptionType } from "@/utils/types/index";
 
 const FormSchema = z.object({
   brand: z.string().min(1, { message: "Brand is a compulsory." }),
@@ -80,11 +81,10 @@ export default function CreateForm() {
         const editorContent = window.localStorage.getItem("content");
 
         // upload description -------------
-        const descriptionObject = {
+        const descriptionObject: ProductDescriptionType = {
           id: uuidv4(),
           created_at: new Date().toISOString(),
           content: JSON.stringify(editorContent),
-          images: [],
           writer: session?.name ?? "Anonymous",
           comments: [],
         };
@@ -94,6 +94,7 @@ export default function CreateForm() {
 
         const productDescriptionUploadResponse = ApiErrorHandlerClient<any>({
           response: unprocessedProductDescriptionUploadResponse,
+          isShowToast: false,
         });
 
         // upload product images --------------
@@ -107,6 +108,7 @@ export default function CreateForm() {
             .upload("/product_images/" + uploadingFile.name, uploadingFile);
           if (!result.error) productImagesUploadResults.push(result.data.path);
           else {
+            console.error("upload files here", result.error);
             toast.error(`Error uploading image: ${uploadingFile.name}`);
           }
         }
@@ -134,9 +136,10 @@ export default function CreateForm() {
         };
 
         const unprocessedProductUploadResponse = await createProduct(product);
-        
+
         const productUploadResponse = ApiErrorHandlerClient<any>({
           response: unprocessedProductUploadResponse,
+          isShowToast: false,
         });
 
         // create storage for this product ---------------
@@ -155,6 +158,7 @@ export default function CreateForm() {
 
         const storageUploadResponse = ApiErrorHandlerClient<any>({
           response: unprocessedStorageUploadResponse,
+          isShowToast: false,
         });
       },
       {
