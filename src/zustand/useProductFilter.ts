@@ -25,7 +25,7 @@ const useProductFilter = create<ProductFilter>((set) => ({
   setPrice: (startPrice: number, endPrice: number) =>
     set({ startPrice, endPrice }),
   removeAllFilters: () =>
-    set({ brands: [], categories: [], startPrice: 0, endPrice: 0 }),
+    set({ brands: [], categories: [], startPrice: 0, endPrice: MAX_PRICE }),
 }));
 
 export default useProductFilter;

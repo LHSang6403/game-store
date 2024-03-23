@@ -1,18 +1,11 @@
 "use client";
 
 import Product from "@components/Product/Product";
-import {
-  Pagination,
-  PaginationContent,
-  PaginationEllipsis,
-  PaginationItem,
-  PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
-} from "@components/ui/pagination";
+import PaginationButtons from "@app/(main)/product/Components/PaginationButtons";
 import type { ProductType } from "@utils/types/index";
 import useProductFilter from "@/zustand/useProductFilter";
 import { Button } from "@components/ui/button";
+import { useState } from "react";
 import { toast } from "sonner";
 import { MAX_PRICE } from "@/zustand/useProductFilter";
 
@@ -40,17 +33,26 @@ export default function ProductsContainer({
     return isBrandMatch && isCategoryMatch && isPriceMatch;
   });
 
-  console.log(filteredProducts);
+  // Pagination
+  const itemsPerPage = 8;
+  const [currentPage, setCurrentPage] = useState(1);
+  const totalItems = filteredProducts.length;
+  const totalPages = Math.ceil(totalItems / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = Math.min(startIndex + itemsPerPage - 1, totalItems - 1);
+  const currentItems = filteredProducts.slice(startIndex, endIndex + 1);
+
+  function onPageChange(pageNumber: number) {
+    setCurrentPage(pageNumber);
+  }
 
   return (
     <div className="flex h-fit w-full flex-col items-center justify-center gap-6">
       <div className="grid h-fit w-fit grid-cols-4 justify-items-center gap-5 xl:grid-cols-3 lg:grid-cols-2 sm:gap-2">
-        {filteredProducts.length > 0 &&
-          filteredProducts.map((each: ProductType, index: number) => (
-            <Product key={index} data={each} />
-          ))}
+        {currentItems.map((each: ProductType, index: number) => (
+          <Product key={index} data={each} />
+        ))}
       </div>
-
       {(brands?.length > 0 ||
         categories?.length > 0 ||
         endPrice < MAX_PRICE) && (
@@ -65,40 +67,11 @@ export default function ProductsContainer({
           Remove filters{" "}
         </Button>
       )}
-      <PaginationButtons />
+      <PaginationButtons
+        totalPages={totalPages}
+        currentPage={currentPage}
+        onPageChange={onPageChange}
+      />
     </div>
-  );
-}
-
-function PaginationButtons() {
-  return (
-    <Pagination>
-      <PaginationContent>
-        <PaginationItem>
-          <PaginationPrevious className="h-9" href="#" />
-        </PaginationItem>
-        <PaginationItem>
-          <PaginationLink className="h-9" href="#" isActive>
-            1
-          </PaginationLink>
-        </PaginationItem>
-        <PaginationItem>
-          <PaginationLink className="h-9" href="#">
-            2
-          </PaginationLink>
-        </PaginationItem>
-        <PaginationItem>
-          <PaginationLink className="h-9" href="#">
-            3
-          </PaginationLink>
-        </PaginationItem>
-        <PaginationItem className="sm:hidden">
-          <PaginationEllipsis />
-        </PaginationItem>
-        <PaginationItem>
-          <PaginationNext className="h-9" href="#" />
-        </PaginationItem>
-      </PaginationContent>
-    </Pagination>
   );
 }
