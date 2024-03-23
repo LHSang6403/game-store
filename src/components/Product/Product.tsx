@@ -11,7 +11,7 @@ export default function Product({ data }: { data: ProductType }) {
     >
       <div className="h-36 w-48 sm:h-28 sm:w-full">
         <Image
-          alt="Category"
+          alt="A product"
           src={
             process.env.NEXT_PUBLIC_SUPABASE_URL +
             "/storage/v1/object/public/public_files/" +

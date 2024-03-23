@@ -11,8 +11,8 @@ Deno.serve(async (req) => {
       });
     }
 
-    const supabase_url = Deno.env.get("NEXT_PUBLIC_SUPABASE_URL") ?? "";
-    const supabase_key = Deno.env.get("NEXT_PUBLIC_SUPABASE_ANON_KEY") ?? "";
+    const supabase_url = Deno.env.get("PUBLIC_SUPABASE_URL") ?? "";
+    const supabase_key = Deno.env.get("PUBLIC_SUPABASE_ANON_KEY") ?? "";
 
     const supabase = createClient(supabase_url, supabase_key);
 
