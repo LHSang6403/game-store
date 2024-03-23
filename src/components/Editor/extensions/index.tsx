@@ -13,6 +13,7 @@ import Highlight from "@tiptap/extension-highlight";
 import SlashCommand from "./slash-command";
 import { InputRule } from "@tiptap/core";
 import UploadImagesPlugin from "@/components/Editor/plugins/upload-images";
+import ImageResize from "tiptap-extension-resize-image";
 
 const CustomImage = TiptapImage.extend({
   addProseMirrorPlugins() {
@@ -62,6 +63,7 @@ export const TiptapExtensions = [
     },
     gapcursor: false,
   }),
+  ImageResize.configure({}),
   // patch to fix horizontal rule bug: https://github.com/ueberdosis/tiptap/pull/3859#issuecomment-1536799740
   HorizontalRule.extend({
     addInputRules() {
@@ -94,12 +96,7 @@ export const TiptapExtensions = [
         "text-stone-400 underline underline-offset-[3px] hover:text-stone-600 transition-colors cursor-pointer",
     },
   }),
-  CustomImage.configure({
-    allowBase64: true,
-    HTMLAttributes: {
-      class: "rounded-lg border border-stone-200",
-    },
-  }),
+  CustomImage,
   Placeholder.configure({
     placeholder: ({ node }) => {
       if (node.type.name === "heading") {
