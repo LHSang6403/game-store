@@ -1,7 +1,5 @@
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
-// End point: https://ocxohkgmygzfysykcspe.supabase.co/functions/v1/GHTK-webhook
-
 Deno.serve(async (req) => {
   try {
     if (req.method !== "POST") {
