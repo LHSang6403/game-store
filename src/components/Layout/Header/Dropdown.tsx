@@ -2,7 +2,6 @@
 
 import { useRouter } from "next/navigation";
 import { LogOut, Settings, User, UserRoundCog } from "lucide-react";
-import Link from "next/link";
 import { Button } from "@components/ui/button";
 import {
   DropdownMenu,
@@ -33,7 +32,7 @@ export default function Dropdown() {
         <DropdownMenuLabel>My Account</DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
-          {session && (
+          {session !== null && (
             <DropdownMenuItem className="focus:bg-background">
               <User className="mr-2 h-4 w-4" />
               {session.name}
@@ -46,7 +45,7 @@ export default function Dropdown() {
           </DropdownMenuItem>
           <DropdownMenuItem>
             <Settings className="mr-2 h-4 w-4" />
-            <span>Settings</span>
+            Settings
             <DropdownMenuShortcut>⇧⌘S</DropdownMenuShortcut>
           </DropdownMenuItem>
         </DropdownMenuGroup>

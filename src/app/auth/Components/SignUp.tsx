@@ -103,16 +103,15 @@ export default function SignUp() {
           } else {
             toast.error(result.error.message);
           }
+        } else {
+          form.reset();
+          clearAll();
+          setDate(undefined);
+          toast.success("User created successfully. Confirm your email.");
         }
       },
       {
         loading: "Creating account...",
-        success: () => {
-          form.reset();
-          clearAll();
-          setDate(undefined);
-          return "User created successfully. Confirm your email.";
-        },
       }
     );
   }

@@ -11,7 +11,7 @@ export default function SearchBar() {
   const router = useRouter();
 
   const { data } = useQuery({
-    queryKey: ["search"],
+    queryKey: ["search", "product"],
     queryFn: async () => await readAllProductsWithNameAndId(),
     staleTime: 1000 * 60 * 60,
   });

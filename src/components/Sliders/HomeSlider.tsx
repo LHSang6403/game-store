@@ -78,10 +78,13 @@ export default function HomeSlider() {
                 />
                 <div className="absolute bottom-2 left-6 h-fit w-72 p-3 sm:bottom-40 sm:left-0 sm:w-full sm:px-3 ssm:bottom-20">
                   <h1 className="-mb-2 text-3xl font-semibold">{image.name}</h1>
-                  <button className="mt-1 text-foreground/70 hover:text-foreground">
+                  <Link
+                    href="/product"
+                    className="mt-2 text-foreground/70 hover:text-foreground"
+                  >
                     View more
                     <ArrowRight className="ml-0.5 inline" />
-                  </button>
+                  </Link>
                   <p className="mt-2 line-clamp-4 overflow-hidden overflow-ellipsis font-light">
                     {image.description}
                   </p>

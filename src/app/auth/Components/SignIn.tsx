@@ -16,6 +16,9 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { signInWithEmailAndPassword } from "@auth/_actions/signIn";
+import { ApiErrorHandlerClient } from "@/utils/errorHandler/apiErrorHandler";
+import { readUserSession } from "@/app/_actions/user";
+import { useSession } from "@/zustand/useSession";
 
 const FormSchema = z.object({
   email: z.string().email(),
@@ -26,6 +29,7 @@ const FormSchema = z.object({
 
 export default function SignIn() {
   const router = useRouter();
+  const { setSession } = useSession();
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
@@ -41,16 +45,37 @@ export default function SignIn() {
         const result = await signInWithEmailAndPassword(data);
 
         if (result.error) {
-          toast.error(result?.error.toString());
+          if (typeof result.error === "string") {
+            toast.error(result.error);
+          } else {
+            toast.error(result.error.message);
+          }
+        } else {
+          const unprocessedSessionResponse = await readUserSession();
+          const session = ApiErrorHandlerClient<any>({
+            response: unprocessedSessionResponse,
+            isShowToast: false,
+          });
+
+          if (
+            session.data &&
+            "detailData" in session.data &&
+            session.data.detailData
+          ) {
+            console.log("session.data.detailData: ", session.data.detailData);
+            setSession(session.data.detailData);
+
+            form.reset();
+            router.push("/");
+
+            toast.success("Signed in successfully.");
+          } else {
+            toast.error("Failed to sign in.");
+          }
         }
       },
       {
         loading: "Signing account...",
-        success: () => {
-          form.reset();
-          router.push("/");
-          return "Signed in successfully.";
-        },
       }
     );
   }
