@@ -27,6 +27,7 @@ import { PrintDialog } from "./PrintDialog";
 import { useState } from "react";
 import { printGHNOrder } from "@/app/_actions/GHNShipment";
 import { ApiErrorHandlerClient } from "@/utils/errorHandler/apiErrorHandler";
+import { ShipmentState } from "@utils/types/index";
 
 export const columns: ColumnDef<OrderType>[] = [
   {
@@ -64,9 +65,7 @@ export const columns: ColumnDef<OrderType>[] = [
     cell: ({ row }) => {
       const data = row.original;
 
-      const handleUpdateState = async (
-        newState: "pending" | "shipping" | "delivered" | "canceled" | "returned"
-      ) => {
+      async function handleUpdateState(newState: ShipmentState) {
         toast.promise(
           async () => {
             const unprocessedResponse = await updateStateOrder({
@@ -82,8 +81,7 @@ export const columns: ColumnDef<OrderType>[] = [
             loading: "Updating order...",
           }
         );
-      };
-
+      }
       return (
         <Select
           defaultValue={data.state ?? "Unknown"}
@@ -99,7 +97,7 @@ export const columns: ColumnDef<OrderType>[] = [
           }}
         >
           <SelectTrigger className="w-28 border-none">
-            <SelectValue placeholder="Select a role" />
+            <SelectValue placeholder="Select a state" />
           </SelectTrigger>
           <SelectContent>
             <SelectGroup>

@@ -35,13 +35,13 @@ export function PrintDialog({
 
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
-      <DialogContent className="rounded-md">
+      <DialogContent className="w-fit rounded-md sm:w-full">
         <DialogHeader>
           <DialogTitle>Printed Label</DialogTitle>
-          <DialogDescription>
+          {/* <DialogDescription className="w-full">
             This is your preview sticker paper. Click print to get the paper
             version.
-          </DialogDescription>
+          </DialogDescription> */}
         </DialogHeader>
         {modifiedHtmlString === "" ? (
           <>
@@ -50,7 +50,7 @@ export function PrintDialog({
             <Skeleton className="h-[80px] w-full rounded-xl bg-foreground/10 sm:h-[60px]" />
           </>
         ) : (
-          <div className="max-h-[550px] w-full overflow-auto">
+          <div className="max-h-[550px] w-full overflow-auto !text-black">
             <div
               dangerouslySetInnerHTML={{ __html: modifiedHtmlString ?? "" }}
               className="flex h-auto w-full justify-center"
@@ -63,7 +63,7 @@ export function PrintDialog({
               console.log("Print api call here");
             }}
             type="submit"
-            className="text-background"
+            className="w-full text-background"
           >
             Print
           </Button>

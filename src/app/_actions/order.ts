@@ -5,6 +5,7 @@ import type { OrderType } from "@utils/types/index";
 import { updateStorageQuantityByProductId } from "@/app/_actions/storage";
 import { updateSoldQuantityByProductId } from "@/app/_actions/product";
 import { revalidatePath } from "next/cache";
+import { ShipmentState } from "@utils/types/index";
 
 export async function createOrder(order: OrderType) {
   try {
@@ -33,7 +34,7 @@ export async function updateStateOrder({
   state,
 }: {
   id: string;
-  state: "pending" | "shipping" | "delivered" | "canceled" | "returned";
+  state: ShipmentState;
 }) {
   try {
     const supabase = await createSupabaseServerClient();
@@ -45,9 +46,19 @@ export async function updateStateOrder({
 
     if (!result.error) revalidatePath("/dashboard/order");
 
-    return result;
+    return {
+      status: result.status,
+      statusText: result.statusText,
+      data: result.data,
+      error: result.error,
+    };
   } catch (error: any) {
-    return { error: error.message };
+    return {
+      status: 500,
+      statusText: "Internal server error.",
+      data: null,
+      error: error.message,
+    };
   }
 }
 

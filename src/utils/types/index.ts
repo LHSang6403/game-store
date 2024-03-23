@@ -69,6 +69,12 @@ export interface ProductWithDescriptionAndStorageType {
 }
 
 export type ShipmentNameType = "" | "GHTK" | "GHN" | null;
+export type ShipmentState =
+  | "pending"
+  | "shipping"
+  | "delivered"
+  | "canceled"
+  | "returned";
 
 export interface OrderType {
   id: string;
@@ -76,7 +82,7 @@ export interface OrderType {
   shipment_name: ShipmentNameType;
   shipment_label_code: string | null;
   products: ProductWithDescriptionAndStorageType[];
-  state: "pending" | "shipping" | "delivered" | "canceled" | "returned";
+  state: ShipmentState;
   customer_id: string; // f_key
   customer_name: string; // f_key
   price: number;
