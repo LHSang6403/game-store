@@ -64,8 +64,8 @@ function TypicalProduct({
         <Image
           alt="Typical Product"
           src={data.image}
-          className="!relative !w-full object-contain"
-          layout="fill"
+          width={400}
+          height={300}
         />
         <div className="absolute -right-8 top-8 h-8 w-24 -rotate-90 transform bg-foreground p-1 text-center text-sm font-light opacity-75">
           Game store
