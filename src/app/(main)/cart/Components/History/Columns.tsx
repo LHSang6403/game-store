@@ -89,7 +89,7 @@ export const columns: ColumnDef<OrderType>[] = [
               </DropdownMenuItem>
               {data.shipment_label_code && (
                 <DropdownMenuItem
-                  disabled={data.state === "canceled"}
+                  disabled={data.state !== "pending"}
                   onClick={() => {
                     toast.promise(
                       async () => {

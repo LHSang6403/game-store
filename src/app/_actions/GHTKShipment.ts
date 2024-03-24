@@ -141,7 +141,7 @@ export async function cancelGHTKOrder({
     );
 
     if (response.data.success) {
-      await updateStateOrder({
+      const updateResult = await updateStateOrder({
         id: id,
         state: "canceled",
       });
