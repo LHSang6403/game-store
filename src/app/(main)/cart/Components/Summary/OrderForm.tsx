@@ -201,7 +201,7 @@ export default function OrderForm() {
                     <FormLabel>Your note</FormLabel>
                     <FormControl>
                       <Textarea
-                        className="min-h-28 border-[#E5E7EB]"
+                        className="max-h-44 min-h-28 border-[#E5E7EB]"
                         placeholder="Enter note here..."
                         {...field}
                         value={field.value ?? ""}
