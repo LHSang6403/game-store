@@ -34,7 +34,10 @@ const FormSchema = z
     phone: z
       .string()
       .min(6, { message: "Must be a valid mobile number" })
-      .max(12, { message: "Must be a valid mobile number" }),
+      .max(12, { message: "Must be a valid mobile number" })
+      .refine((val) => !Number.isNaN(parseInt(val, 10)), {
+        message: "Expected number, received a string",
+      }),
     dob: z.string().min(2, { message: "Birthday is a compulsory." }),
     address: z.string().min(2, { message: "Address is a compulsory." }),
     ward: z.string().min(2, { message: "Ward is a compulsory." }),
@@ -68,6 +71,7 @@ export default function SignUp() {
       password: "",
       confirm: "",
     },
+    mode: "onBlur",
   });
 
   const [date, setDate] = useState<Date>();

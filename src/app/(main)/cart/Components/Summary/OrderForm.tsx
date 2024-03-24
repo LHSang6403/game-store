@@ -69,6 +69,7 @@ export default function OrderForm() {
       shipment: "GHTK",
       note: "",
     },
+    mode: "onBlur",
   });
 
   useEffect(() => {
@@ -192,7 +193,6 @@ export default function OrderForm() {
                   </FormItem>
                 )}
               />
-
               <FormField
                 control={form.control}
                 name="note"

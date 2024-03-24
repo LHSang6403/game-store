@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { LogOut, Settings, User, UserRoundCog } from "lucide-react";
+import { LogOut, Settings, UserRoundCog } from "lucide-react";
 import { Button } from "@components/ui/button";
 import {
   DropdownMenu,
@@ -10,12 +10,12 @@ import {
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
-  DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from "@components/ui/dropdown-menu";
 import { signOutHandler } from "@/app/auth/_actions/signOut";
 import { useSession } from "@/zustand/useSession";
 import { toast } from "sonner";
+import Image from "next/image";
 
 export default function Dropdown() {
   const { session, removeSession } = useSession();
@@ -30,31 +30,38 @@ export default function Dropdown() {
       </DropdownMenuTrigger>
       <DropdownMenuContent className="mx-3 w-56 bg-background">
         <DropdownMenuLabel>My Account</DropdownMenuLabel>
-        <DropdownMenuSeparator />
         <DropdownMenuGroup>
           {session !== null && (
             <DropdownMenuItem className="focus:bg-background">
-              <User className="mr-2 h-4 w-4" />
+              <div className="-ml-0.5 mr-1.5 flex justify-center rounded-full border p-[1px]">
+                <Image
+                  src={
+                    session?.image ??
+                    "https://png.pngtree.com/png-vector/20191026/ourlarge/pngtree-avatar-vector-icon-white-background-png-image_1870181.jpg"
+                  }
+                  alt="profile"
+                  width={20}
+                  height={20}
+                  className="rounded-full"
+                />
+              </div>
               {session.name}
             </DropdownMenuItem>
           )}
+          <DropdownMenuSeparator />
           <DropdownMenuItem onClick={() => router.push("/profile")}>
             <UserRoundCog className="mr-2 h-4 w-4" />
             Profile
-            <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
           </DropdownMenuItem>
           <DropdownMenuItem>
             <Settings className="mr-2 h-4 w-4" />
             Settings
-            <DropdownMenuShortcut>⇧⌘S</DropdownMenuShortcut>
           </DropdownMenuItem>
         </DropdownMenuGroup>
-        <DropdownMenuSeparator />
         {session === null ? (
           <DropdownMenuItem onClick={() => router.push("/auth")}>
             <LogOut className="mr-2 h-4 w-4" />
             Log in
-            <DropdownMenuShortcut>⇧⌘I</DropdownMenuShortcut>
           </DropdownMenuItem>
         ) : (
           <DropdownMenuItem
@@ -70,7 +77,6 @@ export default function Dropdown() {
           >
             <LogOut className="mr-2 h-4 w-4" />
             Log out
-            <DropdownMenuShortcut>⇧⌘L</DropdownMenuShortcut>
           </DropdownMenuItem>
         )}
       </DropdownMenuContent>

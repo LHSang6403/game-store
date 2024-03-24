@@ -26,7 +26,6 @@ import { updateUserProfile } from "@app/_actions/user";
 import { toast } from "sonner";
 import { ApiErrorHandlerClient } from "@/utils/errorHandler/apiErrorHandler";
 import { useState } from "react";
-import { set } from "date-fns";
 
 export interface UpdatingData {
   //   name: string;
@@ -36,7 +35,7 @@ export interface UpdatingData {
 
 const schema = z.object({
   //   name: z.string().min(2).max(50),
-  phone: z.string().min(2).max(20),
+  phone: z.string().min(2).max(12),
   address: z.string().min(2).max(100),
 });
 
@@ -54,6 +53,7 @@ export default function Edit({
       phone: profile.phone,
       address: profile.address,
     },
+    mode: "onBlur",
   });
 
   const onSubmit = async (data: UpdatingData) => {

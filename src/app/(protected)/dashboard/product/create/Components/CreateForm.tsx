@@ -30,14 +30,20 @@ const FormSchema = z.object({
   price: z.string().refine((val) => !Number.isNaN(parseInt(val, 10)), {
     message: "Expected number, received a string",
   }),
-  rate: z.string().refine((val) => !Number.isNaN(parseInt(val, 10)), {
-    message: "Expected number, received a string",
-  }),
+  rate: z
+    .string()
+    .refine(
+      (val) =>
+        !isNaN(parseFloat(val)) && parseFloat(val) >= 0 && parseFloat(val) <= 5,
+      {
+        message: "Rate must be a number between 0 and 5",
+      }
+    ),
   sold_quantity: z.string().refine((val) => !Number.isNaN(parseInt(val, 10)), {
     message: "Expected number, received a string",
   }),
   category: z.string(),
-  storage_address: z.string(),
+  storage_address: z.string().min(2, { message: "Address is a compulsory." }),
   storage_quantity: z
     .string()
     .refine((val) => !Number.isNaN(parseInt(val, 10)), {
@@ -70,6 +76,7 @@ export default function CreateForm() {
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: content ?? initState,
+    mode: "onBlur",
   });
   const { watch } = form;
 

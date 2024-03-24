@@ -64,9 +64,15 @@ export default async function page() {
             <span className="font-semibold">Phone: </span>{" "}
             {session.data?.detailData?.phone ?? "Unknown"}
           </p>
-          <p className="text-left">
+          <p className="max-w-[500px] text-left">
             <span className="font-semibold">Address: </span>{" "}
-            {session.data?.detailData?.address ?? "Unknown"}
+            {session.data?.detailData?.address +
+              ", " +
+              session.data?.detailData?.ward +
+              ", " +
+              session.data?.detailData?.district +
+              ", " +
+              session.data?.detailData?.province ?? "Unknown"}
           </p>
           {"role" in session.data?.detailData ? (
             <p className="text-left">

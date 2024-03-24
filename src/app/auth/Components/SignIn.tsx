@@ -37,6 +37,7 @@ export default function SignIn() {
       email: "",
       password: "",
     },
+    mode: "onBlur",
   });
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {
