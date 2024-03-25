@@ -2,26 +2,27 @@ import Image from "next/image";
 
 export default function PersonReviewCard() {
   return (
-    <div className="w-[500px] sm:w-full h-fit max-h-56 bg-background border border-foreground/20 flex flex-row justify-between rounded-md overflow-hidden relative hover:scale-[1.01] hover:bg-accent/50 transition duration-300 ease-in-out">
-      <div className="w-3/4 sm:w-4/6 h-full z-10 py-4 px-6 sm:py-2 sm:px-3 flex flex-col justify-between">
-        <p className="text-sm line-clamp-4 overflow-ellipsis text-foreground/90">
+    <div className="relative flex h-fit max-h-56 w-[500px] flex-row justify-between overflow-hidden rounded-md border border-foreground/20 bg-background transition duration-300 ease-in-out hover:scale-[1.01] hover:bg-accent/50 sm:w-full">
+      <div className="z-10 flex h-full w-3/4 flex-col justify-between px-6 py-4 sm:w-4/6 sm:px-3 sm:py-2">
+        <p className="line-clamp-4 overflow-ellipsis text-sm text-foreground/90">
           The product is amazing! It exceeded my expectations in every way. The
           quality is top-notch and the design is sleek and modern. I would
           highly recommend it.
         </p>
         <div className="mt-4">
-          <h2 className="text-xl font-medium -mb-1">Mr. Sam</h2>
-          <p className="text-foreground/80 text-sm font-light">
+          <h2 className="-mb-1 text-xl font-medium">Mr. Sam</h2>
+          <p className="text-sm font-light text-foreground/80">
             Living at Silicon Valley
           </p>
         </div>
       </div>
-      <div className="h-40 absolute right-0 bottom-0">
+      <div className="absolute bottom-0 right-0 h-40">
         <Image
           alt="Category"
           src="/assets/images/people/male2.png"
-          className="object-contain !w-full !relative sm:pt-4"
-          layout="fill"
+          className="sm:pt-4 sm:opacity-90"
+          width={200}
+          height={200}
         />
       </div>
     </div>

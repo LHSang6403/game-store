@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { ChevronDoubleRightIcon } from "@heroicons/react/20/solid";
+import Image from "next/image";
 
 export default function CollectionCards() {
   const collectionCards = [
@@ -38,11 +39,13 @@ export default function CollectionCards() {
 
 function CollectionCard({ data }: { data: { title: string; image: string } }) {
   return (
-    <div className="flex h-full w-full items-center justify-center overflow-hidden bg-none xl:h-fit">
-      <img
+    <div className="flex h-full w-full items-center justify-center overflow-hidden bg-none">
+      <Image
         alt="Phone"
         src={data.image}
-        className="w-[90%] transition duration-300 ease-in-out hover:scale-[1.01] hover:brightness-105 xl:w-full"
+        width={500}
+        height={500}
+        className="transition duration-300 ease-in-out hover:scale-[1.01] hover:brightness-105 xl:w-full"
       />
     </div>
   );

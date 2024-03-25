@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import { motion } from "framer-motion";
 import fadeIn from "@utils/animations/fadeIn";
 import PersonReviewCard from "@app/(main)/product/[id]/Components/Review/PersonReviewCard";

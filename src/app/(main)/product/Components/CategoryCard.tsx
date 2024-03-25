@@ -21,8 +21,8 @@ export default function CategoryCard({ data }: { data: string }) {
         <Image
           alt="Category"
           src="/assets/images/gameIcon/i1.png"
-          className="!relative !w-full object-contain"
-          layout="fill"
+          width={20}
+          height={20}
         />
       </div>
       {data}

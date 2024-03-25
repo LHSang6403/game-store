@@ -23,7 +23,8 @@ export default function About() {
           alt="Category"
           src="/assets/images/gameSetup/g6.png"
           className="object-fit brightness-60 !relative z-0 h-full !w-full rounded-2xl xl:object-cover"
-          layout="fill"
+          width={1920}
+          height={1080}
           quality={100}
         />
       </section>

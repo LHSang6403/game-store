@@ -39,8 +39,8 @@ function Promotion({
         <Image
           alt="Typical Product"
           src={data.image}
-          className="!relative !w-full object-contain"
-          layout="fill"
+          width={700}
+          height={600}
         />
       </div>
       <div className="absolute right-0 top-0 flex h-full w-full flex-col items-center justify-center">

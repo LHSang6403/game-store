@@ -17,8 +17,9 @@ export default function Product({ data }: { data: ProductType }) {
             "/storage/v1/object/public/public_files/" +
             data.images[0]
           }
-          className="!relative !w-full object-contain"
-          layout="fill"
+          className="!w-full"
+          width={200}
+          height={200}
         />
       </div>
       <div className="h-fit w-full px-4 pb-3 pt-1">

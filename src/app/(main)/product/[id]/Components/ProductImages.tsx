@@ -51,8 +51,8 @@ export default function ProductImages({ images }: { images: string[] }) {
                   image
                 }
                 alt="Product"
-                className="!relative !w-full object-contain"
-                layout="fill"
+                width={1000}
+                height={1000}
                 quality={100}
               />
             </div>
@@ -102,7 +102,6 @@ export default function ProductImages({ images }: { images: string[] }) {
                 width={200}
                 height={200}
                 alt="Product Thumbnail"
-                className="object-fit block h-full w-full"
               />
             </div>
           </SwiperSlide>

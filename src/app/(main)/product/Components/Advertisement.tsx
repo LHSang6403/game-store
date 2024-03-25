@@ -17,12 +17,13 @@ export default function Advertisement() {
         alt="Promotion"
         className="absolute bottom-28 left-56 h-20 w-20 xl:bottom-36 lg:left-32 sm:left-24 sm:opacity-80"
       ></img>
-      <div className="mx-auto h-[600px] xl:h-[90%] xl:w-[90%] sm:h-[75%] sm:w-full">
+      <div className="mx-auto h-fit xl:flex xl:h-[90%] xl:w-[90%] xl:items-center sm:h-[75%] sm:w-full">
         <Image
           alt="Category"
           src="/assets/images/gamePlay/g6.png"
-          className="!relative !w-full object-contain transition duration-300 ease-in-out hover:scale-[1.01]"
-          layout="fill"
+          className="mx-auto transition duration-300 ease-in-out hover:scale-[1.01]"
+          width={960}
+          height={960}
         />
       </div>
       <div className="absolute bottom-20 right-28 h-fit w-80 px-2 text-background/90 hover:text-background xl:bottom-32 lg:bottom-24 lg:right-2 sm:bottom-12 sm:right-0 sm:w-72">

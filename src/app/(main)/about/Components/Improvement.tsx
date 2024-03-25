@@ -32,8 +32,9 @@ export default function Improvement() {
         <Image
           alt="Category"
           src="/assets/images/gameSetup/g5.jpg"
-          className="object-fit !relative h-full !w-full rounded-lg"
-          layout="fill"
+          className="rounded-lg"
+          width={1080}
+          height={720}
         />
       </div>
     </motion.div>
