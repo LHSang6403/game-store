@@ -92,7 +92,7 @@ export default function OrderForm() {
     }
 
     const staffSession = session as StaffType;
-    if (staffSession) {
+    if ("role" in staffSession) {
       toast.error("Staffs can't buy items.");
       return <></>;
     }
