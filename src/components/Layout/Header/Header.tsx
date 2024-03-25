@@ -16,9 +16,9 @@ export default function Header() {
         <PrimaryLogo />
       </div>
       <nav className="flex w-full flex-row items-center justify-center gap-6 xl:hidden">
-        <div className={`w-52 ${path === "/product" ? "hidden" : ""}`}></div>
+        <div className={`w-32 ${path === "/product" ? "invisible" : ""}`}></div>
         <NavBar />
-        <div className={`w-52 ${path === "/product" ? "hidden" : ""}`}>
+        <div className={`w-32 ${path === "/product" ? "invisible" : ""}`}>
           <SearchBar />
         </div>
       </nav>
