@@ -22,13 +22,13 @@ export default function ProductImages({ images }: { images: string[] }) {
   };
 
   return (
-    <div className="h-fit">
+    <div className="z-30 h-fit">
       <Swiper
         loop={true}
         pagination={{
           type: "fraction",
         }}
-        className={` h-[600px] w-full rounded-lg sm:h-[400px] ${
+        className={`h-[600px] w-full rounded-lg sm:h-[400px] ${
           theme === "dark" ? "dark:text-foreground" : "text-foreground"
         }`}
         navigation={{
