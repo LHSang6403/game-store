@@ -28,7 +28,7 @@ export default function NavBar() {
                 {session && "role" in session && (
                   <NavigationMenuItem key={index}>
                     <Link href={navUrl.url}>
-                      <NavigationMenuLink className="hover:text-accent-foreground focus:text-accent-foreground relative h-10 w-fit rounded-md bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-accent focus:bg-accent focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[active]:bg-accent/50 data-[state=open]:bg-accent/50">
+                      <NavigationMenuLink className="hover:text-accent-foreground focus:text-accent-foreground relative h-10 w-fit text-nowrap rounded-md bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-accent focus:bg-accent focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[active]:bg-accent/50 data-[state=open]:bg-accent/50">
                         {navUrl.name}
                         {path.includes(navUrl.url) && (
                           <motion.span
@@ -44,7 +44,7 @@ export default function NavBar() {
             ) : (
               <NavigationMenuItem key={index}>
                 <Link href={navUrl.url}>
-                  <NavigationMenuLink className="hover:text-accent-foreground focus:text-accent-foreground relative h-10 w-fit rounded-md bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-accent focus:bg-accent focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[active]:bg-accent/50 data-[state=open]:bg-accent/50">
+                  <NavigationMenuLink className="hover:text-accent-foreground focus:text-accent-foreground relative h-10 w-fit text-nowrap rounded-md bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-accent focus:bg-accent focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[active]:bg-accent/50 data-[state=open]:bg-accent/50">
                     {navUrl.name}
                     {path === navUrl.url && (
                       <motion.span

@@ -41,7 +41,7 @@ export default function SearchBar() {
   };
 
   return (
-    <div className="relative h-fit w-52">
+    <div className="relative h-fit w-full">
       <form>
         <Input
           className="h-8"
