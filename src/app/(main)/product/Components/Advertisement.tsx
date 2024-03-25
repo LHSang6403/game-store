@@ -12,11 +12,13 @@ export default function Advertisement() {
       <div className="to-hsl(222.2, 84%, 4%) absolute bottom-16 left-40 z-0 grid h-44 w-44 grid-cols-10 gap-1 rounded-full bg-gradient-to-l from-[#07BCDD] xl:bottom-24 lg:left-12 sm:left-8 sm:opacity-60"></div>
       <div className="to-hsl(222.2, 84%, 4%) absolute bottom-20 left-44 z-0 grid h-48 w-48 grid-cols-10 gap-1 rounded-full bg-gradient-to-r from-[#FD5E4F] opacity-70 xl:bottom-28 lg:left-20 sm:left-12 sm:opacity-50"></div>
       <div className="to-hsl(222.2, 84%, 4%) absolute bottom-10 left-48 z-0 grid h-44 w-44 grid-cols-10 gap-1 rounded-full bg-gradient-to-b from-[#FFB718] opacity-60 xl:bottom-20 lg:left-28 sm:left-16 sm:opacity-40"></div>
-      <img
+      <Image
         src="/assets/images/gameIcon/i2.png"
         alt="Promotion"
-        className="absolute bottom-28 left-56 h-20 w-20 xl:bottom-36 lg:left-32 sm:left-24 sm:opacity-80"
-      ></img>
+        width={105}
+        height={105}
+        className="absolute bottom-28 left-56 xl:bottom-36 lg:left-32 sm:left-24 sm:opacity-80"
+      />
       <div className="mx-auto h-fit xl:flex xl:h-[90%] xl:w-[90%] xl:items-center sm:h-[75%] sm:w-full">
         <Image
           alt="Category"
@@ -24,6 +26,7 @@ export default function Advertisement() {
           className="mx-auto transition duration-300 ease-in-out hover:scale-[1.01]"
           width={960}
           height={960}
+          quality={100}
         />
       </div>
       <div className="absolute bottom-20 right-28 h-fit w-80 px-2 text-background/90 hover:text-background xl:bottom-32 lg:bottom-24 lg:right-2 sm:bottom-12 sm:right-0 sm:w-72">

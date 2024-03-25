@@ -10,6 +10,7 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import { ArrowRight } from "lucide-react";
+import Image from "next/image";
 
 export default function HomeSlider() {
   const sliderImages = [
@@ -71,10 +72,13 @@ export default function HomeSlider() {
                     Services
                   </Link>
                 </div>
-                <img
+                <Image
                   alt="Slider"
                   className="h-full w-full object-cover object-center xl:h-[80%] sm:mt-4 sm:h-[300px]"
                   src={image.src}
+                  quality={100}
+                  width={960}
+                  height={960}
                 />
                 <div className="absolute bottom-2 left-6 h-fit w-72 p-3 sm:bottom-40 sm:left-0 sm:w-full sm:px-3 ssm:bottom-20">
                   <h1 className="-mb-2 text-3xl font-semibold">{image.name}</h1>
