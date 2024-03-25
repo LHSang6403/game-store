@@ -6,7 +6,6 @@ import {
   DrawerClose,
   DrawerContent,
   DrawerDescription,
-  DrawerFooter,
   DrawerHeader,
   DrawerTitle,
   DrawerTrigger,
@@ -19,36 +18,32 @@ export default function BottomDrawer() {
     <Drawer>
       <DrawerTrigger asChild>
         <Button
-          className="h-7 bg-foreground hover:bg-foreground border-foreground"
+          className="h-full w-full border-foreground bg-foreground hover:bg-foreground"
           variant="outline"
         >
           Navigation Drawer
         </Button>
       </DrawerTrigger>
       <DrawerContent>
-        <div className="mx-auto w-full max-w-sm">
+        <div className="mx-auto w-full max-w-sm pb-6">
           <DrawerHeader>
             <DrawerTitle>Navigate your app</DrawerTitle>
             <DrawerDescription>
               Just a short description of a web application.
             </DrawerDescription>
           </DrawerHeader>
-          <div className="w-fit h-fit mx-auto p-4 grid grid-cols-2 gap-2 justify-center items-center">
+          <div className="mx-auto grid h-fit w-fit grid-cols-2 items-center justify-center gap-2 p-4">
             {navUrls.map((navUrl, index: number) => (
-              <Link
-                key={index}
-                href={navUrl.url}
-                className="h-10 w-[150px] flex justify-center items-center border mx1 rounded-md bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[active]:bg-accent/50 data-[state=open]:bg-accent/50"
-              >
-                {navUrl.name}
-              </Link>
+              <DrawerClose key={index} asChild>
+                <Link
+                  href={navUrl.url}
+                  className="mx1 hover:text-accent-foreground focus:text-accent-foreground flex h-10 w-[150px] items-center justify-center rounded-md border bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-accent focus:bg-accent focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[active]:bg-accent/50 data-[state=open]:bg-accent/50"
+                >
+                  {navUrl.name}
+                </Link>
+              </DrawerClose>
             ))}
           </div>
-          <DrawerFooter>
-            <DrawerClose asChild>
-              <Button className="text-background">Cancel</Button>
-            </DrawerClose>
-          </DrawerFooter>
         </div>
       </DrawerContent>
     </Drawer>
