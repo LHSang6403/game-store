@@ -69,6 +69,7 @@ export interface ProductWithDescriptionAndStorageType {
 }
 
 export type ShipmentNameType = "" | "GHTK" | "GHN" | null;
+
 export type ShipmentState =
   | "pending"
   | "shipping"
@@ -129,4 +130,8 @@ export interface LogType {
   actor: string;
   interface: string;
   result: string;
+}
+
+export interface FileWithPreview extends File {
+  preview: string;
 }

@@ -26,14 +26,14 @@ export default function DashboardSidebar() {
             href={item.link}
             className={`${
               item.link === pathname ? "bg-accent" : "bg-background"
-            } hover:text-accent-foreground 
-            focus:text-accent-foreground mx-auto flex h-9 w-[96%] 
-            items-center rounded-md  px-4 py-2 text-sm 
-            font-medium transition-colors hover:bg-accent 
-            focus:bg-accent focus:outline-none disabled:pointer-events-none 
-            disabled:opacity-50 data-[active]:bg-accent/50 
-            data-[state=open]:bg-accent/50 xl:w-32 xl:border 
-            xl:border-foreground/10`}
+            } hover:text-accent-foreground focus:text-accent-foreground
+            mx-auto flex h-9 w-[96%] items-center 
+            rounded-md px-4 py-2 text-sm font-medium 
+            transition-colors hover:bg-accent focus:bg-accent 
+            focus:outline-none disabled:pointer-events-none disabled:opacity-50 
+            data-[active]:bg-accent/50 data-[state=open]:bg-accent/50 
+            xl:w-32 xl:border xl:border-foreground/10 
+            `}
           >
             {item.name}
           </Link>

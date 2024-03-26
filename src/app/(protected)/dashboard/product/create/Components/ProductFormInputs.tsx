@@ -10,7 +10,7 @@ import {
 import { Input } from "@components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 
-export default function FormInputs({ form }: { form: any }) {
+export default function ProductFormInputs({ form }: { form: any }) {
   return (
     <div className="grid h-fit w-full grid-cols-2 gap-4 sm:flex sm:w-full sm:flex-col">
       <FormField
@@ -59,7 +59,7 @@ export default function FormInputs({ form }: { form: any }) {
             <FormLabel>Description</FormLabel>
             <FormControl>
               <Textarea
-                className="border-[#E5E7EB]"
+                className="max-h-52 min-h-36 border-[#E5E7EB]"
                 placeholder="Product's description"
                 {...field}
               />

@@ -18,7 +18,7 @@ export default function OrderSummary() {
         <>
           <div className="flex h-fit w-[700px] flex-col gap-1 sm:w-full">
             <div className="flex w-full flex-row items-center justify-between sm:flex-col-reverse sm:items-start sm:justify-start sm:gap-2">
-              <h2 className="text-lg font-semibold">Your order summary</h2>
+              <h2 className="text-lg font-semibold">Order summary</h2>
               <Button
                 onClick={() => {
                   removeAll();

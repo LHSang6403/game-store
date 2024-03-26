@@ -12,6 +12,10 @@ import {
 } from "@/components/ui/dropdown-menu";
 import type { ProductType } from "@utils/types";
 import formatCurrency from "@utils/functions/formatCurrency";
+import { removeProductById } from "@app/_actions/product";
+import Link from "next/link";
+import { ApiErrorHandlerClient } from "@/utils/errorHandler/apiErrorHandler";
+import { toast } from "sonner";
 
 export const columns: ColumnDef<ProductType>[] = [
   {
@@ -57,26 +61,47 @@ export const columns: ColumnDef<ProductType>[] = [
   {
     id: "actions",
     header: "Actions",
+
     cell: ({ row }) => {
-      const user = row.original;
+      const product = row.original;
+
+      async function removeHandler(id: string) {
+        toast.promise(
+          async () => {
+            const unprocessedRemoveResponse = await removeProductById(id);
+
+            const removeResponse = ApiErrorHandlerClient({
+              response: unprocessedRemoveResponse,
+            });
+          },
+          {
+            loading: "Removing product...",
+          }
+        );
+      }
 
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="h-8 w-8 p-0">
-              <span className="sr-only">Open menu</span>
+            <Button variant="ghost" className="ml-2 h-8 w-8 p-0">
               <MoreHorizontal className="h-4 w-4" />
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(user.id)}
+              onClick={() => navigator.clipboard.writeText(product.id)}
             >
-              Copy user ID
+              Copy product ID
             </DropdownMenuItem>
-            <DropdownMenuItem>Edit information</DropdownMenuItem>
-            <DropdownMenuItem>Edit description</DropdownMenuItem>
+            <DropdownMenuItem>
+              <Link href={"/dashboard/product/" + product.id}>
+                Edit product
+              </Link>
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={() => removeHandler(product.id)}>
+              Remove product
+            </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       );

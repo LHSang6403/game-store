@@ -36,7 +36,13 @@ export default function FormAddressPicker() {
         }}
       >
         <SelectTrigger className="w-full">
-          <SelectValue placeholder="Select province" />
+          <SelectValue
+            placeholder={
+              addressValues.province !== ""
+                ? addressValues.province
+                : "Select province"
+            }
+          />
         </SelectTrigger>
         <SelectContent>
           <SelectGroup>
@@ -61,7 +67,13 @@ export default function FormAddressPicker() {
         }}
       >
         <SelectTrigger className="w-full">
-          <SelectValue placeholder="Select district" />
+          <SelectValue
+            placeholder={
+              addressValues.district !== ""
+                ? addressValues.district
+                : "Select district"
+            }
+          />
         </SelectTrigger>
         <SelectContent>
           <SelectGroup>
@@ -85,7 +97,13 @@ export default function FormAddressPicker() {
         }}
       >
         <SelectTrigger className="w-full">
-          <SelectValue placeholder="Select ward" />
+          <SelectValue
+            placeholder={
+              addressValues.commune !== ""
+                ? addressValues.commune
+                : "Select ward"
+            }
+          />
         </SelectTrigger>
         <SelectContent>
           <SelectGroup>

@@ -6,10 +6,8 @@ import { useDropzone } from "react-dropzone";
 import { ArrowUpTrayIcon, XMarkIcon } from "@heroicons/react/24/solid";
 import { Button } from "@components/ui/button";
 import useFiles from "@/zustand/useFiles";
-
-interface FileWithPreview extends File {
-  preview: string;
-}
+import { FileWithPreview } from "@utils/types";
+import ImageFileItem from "@components/File/ImageFileItem";
 
 interface RejectedFile {
   file: File;
@@ -110,53 +108,21 @@ const DropAndDragZone = ({ className }: { className: string }) => {
       </div>
 
       {/* Preview */}
-      <section className="mt-6">
-        {files?.length > 0 ||
-          (rejected?.length > 0 && (
-            <div className="flex flex-row items-center justify-between gap-4 sm:flex-col">
-              <h2 className="title text-xl font-semibold">Preview</h2>
-              <Button variant="outline" onClick={removeAll}>
-                Remove all
-              </Button>
-              {/* <Button
-            type="submit"
-            className="text-[12px] font-bold uppercase tracking-wider text-background sm:h-9"
-          >
-            Upload to Cloudinary
-          </Button> */}
-            </div>
-          ))}
-
+      <section className="mb-4 mt-6">
         {/* Accepted files */}
         {files?.length > 0 && (
           <>
             <h3 className="title mt-6 border-b text-sm">Accepted files</h3>
-            <ul className="mt-4 grid grid-cols-4 gap-10 xl:gap-4 sm:grid-cols-2">
+            <div className="mt-4 grid w-fit grid-cols-6 gap-3 sm:grid-cols-4">
               {files.map((file) => (
-                <li key={file.name} className="relative h-fit rounded-md ">
-                  <Image
-                    src={file.preview}
-                    alt={file.name}
-                    width={100}
-                    height={100}
-                    onLoad={() => {
-                      URL.revokeObjectURL(file.preview);
-                    }}
-                    className="h-full w-full rounded object-contain"
-                  />
-                  <button
-                    type="button"
-                    className="absolute -right-3 -top-3 flex h-5 w-5 items-center justify-center rounded-full border border-rose-400 bg-rose-400 transition-colors hover:bg-white"
-                    onClick={() => removeFile(file.name)}
-                  >
-                    <XMarkIcon className="h-4 w-4 fill-white transition-colors hover:fill-rose-400" />
-                  </button>
-                  <p className="mt-1 text-[12px] font-medium text-stone-500">
-                    {file.name}
-                  </p>
-                </li>
+                <ImageFileItem
+                  key={file.name}
+                  image={file.preview}
+                  name={file.name}
+                  removeHandler={() => removeFile(file.name)}
+                />
               ))}
-            </ul>
+            </div>
           </>
         )}
 
@@ -164,7 +130,7 @@ const DropAndDragZone = ({ className }: { className: string }) => {
         {rejected?.length > 0 && (
           <>
             <h3 className="title mt-6 border-b text-sm">Rejected Files</h3>
-            <ul className="mt-4 flex flex-col">
+            <ul className="mt-3 flex flex-col">
               {rejected.map(({ file, errors }) => (
                 <li
                   key={file.name}
@@ -181,6 +147,7 @@ const DropAndDragZone = ({ className }: { className: string }) => {
                     </ul>
                   </div>
                   <Button
+                    className="h-9 border-none text-sm"
                     variant="outline"
                     onClick={() => removeRejected(file.name)}
                   >

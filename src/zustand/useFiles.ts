@@ -1,14 +1,15 @@
 import { create } from "zustand";
+import { FileWithPreview } from "@utils/types";
 
 interface useFilesState {
-  files: unknown[];
-  saveFiles: (newFiles: unknown[]) => void;
+  files: FileWithPreview[];
+  saveFiles: (newFiles: FileWithPreview[]) => void;
   clearFiles: () => void;
 }
 
 const useFiles = create<useFilesState>((set) => ({
   files: [],
-  saveFiles: (newFiles: unknown[]) => set({ files: newFiles }),
+  saveFiles: (newFiles: FileWithPreview[]) => set({ files: newFiles }),
   clearFiles: () => set({ files: [] }),
 }));
 

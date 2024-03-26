@@ -63,6 +63,38 @@ export async function readProducts({
   }
 }
 
+export async function readProductsWithDetail({ limit, offset }) {
+  try {
+    const supabase = await createSupabaseServerClient();
+
+    const result = await supabase
+      .from("product")
+      .select(
+        `
+  *,
+  product_description (id, content, writer, comments),
+  storage (id, address, quantity)
+`
+      )
+      .range(offset, limit)
+      .eq("is_deleted", false);
+
+    return {
+      status: result.status,
+      statusText: result.statusText,
+      data: result.data as ProductWithDescriptionAndStorageType[],
+      error: result.error,
+    };
+  } catch (error: any) {
+    return {
+      status: 500,
+      statusText: "Internal Server Error.",
+      data: null,
+      error: error,
+    };
+  }
+}
+
 export async function readProductDetailById(id: string) {
   try {
     const supabase = await createSupabaseServerClient();
@@ -110,7 +142,7 @@ export async function updateSoldQuantityByProductId(
       .single();
 
     if (result.error) {
-      return { error: result.error.message };
+      throw new Error("Failed to retrieve sold quantity for product.");
     }
 
     const currentSoldQuantity = result.data.sold_quantity as number;
@@ -172,7 +204,7 @@ export async function readAllCategories() {
       .eq("is_deleted", false);
 
     if (result.error) {
-      return { data: null, error: result.error.message };
+      throw new Error("Failed to retrieve sold quantity for product.");
     }
 
     const uniqueCategories = Array.from(
@@ -212,6 +244,61 @@ export async function readProductBrands() {
       status: result.status,
       statusText: result.statusText,
       data: uniqueBrands,
+      error: result.error,
+    };
+  } catch (error: any) {
+    return {
+      status: 500,
+      statusText: "Internal Server Error.",
+      data: null,
+      error: error,
+    };
+  }
+}
+
+export async function removeProductById(id: string) {
+  try {
+    const supabase = await createSupabaseServerClient();
+
+    const removeResult = await supabase
+      .from("product")
+      .update({ is_deleted: true })
+      .eq("id", id);
+
+    return {
+      status: removeResult.status,
+      statusText: removeResult.statusText,
+      data: removeResult.data,
+      error: removeResult.error,
+    };
+  } catch (error: any) {
+    return {
+      status: 500,
+      statusText: "Internal Server Error.",
+      data: null,
+      error: error,
+    };
+  }
+}
+
+export async function updateProductById({
+  updatedProduct,
+}: {
+  updatedProduct: ProductType;
+}) {
+  try {
+    const supabase = await createSupabaseServerClient();
+
+    const result = await supabase
+      .from("product")
+      .update(updatedProduct)
+      .eq("id", updatedProduct.id)
+      .eq("is_deleted", false);
+
+    return {
+      status: result.status,
+      statusText: result.statusText,
+      data: result.data,
       error: result.error,
     };
   } catch (error: any) {

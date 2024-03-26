@@ -4,7 +4,6 @@ import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
@@ -35,13 +34,9 @@ export function PrintDialog({
 
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
-      <DialogContent className="w-fit rounded-md sm:w-full">
+      <DialogContent className="w-full rounded-md sm:w-full">
         <DialogHeader>
           <DialogTitle>Printed Label</DialogTitle>
-          {/* <DialogDescription className="w-full">
-            This is your preview sticker paper. Click print to get the paper
-            version.
-          </DialogDescription> */}
         </DialogHeader>
         {modifiedHtmlString === "" ? (
           <>

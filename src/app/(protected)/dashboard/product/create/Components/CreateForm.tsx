@@ -9,7 +9,7 @@ import { Button } from "@components/ui/button";
 import { useRouter } from "next/navigation";
 import Editor from "@/components/Editor";
 import DropAndDragZone from "@/components/File/DropAndDragZone";
-import FormInputs from "./FormInputs";
+import ProductFormInputs from "@/app/(protected)/dashboard/product/create/Components/ProductFormInputs";
 import useFiles from "@/zustand/useFiles";
 import { useEffect } from "react";
 import useLocalStorage from "@/hooks/useLocalStorage";
@@ -21,12 +21,16 @@ import { createStorage } from "@app/_actions/storage";
 import { createProductDescription } from "@app/_actions/product_description";
 import { ApiErrorHandlerClient } from "@/utils/errorHandler/apiErrorHandler";
 import { ProductDescriptionType } from "@/utils/types/index";
-import { CustomerType, StaffType } from "@/utils/types/index";
+import {
+  CustomerType,
+  StaffType,
+  ProductWithDescriptionAndStorageType,
+} from "@/utils/types/index";
 
 const FormSchema = z.object({
-  brand: z.string().min(1, { message: "Brand is a compulsory." }),
-  name: z.string().min(1, { message: "Name is a compulsory." }),
-  description: z.string().min(1, { message: "Description is a compulsory." }),
+  brand: z.string().min(2, { message: "Brand is a compulsory." }),
+  name: z.string().min(2, { message: "Name is a compulsory." }),
+  description: z.string().min(2, { message: "Description is a compulsory." }),
   price: z.string().refine((val) => !Number.isNaN(parseInt(val, 10)), {
     message: "Expected number, received a string",
   }),
@@ -51,21 +55,25 @@ const FormSchema = z.object({
     }),
 });
 
-export default function CreateForm() {
+export default function CreateForm({
+  product,
+}: {
+  product?: ProductWithDescriptionAndStorageType;
+}) {
   const router = useRouter();
   const { files } = useFiles();
   const { session } = useSession();
 
   const initState = {
-    brand: "",
-    name: "",
-    description: "",
-    price: "1000000",
-    rate: "4",
-    sold_quantity: "0",
-    category: "",
-    storage_address: "",
-    storage_quantity: "0",
+    brand: product?.brand ?? "",
+    name: product?.name ?? "",
+    description: product?.description ?? "",
+    price: product?.price.toString() ?? "1000000",
+    rate: product?.rate.toString() ?? "4",
+    sold_quantity: product?.sold_quantity.toString() ?? "0",
+    category: product?.category ?? "",
+    storage_address: product?.storage[0]?.address ?? "",
+    storage_quantity: product?.storage[0]?.quantity.toString() ?? "0",
   };
 
   const [content, setContent] = useLocalStorage(
@@ -112,7 +120,7 @@ export default function CreateForm() {
         className="grid grid-cols-2 gap-4"
       >
         <div className="h-fit w-full xl:col-span-2">
-          <FormInputs form={form} />
+          <ProductFormInputs form={form} />
         </div>
         <div className="flex h-fit w-full flex-col xl:col-span-2">
           <h2 className="title mb-1 ml-1 text-sm font-medium">
@@ -145,7 +153,7 @@ async function createHandler(
   const editorContent = window.localStorage.getItem("content");
   const cleanedJsonString = editorContent?.replace(/\\/g, "");
 
-  // upload description -------------
+  // upload description:
   const descriptionObject: ProductDescriptionType = {
     id: uuidv4(),
     created_at: new Date().toISOString(),
@@ -162,7 +170,7 @@ async function createHandler(
     isShowToast: false,
   });
 
-  // upload product images --------------
+  // upload product images:
   const supabase = createSupabaseBrowserClient();
   const productImagesUploadResults: string[] = [];
 
@@ -177,13 +185,13 @@ async function createHandler(
 
     if (!result.error) productImagesUploadResults.push(result.data.path);
     else {
-      console.error("upload files here", result.error);
       toast.error(`Error uploading image: ${uploadingFile.name}`);
     }
   }
+
   if (!productImagesUploadResults.length) throw new Error("No image uploaded.");
 
-  // upload product ---------------
+  // upload product:
   const product = {
     id: uuidv4(),
     created_at: new Date().toISOString(),
@@ -206,7 +214,7 @@ async function createHandler(
     isShowToast: false,
   });
 
-  // create storage for this product ---------------
+  // create storage for this product:
   const storageObject = {
     id: uuidv4(),
     created_at: new Date().toISOString(),

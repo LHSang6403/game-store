@@ -168,6 +168,7 @@ export const columns: ColumnDef<OrderType>[] = [
 
         const response = ApiErrorHandlerClient({
           response: unprocessedResponse,
+          isShowToast: false,
         });
 
         setPrintResult(response.data);

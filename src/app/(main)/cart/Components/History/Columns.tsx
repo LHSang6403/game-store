@@ -72,6 +72,41 @@ export const columns: ColumnDef<OrderType>[] = [
     cell: ({ row }) => {
       const data = row.original;
 
+      async function cancelOrderHandler(data: OrderType) {
+        toast.promise(
+          async () => {
+            switch (data.shipment_name) {
+              case "GHN":
+                const unprocessedResponseGHN = await cancelGHNOrder({
+                  id: data.id,
+                  order_codes: [data.shipment_label_code!],
+                });
+
+                const responseGHN = ApiErrorHandlerClient({
+                  response: unprocessedResponseGHN,
+                });
+
+                break;
+
+              case "GHTK":
+                const unprocessedResponseGHTK = await cancelGHTKOrder({
+                  id: data.id,
+                  label: data.shipment_label_code!,
+                });
+
+                const responseGHTK = ApiErrorHandlerClient({
+                  response: unprocessedResponseGHTK,
+                });
+
+                break;
+            }
+          },
+          {
+            loading: "Canceling order...",
+          }
+        );
+      }
+
       return (
         <div className="text-center">
           <DropdownMenu>
@@ -91,41 +126,7 @@ export const columns: ColumnDef<OrderType>[] = [
                 <DropdownMenuItem
                   disabled={data.state !== "pending"}
                   onClick={() => {
-                    toast.promise(
-                      async () => {
-                        switch (data.shipment_name) {
-                          case "GHN":
-                            const unprocessedResponseGHN = await cancelGHNOrder(
-                              {
-                                id: data.id,
-                                order_codes: [data.shipment_label_code!],
-                              }
-                            );
-
-                            const responseGHN = ApiErrorHandlerClient({
-                              response: unprocessedResponseGHN,
-                            });
-
-                            break;
-
-                          case "GHTK":
-                            const unprocessedResponseGHTK =
-                              await cancelGHTKOrder({
-                                id: data.id,
-                                label: data.shipment_label_code!,
-                              });
-
-                            const responseGHTK = ApiErrorHandlerClient({
-                              response: unprocessedResponseGHTK,
-                            });
-
-                            break;
-                        }
-                      },
-                      {
-                        loading: "Canceling order...",
-                      }
-                    );
+                    cancelOrderHandler(data);
                   }}
                 >
                   Cancel order
