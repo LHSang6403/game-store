@@ -1,6 +1,9 @@
 import CreateForm from "@app/(protected)/dashboard/order/create/Components/CreateForm";
 import { readProductsWithDetail } from "@/app/_actions/product";
-import { ProductType, CustomerType, ProductDescriptionType, ProductWithDescriptionAndStorageType } from "@utils/types/index";
+import {
+  CustomerType,
+  ProductWithDescriptionAndStorageType,
+} from "@utils/types/index";
 import { ApiErrorHandlerServer } from "@utils/errorHandler/apiErrorHandler";
 import { readCustomers } from "@app/_actions/user";
 
@@ -9,7 +12,9 @@ export default async function page() {
     limit: 40,
     offset: 0,
   });
-  const productsResponse = ApiErrorHandlerServer<ProductWithDescriptionAndStorageType[]>({
+  const productsResponse = ApiErrorHandlerServer<
+    ProductWithDescriptionAndStorageType[]
+  >({
     response: unprocessedProductsResponse,
   });
 
