@@ -77,25 +77,25 @@ export const columns: ColumnDef<OrderType>[] = [
           async () => {
             switch (data.shipment_name) {
               case "GHN":
-                const unprocessedResponseGHN = await cancelGHNOrder({
+                const GHNResponse = await cancelGHNOrder({
                   id: data.id,
                   order_codes: [data.shipment_label_code!],
                 });
 
-                const responseGHN = ApiErrorHandlerClient({
-                  response: unprocessedResponseGHN,
+                const processedGHNResponse = ApiErrorHandlerClient({
+                  response: GHNResponse,
                 });
 
                 break;
 
               case "GHTK":
-                const unprocessedResponseGHTK = await cancelGHTKOrder({
+                const GHTKResponse = await cancelGHTKOrder({
                   id: data.id,
                   label: data.shipment_label_code!,
                 });
 
-                const responseGHTK = ApiErrorHandlerClient({
-                  response: unprocessedResponseGHTK,
+                const processedGHTKResponse = ApiErrorHandlerClient({
+                  response: GHTKResponse,
                 });
 
                 break;

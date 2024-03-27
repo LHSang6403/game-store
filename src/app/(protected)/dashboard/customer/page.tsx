@@ -6,9 +6,9 @@ import { columns } from "./Components/Columns";
 import { ApiErrorHandlerServer } from "@/utils/errorHandler/apiErrorHandler";
 
 export default async function page() {
-  const unprocessedResponse = await readCustomers({ limit: 40, offset: 0 });
-  const response = ApiErrorHandlerServer<CustomerType[]>({
-    response: unprocessedResponse,
+  const customersResponse = await readCustomers({ limit: 40, offset: 0 });
+  const customers = ApiErrorHandlerServer<CustomerType[]>({
+    response: customersResponse,
   });
 
   return (
@@ -22,10 +22,10 @@ export default async function page() {
           Create
         </Link>
       </div>
-      {response?.data && (
+      {customers?.data && (
         <DataTable
           columns={columns}
-          data={response?.data}
+          data={customers?.data}
           isPaginationEnabled={true}
         />
       )}

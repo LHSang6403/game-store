@@ -6,9 +6,9 @@ import { columns } from "@app/(protected)/dashboard/order/Components/Columns";
 import { ApiErrorHandlerServer } from "@utils/errorHandler/apiErrorHandler";
 
 export default async function page() {
-  const unprocessedResponse = await readOrders({ limit: 20, offset: 0 });
-  const response = ApiErrorHandlerServer<OrderType[]>({
-    response: unprocessedResponse,
+  const ordersResponse = await readOrders({ limit: 20, offset: 0 });
+  const orders = ApiErrorHandlerServer<OrderType[]>({
+    response: ordersResponse,
   });
 
   return (
@@ -22,10 +22,10 @@ export default async function page() {
           Create
         </Link>
       </div>
-      {response.data && (
+      {orders.data && (
         <DataTable
           columns={columns}
-          data={response.data}
+          data={orders.data}
           isPaginationEnabled={true}
         />
       )}

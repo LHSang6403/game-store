@@ -6,34 +6,32 @@ import { readUserSession } from "@/app/_actions/user";
 import { ApiErrorHandlerServer } from "@/utils/errorHandler/apiErrorHandler";
 
 export default async function OrderHistory() {
-  const unprocessedSessionResponse = await readUserSession();
-  const sessionResponse = ApiErrorHandlerServer<any>({
-    response: unprocessedSessionResponse,
+  const sessionResponse = await readUserSession();
+  const session = ApiErrorHandlerServer<any>({
+    response: sessionResponse,
   });
 
-  const unprocessedHistoryResponse = await readOrdersByCustomerId(
-    sessionResponse.data?.data?.session?.user?.id
+  const historyResponse = await readOrdersByCustomerId(
+    session.data?.data?.session?.user?.id
   );
-  const historyResponse = ApiErrorHandlerServer<OrderType[]>({
-    response: unprocessedHistoryResponse,
+  const history = ApiErrorHandlerServer<OrderType[]>({
+    response: historyResponse,
   });
 
   return (
     <div className="mx-auto w-fit xl:w-auto">
-      {sessionResponse.data &&
-        !historyResponse.error &&
-        "data" in historyResponse && (
-          <>
-            <h2 className="mb-1 text-lg font-semibold">Your history</h2>
-            <DataTable
-              columns={columns}
-              data={historyResponse.data as OrderType[]}
-              isPaginationEnabled={false}
-              isCollumnVisibilityEnabled={false}
-              isSearchEnabled={false}
-            />
-          </>
-        )}
+      {session.data && !history.error && "data" in history && (
+        <>
+          <h2 className="mb-1 text-lg font-semibold">Your history</h2>
+          <DataTable
+            columns={columns}
+            data={history.data as OrderType[]}
+            isPaginationEnabled={false}
+            isCollumnVisibilityEnabled={false}
+            isSearchEnabled={false}
+          />
+        </>
+      )}
     </div>
   );
 }

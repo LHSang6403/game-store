@@ -95,7 +95,7 @@ export default function EditForm({
   async function onSubmit(data: z.infer<typeof FormSchema>) {
     toast.promise(
       async () => {
-        const unprocessedUpdateResponse = await updateHandler(
+        const update = await updateHandler(
           data,
           session,
           product,
@@ -104,10 +104,11 @@ export default function EditForm({
         );
 
         if (
-          !unprocessedUpdateResponse.updatedProductResponse.error &&
-          !unprocessedUpdateResponse.updateProductDescriptionResponse.error &&
-          !unprocessedUpdateResponse.updateStorageResponse.error
+          !update.updatedProductResponse.error &&
+          !update.updateProductDescriptionResponse.error &&
+          !update.updateStorageResponse.error
         ) {
+          toast.success("Product updated successfully.");
           router.push("/dashboard/product");
         }
       },

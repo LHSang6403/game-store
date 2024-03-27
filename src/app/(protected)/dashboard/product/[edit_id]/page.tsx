@@ -3,6 +3,7 @@
 import EditForm from "@app/(protected)/dashboard/product/[edit_id]/Components/EditForm";
 import useProductQuery from "@/hooks/useProductQuery";
 import useLocalStorage from "@/hooks/useLocalStorage";
+import { useEffect } from "react";
 
 export default function page({ params }: { params: { edit_id: string } }) {
   const { data: productResponse } = useProductQuery({
@@ -13,6 +14,10 @@ export default function page({ params }: { params: { edit_id: string } }) {
     "content",
     productResponse?.product_description?.content ?? ""
   );
+
+  useEffect(() => {
+    setContent(productResponse?.product_description?.content ?? "");
+  }, [productResponse?.product_description]);
 
   return (
     <div className="flex min-h-[calc(100vh_-_6rem)] flex-col gap-2 pb-6">

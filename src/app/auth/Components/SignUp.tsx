@@ -121,7 +121,8 @@ export default function SignUp() {
               table: "customer",
               newImage: avatarUrl,
             });
-
+          } else {
+            toast.error("Avatar upload failed.");
           }
         }
 

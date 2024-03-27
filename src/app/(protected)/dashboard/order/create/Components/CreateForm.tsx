@@ -42,27 +42,29 @@ import ProductCard from "@app/(protected)/dashboard/order/create/Components/Prod
 import { ApiErrorHandlerClient } from "@utils/errorHandler/apiErrorHandler";
 import ConfirmDialog from "@app/(main)/cart/Components/Summary/ConfirmDialog";
 
+import province from "@/static-data/provinces.json";
+import district from "@/static-data/districts.json";
+import communes from "@/static-data/communes.json";
+
 const FormSchema = z.object({
-  name: z.string().min(1, { message: "Name is a compulsory." }),
+  name: z.string().min(2, { message: "Name is a compulsory." }),
   phone: z
     .string()
     .min(6, { message: "Must be a valid mobile number" })
     .max(12, { message: "Must be a valid mobile number" }),
   address: z
     .string()
-    .min(2, { message: "Your address is a compulsory for shipping." }),
-  ward: z
-    .string()
-    .min(2, { message: "Your ward is a compulsory for shipping." }),
+    .min(2, { message: "Address is a compulsory for shipping." }),
+  ward: z.string().min(2, { message: "Ward is a compulsory for shipping." }),
   district: z
     .string()
-    .min(2, { message: "Your district is a compulsory for shipping." }),
+    .min(2, { message: "District is a compulsory for shipping." }),
   province: z
     .string()
-    .min(5, { message: "Your province is a compulsory for shipping." }),
+    .min(5, { message: "Province is a compulsory for shipping." }),
   shipment: z
     .string()
-    .min(2, { message: "Service service is a compulsory for shipping." }),
+    .min(2, { message: "Shipment service is a compulsory for shipping." }),
   note: z.string().nullable(),
 });
 
@@ -122,7 +124,7 @@ export default function CreateForm({
         if (!customerSelect) {
           // create new default anonymous customer
           // in case of staff create order by phone call...
-          // this ID is a default row in customer table for create order by staff
+          // this ID is a default row in customer table for creating order by staff
 
           const dummyCustomer: CustomerType = {
             id: "1f8c6d32-0cff-4916-9104-ce60f171d12c",
@@ -144,25 +146,22 @@ export default function CreateForm({
 
         // calculate, open confirm dialog, and create order
         if (order && customerSelect) {
-          const unprocessedCalFeesResponse = await calShipmentFees({
+          const calFeesResponse = await calShipmentFees({
             formData: data,
             order: order,
             customerSession: customerSelect,
           });
 
-          const processedCalFeesResponse = ApiErrorHandlerClient<{
+          const calFees = ApiErrorHandlerClient<{
             service_fee: number;
             insurance_fee: number;
           }>({
-            response: unprocessedCalFeesResponse,
+            response: calFeesResponse,
             isShowToast: false,
           });
 
-          if (processedCalFeesResponse?.data?.service_fee) {
-            setPrices(
-              processedCalFeesResponse?.data?.service_fee,
-              processedCalFeesResponse?.data?.insurance_fee
-            );
+          if (calFees?.data?.service_fee) {
+            setPrices(calFees?.data?.service_fee, calFees?.data?.insurance_fee);
             setCustomer(customerSelect.id, customerSelect.name);
             setNewID();
 
@@ -205,17 +204,41 @@ export default function CreateForm({
         "phone",
         customersData.find((customer) => customer.id === value)?.phone ?? ""
       );
+
+      const provinceId =
+        province.find(
+          (province) =>
+            province.name ===
+            customersData.find((customer) => customer.id === value)?.province
+        )?.idProvince ?? "";
+
       setProvince(
         customersData.find((customer) => customer.id === value)?.province ?? "",
-        "province id"
+        provinceId
       );
+
+      const districtId =
+        district.find(
+          (district) =>
+            district.name ===
+            customersData.find((customer) => customer.id === value)?.district
+        )?.idDistrict ?? "";
+
       setDistrict(
         customersData.find((customer) => customer.id === value)?.district ?? "",
-        "dis id"
+        districtId
       );
+
+      const communeId =
+        communes.find(
+          (commune) =>
+            commune.name ===
+            customersData.find((customer) => customer.id === value)?.ward
+        )?.idCommune ?? "";
+
       setCommune(
         customersData.find((customer) => customer.id === value)?.ward ?? "",
-        "ward id"
+        communeId
       );
 
       form.trigger("name");

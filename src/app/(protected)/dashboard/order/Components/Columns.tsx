@@ -68,13 +68,13 @@ export const columns: ColumnDef<OrderType>[] = [
       async function handleUpdateState(newState: ShipmentState) {
         toast.promise(
           async () => {
-            const unprocessedResponse = await updateStateOrder({
+            const updateResponse = await updateStateOrder({
               id: data.id,
               state: newState,
             });
 
-            const response = ApiErrorHandlerClient({
-              response: unprocessedResponse,
+            const update = ApiErrorHandlerClient({
+              response: updateResponse,
             });
           },
           {
@@ -161,17 +161,17 @@ export const columns: ColumnDef<OrderType>[] = [
         label_code: string;
         size: "A5" | "80x80" | "52x70";
       }) => {
-        const unprocessedResponse = await printGHNOrder({
+        const printResponse = await printGHNOrder({
           order_codes: [label_code],
           size: size,
         });
 
-        const response = ApiErrorHandlerClient({
-          response: unprocessedResponse,
+        const print = ApiErrorHandlerClient({
+          response: printResponse,
           isShowToast: false,
         });
 
-        setPrintResult(response.data);
+        setPrintResult(print.data);
       };
 
       return (

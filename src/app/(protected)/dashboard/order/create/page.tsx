@@ -8,32 +8,32 @@ import { ApiErrorHandlerServer } from "@utils/errorHandler/apiErrorHandler";
 import { readCustomers } from "@app/_actions/user";
 
 export default async function page() {
-  const unprocessedProductsResponse = await readProductsWithDetail({
+  const productsResponse = await readProductsWithDetail({
     limit: 40,
     offset: 0,
   });
-  const productsResponse = ApiErrorHandlerServer<
+  const products = ApiErrorHandlerServer<
     ProductWithDescriptionAndStorageType[]
   >({
-    response: unprocessedProductsResponse,
+    response: productsResponse,
   });
 
-  const unprocessedCustomersResponse = await readCustomers({
+  const customersResponse = await readCustomers({
     limit: 40,
     offset: 0,
   });
-  const customersResponse = ApiErrorHandlerServer<CustomerType[]>({
-    response: unprocessedCustomersResponse,
+  const customers = ApiErrorHandlerServer<CustomerType[]>({
+    response: customersResponse,
   });
 
   return (
     <div className="flex min-h-[calc(100vh_-_6rem)] flex-col gap-2 pb-6">
       <h1 className="my-2 text-2xl font-medium">Create order</h1>
       <div className="h-fit w-full">
-        {customersResponse.data && productsResponse.data && (
+        {customers.data && products.data && (
           <CreateForm
-            customersData={customersResponse.data}
-            productsData={productsResponse.data}
+            customersData={customers.data}
+            productsData={products.data}
           />
         )}
       </div>

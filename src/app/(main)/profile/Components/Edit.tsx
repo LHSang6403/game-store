@@ -59,14 +59,14 @@ export default function Edit({
   const onSubmit = async (data: UpdatingData) => {
     toast.promise(
       async () => {
-        const unprocessedResult = await updateUserProfile<UpdatingData>({
+        const updateResponse = await updateUserProfile<UpdatingData>({
           id: profile.id,
           role: "role" in profile ? "Staff" : "Customer",
           updatingData: data,
         });
 
-        const result = ApiErrorHandlerClient({
-          response: unprocessedResult,
+        const update = ApiErrorHandlerClient({
+          response: updateResponse,
           isShowToast: false,
         });
       },

@@ -6,9 +6,9 @@ import type { ProductType } from "@utils/types/index";
 import { ApiErrorHandlerServer } from "@utils/errorHandler/apiErrorHandler";
 
 export default async function Page() {
-  const unprocessedResponse = await readProducts({ limit: 20, offset: 0 });
-  const response = ApiErrorHandlerServer<ProductType[]>({
-    response: unprocessedResponse,
+  const productsResponse = await readProducts({ limit: 20, offset: 0 });
+  const products = ApiErrorHandlerServer<ProductType[]>({
+    response: productsResponse,
   });
 
   return (
@@ -22,10 +22,10 @@ export default async function Page() {
           Create
         </Link>
       </div>
-      {response.data && (
+      {products.data && (
         <DataTable
           columns={columns}
-          data={response.data}
+          data={products.data}
           isPaginationEnabled={true}
         />
       )}

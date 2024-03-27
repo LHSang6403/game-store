@@ -68,10 +68,10 @@ export const columns: ColumnDef<ProductType>[] = [
       async function removeHandler(id: string) {
         toast.promise(
           async () => {
-            const unprocessedRemoveResponse = await removeProductById(id);
+            const removeResponse = await removeProductById(id);
 
-            const removeResponse = ApiErrorHandlerClient({
-              response: unprocessedRemoveResponse,
+            const remove = ApiErrorHandlerClient({
+              response: removeResponse,
             });
           },
           {

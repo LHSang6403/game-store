@@ -162,11 +162,12 @@ async function createHandler(
     comments: [],
   };
 
-  const unprocessedProductDescriptionUploadResponse =
-    await createProductDescription(descriptionObject);
+  const roductDescriptionUploadResponse = await createProductDescription(
+    descriptionObject
+  );
 
-  const productDescriptionUploadResponse = ApiErrorHandlerClient<any>({
-    response: unprocessedProductDescriptionUploadResponse,
+  const productDescriptionUpload = ApiErrorHandlerClient<any>({
+    response: roductDescriptionUploadResponse,
     isShowToast: false,
   });
 
@@ -207,10 +208,10 @@ async function createHandler(
     is_deleted: false,
   };
 
-  const unprocessedProductUploadResponse = await createProduct(product);
+  const productUploadResponse = await createProduct(product);
 
-  const productUploadResponse = ApiErrorHandlerClient<any>({
-    response: unprocessedProductUploadResponse,
+  const productUpload = ApiErrorHandlerClient<any>({
+    response: productUploadResponse,
     isShowToast: false,
   });
 
@@ -224,10 +225,10 @@ async function createHandler(
     quantity: parseInt(data.storage_quantity),
   };
 
-  const unprocessedStorageUploadResponse = await createStorage(storageObject);
+  const storageCreateResponse = await createStorage(storageObject);
 
-  const storageUploadResponse = ApiErrorHandlerClient<any>({
-    response: unprocessedStorageUploadResponse,
+  const storageCreate = ApiErrorHandlerClient<any>({
+    response: storageCreateResponse,
     isShowToast: false,
   });
 }

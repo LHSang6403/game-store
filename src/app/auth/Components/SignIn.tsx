@@ -52,9 +52,9 @@ export default function SignIn() {
             toast.error(result.error.message);
           }
         } else {
-          const unprocessedSessionResponse = await readUserSession();
+          const sessionResponse = await readUserSession();
           const session = ApiErrorHandlerClient<any>({
-            response: unprocessedSessionResponse,
+            response: sessionResponse,
             isShowToast: false,
           });
 

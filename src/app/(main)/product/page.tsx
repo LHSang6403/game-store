@@ -8,12 +8,12 @@ import { ProductType } from "@utils/types/index";
 import { ApiErrorHandlerServer } from "@utils/errorHandler/apiErrorHandler";
 
 export default async function Product() {
-  const unprocessedProductsResponse = await readProducts({
+  const productsResponse = await readProducts({
     limit: 40,
     offset: 0,
   });
-  const productsResponse = ApiErrorHandlerServer<ProductType[]>({
-    response: unprocessedProductsResponse,
+  const products = ApiErrorHandlerServer<ProductType[]>({
+    response: productsResponse,
   });
 
   return (
@@ -27,8 +27,8 @@ export default async function Product() {
           </div>
         </div>
         <CategoryCards />
-        {productsResponse.data && (
-          <ProductsContainer products={productsResponse.data} />
+        {products.data && (
+          <ProductsContainer products={products.data} />
         )}
         <FilterArea />
       </div>

@@ -99,25 +99,22 @@ export default function OrderForm() {
 
     toast.promise(
       async () => {
-        const unprocessedCalFeesResponse = await calShipmentFees({
+        const calFeesResponse = await calShipmentFees({
           formData: data,
           order: order,
           customerSession: customerSession,
         });
 
-        const processedCalFeesResponse = ApiErrorHandlerClient<{
+        const calFees = ApiErrorHandlerClient<{
           service_fee: number;
           insurance_fee: number;
         }>({
-          response: unprocessedCalFeesResponse,
+          response: calFeesResponse,
           isShowToast: false,
         });
 
-        if (processedCalFeesResponse?.data?.service_fee) {
-          setPrices(
-            processedCalFeesResponse?.data?.service_fee,
-            processedCalFeesResponse?.data?.insurance_fee
-          );
+        if (calFees?.data?.service_fee) {
+          setPrices(calFees?.data?.service_fee, calFees?.data?.insurance_fee);
           setCustomer(customerSession.id, customerSession.name);
           setNewID();
           setIsDialogOpen(true);

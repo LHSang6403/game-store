@@ -5,18 +5,18 @@ import { columns } from "./Components/Columns";
 import { ApiErrorHandlerServer } from "@/utils/errorHandler/apiErrorHandler";
 
 export default async function page() {
-  const unprocessedResponse = await readStaffs({ limit: 20, offset: 0 });
-  const response = ApiErrorHandlerServer<StaffType[]>({
-    response: unprocessedResponse,
+  const staffsResponse = await readStaffs({ limit: 20, offset: 0 });
+  const staffs = ApiErrorHandlerServer<StaffType[]>({
+    response: staffsResponse,
   });
 
   return (
     <section className="">
       <h1 className="my-2 text-2xl font-medium">All staff</h1>
-      {response.data && (
+      {staffs.data && (
         <DataTable
           columns={columns}
-          data={response.data}
+          data={staffs.data}
           isPaginationEnabled={true}
         />
       )}

@@ -43,10 +43,10 @@ export default function Providers({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     const fetchSession = async () => {
-      const unprocessedSessionResponse = await readUserSession();
+      const sessionResponse = await readUserSession();
 
       const session = ApiErrorHandlerClient<any>({
-        response: unprocessedSessionResponse,
+        response: sessionResponse,
         isShowToast: false,
       });
 
