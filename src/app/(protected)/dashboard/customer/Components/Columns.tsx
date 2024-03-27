@@ -11,9 +11,10 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import type { CustomerType } from "@utils/types";
-import { updateToStaff } from "@/app/_actions/user";
+import { updateCustomerToStaff } from "@/app/_actions/user";
 import { toast } from "sonner";
 import { ApiErrorHandlerClient } from "@/utils/errorHandler/apiErrorHandler";
+import { updateCustomerLevel } from "@app/_actions/user";
 
 export const columns: ColumnDef<CustomerType>[] = [
   {
@@ -76,6 +77,45 @@ export const columns: ColumnDef<CustomerType>[] = [
       const data = row.original;
       const availbleRoles = ["Seller", "Writer", "Manager"];
 
+      function updateCustomerLevelHandelr(id: string, newLevel: number) {
+        toast.promise(
+          async () => {
+            const unprocessedResponse = await updateCustomerLevel({
+              id: data.id,
+              newLevel: newLevel,
+            });
+
+            const response = ApiErrorHandlerClient({
+              response: unprocessedResponse,
+            });
+          },
+          {
+            loading: "Updating...",
+          }
+        );
+      }
+
+      function updateCustomerToStaffHandler(
+        id: string,
+        eachRole: "Seller" | "Writer" | "Manager"
+      ) {
+        toast.promise(
+          async () => {
+            const unprocessedResponse = await updateCustomerToStaff({
+              id: id,
+              role: eachRole,
+            });
+
+            const response = ApiErrorHandlerClient({
+              response: unprocessedResponse,
+            });
+          },
+          {
+            loading: "Updating...",
+          }
+        );
+      }
+
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -91,27 +131,20 @@ export const columns: ColumnDef<CustomerType>[] = [
             >
               Copy customer ID
             </DropdownMenuItem>
+            <DropdownMenuItem
+              onClick={() => {
+                updateCustomerLevelHandelr(data.id, data.level + 1);
+              }}
+            >
+              Update level
+            </DropdownMenuItem>
             {(availbleRoles as ("Seller" | "Writer" | "Manager")[]).map(
               (eachRole, index) => (
                 <DropdownMenuItem
                   key={index}
-                  onClick={() =>
-                    toast.promise(
-                      async () => {
-                        const unprocessedResponse = await updateToStaff({
-                          id: data.id,
-                          role: eachRole,
-                        });
-                        
-                        const response = ApiErrorHandlerClient({
-                          response: unprocessedResponse,
-                        });
-                      },
-                      {
-                        loading: "Updating...",
-                      }
-                    )
-                  }
+                  onClick={() => {
+                    updateCustomerToStaffHandler(data.id, eachRole);
+                  }}
                 >
                   Update to {eachRole}
                 </DropdownMenuItem>

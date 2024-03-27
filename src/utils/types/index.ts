@@ -1,5 +1,5 @@
 export interface StaffType {
-  id: string;
+  id: string; // p_key
   created_at: string;
   name: string;
   dob: string;
@@ -16,7 +16,7 @@ export interface StaffType {
 export interface CustomerType {
   id: string; // p_key
   created_at: string;
-  name: string; // p_key
+  name: string;
   dob: string;
   phone: string;
   email: string;
@@ -85,7 +85,7 @@ export interface OrderType {
   products: ProductWithDescriptionAndStorageType[];
   state: ShipmentState;
   customer_id: string; // f_key
-  customer_name: string; // f_key
+  customer_name: string;
   price: number;
   shipping_fee: number; // api call
   insurance_fee: number; // api call

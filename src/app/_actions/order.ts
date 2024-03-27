@@ -23,6 +23,8 @@ export async function createOrder(order: OrderType) {
     }
 
     revalidatePath("/cart");
+    revalidatePath("/dashboard/order");
+
     return result;
   } catch (error: any) {
     return { error: error.message };

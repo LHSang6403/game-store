@@ -74,6 +74,8 @@ export async function getGHTKOrderStatus(label: string) {
 
     const responseData = await response.json();
 
+    console.log("%%% response", response);
+
     return {
       status: responseData.success ? 200 : 500,
       statusText: responseData.message,
@@ -102,6 +104,8 @@ export async function calGHTKFees(params: any) {
         },
       }
     );
+
+    console.log("%%% response", response);
 
     return {
       status: response.data.success ? 200 : 500,

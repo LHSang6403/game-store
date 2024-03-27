@@ -9,7 +9,6 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@components/ui/dialog";
-import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@components/ui/label";
 import { toast } from "sonner";
 import { useOrder } from "@/zustand/useOrder";
@@ -167,25 +166,7 @@ export default function ConfirmDialog({
               {formatCurrency(order.shipping_fee)} VND
             </span>
           </div>
-          <div className="mt-1 rounded-md border px-3 py-2">
-            <div className="flex flex-row items-center ">
-              <Checkbox
-                disabled={order.insurance_fee === 0}
-                className="mr-2 data-[state=checked]:text-background"
-                id="insurance"
-              />
-              <div>
-                <Label>Insurance fee: </Label>
-                <span className="font-light">
-                  {formatCurrency(order.insurance_fee)} VND
-                </span>
-              </div>
-            </div>
-            <p className="mt-1 font-light">
-              By select this option, your products will be protected and
-              indemnified.
-            </p>
-          </div>
+          
           <div className="mt-2 font-semibold">
             <Label className="font-semibold">Total price: </Label>
             <span className="">{formatCurrency(order.total_price)} VND</span>

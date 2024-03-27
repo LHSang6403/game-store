@@ -23,6 +23,7 @@ import type { StaffType } from "@utils/types";
 import { updateStaffRole } from "@/app/_actions/user";
 import { toast } from "sonner";
 import { ApiErrorHandlerClient } from "@/utils/errorHandler/apiErrorHandler";
+import { updateStaffToCustomer } from "@/app/_actions/user";
 
 export const columns: ColumnDef<StaffType>[] = [
   {
@@ -110,6 +111,21 @@ export const columns: ColumnDef<StaffType>[] = [
     cell: ({ row }) => {
       const data = row.original;
 
+      function updateStaffToCustomerHandler(id: string) {
+        toast.promise(
+          async () => {
+            const unprocessedResponse = await updateStaffToCustomer(id);
+
+            const response = ApiErrorHandlerClient({
+              response: unprocessedResponse,
+            });
+          },
+          {
+            loading: "Updating...",
+          }
+        );
+      }
+
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -124,6 +140,13 @@ export const columns: ColumnDef<StaffType>[] = [
               onClick={() => navigator.clipboard.writeText(data.id)}
             >
               Copy staff ID
+            </DropdownMenuItem>
+            <DropdownMenuItem
+              onClick={() => {
+                updateStaffToCustomerHandler(data.id);
+              }}
+            >
+              Update to customer
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

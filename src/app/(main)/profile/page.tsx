@@ -34,11 +34,14 @@ export default async function page() {
     <div className="flex flex-col gap-8 px-10 pb-10 xl:px-6 sm:px-4">
       <h1 className="text-center text-3xl font-semibold">Your profile</h1>
       <div className="flex w-full flex-col items-center gap-2">
-        <div className="flex justify-center rounded-full border p-0.5">
+        <div className="flex h-32 w-32 justify-center rounded-full border p-0.5">
           <Image
             src={
-              session.data?.detailData?.image ??
-              "https://png.pngtree.com/png-vector/20191026/ourlarge/pngtree-avatar-vector-icon-white-background-png-image_1870181.jpg"
+              session.data?.detailData?.image
+                ? process.env.NEXT_PUBLIC_SUPABASE_URL +
+                  "/storage/v1/object/public/public_files/" +
+                  session.data.detailData.image
+                : "https://png.pngtree.com/png-vector/20191026/ourlarge/pngtree-avatar-vector-icon-white-background-png-image_1870181.jpg"
             }
             alt="profile"
             width={150}

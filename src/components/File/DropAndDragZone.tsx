@@ -14,7 +14,13 @@ interface RejectedFile {
   errors: { code: string; message: string }[];
 }
 
-const DropAndDragZone = ({ className }: { className: string }) => {
+const DropAndDragZone = ({
+  className,
+  maxFiles,
+}: {
+  className: string;
+  maxFiles?: number;
+}) => {
   const { saveFiles } = useFiles();
 
   const [files, setFiles] = useState<FileWithPreview[]>([]);
@@ -54,7 +60,7 @@ const DropAndDragZone = ({ className }: { className: string }) => {
       "image/*": [],
     },
     maxSize: 5120 * 1000,
-    maxFiles: 4,
+    maxFiles: maxFiles ?? 4,
     onDrop,
   });
 

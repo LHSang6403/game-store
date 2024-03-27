@@ -41,7 +41,19 @@ const useAddressSelects = create<useAddressSelectsState>((set) => ({
     set((state) => ({
       addressValues: { ...state.addressValues, commune, communeId },
     })),
-  clearAll: () => {},
+  clearAll: () => {
+    set(() => ({
+      addressValues: {
+        address: "",
+        province: "",
+        provinceId: "",
+        district: "",
+        districtId: "",
+        commune: "",
+        communeId: "",
+      },
+    }));
+  },
 }));
 
 export default useAddressSelects;

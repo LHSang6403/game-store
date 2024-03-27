@@ -13,7 +13,7 @@ export default function AuthCardTabs() {
   return (
     <Tabs
       defaultValue="sign-in"
-      className="w-[550px] rounded-lg border border-gray-200 p-2 shadow-sm sm:w-full"
+      className="w-[650px] rounded-lg border border-gray-200 p-2 shadow-sm sm:w-full"
     >
       <TabsList className="grid w-full grid-cols-2">
         <TabsTrigger

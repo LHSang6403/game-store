@@ -8,7 +8,7 @@ import { Form } from "@components/ui/form";
 import { Button } from "@components/ui/button";
 import { useRouter } from "next/navigation";
 import Editor from "@/components/Editor";
-import DropAndDragZone from "@/components/File/DropAndDragZone";
+import DropAndDragZone from "@components/File/DropAndDragZone";
 import ProductFormInputs from "@/app/(protected)/dashboard/product/create/Components/ProductFormInputs";
 import useFiles from "@/zustand/useFiles";
 import { useEffect } from "react";

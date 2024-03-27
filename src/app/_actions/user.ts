@@ -6,6 +6,8 @@ import createSupabaseServerClient, {
 } from "@/supabase-query/server";
 import { revalidatePath } from "next/cache";
 import customerToStaff from "@utils/functions/customerToStaff";
+import staffToCustomer from "@utils/functions/staffToCustomer";
+import { create } from "zustand";
 
 export async function readUserSession() {
   try {
@@ -100,7 +102,7 @@ export async function updateStaffRole({
   }
 }
 
-export async function updateToStaff({
+export async function updateCustomerToStaff({
   id,
   role,
 }: {
@@ -131,6 +133,7 @@ export async function updateToStaff({
         .select("*")
         .eq("id", id)
         .single();
+
       const customerData = customer.data;
 
       if (customerData) {
@@ -144,21 +147,62 @@ export async function updateToStaff({
           .from("staff")
           .insert(customerToStaff(customerData, role));
 
+        revalidatePath("/dashboard/customer");
+        revalidatePath("/dashboard/staff");
+
         return {
           status: result.status,
           statusText: result.statusText,
           data: result.data,
           error: result.error,
         };
-      } else
-        return {
-          status: 404,
-          statusText: "Customer data error.",
-          data: null,
-          error: "User can not found.",
-        };
+      } else throw new Error("User can not found.");
     }
   } catch {
+    return {
+      status: 500,
+      statusText: "Internal server error.",
+      data: null,
+      error: "Error on update.",
+    };
+  }
+}
+
+export async function updateStaffToCustomer(id: string) {
+  try {
+    const supabase = await createSupabaseServerClient();
+    const supabaseAdmin = await createSupabaseAdmin();
+
+    const staff = await supabase
+      .from("staff")
+      .select("*")
+      .eq("id", id)
+      .single();
+
+    const staffData = staff.data;
+
+    if (staffData) {
+      await supabaseAdmin.auth.admin.updateUserById(id, {
+        user_metadata: { role: "Customer" },
+      });
+
+      await supabase.from("staff").delete().eq("id", id);
+
+      const result = await supabase
+        .from("customer")
+        .insert(staffToCustomer(staffData));
+
+      revalidatePath("/dashboard/customer");
+      revalidatePath("/dashboard/staff");
+
+      return {
+        status: result.status,
+        statusText: result.statusText,
+        data: result.data,
+        error: result.error,
+      };
+    } else throw new Error("User can not found.");
+  } catch (error: any) {
     return {
       status: 500,
       statusText: "Internal server error.",
@@ -247,7 +291,8 @@ export async function readCustomers({
     const result = await supabase
       .from("customer")
       .select("*")
-      .range(offset, limit);
+      .range(offset, limit)
+      .neq("name", "Default Staff Create");
 
     return {
       status: result.status,
@@ -261,6 +306,72 @@ export async function readCustomers({
       statusText: "Internal server error.",
       data: null,
       error: "Error on read.",
+    };
+  }
+}
+
+export async function updateCustomerLevel({
+  id,
+  newLevel,
+}: {
+  id: string;
+  newLevel: number;
+}) {
+  try {
+    const supabase = await createSupabaseServerClient();
+
+    const result = await supabase
+      .from("customer")
+      .update({ level: newLevel })
+      .eq("id", id);
+
+    if (!result.error) revalidatePath("/dashboard/customer");
+
+    return {
+      status: result.status,
+      statusText: result.statusText,
+      data: result.data,
+      error: result.error,
+    };
+  } catch (error: any) {
+    return {
+      status: 500,
+      statusText: "Internal server error.",
+      data: null,
+      error: "Error on update.",
+    };
+  }
+}
+
+export async function updateUserImage({
+  id,
+  table,
+  newImage,
+}: {
+  id: string;
+  table: "customer" | "staff";
+  newImage: string;
+}) {
+  try {
+    const supabase = await createSupabaseServerClient();
+
+    const result = await supabase
+      .from(table)
+      .update({ image: newImage })
+      .eq("id", id);
+
+    return {
+      status: result.status,
+      statusText: result.statusText,
+      data: result.data,
+      error: result.error,
+    };
+  } catch (error: any) {
+    return {
+      status: 500,
+      statusText: "Internal server error.",
+      data: null,
+      error: "Error on update.",
     };
   }
 }

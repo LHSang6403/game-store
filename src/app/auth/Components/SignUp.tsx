@@ -27,6 +27,10 @@ import {
 } from "@components/ui/popover";
 import { useState, useEffect } from "react";
 import useAddressSelects from "@/zustand/useAddressSelects";
+import DropAndDragZone from "@components/File/DropAndDragZone";
+import useFiles from "@/zustand/useFiles";
+import createSupabaseBrowserClient from "@/supabase-query/client";
+import { updateUserImage } from "@app/_actions/user";
 
 const FormSchema = z
   .object({
@@ -57,6 +61,8 @@ const FormSchema = z
   });
 
 export default function SignUp() {
+  const { files, clearFiles } = useFiles();
+
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -101,6 +107,24 @@ export default function SignUp() {
           password: data.password,
         });
 
+        if (result.data?.user?.id) {
+          const uploadAvatarResult = await updaloadAvatar({
+            userId: result.data?.user?.id,
+            file: files[0],
+          });
+
+          const avatarUrl = uploadAvatarResult.data?.path;
+
+          if (avatarUrl) {
+            const updateUserImageResult = await updateUserImage({
+              id: result.data?.user?.id,
+              table: "customer",
+              newImage: avatarUrl,
+            });
+
+          }
+        }
+
         if (result.error) {
           if (typeof result.error === "string") {
             toast.error(result.error);
@@ -109,8 +133,11 @@ export default function SignUp() {
           }
         } else {
           form.reset();
+
           clearAll();
+          clearFiles();
           setDate(undefined);
+
           toast.success("User created successfully. Confirm your email.");
         }
       },
@@ -286,6 +313,13 @@ export default function SignUp() {
           )}
         />
         <div className="col-span-2">
+          <FormLabel>Avatar</FormLabel>
+          <DropAndDragZone
+            className="mt-2 rounded-lg border p-16 sm:p-6"
+            maxFiles={1}
+          />
+        </div>
+        <div className="col-span-2">
           <Button
             disabled={!form.formState.isValid}
             type="submit"
@@ -297,4 +331,22 @@ export default function SignUp() {
       </form>
     </Form>
   );
+}
+
+async function updaloadAvatar({
+  userId,
+  file,
+}: {
+  userId: string;
+  file: File;
+}) {
+  const supabase = createSupabaseBrowserClient();
+  const result = await supabase.storage
+    .from("public_files")
+    .upload("/user_images/" + userId, file, {
+      upsert: true,
+      duplex: "half",
+    });
+
+  return result;
 }
