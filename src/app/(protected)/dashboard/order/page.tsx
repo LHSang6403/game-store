@@ -27,6 +27,7 @@ export default async function page() {
           columns={columns}
           data={orders.data}
           isPaginationEnabled={true}
+          searchAttribute="customer_name"
         />
       )}
     </section>

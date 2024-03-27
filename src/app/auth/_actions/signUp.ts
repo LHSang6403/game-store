@@ -55,7 +55,7 @@ export async function signUpWithEmailAndPassword({
         province: province,
         level: 0,
         image:
-          "https://img.freepik.com/free-vector/cute-boy-playing-game-sofa-with-headphone-cartoon-vector-icon-illustration-people-technology_138676-5483.jpg",
+          "user_images/defaultAvatar/avatar.jpg",
       };
 
       const customerInsertResult = await supabase

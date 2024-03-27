@@ -2,31 +2,20 @@
 
 import Header from "@/components/Layout/Header/Header";
 import Footer from "@/components/Layout/Footer/Footer";
-import Link from "next/link";
 import { useSession } from "@/zustand/useSession";
+import { useRouter } from "next/navigation";
 
 export default async function ProtectedLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const router = useRouter();
   const { session } = useSession();
   console.log(session);
 
   if (session && !("role" in session)) {
-    return (
-      <div className="mt-10 flex flex-col items-center">
-        <span className="text-xl font-medium">
-          You can not access this area.{" "}
-        </span>
-        <Link
-          className="text-base text-foreground/80 hover:text-foreground"
-          href="/auth"
-        >
-          Login another account.
-        </Link>
-      </div>
-    );
+    router.push("/auth");
   }
 
   return (

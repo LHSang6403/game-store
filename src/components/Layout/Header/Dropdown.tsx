@@ -36,11 +36,9 @@ export default function Dropdown() {
               <div className="-ml-0.5 mr-1.5 flex h-5 w-5 justify-center rounded-full border p-[1px]">
                 <Image
                   src={
-                    session?.image
-                      ? process.env.NEXT_PUBLIC_SUPABASE_URL +
-                        "/storage/v1/object/public/public_files/" +
-                        session.image
-                      : "https://png.pngtree.com/png-vector/20191026/ourlarge/pngtree-avatar-vector-icon-white-background-png-image_1870181.jpg"
+                    process.env.NEXT_PUBLIC_SUPABASE_URL +
+                    "/storage/v1/object/public/public_files/" +
+                    session.image
                   }
                   alt="profile"
                   width={20}

@@ -37,11 +37,9 @@ export default async function page() {
         <div className="flex h-32 w-32 justify-center rounded-full border p-0.5">
           <Image
             src={
-              session.data?.detailData?.image
-                ? process.env.NEXT_PUBLIC_SUPABASE_URL +
-                  "/storage/v1/object/public/public_files/" +
-                  session.data.detailData.image
-                : "https://png.pngtree.com/png-vector/20191026/ourlarge/pngtree-avatar-vector-icon-white-background-png-image_1870181.jpg"
+              process.env.NEXT_PUBLIC_SUPABASE_URL +
+              "/storage/v1/object/public/public_files/" +
+              session.data.detailData.image
             }
             alt="profile"
             width={150}

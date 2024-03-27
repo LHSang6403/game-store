@@ -126,9 +126,10 @@ export interface StorageType {
 export interface LogType {
   id: string;
   created_at: string;
-  title: string;
-  actor: string;
-  interface: string;
+  name: string;
+  actor_id: string;
+  actor_name: string;
+  type: string;
   result: string;
 }
 

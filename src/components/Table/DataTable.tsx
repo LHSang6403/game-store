@@ -37,6 +37,7 @@ interface DataTableProps<TData, TValue> {
   isPaginationEnabled?: boolean;
   isCollumnVisibilityEnabled?: boolean;
   isSearchEnabled?: boolean;
+  searchAttribute?: string;
 }
 
 export function DataTable<TData, TValue>({
@@ -45,6 +46,7 @@ export function DataTable<TData, TValue>({
   isPaginationEnabled = true,
   isCollumnVisibilityEnabled = true,
   isSearchEnabled = true,
+  searchAttribute = "name",
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
@@ -74,12 +76,16 @@ export function DataTable<TData, TValue>({
         {isSearchEnabled && (
           <div className="flex items-center py-4">
             <Input
-              placeholder="Search by name..."
+              placeholder="Search here..."
               value={
-                (table.getColumn("name")?.getFilterValue() as string) ?? ""
+                (table
+                  .getColumn(searchAttribute)
+                  ?.getFilterValue() as string) ?? ""
               }
               onChange={(event) =>
-                table.getColumn("name")?.setFilterValue(event.target.value)
+                table
+                  .getColumn(searchAttribute)
+                  ?.setFilterValue(event.target.value)
               }
               className="max-w-sm"
             />

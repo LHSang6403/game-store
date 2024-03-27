@@ -31,7 +31,7 @@ import { ShipmentState } from "@utils/types/index";
 
 export const columns: ColumnDef<OrderType>[] = [
   {
-    accessorKey: "name",
+    accessorKey: "products",
     header: "Products",
     cell: ({ row }) => {
       const data = row.original;
