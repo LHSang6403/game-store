@@ -7,7 +7,7 @@ import createSupabaseServerClient, {
 import { revalidatePath } from "next/cache";
 import customerToStaff from "@utils/functions/customerToStaff";
 import staffToCustomer from "@utils/functions/staffToCustomer";
-import { create } from "zustand";
+import { saveToLog, LogActorType } from "@app/_actions/log";
 
 export async function readUserSession() {
   try {
@@ -65,32 +65,46 @@ export async function readUserSession() {
 }
 
 export async function updateStaffRole({
-  id,
+  staff,
   updatedRole,
+  actor,
 }: {
-  id: string;
+  staff: StaffType;
   updatedRole: string;
+  actor: LogActorType;
 }) {
   try {
     const supabase = await createSupabaseServerClient();
     const supabaseAdmin = await createSupabaseAdmin();
 
-    const result = await supabase
+    const updateResult = await supabase
       .from("staff")
       .update({ role: updatedRole })
-      .eq("id", id);
+      .eq("id", staff.id);
 
-    await supabaseAdmin.auth.admin.updateUserById(id, {
-      user_metadata: { role: updatedRole },
+    const updateAdminResult = await supabaseAdmin.auth.admin.updateUserById(
+      staff.id,
+      {
+        user_metadata: { role: updatedRole },
+      }
+    );
+
+    await saveToLog({
+      logName: "Update Staff to " + updatedRole,
+      logType: "Update",
+      logResult:
+        !updateResult.error && !updateAdminResult ? "Success" : "Error",
+      logActor: actor,
     });
 
-    if (!result.error) revalidatePath("/dashboard/staff");
+    if (!updateResult.error && !updateAdminResult)
+      revalidatePath("/dashboard/staff");
 
     return {
-      status: result.status,
-      statusText: result.statusText,
-      data: result.data,
-      error: result.error,
+      status: updateResult.status,
+      statusText: updateResult.statusText,
+      data: updateResult.data,
+      error: updateResult.error,
     };
   } catch (error: any) {
     return {
@@ -103,11 +117,13 @@ export async function updateStaffRole({
 }
 
 export async function updateCustomerToStaff({
-  id,
+  customer,
   role,
+  actor,
 }: {
-  id: string;
+  customer: CustomerType;
   role: "Seller" | "Writer" | "Manager";
+  actor: LogActorType;
 }) {
   try {
     const supabase = await createSupabaseServerClient();
@@ -116,7 +132,7 @@ export async function updateCustomerToStaff({
     const orders = await supabase
       .from("order")
       .select("*")
-      .eq("customer_id", id);
+      .eq("customer_id", customer.id);
 
     const hasOrders = orders?.data && orders?.data.length > 0;
 
@@ -128,20 +144,20 @@ export async function updateCustomerToStaff({
         error: "Customer is having orders.",
       };
     } else {
-      const customer = await supabase
+      const customerResult = await supabase
         .from("customer")
         .select("*")
-        .eq("id", id)
+        .eq("id", customer.id)
         .single();
 
-      const customerData = customer.data;
+      const customerData = customerResult.data;
 
       if (customerData) {
-        await supabaseAdmin.auth.admin.updateUserById(id, {
+        await supabaseAdmin.auth.admin.updateUserById(customer.id, {
           user_metadata: { role: role },
         });
 
-        await supabase.from("customer").delete().eq("id", id);
+        await supabase.from("customer").delete().eq("id", customer.id);
 
         const result = await supabase
           .from("staff")
@@ -149,6 +165,13 @@ export async function updateCustomerToStaff({
 
         revalidatePath("/dashboard/customer");
         revalidatePath("/dashboard/staff");
+
+        await saveToLog({
+          logName: "Update Customer " + customer.name + " to Staff",
+          logType: "Update",
+          logResult: !result.error ? "Success" : "Error",
+          logActor: actor,
+        });
 
         return {
           status: result.status,
@@ -168,25 +191,31 @@ export async function updateCustomerToStaff({
   }
 }
 
-export async function updateStaffToCustomer(id: string) {
+export async function updateStaffToCustomer({
+  staff,
+  actor,
+}: {
+  staff: StaffType;
+  actor: LogActorType;
+}) {
   try {
     const supabase = await createSupabaseServerClient();
     const supabaseAdmin = await createSupabaseAdmin();
 
-    const staff = await supabase
+    const staffResult = await supabase
       .from("staff")
       .select("*")
-      .eq("id", id)
+      .eq("id", staff.id)
       .single();
 
-    const staffData = staff.data;
+    const staffData = staffResult.data;
 
     if (staffData) {
-      await supabaseAdmin.auth.admin.updateUserById(id, {
+      await supabaseAdmin.auth.admin.updateUserById(staff.id, {
         user_metadata: { role: "Customer" },
       });
 
-      await supabase.from("staff").delete().eq("id", id);
+      await supabase.from("staff").delete().eq("id", staff.id);
 
       const result = await supabase
         .from("customer")
@@ -194,6 +223,13 @@ export async function updateStaffToCustomer(id: string) {
 
       revalidatePath("/dashboard/customer");
       revalidatePath("/dashboard/staff");
+
+      await saveToLog({
+        logName: "Update Staff " + staff.name + " to Customer",
+        logType: "Update",
+        logResult: !result.error ? "Success" : "Error",
+        logActor: actor,
+      });
 
       return {
         status: result.status,
@@ -311,11 +347,13 @@ export async function readCustomers({
 }
 
 export async function updateCustomerLevel({
-  id,
+  customer,
   newLevel,
+  actor,
 }: {
-  id: string;
+  customer: CustomerType;
   newLevel: number;
+  actor: LogActorType;
 }) {
   try {
     const supabase = await createSupabaseServerClient();
@@ -323,9 +361,16 @@ export async function updateCustomerLevel({
     const result = await supabase
       .from("customer")
       .update({ level: newLevel })
-      .eq("id", id);
+      .eq("id", customer.id);
 
     if (!result.error) revalidatePath("/dashboard/customer");
+
+    await saveToLog({
+      logName: "Update Customer level " + customer.name + " to " + newLevel,
+      logType: "Update",
+      logResult: !result.error ? "Success" : "Error",
+      logActor: actor,
+    });
 
     return {
       status: result.status,

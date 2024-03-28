@@ -18,6 +18,7 @@ import { useMutation } from "@tanstack/react-query";
 import formatCurrency from "@/utils/functions/formatCurrency";
 import { processOrderRequestData } from "../../_actions";
 import { ApiErrorHandlerClient } from "@/utils/errorHandler/apiErrorHandler";
+import { useSession } from "@/zustand/useSession";
 
 export default function ConfirmDialog({
   formData,
@@ -33,19 +34,25 @@ export default function ConfirmDialog({
   onOpenChange: Function;
 }) {
   const { setShipment } = useOrder();
+  const session = useSession();
 
   const mutation = useMutation({
     mutationFn: async (orderData: OrderType) => {
-      const response = await createOrder(orderData);
-      if (response.error) {
-        toast.error(response.error);
+      if (session.session) {
+        const response = await createOrder({
+          order: orderData,
+          actor: {
+            actorId: session.session.id,
+            actorName: session.session.name,
+          },
+        });
+        if (response.error) {
+          toast.error(response.error);
+        }
       }
     },
     onSuccess: () => {
       onOpenChange(false);
-    },
-    onError: (error) => {
-      toast.error("Failed to create order " + error);
     },
   });
 
@@ -166,7 +173,7 @@ export default function ConfirmDialog({
               {formatCurrency(order.shipping_fee)} VND
             </span>
           </div>
-          
+
           <div className="mt-2 font-semibold">
             <Label className="font-semibold">Total price: </Label>
             <span className="">{formatCurrency(order.total_price)} VND</span>

@@ -12,6 +12,7 @@ export default function DashboardSidebar() {
     { name: "Order", link: "/dashboard/order" },
     { name: "Staff", link: "/dashboard/staff" },
     { name: "Customer", link: "/dashboard/customer" },
+    { name: "Blog", link: "/dashboard/blog" },
     { name: "Log", link: "/dashboard/log" },
   ];
 

@@ -1,9 +1,10 @@
 "use server";
 
 import axios from "axios";
-import { GHNDataType } from "../(main)/cart/_actions";
+import { GHNDataType } from "@app/(main)/cart/_actions";
 import { revalidatePath } from "next/cache";
-import { updateStateOrder } from "./order";
+import { updateStateOrder } from "@app/_actions/order";
+import {LogActorType} from "@app/_actions/log"
 
 const headers = {
   "Content-Type": "application/json",
@@ -64,9 +65,11 @@ export async function calGHNFees(params: any) {
 export async function cancelGHNOrder({
   id,
   order_codes,
+  actor,
 }: {
   id: string;
   order_codes: string[];
+  actor: LogActorType;
 }) {
   try {
     const response = await axios.post(
@@ -79,6 +82,7 @@ export async function cancelGHNOrder({
       const updateResult = await updateStateOrder({
         id: id,
         state: "canceled",
+        actor: actor,
       });
 
       if (updateResult?.error) {

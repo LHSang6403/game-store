@@ -2,14 +2,14 @@
 
 import { ColumnDef } from "@tanstack/react-table";
 import { MoreHorizontal, ArrowUpDown } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { Button } from "@components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+} from "@components/ui/dropdown-menu";
 import {
   Select,
   SelectContent,
@@ -18,16 +18,17 @@ import {
   SelectLabel,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
+} from "@components/ui/select";
 import type { OrderType } from "@utils/types";
 import formatCurrency from "@utils/functions/formatCurrency";
 import { toast } from "sonner";
-import { updateStateOrder } from "@/app/_actions/order";
+import { updateStateOrder } from "@app/_actions/order";
 import { PrintDialog } from "./PrintDialog";
 import { useState } from "react";
 import { printGHNOrder } from "@/app/_actions/GHNShipment";
 import { ApiErrorHandlerClient } from "@/utils/errorHandler/apiErrorHandler";
 import { ShipmentState } from "@utils/types/index";
+import { useSession } from "@/zustand/useSession";
 
 export const columns: ColumnDef<OrderType>[] = [
   {
@@ -68,14 +69,22 @@ export const columns: ColumnDef<OrderType>[] = [
       async function handleUpdateState(newState: ShipmentState) {
         toast.promise(
           async () => {
-            const updateResponse = await updateStateOrder({
-              id: data.id,
-              state: newState,
-            });
+            const session = useSession();
 
-            const update = ApiErrorHandlerClient({
-              response: updateResponse,
-            });
+            if (session.session) {
+              const updateResponse = await updateStateOrder({
+                id: data.id,
+                state: newState,
+                actor: {
+                  actorId: session.session?.id,
+                  actorName: session.session?.name,
+                },
+              });
+
+              const update = ApiErrorHandlerClient({
+                response: updateResponse,
+              });
+            }
           },
           {
             loading: "Updating order...",

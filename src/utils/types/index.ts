@@ -48,7 +48,6 @@ export interface ProductDescriptionType {
   created_at: string;
   content: any;
   writer: string;
-  comments: string[];
 }
 
 export interface ProductWithDescriptionAndStorageType {
@@ -107,11 +106,10 @@ export interface BlogType {
   created_at: string;
   title: string;
   description: string;
-  content: string;
-  images: string[];
+  content: any;
+  thumbnails: string[];
   writer: string;
-  likes: number;
-  comments: string[];
+  is_deleted: boolean;
 }
 
 export interface StorageType {

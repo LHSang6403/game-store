@@ -1,9 +1,10 @@
 "use server";
 
 import axios from "axios";
-import { updateStateOrder } from "./order";
-import { GHTKDataType } from "../(main)/cart/_actions";
+import { updateStateOrder } from "@app/_actions/order";
+import { GHTKDataType } from "@app/(main)/cart/_actions";
 import { revalidatePath } from "next/cache";
+import { LogActorType } from "@app/_actions/log";
 
 export async function requestGHTKOrder(data: GHTKDataType) {
   try {
@@ -105,8 +106,6 @@ export async function calGHTKFees(params: any) {
       }
     );
 
-    console.log("%%% response", response);
-
     return {
       status: response.data.success ? 200 : 500,
       statusText: response.data.message,
@@ -129,9 +128,11 @@ export async function calGHTKFees(params: any) {
 export async function cancelGHTKOrder({
   id,
   label,
+  actor,
 }: {
   id: string;
   label: string;
+  actor: LogActorType;
 }) {
   try {
     const response = await axios.post(
@@ -148,6 +149,7 @@ export async function cancelGHTKOrder({
       const updateResult = await updateStateOrder({
         id: id,
         state: "canceled",
+        actor: actor,
       });
     }
 

@@ -91,7 +91,9 @@ export default function CreateForm({
   async function onSubmit(data: z.infer<typeof FormSchema>) {
     toast.promise(
       async () => {
-        await createHandler(data, files, session);
+        if (session) {
+          await createHandler(data, files, session);
+        }
       },
       {
         loading: "Creating product...",
@@ -147,7 +149,7 @@ export default function CreateForm({
 async function createHandler(
   data: z.infer<typeof FormSchema>,
   files: unknown[],
-  session: CustomerType | StaffType | null
+  session: CustomerType | StaffType
 ) {
   // **** should create a tranction for these uploads ****
   const editorContent = window.localStorage.getItem("content");
@@ -159,7 +161,6 @@ async function createHandler(
     created_at: new Date().toISOString(),
     content: JSON.parse(cleanedJsonString ?? "{}"),
     writer: session?.name ?? "Anonymous",
-    comments: [],
   };
 
   const roductDescriptionUploadResponse = await createProductDescription(
@@ -208,7 +209,13 @@ async function createHandler(
     is_deleted: false,
   };
 
-  const productUploadResponse = await createProduct(product);
+  const productUploadResponse = await createProduct({
+    product: product,
+    actor: {
+      actorId: session.id,
+      actorName: session.name,
+    },
+  });
 
   const productUpload = ApiErrorHandlerClient<any>({
     response: productUploadResponse,

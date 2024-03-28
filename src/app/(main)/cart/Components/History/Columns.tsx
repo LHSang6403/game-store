@@ -16,6 +16,7 @@ import { cancelGHTKOrder } from "@/app/_actions/GHTKShipment";
 import { cancelGHNOrder } from "@/app/_actions/GHNShipment";
 import { toast } from "sonner";
 import { ApiErrorHandlerClient } from "@/utils/errorHandler/apiErrorHandler";
+import { useSession } from "@/zustand/useSession";
 
 export const columns: ColumnDef<OrderType>[] = [
   {
@@ -71,32 +72,45 @@ export const columns: ColumnDef<OrderType>[] = [
     header: "Actions",
     cell: ({ row }) => {
       const data = row.original;
+      const session = useSession();
 
       async function cancelOrderHandler(data: OrderType) {
         toast.promise(
           async () => {
             switch (data.shipment_name) {
               case "GHN":
-                const GHNResponse = await cancelGHNOrder({
-                  id: data.id,
-                  order_codes: [data.shipment_label_code!],
-                });
+                if (session.session) {
+                  const GHNResponse = await cancelGHNOrder({
+                    id: data.id,
+                    order_codes: [data.shipment_label_code!],
+                    actor: {
+                      actorId: session.session.id,
+                      actorName: session.session.name,
+                    },
+                  });
 
-                const processedGHNResponse = ApiErrorHandlerClient({
-                  response: GHNResponse,
-                });
+                  const processedGHNResponse = ApiErrorHandlerClient({
+                    response: GHNResponse,
+                  });
+                }
 
                 break;
 
               case "GHTK":
-                const GHTKResponse = await cancelGHTKOrder({
-                  id: data.id,
-                  label: data.shipment_label_code!,
-                });
+                if (session.session) {
+                  const GHTKResponse = await cancelGHTKOrder({
+                    id: data.id,
+                    label: data.shipment_label_code!,
+                    actor: {
+                      actorId: session.session.id,
+                      actorName: session.session.name,
+                    },
+                  });
 
-                const processedGHTKResponse = ApiErrorHandlerClient({
-                  response: GHTKResponse,
-                });
+                  const processedGHTKResponse = ApiErrorHandlerClient({
+                    response: GHTKResponse,
+                  });
+                }
 
                 break;
             }

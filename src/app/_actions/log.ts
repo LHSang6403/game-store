@@ -2,12 +2,41 @@
 
 import createSupabaseServerClient from "@/supabase-query/server";
 import type { LogType } from "@utils/types/index";
+import { revalidatePath } from "next/cache";
+import { v4 as uuidv4 } from "uuid";
 
-export async function createLog({ log }: { log: LogType }) {
+export interface LogActorType {
+  actorId: string;
+  actorName: string;
+}
+
+export async function saveToLog({
+  logName,
+  logType,
+  logResult,
+  logActor,
+}: {
+  logName: string;
+  logType: "Read" | "Create" | "Update" | "Delete";
+  logResult: "Success" | "Error";
+  logActor: LogActorType;
+}) {
   try {
     const supabase = await createSupabaseServerClient();
 
+    const log: LogType = {
+      id: uuidv4(),
+      created_at: new Date().toISOString(),
+      name: logName,
+      type: logType,
+      result: logResult,
+      actor_id: logActor.actorId,
+      actor_name: logActor.actorName,
+    };
+
     const result = await supabase.from("log").insert(log);
+
+    if (!result.error) revalidatePath("/dashboard/log");
 
     return {
       status: result.status,

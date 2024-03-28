@@ -10,35 +10,18 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import type { ProductType } from "@utils/types";
-import formatCurrency from "@utils/functions/formatCurrency";
-import { removeProductById } from "@app/_actions/product";
+import type { BlogType } from "@utils/types";
 import Link from "next/link";
 import { ApiErrorHandlerClient } from "@/utils/errorHandler/apiErrorHandler";
 import { toast } from "sonner";
 import { useSession } from "@/zustand/useSession";
 
-export const columns: ColumnDef<ProductType>[] = [
+export const columns: ColumnDef<BlogType>[] = [
   {
-    accessorKey: "brand",
-    header: "Brand",
+    accessorKey: "title",
+    header: "Title",
   },
-  {
-    accessorKey: "name",
-    header: "Name",
-  },
-  {
-    accessorKey: "price",
-    header: "Price",
-    cell: ({ row }) => {
-      const data = row.original;
-      return <div className="">{formatCurrency(data.price)} VND</div>;
-    },
-  },
-  {
-    accessorKey: "category",
-    header: "Category",
-  },
+
   {
     accessorKey: "created_at",
     header: ({ column }) => {
@@ -71,16 +54,16 @@ export const columns: ColumnDef<ProductType>[] = [
         toast.promise(
           async () => {
             if (session.session) {
-              const removeResponse = await removeProductById({
-                product:product,
-                actor: {
-                  actorId: session.session.id,
-                  actorName: session.session.name,
-                },
-              });
-              const remove = ApiErrorHandlerClient({
-                response: removeResponse,
-              });
+              //   const removeResponse = await removeProductById({
+              //     product: product,
+              //     actor: {
+              //       actorId: session.session.id,
+              //       actorName: session.session.name,
+              //     },
+              //   });
+              //   const remove = ApiErrorHandlerClient({
+              //     response: removeResponse,
+              //   });
             }
           },
           {
@@ -101,15 +84,13 @@ export const columns: ColumnDef<ProductType>[] = [
             <DropdownMenuItem
               onClick={() => navigator.clipboard.writeText(product.id)}
             >
-              Copy product ID
+              Copy blog ID
             </DropdownMenuItem>
             <DropdownMenuItem>
-              <Link href={"/dashboard/product/" + product.id}>
-                Edit product
-              </Link>
+              <Link href={"/dashboard/product/" + product.id}>Edit blog</Link>
             </DropdownMenuItem>
             <DropdownMenuItem onClick={() => removeHandler()}>
-              Remove product
+              Remove blog
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

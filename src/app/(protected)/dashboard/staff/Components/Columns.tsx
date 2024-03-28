@@ -24,6 +24,7 @@ import { updateStaffRole } from "@/app/_actions/user";
 import { toast } from "sonner";
 import { ApiErrorHandlerClient } from "@/utils/errorHandler/apiErrorHandler";
 import { updateStaffToCustomer } from "@/app/_actions/user";
+import { useSession } from "@/zustand/useSession";
 
 export const columns: ColumnDef<StaffType>[] = [
   {
@@ -61,20 +62,27 @@ export const columns: ColumnDef<StaffType>[] = [
     },
     cell: ({ row }) => {
       const data = row.original;
+      const session = useSession();
 
       const handleUpdateRole = async (
         newRole: "Writer" | "Manager" | "Seller"
       ) => {
         toast.promise(
           async () => {
-            const updateResponse = await updateStaffRole({
-              id: data.id,
-              updatedRole: newRole,
-            });
+            if (session.session) {
+              const updateResponse = await updateStaffRole({
+                staff: data,
+                updatedRole: newRole,
+                actor: {
+                  actorId: session.session?.id,
+                  actorName: session.session?.name,
+                },
+              });
 
-            const update = ApiErrorHandlerClient<any>({
-              response: updateResponse,
-            });
+              const update = ApiErrorHandlerClient<any>({
+                response: updateResponse,
+              });
+            }
           },
           {
             loading: "Updating role...",
@@ -110,15 +118,24 @@ export const columns: ColumnDef<StaffType>[] = [
     header: "Actions",
     cell: ({ row }) => {
       const data = row.original;
+      const session = useSession();
 
-      function updateStaffToCustomerHandler(id: string) {
+      function updateStaffToCustomerHandler(staff: StaffType) {
         toast.promise(
           async () => {
-            const updateResponse = await updateStaffToCustomer(id);
+            if (session.session) {
+              const updateResponse = await updateStaffToCustomer({
+                staff: staff,
+                actor: {
+                  actorId: session.session.id,
+                  actorName: session.session.name,
+                },
+              });
 
-            const update = ApiErrorHandlerClient({
-              response: updateResponse,
-            });
+              const update = ApiErrorHandlerClient({
+                response: updateResponse,
+              });
+            }
           },
           {
             loading: "Updating...",
@@ -143,7 +160,7 @@ export const columns: ColumnDef<StaffType>[] = [
             </DropdownMenuItem>
             <DropdownMenuItem
               onClick={() => {
-                updateStaffToCustomerHandler(data.id);
+                updateStaffToCustomerHandler(data);
               }}
             >
               Update to customer

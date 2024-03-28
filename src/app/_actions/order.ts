@@ -6,8 +6,15 @@ import { updateStorageQuantityByProductId } from "@/app/_actions/storage";
 import { updateSoldQuantityByProductId } from "@/app/_actions/product";
 import { revalidatePath } from "next/cache";
 import { ShipmentState } from "@utils/types/index";
+import { saveToLog, LogActorType } from "@app/_actions/log";
 
-export async function createOrder(order: OrderType) {
+export async function createOrder({
+  order,
+  actor,
+}: {
+  order: OrderType;
+  actor: LogActorType;
+}) {
   try {
     const supabase = await createSupabaseServerClient();
 
@@ -20,6 +27,13 @@ export async function createOrder(order: OrderType) {
         await updateStorageQuantityByProductId(prodId, -1);
         await updateSoldQuantityByProductId(prodId, 1);
       }
+
+      await saveToLog({
+        logName: "Create order to" + order.pick_address,
+        logType: "Create",
+        logResult: !result.error ? "Success" : "Error",
+        logActor: actor,
+      });
     }
 
     revalidatePath("/cart");
@@ -34,9 +48,11 @@ export async function createOrder(order: OrderType) {
 export async function updateStateOrder({
   id,
   state,
+  actor,
 }: {
   id: string;
   state: ShipmentState;
+  actor: LogActorType;
 }) {
   try {
     const supabase = await createSupabaseServerClient();
@@ -47,6 +63,13 @@ export async function updateStateOrder({
       .eq("id", id);
 
     if (!result.error) revalidatePath("/dashboard/order");
+
+    await saveToLog({
+      logName: "Update state order " + id + " to " + state,
+      logType: "Update",
+      logResult: !result.error ? "Success" : "Error",
+      logActor: actor,
+    });
 
     return {
       status: result.status,

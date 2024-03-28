@@ -2,7 +2,6 @@
 
 import ProductDetail from "@app/(main)/product/[id]/Components/ProductDetail";
 import ProductDescription from "@app/(main)/product/[id]/Components/ProductDescription";
-import ProductReview from "@app/(main)/product/[id]/Components/Review/ProductReview";
 import useProductQuery from "@/hooks/useProductQuery";
 import Template from "@app/(protected)/template";
 
@@ -28,10 +27,6 @@ export default async function Product({ params }: { params: { id: string } }) {
             </h2>
             <ProductDescription
               description={productResponse.product_description}
-            />
-            <h2 className="text-center text-2xl font-medium">Product Review</h2>
-            <ProductReview
-              comments={productResponse.product_description.comments}
             />
           </div>
         </Template>

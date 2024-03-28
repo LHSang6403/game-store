@@ -6,11 +6,25 @@ import type {
   ProductWithDescriptionAndStorageType,
 } from "@utils/types/index";
 import { revalidatePath } from "next/cache";
+import { saveToLog, LogActorType } from "@app/_actions/log";
 
-export async function createProduct(product: ProductType) {
+export async function createProduct({
+  product,
+  actor,
+}: {
+  product: ProductType;
+  actor: LogActorType;
+}) {
   try {
     const supabase = await createSupabaseServerClient();
     const result = await supabase.from("product").insert(product);
+
+    await saveToLog({
+      logName: "Create product" + product.name,
+      logType: "Create",
+      logResult: !result.error ? "Success" : "Error",
+      logActor: actor,
+    });
 
     revalidatePath("/dashboard/product");
     revalidatePath("/product");
@@ -256,14 +270,27 @@ export async function readProductBrands() {
   }
 }
 
-export async function removeProductById(id: string) {
+export async function removeProductById({
+  product,
+  actor,
+}: {
+  product: ProductType;
+  actor: LogActorType;
+}) {
   try {
     const supabase = await createSupabaseServerClient();
 
     const removeResult = await supabase
       .from("product")
       .update({ is_deleted: true })
-      .eq("id", id);
+      .eq("id", product.id);
+
+    await saveToLog({
+      logName: "Remove product" + product.name,
+      logType: "Delete",
+      logResult: !removeResult.error ? "Success" : "Error",
+      logActor: actor,
+    });
 
     return {
       status: removeResult.status,
@@ -283,8 +310,10 @@ export async function removeProductById(id: string) {
 
 export async function updateProductById({
   updatedProduct,
+  actor,
 }: {
   updatedProduct: ProductType;
+  actor: LogActorType;
 }) {
   try {
     const supabase = await createSupabaseServerClient();
@@ -294,6 +323,13 @@ export async function updateProductById({
       .update(updatedProduct)
       .eq("id", updatedProduct.id)
       .eq("is_deleted", false);
+
+    await saveToLog({
+      logName: "Update product" + updatedProduct.name,
+      logType: "Update",
+      logResult: !result.error ? "Success" : "Error",
+      logActor: actor,
+    });
 
     return {
       status: result.status,

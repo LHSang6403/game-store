@@ -15,6 +15,7 @@ import { updateCustomerToStaff } from "@/app/_actions/user";
 import { toast } from "sonner";
 import { ApiErrorHandlerClient } from "@/utils/errorHandler/apiErrorHandler";
 import { updateCustomerLevel } from "@app/_actions/user";
+import { useSession } from "@/zustand/useSession";
 
 export const columns: ColumnDef<CustomerType>[] = [
   {
@@ -76,18 +77,28 @@ export const columns: ColumnDef<CustomerType>[] = [
     cell: ({ row }) => {
       const data = row.original;
       const availbleRoles = ["Seller", "Writer", "Manager"];
+      const session = useSession();
 
-      function updateCustomerLevelHandelr(id: string, newLevel: number) {
+      function updateCustomerLevelHandler(
+        customer: CustomerType,
+        newLevel: number
+      ) {
         toast.promise(
           async () => {
-            const updateResponse = await updateCustomerLevel({
-              id: data.id,
-              newLevel: newLevel,
-            });
+            if (session.session) {
+              const updateResponse = await updateCustomerLevel({
+                customer: customer,
+                newLevel: newLevel,
+                actor: {
+                  actorId: session.session.id,
+                  actorName: session.session.name,
+                },
+              });
 
-            const update = ApiErrorHandlerClient({
-              response: updateResponse,
-            });
+              const update = ApiErrorHandlerClient({
+                response: updateResponse,
+              });
+            }
           },
           {
             loading: "Updating...",
@@ -96,19 +107,25 @@ export const columns: ColumnDef<CustomerType>[] = [
       }
 
       function updateCustomerToStaffHandler(
-        id: string,
+        customer: CustomerType,
         eachRole: "Seller" | "Writer" | "Manager"
       ) {
         toast.promise(
           async () => {
-            const updateResponse = await updateCustomerToStaff({
-              id: id,
-              role: eachRole,
-            });
+            if (session.session) {
+              const updateResponse = await updateCustomerToStaff({
+                customer: customer,
+                role: eachRole,
+                actor: {
+                  actorId: session.session.id,
+                  actorName: session.session.name,
+                },
+              });
 
-            const update = ApiErrorHandlerClient({
-              response: updateResponse,
-            });
+              const update = ApiErrorHandlerClient({
+                response: updateResponse,
+              });
+            }
           },
           {
             loading: "Updating...",
@@ -133,7 +150,7 @@ export const columns: ColumnDef<CustomerType>[] = [
             </DropdownMenuItem>
             <DropdownMenuItem
               onClick={() => {
-                updateCustomerLevelHandelr(data.id, data.level + 1);
+                updateCustomerLevelHandler(data, data.level + 1);
               }}
             >
               Update level
@@ -143,7 +160,7 @@ export const columns: ColumnDef<CustomerType>[] = [
                 <DropdownMenuItem
                   key={index}
                   onClick={() => {
-                    updateCustomerToStaffHandler(data.id, eachRole);
+                    updateCustomerToStaffHandler(data, eachRole);
                   }}
                 >
                   Update to {eachRole}

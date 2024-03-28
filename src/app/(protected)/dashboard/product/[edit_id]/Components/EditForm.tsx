@@ -95,21 +95,25 @@ export default function EditForm({
   async function onSubmit(data: z.infer<typeof FormSchema>) {
     toast.promise(
       async () => {
-        const update = await updateHandler(
-          data,
-          session,
-          product,
-          updatedProductImages,
-          files
-        );
+        if (session) {
+          const update = await updateHandler(
+            data,
+            session,
+            product,
+            updatedProductImages,
+            files
+          );
 
-        if (
-          !update.updatedProductResponse.error &&
-          !update.updateProductDescriptionResponse.error &&
-          !update.updateStorageResponse.error
-        ) {
-          toast.success("Product updated successfully.");
-          router.push("/dashboard/product");
+          if (
+            !update.updatedProductResponse.error &&
+            !update.updateProductDescriptionResponse.error &&
+            !update.updateStorageResponse.error
+          ) {
+            toast.success("Product updated successfully.");
+            router.push("/dashboard/product");
+          }
+        } else {
+          toast.error("Unknown session.");
         }
       },
       {
@@ -181,7 +185,7 @@ export default function EditForm({
 
 async function updateHandler(
   data: z.infer<typeof FormSchema>,
-  session: CustomerType | StaffType | null,
+  session: CustomerType | StaffType,
   originalProduct: ProductWithDescriptionAndStorageType,
   updatedProductImages: string[],
   newProductImages: File[]
@@ -224,7 +228,13 @@ async function updateHandler(
     is_deleted: false,
   };
 
-  const updatedProductResponse = await updateProductById({ updatedProduct });
+  const updatedProductResponse = await updateProductById({
+    updatedProduct: updatedProduct,
+    actor: {
+      actorId: session.id,
+      actorName: session.name,
+    },
+  });
 
   // update product_description:
   const editorContent = window.localStorage.getItem("content");
@@ -237,7 +247,6 @@ async function updateHandler(
       cleanedJsonString ?? originalProduct.product_description.content
     ),
     writer: session?.name ?? "Anonymous",
-    comments: [],
   };
 
   const updateProductDescriptionResponse = await updateProductDescription({
