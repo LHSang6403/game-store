@@ -20,7 +20,7 @@ export const columns: ColumnDef<LogType>[] = [
       const data = row.original;
 
       return (
-        <div className="line-clamp-5 max-w-52 overflow-ellipsis sm:max-w-36">
+        <div className="line-clamp-2 max-w-52 overflow-ellipsis lg:line-clamp-3 lg:w-32">
           {data.name}
         </div>
       );

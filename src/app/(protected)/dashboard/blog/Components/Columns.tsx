@@ -29,7 +29,7 @@ export const columns: ColumnDef<BlogType>[] = [
       const data = row.original;
 
       return (
-        <div className="line-clamp-2 max-w-52 overflow-ellipsis sm:line-clamp-3 sm:w-32">
+        <div className="line-clamp-2 max-w-52 overflow-ellipsis lg:line-clamp-3 lg:w-32">
           {data.description}
         </div>
       );
