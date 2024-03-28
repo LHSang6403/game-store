@@ -6,6 +6,7 @@ import * as z from "zod";
 import { toast } from "sonner";
 import { Form } from "@components/ui/form";
 import { Button } from "@components/ui/button";
+import { useRouter } from "next/navigation";
 import {
   FormControl,
   FormField,
@@ -17,38 +18,43 @@ import { Input } from "@components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import Editor from "@/components/Editor";
 import DropAndDragZone from "@components/File/DropAndDragZone";
-import { useRouter } from "next/navigation";
 import useFiles from "@/zustand/useFiles";
 import { useEffect } from "react";
 import useLocalStorage from "@/hooks/useLocalStorage";
 import { useSession } from "@/zustand/useSession";
-import { v4 as uuidv4 } from "uuid";
 import { StaffType, BlogType } from "@/utils/types/index";
 import createSupabaseBrowserClient from "@/supabase-query/client";
-import { createBlog } from "@app/_actions/blog";
+import { updateBlog } from "@app/_actions/blog";
+import ImageFileItem from "@components/File/ImageFileItem";
+import { useState } from "react";
 
 const FormSchema = z.object({
   title: z.string().min(2, { message: "Title is a compulsory." }),
   description: z.string().min(2, { message: "Description is a compulsory." }),
 });
 
-export default function CreateForm() {
+export default function EditForm({ blog }: { blog: BlogType }) {
   const router = useRouter();
   const { files } = useFiles();
   const { session } = useSession();
 
+  const [updatedBlogThumbnails, setUpdatedBlogThumbnails] = useState<string[]>(
+    blog.thumbnails ?? []
+  );
+
   const initState = {
-    title: "",
-    description: "",
+    title: blog.title,
+    description: blog.description,
   };
 
-  const [content, setContent] = useLocalStorage("create-blog-form", initState);
+  const [content, setContent] = useLocalStorage("update-blog-form", initState);
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: content ?? initState,
     mode: "onBlur",
   });
+  
   const { watch } = form;
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {
@@ -57,21 +63,22 @@ export default function CreateForm() {
         if (session) {
           const staffSession = session as StaffType;
 
-          const create = await createHandler(data, staffSession, files);
-          if (create.createBlogResponse.error) {
-            toast.error(create.createBlogResponse.error.message);
+          const update = await updateHandler(blog, data, staffSession, files);
+
+          if (update.updateBlogResponse.error) {
+            toast.error(update.updateBlogResponse.error.message);
           }
         } else {
           toast.error("Unknown session.");
         }
       },
       {
-        loading: "Creating blog...",
+        loading: "Updating blog...",
         success: () => {
           form.reset();
           router.push("/dashboard/blog");
 
-          return "Blog created successfully. Redirecting to dashboard...";
+          return "Blog updated successfully. Redirecting to dashboard...";
         },
       }
     );
@@ -88,7 +95,7 @@ export default function CreateForm() {
         onSubmit={form.handleSubmit(onSubmit)}
         className="grid grid-cols-2 gap-4"
       >
-        <div className="flex flex-col gap-4 xl:col-span-2">
+        <div className="flex flex-col gap-10 xl:col-span-2 xl:gap-4">
           <FormField
             control={form.control}
             name="title"
@@ -126,21 +133,47 @@ export default function CreateForm() {
             )}
           />
         </div>
-        <div className="flex h-fit w-full flex-col xl:col-span-2">
-          <h2 className="title mb-1 ml-1 text-sm font-medium">
-            Blog thumbnails
-          </h2>
-          <DropAndDragZone className="mt-2 rounded-lg border p-16 sm:p-6" />
+        <div className="flex flex-col gap-4 xl:col-span-2">
+          <div>
+            <h2 className="title mb-1 ml-1 mt-0.5 text-sm font-medium">
+              Blog thumbnails
+            </h2>
+            <div className="mt-2 grid w-fit grid-cols-6 gap-3 sm:grid-cols-4">
+              {updatedBlogThumbnails.map((image: string, index: number) => (
+                <ImageFileItem
+                  key={index}
+                  image={
+                    process.env.NEXT_PUBLIC_SUPABASE_URL +
+                    "/storage/v1/object/public/public_files/" +
+                    image
+                  }
+                  name={image.split("/")[image.split("/").length - 1]}
+                  removeHandler={() => {
+                    console.log(image);
+                    setUpdatedBlogThumbnails((images) =>
+                      images.filter((img) => img !== image)
+                    );
+                  }}
+                />
+              ))}
+            </div>
+          </div>
+          <div className="flex h-fit w-full flex-col xl:col-span-2">
+            <h2 className="title mb-1 ml-1 text-sm font-medium">
+              Add more thumbnails
+            </h2>
+            <DropAndDragZone className="mt-2 rounded-lg border p-16 sm:p-6" />
+          </div>
         </div>
         <div className="col-span-2">
           <h2 className="title mb-1 ml-1 text-sm font-medium">Content</h2>
           <div className="mt-2 h-fit overflow-hidden rounded-md border">
             <Editor editable={true} />
           </div>
-        </div>{" "}
+        </div>
         <div className="col-span-2 flex justify-center">
           <Button className="mt-1 w-fit bg-foreground px-7 text-background">
-            Create
+            Update
           </Button>
         </div>
       </form>
@@ -148,15 +181,16 @@ export default function CreateForm() {
   );
 }
 
-async function createHandler(
+async function updateHandler(
+  originalBlog: BlogType,
   data: z.infer<typeof FormSchema>,
   session: StaffType,
-  thumbnails: File[]
+  addThumbnails: File[]
 ) {
   const supabase = createSupabaseBrowserClient();
   const blogThumbnailsUploadResults: string[] = [];
 
-  for (const file of thumbnails) {
+  for (const file of addThumbnails) {
     const uploadingFile = file as File;
 
     const result = await supabase.storage
@@ -178,18 +212,24 @@ async function createHandler(
   const editorContent = window.localStorage.getItem("content");
   const cleanedJsonString = editorContent?.replace(/\\/g, "");
 
-  const blog: BlogType = {
-    id: uuidv4(),
-    created_at: new Date().toISOString(),
+  const updatedBlog: BlogType = {
+    id: originalBlog.id,
+    created_at: originalBlog.created_at,
     title: data.title,
     description: data.description,
     content: cleanedJsonString,
-    thumbnails: blogThumbnailsUploadResults,
-    writer: session.name,
+    thumbnails: [...originalBlog.thumbnails, ...blogThumbnailsUploadResults],
+    writer: originalBlog.writer,
     is_deleted: false,
   };
 
-  const createBlogResponse = await createBlog({ blog });
+  const updateBlogResponse = await updateBlog({
+    updatedBlog: updatedBlog,
+    actor: {
+      actorId: session.id,
+      actorName: session.name,
+    },
+  });
 
-  return { createBlogResponse };
+  return { updateBlogResponse };
 }

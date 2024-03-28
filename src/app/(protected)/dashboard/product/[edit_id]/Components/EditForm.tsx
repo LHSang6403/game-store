@@ -14,7 +14,6 @@ import useFiles from "@/zustand/useFiles";
 import { useEffect } from "react";
 import useLocalStorage from "@/hooks/useLocalStorage";
 import { useSession } from "@/zustand/useSession";
-import { ApiErrorHandlerClient } from "@/utils/errorHandler/apiErrorHandler";
 import {
   CustomerType,
   StaffType,
@@ -25,7 +24,7 @@ import {
 } from "@/utils/types/index";
 import { useState } from "react";
 import ImageFileItem from "@components/File/ImageFileItem";
-import { updateProductById } from "@app/_actions/product";
+import { updateProduct } from "@app/_actions/product";
 import { updateProductDescription } from "@app/_actions/product_description";
 import { updateStorage } from "@app/_actions/storage";
 import createSupabaseBrowserClient from "@/supabase-query/client";
@@ -228,7 +227,7 @@ async function updateHandler(
     is_deleted: false,
   };
 
-  const updatedProductResponse = await updateProductById({
+  const updatedProductResponse = await updateProduct({
     updatedProduct: updatedProduct,
     actor: {
       actorId: session.id,

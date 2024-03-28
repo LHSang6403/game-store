@@ -95,7 +95,7 @@ export const columns: ColumnDef<CustomerType>[] = [
                 },
               });
 
-              const update = ApiErrorHandlerClient({
+              ApiErrorHandlerClient({
                 response: updateResponse,
               });
             }
@@ -122,7 +122,7 @@ export const columns: ColumnDef<CustomerType>[] = [
                 },
               });
 
-              const update = ApiErrorHandlerClient({
+              ApiErrorHandlerClient({
                 response: updateResponse,
               });
             }

@@ -57,7 +57,7 @@ export const columns: ColumnDef<StaffType>[] = [
   },
   {
     accessorKey: "role",
-    header: ({ column }) => {
+    header: () => {
       return <div className="w-28 text-center">Role</div>;
     },
     cell: ({ row }) => {
@@ -79,14 +79,13 @@ export const columns: ColumnDef<StaffType>[] = [
                 },
               });
 
-              const update = ApiErrorHandlerClient<any>({
+              ApiErrorHandlerClient<any>({
                 response: updateResponse,
               });
             }
           },
           {
             loading: "Updating role...",
-            error: "Failed to update role. Please try again.",
           }
         );
       };
@@ -132,7 +131,7 @@ export const columns: ColumnDef<StaffType>[] = [
                 },
               });
 
-              const update = ApiErrorHandlerClient({
+              ApiErrorHandlerClient({
                 response: updateResponse,
               });
             }

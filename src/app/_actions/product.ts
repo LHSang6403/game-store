@@ -86,7 +86,7 @@ export async function readProductsWithDetail({ limit, offset }) {
       .select(
         `
   *,
-  product_description (id, content, writer, comments),
+  product_description (id, content, writer),
   storage (id, address, quantity)
 `
       )
@@ -118,7 +118,7 @@ export async function readProductDetailById(id: string) {
       .select(
         `
   *,
-  product_description (id, content, writer, comments),
+  product_description (id, content, writer),
   storage (id, address, quantity)
 `
       )
@@ -308,7 +308,7 @@ export async function removeProductById({
   }
 }
 
-export async function updateProductById({
+export async function updateProduct({
   updatedProduct,
   actor,
 }: {
@@ -325,7 +325,7 @@ export async function updateProductById({
       .eq("is_deleted", false);
 
     await saveToLog({
-      logName: "Update product" + updatedProduct.name,
+      logName: "Update product " + updatedProduct.name,
       logType: "Update",
       logResult: !result.error ? "Success" : "Error",
       logActor: actor,

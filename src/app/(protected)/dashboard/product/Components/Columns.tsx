@@ -72,13 +72,14 @@ export const columns: ColumnDef<ProductType>[] = [
           async () => {
             if (session.session) {
               const removeResponse = await removeProductById({
-                product:product,
+                product: product,
                 actor: {
                   actorId: session.session.id,
                   actorName: session.session.name,
                 },
               });
-              const remove = ApiErrorHandlerClient({
+
+              ApiErrorHandlerClient({
                 response: removeResponse,
               });
             }

@@ -15,13 +15,26 @@ import Link from "next/link";
 import { ApiErrorHandlerClient } from "@/utils/errorHandler/apiErrorHandler";
 import { toast } from "sonner";
 import { useSession } from "@/zustand/useSession";
+import { deleteBlogById } from "@app/_actions/blog";
 
 export const columns: ColumnDef<BlogType>[] = [
   {
     accessorKey: "title",
     header: "Title",
   },
+  {
+    accessorKey: "description",
+    header: "Description",
+    cell: ({ row }) => {
+      const data = row.original;
 
+      return (
+        <div className="line-clamp-2 max-w-52 overflow-ellipsis sm:line-clamp-3 sm:w-32">
+          {data.description}
+        </div>
+      );
+    },
+  },
   {
     accessorKey: "created_at",
     header: ({ column }) => {
@@ -43,31 +56,36 @@ export const columns: ColumnDef<BlogType>[] = [
     },
   },
   {
+    accessorKey: "writer",
+    header: "Writer",
+  },
+  {
     id: "actions",
     header: "Actions",
 
     cell: ({ row }) => {
-      const product = row.original;
+      const data = row.original;
       const session = useSession();
 
-      async function removeHandler() {
+      async function removeHandler(blog: BlogType) {
         toast.promise(
           async () => {
             if (session.session) {
-              //   const removeResponse = await removeProductById({
-              //     product: product,
-              //     actor: {
-              //       actorId: session.session.id,
-              //       actorName: session.session.name,
-              //     },
-              //   });
-              //   const remove = ApiErrorHandlerClient({
-              //     response: removeResponse,
-              //   });
+              const removeResponse = await deleteBlogById({
+                blog: blog,
+                actor: {
+                  actorId: session.session.id,
+                  actorName: session.session.name,
+                },
+              });
+
+              const remove = ApiErrorHandlerClient({
+                response: removeResponse,
+              });
             }
           },
           {
-            loading: "Removing product...",
+            loading: "Removing blog...",
           }
         );
       }
@@ -82,14 +100,14 @@ export const columns: ColumnDef<BlogType>[] = [
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(product.id)}
+              onClick={() => navigator.clipboard.writeText(data.id)}
             >
               Copy blog ID
             </DropdownMenuItem>
             <DropdownMenuItem>
-              <Link href={"/dashboard/product/" + product.id}>Edit blog</Link>
+              <Link href={"/dashboard/blog/" + data.id}>Edit blog</Link>
             </DropdownMenuItem>
-            <DropdownMenuItem onClick={() => removeHandler()}>
+            <DropdownMenuItem onClick={() => removeHandler(data)}>
               Remove blog
             </DropdownMenuItem>
           </DropdownMenuContent>

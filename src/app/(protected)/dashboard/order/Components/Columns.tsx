@@ -60,7 +60,7 @@ export const columns: ColumnDef<OrderType>[] = [
   },
   {
     accessorKey: "state",
-    header: ({ column }) => {
+    header: () => {
       return <div className="w-28 text-center">State</div>;
     },
     cell: ({ row }) => {
@@ -81,7 +81,7 @@ export const columns: ColumnDef<OrderType>[] = [
                 },
               });
 
-              const update = ApiErrorHandlerClient({
+              ApiErrorHandlerClient({
                 response: updateResponse,
               });
             }

@@ -167,7 +167,7 @@ async function createHandler(
     descriptionObject
   );
 
-  const productDescriptionUpload = ApiErrorHandlerClient<any>({
+  ApiErrorHandlerClient<any>({
     response: roductDescriptionUploadResponse,
     isShowToast: false,
   });
@@ -217,7 +217,7 @@ async function createHandler(
     },
   });
 
-  const productUpload = ApiErrorHandlerClient<any>({
+  ApiErrorHandlerClient<any>({
     response: productUploadResponse,
     isShowToast: false,
   });
@@ -234,7 +234,7 @@ async function createHandler(
 
   const storageCreateResponse = await createStorage(storageObject);
 
-  const storageCreate = ApiErrorHandlerClient<any>({
+  ApiErrorHandlerClient<any>({
     response: storageCreateResponse,
     isShowToast: false,
   });
