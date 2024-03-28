@@ -11,8 +11,6 @@ import Editor from "@/components/Editor";
 import DropAndDragZone from "@/components/File/DropAndDragZone";
 import ProductFormInputs from "@/app/(protected)/dashboard/product/create/Components/ProductFormInputs";
 import useFiles from "@/zustand/useFiles";
-import { useEffect } from "react";
-import useLocalStorage from "@/hooks/useLocalStorage";
 import { useSession } from "@/zustand/useSession";
 import {
   CustomerType,
@@ -28,6 +26,7 @@ import { updateProduct } from "@app/_actions/product";
 import { updateProductDescription } from "@app/_actions/product_description";
 import { updateStorage } from "@app/_actions/storage";
 import createSupabaseBrowserClient from "@/supabase-query/client";
+import useFormPersist from "react-hook-form-persist";
 
 const FormSchema = z.object({
   brand: z.string().min(1, { message: "Brand is a compulsory." }),
@@ -71,7 +70,7 @@ export default function EditForm({
   );
 
   const initState = {
-    brand: product?.brand ?? "",
+    brand: product.brand ?? product?.brand ?? "",
     name: product?.name ?? "",
     description: product?.description ?? "",
     price: product?.price.toString() ?? "1000000",
@@ -82,14 +81,11 @@ export default function EditForm({
     storage_quantity: product?.storage[0]?.quantity.toString() ?? "0",
   };
 
-  const [content, setContent] = useLocalStorage("edit-product-form", initState);
-
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
-    defaultValues: content ?? initState,
+    defaultValues: initState,
     mode: "onBlur",
   });
-  const { watch } = form;
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {
     toast.promise(
@@ -120,11 +116,6 @@ export default function EditForm({
       }
     );
   }
-
-  useEffect(() => {
-    const formValues = form.getValues();
-    setContent(formValues);
-  }, [watch]);
 
   return (
     <Form {...form}>

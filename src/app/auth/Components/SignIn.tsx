@@ -63,7 +63,6 @@ export default function SignIn() {
             "detailData" in session.data &&
             session.data.detailData
           ) {
-            console.log("session.data.detailData: ", session.data.detailData);
             setSession(session.data.detailData);
 
             form.reset();

@@ -92,7 +92,6 @@ const DropAndDragZone = ({
   const action = async () => {
     const file = files[0];
     if (!file) return;
-    console.log(file);
   };
 
   return (

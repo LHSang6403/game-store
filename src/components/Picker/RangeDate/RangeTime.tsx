@@ -12,8 +12,6 @@ export default function RangeTime() {
         onUpdate={(values) => {
           setFrom(values.range.from);
           setTo(values.range.to);
-
-          console.log("From", from, "To", to);
         }}
         locale="en-GB"
         showCompare={false}

@@ -11,8 +11,6 @@ import Editor from "@/components/Editor";
 import DropAndDragZone from "@components/File/DropAndDragZone";
 import ProductFormInputs from "@/app/(protected)/dashboard/product/create/Components/ProductFormInputs";
 import useFiles from "@/zustand/useFiles";
-import { useEffect } from "react";
-import useLocalStorage from "@/hooks/useLocalStorage";
 import { useSession } from "@/zustand/useSession";
 import { v4 as uuidv4 } from "uuid";
 import createSupabaseBrowserClient from "@/supabase-query/client";
@@ -76,17 +74,12 @@ export default function CreateForm({
     storage_quantity: product?.storage[0]?.quantity.toString() ?? "0",
   };
 
-  const [content, setContent] = useLocalStorage(
-    "create-product-form",
-    initState
-  );
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
-    defaultValues: content ?? initState,
+    defaultValues:   initState,
     mode: "onBlur",
   });
-  const { watch } = form;
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {
     toast.promise(
@@ -110,10 +103,6 @@ export default function CreateForm({
     );
   }
 
-  useEffect(() => {
-    const formValues = form.getValues();
-    setContent(formValues);
-  }, [watch]);
 
   return (
     <Form {...form}>

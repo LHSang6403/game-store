@@ -75,8 +75,6 @@ export async function getGHTKOrderStatus(label: string) {
 
     const responseData = await response.json();
 
-    console.log("%%% response", response);
-
     return {
       status: responseData.success ? 200 : 500,
       statusText: responseData.message,

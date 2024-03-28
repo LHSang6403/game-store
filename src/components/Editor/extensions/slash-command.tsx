@@ -261,7 +261,6 @@ const CommandList = ({
     id: "novel",
     api: "/api/generate",
     onResponse: (response) => {
-      console.log("Response:", response);
       if (response.status === 429) {
         toast.error("You have reached your request limit for the day.");
         va.track("Rate Limit Reached");

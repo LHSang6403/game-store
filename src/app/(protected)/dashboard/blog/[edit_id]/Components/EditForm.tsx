@@ -19,8 +19,6 @@ import { Textarea } from "@/components/ui/textarea";
 import Editor from "@/components/Editor";
 import DropAndDragZone from "@components/File/DropAndDragZone";
 import useFiles from "@/zustand/useFiles";
-import { useEffect } from "react";
-import useLocalStorage from "@/hooks/useLocalStorage";
 import { useSession } from "@/zustand/useSession";
 import { StaffType, BlogType } from "@/utils/types/index";
 import createSupabaseBrowserClient from "@/supabase-query/client";
@@ -47,15 +45,11 @@ export default function EditForm({ blog }: { blog: BlogType }) {
     description: blog.description,
   };
 
-  const [content, setContent] = useLocalStorage("update-blog-form", initState);
-
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
-    defaultValues: content ?? initState,
+    defaultValues: initState,
     mode: "onBlur",
   });
-  
-  const { watch } = form;
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {
     toast.promise(
@@ -83,11 +77,6 @@ export default function EditForm({ blog }: { blog: BlogType }) {
       }
     );
   }
-
-  useEffect(() => {
-    const formValues = form.getValues();
-    setContent(formValues);
-  }, [watch]);
 
   return (
     <Form {...form}>
@@ -149,7 +138,6 @@ export default function EditForm({ blog }: { blog: BlogType }) {
                   }
                   name={image.split("/")[image.split("/").length - 1]}
                   removeHandler={() => {
-                    console.log(image);
                     setUpdatedBlogThumbnails((images) =>
                       images.filter((img) => img !== image)
                     );
