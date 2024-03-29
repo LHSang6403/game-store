@@ -3,20 +3,13 @@ import { columns } from "@app/(main)/cart/Components/History/Columns";
 import { DataTable } from "@components/Table/DataTable";
 import type { OrderType } from "@utils/types";
 import { readUserSession } from "@/app/_actions/user";
-import { ApiErrorHandlerServer } from "@/utils/errorHandler/apiErrorHandler";
 
 export default async function OrderHistory() {
-  const sessionResponse = await readUserSession();
-  const session = ApiErrorHandlerServer<any>({
-    response: sessionResponse,
-  });
+  const session = await readUserSession();
 
-  const historyResponse = await readOrdersByCustomerId(
+  const history = await readOrdersByCustomerId(
     session.data?.data?.session?.user?.id
   );
-  const history = ApiErrorHandlerServer<OrderType[]>({
-    response: historyResponse,
-  });
 
   return (
     <div className="mx-auto w-fit xl:w-auto">

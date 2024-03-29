@@ -3,13 +3,9 @@ import { readUserSession } from "@/app/_actions/user";
 import OrderHistory from "@app/(main)/cart/Components/History/OrderHistory";
 import EditProfile from "@/app/(main)/profile/Components/EditProfile";
 import Link from "next/link";
-import { ApiErrorHandlerServer } from "@/utils/errorHandler/apiErrorHandler";
 
 export default async function page() {
-  const sessionResponse = await readUserSession();
-  const session = ApiErrorHandlerServer<any>({
-    response: sessionResponse,
-  });
+  const session = await readUserSession();
 
   if (!session.data || session.error)
     return (

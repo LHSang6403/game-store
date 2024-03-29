@@ -3,13 +3,9 @@ import Link from "next/link";
 import { CustomerType } from "@/utils/types";
 import { DataTable } from "@components/Table/DataTable";
 import { columns } from "./Components/Columns";
-import { ApiErrorHandlerServer } from "@/utils/errorHandler/apiErrorHandler";
 
 export default async function page() {
-  const customersResponse = await readCustomers({ limit: 40, offset: 0 });
-  const customers = ApiErrorHandlerServer<CustomerType[]>({
-    response: customersResponse,
-  });
+  const customers = await readCustomers({ limit: 40, offset: 0 });
 
   return (
     <section className="">
@@ -25,7 +21,7 @@ export default async function page() {
       {customers?.data && (
         <DataTable
           columns={columns}
-          data={customers?.data}
+          data={customers?.data as CustomerType[]}
           isPaginationEnabled={true}
         />
       )}

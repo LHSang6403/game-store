@@ -3,13 +3,9 @@ import { DataTable } from "@components/Table/DataTable";
 import { columns } from "./Components/Columns";
 import { readBlogs } from "@/app/_actions/blog";
 import type { BlogType } from "@utils/types/index";
-import { ApiErrorHandlerServer } from "@utils/errorHandler/apiErrorHandler";
 
 export default async function page() {
-  const blogsResponse = await readBlogs({ limit: 20, offset: 0 });
-  const blogs = ApiErrorHandlerServer<BlogType[]>({
-    response: blogsResponse,
-  });
+  const blogs = await readBlogs({ limit: 20, offset: 0 });
 
   return (
     <section className="">
@@ -25,7 +21,7 @@ export default async function page() {
       {blogs?.data && (
         <DataTable
           columns={columns}
-          data={blogs?.data}
+          data={blogs?.data as BlogType[]}
           isPaginationEnabled={true}
           searchAttribute="title"
         />

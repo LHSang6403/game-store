@@ -1,29 +1,16 @@
 import CreateForm from "@app/(protected)/dashboard/order/create/Components/CreateForm";
 import { readProductsWithDetail } from "@/app/_actions/product";
-import {
-  CustomerType,
-  ProductWithDescriptionAndStorageType,
-} from "@utils/types/index";
-import { ApiErrorHandlerServer } from "@utils/errorHandler/apiErrorHandler";
 import { readCustomers } from "@app/_actions/user";
 
 export default async function page() {
-  const productsResponse = await readProductsWithDetail({
+  const products = await readProductsWithDetail({
     limit: 40,
     offset: 0,
-  });
-  const products = ApiErrorHandlerServer<
-    ProductWithDescriptionAndStorageType[]
-  >({
-    response: productsResponse,
   });
 
-  const customersResponse = await readCustomers({
+  const customers = await readCustomers({
     limit: 40,
     offset: 0,
-  });
-  const customers = ApiErrorHandlerServer<CustomerType[]>({
-    response: customersResponse,
   });
 
   return (

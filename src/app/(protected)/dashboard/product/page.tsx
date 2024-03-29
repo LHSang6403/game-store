@@ -3,13 +3,9 @@ import { DataTable } from "@components/Table/DataTable";
 import Link from "next/link";
 import { readProducts } from "@/app/_actions/product";
 import type { ProductType } from "@utils/types/index";
-import { ApiErrorHandlerServer } from "@utils/errorHandler/apiErrorHandler";
 
 export default async function Page() {
-  const productsResponse = await readProducts({ limit: 20, offset: 0 });
-  const products = ApiErrorHandlerServer<ProductType[]>({
-    response: productsResponse,
-  });
+  const products = await readProducts({ limit: 20, offset: 0 });
 
   return (
     <section className="">
@@ -25,7 +21,7 @@ export default async function Page() {
       {products.data && (
         <DataTable
           columns={columns}
-          data={products.data}
+          data={products.data as ProductType[]}
           isPaginationEnabled={true}
         />
       )}

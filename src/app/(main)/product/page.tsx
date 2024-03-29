@@ -5,15 +5,11 @@ import FilterArea from "@app/(main)/product/Components/FilterArea";
 import Advertisement from "@app/(main)/product/Components/Advertisement";
 import { readProducts } from "@/app/_actions/product";
 import { ProductType } from "@utils/types/index";
-import { ApiErrorHandlerServer } from "@utils/errorHandler/apiErrorHandler";
 
 export default async function Product() {
-  const productsResponse = await readProducts({
+  const products = await readProducts({
     limit: 40,
     offset: 0,
-  });
-  const products = ApiErrorHandlerServer<ProductType[]>({
-    response: productsResponse,
   });
 
   return (
@@ -28,7 +24,7 @@ export default async function Product() {
         </div>
         <CategoryCards />
         {products.data && (
-          <ProductsContainer products={products.data} />
+          <ProductsContainer products={products.data as ProductType[]} />
         )}
         <FilterArea />
       </div>

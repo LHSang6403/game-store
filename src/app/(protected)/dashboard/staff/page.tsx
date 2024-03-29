@@ -2,13 +2,9 @@ import { readStaffs } from "@app/_actions/user";
 import { StaffType } from "@/utils/types";
 import { DataTable } from "@components/Table/DataTable";
 import { columns } from "./Components/Columns";
-import { ApiErrorHandlerServer } from "@/utils/errorHandler/apiErrorHandler";
 
 export default async function page() {
-  const staffsResponse = await readStaffs({ limit: 20, offset: 0 });
-  const staffs = ApiErrorHandlerServer<StaffType[]>({
-    response: staffsResponse,
-  });
+  const staffs = await readStaffs({ limit: 20, offset: 0 });
 
   return (
     <section className="">
@@ -16,11 +12,10 @@ export default async function page() {
       {staffs.data && (
         <DataTable
           columns={columns}
-          data={staffs.data}
+          data={staffs.data as StaffType[]}
           isPaginationEnabled={true}
         />
       )}
     </section>
   );
 }
-      

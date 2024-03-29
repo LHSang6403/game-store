@@ -2,13 +2,9 @@ import { readLogs } from "@app/_actions/log";
 import { LogType } from "@utils/types";
 import { DataTable } from "@components/Table/DataTable";
 import { columns } from "@app/(protected)/dashboard/log/Components/Columns";
-import { ApiErrorHandlerServer } from "@utils/errorHandler/apiErrorHandler";
 
 export default async function page() {
-  const logsResponse = await readLogs();
-  const logs = ApiErrorHandlerServer<LogType[]>({
-    response: logsResponse,
-  });
+  const logs = await readLogs();
 
   return (
     <section className="">
@@ -16,7 +12,7 @@ export default async function page() {
       {logs.data && (
         <DataTable
           columns={columns}
-          data={logs.data}
+          data={logs.data as LogType[]}
           isPaginationEnabled={true}
         />
       )}

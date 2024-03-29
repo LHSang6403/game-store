@@ -3,13 +3,9 @@ import Link from "next/link";
 import { OrderType } from "@utils/types";
 import { DataTable } from "@components/Table/DataTable";
 import { columns } from "@app/(protected)/dashboard/order/Components/Columns";
-import { ApiErrorHandlerServer } from "@utils/errorHandler/apiErrorHandler";
 
 export default async function page() {
-  const ordersResponse = await readOrders({ limit: 20, offset: 0 });
-  const orders = ApiErrorHandlerServer<OrderType[]>({
-    response: ordersResponse,
-  });
+  const orders = await readOrders({ limit: 20, offset: 0 });
 
   return (
     <section className="">
@@ -25,7 +21,7 @@ export default async function page() {
       {orders.data && (
         <DataTable
           columns={columns}
-          data={orders.data}
+          data={orders.data as OrderType[]}
           isPaginationEnabled={true}
           searchAttribute="customer_name"
         />
