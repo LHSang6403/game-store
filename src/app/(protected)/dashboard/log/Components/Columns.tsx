@@ -43,6 +43,7 @@ export const columns: ColumnDef<LogType>[] = [
     cell: ({ row }) => {
       const date = new Date(row.getValue("created_at"));
       const formatted = date.toLocaleDateString();
+
       return <div className="ml-4">{formatted}</div>;
     },
   },

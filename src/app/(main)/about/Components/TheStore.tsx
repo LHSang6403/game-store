@@ -2,7 +2,6 @@
 
 import { motion } from "framer-motion";
 import fadeIn from "@utils/animations/fadeIn";
-import PersonReviewCard from "@app/(main)/product/[id]/Components/Review/PersonReviewCard";
 
 export default function TheStore() {
   return (
@@ -24,10 +23,6 @@ export default function TheStore() {
         community. Our passionate team of gaming experts is here to help you
         find the perfect game, answer your questions, and provide tips and
         tricks to enhance your gaming experience.
-      </section>
-      <section className="flex h-fit w-full flex-row items-center justify-center gap-6 overflow-auto p-2 xl:mt-6 xl:flex-col sm:gap-4 sm:px-2">
-        <PersonReviewCard />
-        <PersonReviewCard />
       </section>
     </motion.div>
   );

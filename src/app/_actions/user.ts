@@ -248,24 +248,41 @@ export async function updateStaffToCustomer({
   }
 }
 
-export async function updateUserProfile<T>({
-  id,
-  role,
-  updatingData,
+export async function updateUserProfile({
+  updatedUser,
+  actor,
 }: {
-  id: string;
-  role: "Staff" | "Customer";
-  updatingData: T;
+  updatedUser: CustomerType | StaffType;
+  actor: LogActorType;
 }) {
   try {
     const supabase = await createSupabaseServerClient();
+    const supabaseAdmin = await createSupabaseAdmin();
+
+    let role = "customer";
+    if ("role" in updatedUser) {
+      role = "staff";
+    }
 
     const result = await supabase
       .from(role.toLowerCase())
-      .update(updatingData)
-      .eq("id", id);
+      .update(updatedUser)
+      .eq("id", updatedUser.id);
 
-    if (!result.error) revalidatePath("/profile");
+    if (!result.error) {
+      revalidatePath("/profile");
+
+      await supabaseAdmin.auth.admin.updateUserById(updatedUser.id, {
+        user_metadata: { name: updatedUser.name, phone: updatedUser.phone },
+      });
+    }
+
+    await saveToLog({
+      logName: "Update profile of " + updatedUser.name,
+      logType: "Update",
+      logResult: !result.error ? "Success" : "Error",
+      logActor: actor,
+    });
 
     return {
       status: result.status,

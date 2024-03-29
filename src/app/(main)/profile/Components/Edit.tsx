@@ -25,18 +25,31 @@ import { z } from "zod";
 import { updateUserProfile } from "@app/_actions/user";
 import { toast } from "sonner";
 import { ApiErrorHandlerClient } from "@/utils/errorHandler/apiErrorHandler";
-import { useState } from "react";
+import FormAddressPicker from "@components/Picker/Address/FormAddressPicker";
+import { CustomCalendar } from "@components/Picker/Date/CustomCalendar";
+import { Calendar as CalendarIcon } from "lucide-react";
+import { format } from "date-fns";
+import { cn } from "@/lib/utils";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@components/ui/popover";
+import { useState, useEffect } from "react";
+import useAddressSelects from "@/zustand/useAddressSelects";
 
-export interface UpdatingData {
-  //   name: string;
-  phone: string;
-  address: string;
-}
+import province from "@/static-data/provinces.json";
+import district from "@/static-data/districts.json";
+import communes from "@/static-data/communes.json";
 
-const schema = z.object({
-  //   name: z.string().min(2).max(50),
-  phone: z.string().min(2).max(12),
-  address: z.string().min(2).max(100),
+const FormSchema = z.object({
+  name: z.string().min(2),
+  phone: z.string().min(2),
+  dob: z.string().min(2),
+  address: z.string().min(2),
+  ward: z.string().min(2),
+  district: z.string().min(2),
+  province: z.string().min(2),
 });
 
 export default function Edit({
@@ -47,25 +60,78 @@ export default function Edit({
   const [isOpen, setIsOpen] = useState(false);
 
   const form = useForm({
-    resolver: zodResolver(schema),
+    resolver: zodResolver(FormSchema),
     defaultValues: {
-      //   name: profile.name,
+      name: profile.name,
       phone: profile.phone,
+      dob: profile.dob,
       address: profile.address,
+      ward: profile.ward,
+      district: profile.district,
+      province: profile.province,
     },
     mode: "onBlur",
   });
 
-  const onSubmit = async (data: UpdatingData) => {
+  const [date, setDate] = useState<Date>();
+  const {
+    addressValues,
+    setCommune,
+    setDistrict,
+    setProvince,
+  } = useAddressSelects();
+
+  // set default address and bidthday
+  useEffect(() => {
+    setDate(new Date(profile.dob));
+
+    const provinceId =
+      province.find((province) => province.name === profile.province)
+        ?.idProvince ?? "";
+
+    setProvince(profile.province, provinceId);
+
+    const districtId =
+      district.find((district) => district.name === profile.district)
+        ?.idDistrict ?? "";
+
+    setDistrict(profile.district, districtId);
+
+    const communeId =
+      communes.find((commune) => commune.name === profile.ward)?.idCommune ??
+      "";
+
+    setCommune(profile.ward, communeId);
+  }, []);
+
+  // update address
+  useEffect(() => {
+    if (addressValues) {
+      form.setValue("province", addressValues.province);
+      form.setValue("district", addressValues.district);
+      form.setValue("ward", addressValues.commune);
+    }
+    form.trigger("ward");
+  }, [addressValues]);
+
+  const onSubmit = async (data: z.infer<typeof FormSchema>) => {
     toast.promise(
       async () => {
-        const updateResponse = await updateUserProfile<UpdatingData>({
-          id: profile.id,
-          role: "role" in profile ? "Staff" : "Customer",
-          updatingData: data,
+        let updatedUser = { ...profile };
+        updatedUser.name = data.name;
+        updatedUser.phone = data.phone;
+        updatedUser.dob = data.dob;
+        updatedUser.address = data.address;
+        updatedUser.ward = data.ward;
+        updatedUser.district = data.district;
+        updatedUser.province = data.province;
+
+        const updateResponse = await updateUserProfile({
+          updatedUser: updatedUser,
+          actor: { actorId: profile.id, actorName: profile.name },
         });
 
-        const update = ApiErrorHandlerClient({
+        ApiErrorHandlerClient({
           response: updateResponse,
           isShowToast: false,
         });
@@ -103,7 +169,7 @@ export default function Edit({
             onSubmit={form.handleSubmit(onSubmit)}
             className="flex flex-col gap-2 py-4"
           >
-            {/* <FormField
+            <FormField
               control={form.control}
               name="name"
               render={({ field }) => (
@@ -121,7 +187,7 @@ export default function Edit({
                   <FormMessage />
                 </FormItem>
               )}
-            /> */}
+            />
             <FormField
               control={form.control}
               name="phone"
@@ -136,6 +202,59 @@ export default function Edit({
                       onChange={field.onChange}
                       className="border-[#E5E7EB]"
                     />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormItem>
+              <FormLabel>Birthday</FormLabel>
+              <Popover>
+                <PopoverTrigger asChild>
+                  <Button
+                    variant={"outline"}
+                    className={cn(
+                      "w-full justify-start text-left font-normal",
+                      !date && "text-muted-foreground"
+                    )}
+                  >
+                    <CalendarIcon className="mr-2 h-4 w-4" />
+                    {date ? (
+                      format(date, "PPP")
+                    ) : (
+                      <span className="text-muted-foreground">
+                        Pick birthday
+                      </span>
+                    )}
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-auto p-0">
+                  <CustomCalendar
+                    mode="single"
+                    captionLayout="dropdown-buttons"
+                    selected={date}
+                    onSelect={(value) => {
+                      {
+                        setDate(value);
+                        if (value) {
+                          form.setValue("dob", value.toString());
+                        }
+                      }
+                    }}
+                    fromYear={1960}
+                    toYear={2030}
+                  />
+                </PopoverContent>
+              </Popover>
+            </FormItem>
+            <FormField
+              control={form.control}
+              name="district"
+              render={() => (
+                <FormItem>
+                  <FormLabel>Your local</FormLabel>
+                  <FormControl>
+                    <FormAddressPicker />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -160,6 +279,7 @@ export default function Edit({
                 </FormItem>
               )}
             />
+
             <Button
               type="submit"
               className="mx-auto mt-2 w-fit bg-foreground px-7 text-background"
