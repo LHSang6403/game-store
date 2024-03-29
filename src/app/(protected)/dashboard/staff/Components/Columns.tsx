@@ -25,6 +25,7 @@ import { toast } from "sonner";
 import { ApiErrorHandlerClient } from "@/utils/errorHandler/apiErrorHandler";
 import { updateStaffToCustomer } from "@/app/_actions/user";
 import { useSession } from "@/zustand/useSession";
+import EditProfile from "@app/(main)/profile/Components/EditProfile";
 
 export const columns: ColumnDef<StaffType>[] = [
   {
@@ -114,7 +115,9 @@ export const columns: ColumnDef<StaffType>[] = [
   },
   {
     id: "actions",
-    header: "Actions",
+    header: () => {
+      return <div className="pr-12 text-center lg:pr-0">Actions</div>;
+    },
     cell: ({ row }) => {
       const data = row.original;
       const session = useSession();
@@ -143,29 +146,31 @@ export const columns: ColumnDef<StaffType>[] = [
       }
 
       return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="ml-3 h-8 w-8 p-0">
-              <span className="sr-only">Open menu</span>
-              <MoreHorizontal className="h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(data.id)}
-            >
-              Copy staff ID
-            </DropdownMenuItem>
-            <DropdownMenuItem
-              onClick={() => {
-                updateStaffToCustomerHandler(data);
-              }}
-            >
-              Update to customer
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+        <div className="flex w-full flex-row items-center">
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" className="ml-3 h-8 w-8 p-0">
+                <MoreHorizontal className="h-4 w-4" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuLabel>Actions</DropdownMenuLabel>
+              <DropdownMenuItem
+                onClick={() => navigator.clipboard.writeText(data.id)}
+              >
+                Copy staff ID
+              </DropdownMenuItem>
+              <DropdownMenuItem
+                onClick={() => {
+                  updateStaffToCustomerHandler(data);
+                }}
+              >
+                Update to customer
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>{" "}
+          <EditProfile profile={data} />
+        </div>
       );
     },
   },

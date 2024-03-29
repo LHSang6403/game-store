@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { readUserSession } from "@/app/_actions/user";
 import OrderHistory from "@app/(main)/cart/Components/History/OrderHistory";
-import Edit from "@app/(main)/profile/Components/Edit";
+import EditProfile from "@/app/(main)/profile/Components/EditProfile";
 import Link from "next/link";
 import { ApiErrorHandlerServer } from "@/utils/errorHandler/apiErrorHandler";
 
@@ -47,7 +47,7 @@ export default async function page() {
             className="rounded-full"
           />
         </div>
-        <Edit profile={session.data.detailData} />
+        <EditProfile profile={session.data.detailData} />
         <div className="w-fit rounded-md">
           <p className="text-left">
             <span className="font-semibold">Name: </span>

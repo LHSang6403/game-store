@@ -37,6 +37,7 @@ import {
 } from "@components/ui/popover";
 import { useState, useEffect } from "react";
 import useAddressSelects from "@/zustand/useAddressSelects";
+import { useSession } from "@/zustand/useSession";
 
 import province from "@/static-data/provinces.json";
 import district from "@/static-data/districts.json";
@@ -52,12 +53,13 @@ const FormSchema = z.object({
   province: z.string().min(2),
 });
 
-export default function Edit({
+export default function EditProfile({
   profile,
 }: {
   profile: CustomerType | StaffType;
 }) {
   const [isOpen, setIsOpen] = useState(false);
+  const { session } = useSession();
 
   const form = useForm({
     resolver: zodResolver(FormSchema),
@@ -74,12 +76,8 @@ export default function Edit({
   });
 
   const [date, setDate] = useState<Date>();
-  const {
-    addressValues,
-    setCommune,
-    setDistrict,
-    setProvince,
-  } = useAddressSelects();
+  const { addressValues, setCommune, setDistrict, setProvince } =
+    useAddressSelects();
 
   // set default address and bidthday
   useEffect(() => {
@@ -126,15 +124,17 @@ export default function Edit({
         updatedUser.district = data.district;
         updatedUser.province = data.province;
 
-        const updateResponse = await updateUserProfile({
-          updatedUser: updatedUser,
-          actor: { actorId: profile.id, actorName: profile.name },
-        });
+        if (session) {
+          const updateResponse = await updateUserProfile({
+            updatedUser: updatedUser,
+            actor: { actorId: session.id, actorName: session.name },
+          });
 
-        ApiErrorHandlerClient({
-          response: updateResponse,
-          isShowToast: false,
-        });
+          ApiErrorHandlerClient({
+            response: updateResponse,
+            isShowToast: false,
+          });
+        }
       },
       {
         loading: "Updating profile...",
@@ -153,8 +153,8 @@ export default function Edit({
   return (
     <Dialog open={isOpen} onOpenChange={() => setIsOpen(!isOpen)}>
       <DialogTrigger asChild>
-        <Button variant="outline" className="border-none">
-          Edit Profile
+        <Button variant="outline" className="h-8 border-none">
+          Edit
         </Button>
       </DialogTrigger>
       <DialogContent className="rounded-md pb-0 sm:max-w-[425px]">

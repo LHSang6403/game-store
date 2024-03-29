@@ -16,6 +16,7 @@ import { toast } from "sonner";
 import { ApiErrorHandlerClient } from "@/utils/errorHandler/apiErrorHandler";
 import { updateCustomerLevel } from "@app/_actions/user";
 import { useSession } from "@/zustand/useSession";
+import EditProfile from "@/app/(main)/profile/Components/EditProfile";
 
 export const columns: ColumnDef<CustomerType>[] = [
   {
@@ -73,7 +74,9 @@ export const columns: ColumnDef<CustomerType>[] = [
   },
   {
     id: "actions",
-    header: "Actions",
+    header: () => {
+      return <div className="pr-4 text-center lg:pr-0">Actions</div>;
+    },
     cell: ({ row }) => {
       const data = row.original;
       const availbleRoles = ["Seller", "Writer", "Manager"];
@@ -134,41 +137,43 @@ export const columns: ColumnDef<CustomerType>[] = [
       }
 
       return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="ml-3 h-8 w-8 p-0">
-              <span className="sr-only">Open menu</span>
-              <MoreHorizontal className="h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(data.id)}
-            >
-              Copy customer ID
-            </DropdownMenuItem>
-            <DropdownMenuItem
-              onClick={() => {
-                updateCustomerLevelHandler(data, data.level + 1);
-              }}
-            >
-              Update level
-            </DropdownMenuItem>
-            {(availbleRoles as ("Seller" | "Writer" | "Manager")[]).map(
-              (eachRole, index) => (
-                <DropdownMenuItem
-                  key={index}
-                  onClick={() => {
-                    updateCustomerToStaffHandler(data, eachRole);
-                  }}
-                >
-                  Update to {eachRole}
-                </DropdownMenuItem>
-              )
-            )}
-          </DropdownMenuContent>
-        </DropdownMenu>
+        <div className="flex w-full flex-row items-center">
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" className="ml-3 h-8 w-8 p-0">
+                <MoreHorizontal className="h-4 w-4" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuLabel>Actions</DropdownMenuLabel>
+              <DropdownMenuItem
+                onClick={() => navigator.clipboard.writeText(data.id)}
+              >
+                Copy customer ID
+              </DropdownMenuItem>
+              <DropdownMenuItem
+                onClick={() => {
+                  updateCustomerLevelHandler(data, data.level + 1);
+                }}
+              >
+                Update level
+              </DropdownMenuItem>
+              {(availbleRoles as ("Seller" | "Writer" | "Manager")[]).map(
+                (eachRole, index) => (
+                  <DropdownMenuItem
+                    key={index}
+                    onClick={() => {
+                      updateCustomerToStaffHandler(data, eachRole);
+                    }}
+                  >
+                    Update to {eachRole}
+                  </DropdownMenuItem>
+                )
+              )}
+            </DropdownMenuContent>
+          </DropdownMenu>
+          <EditProfile profile={data} />
+        </div>
       );
     },
   },
