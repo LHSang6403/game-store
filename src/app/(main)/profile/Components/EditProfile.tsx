@@ -279,7 +279,6 @@ export default function EditProfile({
                 </FormItem>
               )}
             />
-
             <Button
               type="submit"
               className="mx-auto mt-2 w-fit bg-foreground px-7 text-background"

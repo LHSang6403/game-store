@@ -26,7 +26,6 @@ import { updateProduct } from "@app/_actions/product";
 import { updateProductDescription } from "@app/_actions/product_description";
 import { updateStorage } from "@app/_actions/storage";
 import createSupabaseBrowserClient from "@/supabase-query/client";
-import useFormPersist from "react-hook-form-persist";
 
 const FormSchema = z.object({
   brand: z.string().min(1, { message: "Brand is a compulsory." }),
