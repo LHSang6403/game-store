@@ -30,7 +30,7 @@ import EditProfile from "@app/(main)/profile/Components/EditProfile";
 export const columns: ColumnDef<StaffType>[] = [
   {
     accessorKey: "name",
-    header: "Name",
+    header: "Họ tên",
   },
   {
     accessorKey: "dob",
@@ -41,7 +41,7 @@ export const columns: ColumnDef<StaffType>[] = [
           className="border-none"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Birdthday
+          Ngày sinh
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
@@ -54,12 +54,12 @@ export const columns: ColumnDef<StaffType>[] = [
   },
   {
     accessorKey: "phone",
-    header: "Phone",
+    header: "SĐT",
   },
   {
     accessorKey: "role",
     header: () => {
-      return <div className="w-28 text-center">Role</div>;
+      return <div className="w-28 text-center">Vai trò</div>;
     },
     cell: ({ row }) => {
       const data = row.original;
@@ -86,7 +86,7 @@ export const columns: ColumnDef<StaffType>[] = [
             }
           },
           {
-            loading: "Updating role...",
+            loading: "Đang cập nhật...",
           }
         );
       };
@@ -99,14 +99,14 @@ export const columns: ColumnDef<StaffType>[] = [
           }}
         >
           <SelectTrigger className="w-28 border-none">
-            <SelectValue placeholder="Select a role" />
+            <SelectValue placeholder="Chọn vai trò" />
           </SelectTrigger>
           <SelectContent>
             <SelectGroup>
-              <SelectLabel>Staff</SelectLabel>
-              <SelectItem value="Seller">Seller</SelectItem>
-              <SelectItem value="Writer">Writer</SelectItem>
-              <SelectItem value="Manager">Manager</SelectItem>
+              <SelectLabel>Nhân viên</SelectLabel>
+              <SelectItem value="Seller">Bán hàng</SelectItem>
+              <SelectItem value="Writer">Biên tập</SelectItem>
+              <SelectItem value="Manager">Quản lí</SelectItem>
             </SelectGroup>
           </SelectContent>
         </Select>
@@ -116,7 +116,7 @@ export const columns: ColumnDef<StaffType>[] = [
   {
     id: "actions",
     header: () => {
-      return <div className="pr-12 text-center lg:pr-0">Actions</div>;
+      return <div className="pr-12 text-center lg:pr-0">Hành động</div>;
     },
     cell: ({ row }) => {
       const data = row.original;
@@ -140,7 +140,7 @@ export const columns: ColumnDef<StaffType>[] = [
             }
           },
           {
-            loading: "Updating...",
+            loading: "Đang cập nhật...",
           }
         );
       }
@@ -154,21 +154,21 @@ export const columns: ColumnDef<StaffType>[] = [
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-              <DropdownMenuLabel>Actions</DropdownMenuLabel>
+              <DropdownMenuLabel>Hành động</DropdownMenuLabel>
               <DropdownMenuItem
                 onClick={() => navigator.clipboard.writeText(data.id)}
               >
-                Copy staff ID
+                Sao chép ID nhân viên
               </DropdownMenuItem>
               <DropdownMenuItem
                 onClick={() => {
                   updateStaffToCustomerHandler(data);
                 }}
               >
-                Update to customer
+                Chuyển thành khách hàng
               </DropdownMenuItem>
             </DropdownMenuContent>
-          </DropdownMenu>{" "}
+          </DropdownMenu>
           <EditProfile profile={data} />
         </div>
       );

@@ -21,7 +21,7 @@ export default function page({ params }: { params: { edit_id: string } }) {
 
   return (
     <div className="flex min-h-[calc(100vh_-_6rem)] flex-col gap-2 pb-6">
-      <h1 className="my-2 text-2xl font-medium">Edit product</h1>
+      <h1 className="my-2 text-2xl font-medium">Chỉnh sửa sản phẩm</h1>
       <div className="h-fit w-full">
         {product && <EditForm product={product} />}
       </div>

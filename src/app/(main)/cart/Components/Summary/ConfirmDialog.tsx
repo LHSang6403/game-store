@@ -144,7 +144,7 @@ export default function ConfirmDialog({
             {order.products.map((prod, index) => (
               <>
                 <span key={index} className="font-light">
-                  {prod.name}
+                  {prod.product.name}
                 </span>
                 {index !== order.products.length - 1 && <span>, </span>}
               </>

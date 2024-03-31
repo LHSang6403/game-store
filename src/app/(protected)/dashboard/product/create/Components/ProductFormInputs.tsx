@@ -18,10 +18,10 @@ export default function ProductFormInputs({ form }: { form: any }) {
         name="brand"
         render={({ field }) => (
           <FormItem>
-            <FormLabel>Brand</FormLabel>
+            <FormLabel>Hiệu</FormLabel>
             <FormControl>
               <Input
-                placeholder="Product's brand"
+                placeholder="Hiệu sản phẩm"
                 {...field}
                 type="text"
                 onChange={field.onChange}
@@ -37,10 +37,10 @@ export default function ProductFormInputs({ form }: { form: any }) {
         name="name"
         render={({ field }) => (
           <FormItem>
-            <FormLabel>Name</FormLabel>
+            <FormLabel>Tên</FormLabel>
             <FormControl>
               <Input
-                placeholder="Product's name"
+                placeholder="Tên sản phẩm"
                 {...field}
                 type="text"
                 onChange={field.onChange}
@@ -56,11 +56,11 @@ export default function ProductFormInputs({ form }: { form: any }) {
         name="description"
         render={({ field }) => (
           <FormItem>
-            <FormLabel>Description</FormLabel>
+            <FormLabel>Mô tả</FormLabel>
             <FormControl>
               <Textarea
                 className="max-h-52 min-h-36 border-[#E5E7EB]"
-                placeholder="Product's description"
+                placeholder="Mô tả sản phẩm"
                 {...field}
               />
             </FormControl>
@@ -73,10 +73,10 @@ export default function ProductFormInputs({ form }: { form: any }) {
         name="price"
         render={({ field }) => (
           <FormItem>
-            <FormLabel>Price</FormLabel>
+            <FormLabel>Giá</FormLabel>
             <FormControl>
               <Input
-                placeholder="Product's price (VND)"
+                placeholder="Giá sản phẩm (VNĐ)"
                 {...field}
                 type="text"
                 onChange={field.onChange}
@@ -92,10 +92,10 @@ export default function ProductFormInputs({ form }: { form: any }) {
         name="rate"
         render={({ field }) => (
           <FormItem>
-            <FormLabel>Rate</FormLabel>
+            <FormLabel>Bình chọn</FormLabel>
             <FormControl>
               <Input
-                placeholder="Product's rate"
+                placeholder="Bình chọn sản phẩm"
                 {...field}
                 type="text"
                 onChange={field.onChange}
@@ -111,10 +111,10 @@ export default function ProductFormInputs({ form }: { form: any }) {
         name="category"
         render={({ field }) => (
           <FormItem>
-            <FormLabel>Category</FormLabel>
+            <FormLabel>Loại</FormLabel>
             <FormControl>
               <Input
-                placeholder="Product's category"
+                placeholder="Loại sản phẩm"
                 {...field}
                 type="text"
                 onChange={field.onChange}
@@ -130,10 +130,10 @@ export default function ProductFormInputs({ form }: { form: any }) {
         name="storage_address"
         render={({ field }) => (
           <FormItem>
-            <FormLabel>Storage Address</FormLabel>
+            <FormLabel>Địa chỉ kho</FormLabel>
             <FormControl>
               <Input
-                placeholder="Address of storage"
+                placeholder="Kho sản phẩm"
                 {...field}
                 type="text"
                 onChange={field.onChange}
@@ -149,10 +149,10 @@ export default function ProductFormInputs({ form }: { form: any }) {
         name="storage_quantity"
         render={({ field }) => (
           <FormItem>
-            <FormLabel>Storage Quantity</FormLabel>
+            <FormLabel>Số lượng</FormLabel>
             <FormControl>
               <Input
-                placeholder="Product's quantity"
+                placeholder="Số lượng sản phẩm"
                 {...field}
                 type="text"
                 onChange={field.onChange}

@@ -2,8 +2,11 @@
 
 import createSupabaseServerClient from "@/supabase-query/server";
 import type {
+  ProductDescriptionType,
+  ProductStorageType,
   ProductType,
   ProductWithDescriptionAndStorageType,
+  StorageType,
 } from "@utils/types/index";
 import { revalidatePath } from "next/cache";
 import { saveToLog, LogActorType } from "@app/_actions/log";
@@ -118,18 +121,50 @@ export async function readProductDetailById(id: string) {
       .select(
         `
   *,
-  product_description (id, content, writer),
-  storage (id, address, quantity)
-`
+  product_description (id, created_at, content, writer)
+  `
       )
       .eq("id", id)
       .eq("is_deleted", false)
       .single();
 
+    if (result.error) {
+      throw new Error("Lỗi truy vấn sản phẩm.");
+    }
+
+    let resultData: ProductWithDescriptionAndStorageType = {
+      product: result.data as ProductType,
+      product_description: result.data as ProductDescriptionType,
+      product_storages: [] as ProductStorageType[],
+      storages: [] as StorageType[],
+    };
+
+    // query storages
+    const productStorageResult = (await supabase
+      .from("product_storage")
+      .select("*")
+      .eq("product_id", id)) as { data: ProductStorageType[]; error: any };
+
+    if (productStorageResult.data.length > 0) {
+      resultData.product_storages = productStorageResult.data;
+
+      for (const productStorage of productStorageResult.data) {
+        const storageResult = await supabase
+          .from("storage")
+          .select("*")
+          .eq("id", productStorage.storage_id)
+          .single();
+
+        if (storageResult.data) {
+          resultData.storages.push(storageResult.data);
+        }
+      }
+    }
+
     return {
       status: result.status,
       statusText: result.statusText,
-      data: result.data as ProductWithDescriptionAndStorageType,
+      data: resultData as ProductWithDescriptionAndStorageType,
       error: result.error,
     };
   } catch (error: any) {

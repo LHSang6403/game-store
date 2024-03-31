@@ -101,13 +101,13 @@ const DropAndDragZone = ({
           className: className,
         })}
       >
-        <input {...getInputProps({ name: "file" })} />
+        <input className="" {...getInputProps({ name: "file" })} />
         <div className="flex w-full flex-col items-center justify-center gap-4">
           <ArrowUpTrayIcon className="h-5 w-5 fill-current" />
           {isDragActive ? (
-            <p>Drop the files here ...</p>
+            <p>Kéo thả hoặc chọn file ở đây</p>
           ) : (
-            <p>Drag & drop files here, or click to select files</p>
+            <p>Kéo thả hoặc chọn file ở đây</p>
           )}
         </div>
       </div>

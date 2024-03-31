@@ -27,8 +27,8 @@ import ImageFileItem from "@components/File/ImageFileItem";
 import { useState } from "react";
 
 const FormSchema = z.object({
-  title: z.string().min(2, { message: "Title is a compulsory." }),
-  description: z.string().min(2, { message: "Description is a compulsory." }),
+  title: z.string().min(2, { message: "Vui lòng nhập tiêu đề." }),
+  description: z.string().min(2, { message: "Vui lòng nhập mô tả." }),
 });
 
 export default function EditForm({ blog }: { blog: BlogType }) {
@@ -63,16 +63,16 @@ export default function EditForm({ blog }: { blog: BlogType }) {
             toast.error(update.updateBlogResponse.error.message);
           }
         } else {
-          toast.error("Unknown session.");
+          toast.error("Lỗi phiên đăng nhập.");
         }
       },
       {
-        loading: "Updating blog...",
+        loading: "Đang lưu chỉnh sửa...",
         success: () => {
           form.reset();
           router.push("/dashboard/blog");
 
-          return "Blog updated successfully. Redirecting to dashboard...";
+          return "Chỉnh sủa bài viết thành công. Đang chuyển hướng...";
         },
       }
     );
@@ -90,10 +90,10 @@ export default function EditForm({ blog }: { blog: BlogType }) {
             name="title"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Title</FormLabel>
+                <FormLabel>Tiêu đề</FormLabel>
                 <FormControl>
                   <Input
-                    placeholder="Blog's title"
+                    placeholder="Tiêu đề bài viết"
                     {...field}
                     type="text"
                     onChange={field.onChange}
@@ -109,11 +109,11 @@ export default function EditForm({ blog }: { blog: BlogType }) {
             name="description"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Description</FormLabel>
+                <FormLabel>Mô tả</FormLabel>
                 <FormControl>
                   <Textarea
                     className="max-h-52 min-h-36 border-[#E5E7EB]"
-                    placeholder="Blog's description"
+                    placeholder="Mô tả ngắn bài viết"
                     {...field}
                   />
                 </FormControl>
@@ -125,7 +125,7 @@ export default function EditForm({ blog }: { blog: BlogType }) {
         <div className="flex flex-col gap-4 xl:col-span-2">
           <div>
             <h2 className="title mb-1 ml-1 mt-0.5 text-sm font-medium">
-              Blog thumbnails
+              Hình ảnh xem trước
             </h2>
             <div className="mt-2 grid w-fit grid-cols-6 gap-3 sm:grid-cols-4">
               {updatedBlogThumbnails.map((image: string, index: number) => (
@@ -148,20 +148,20 @@ export default function EditForm({ blog }: { blog: BlogType }) {
           </div>
           <div className="flex h-fit w-full flex-col xl:col-span-2">
             <h2 className="title mb-1 ml-1 text-sm font-medium">
-              Add more thumbnails
+              Thêm ảnh xem trước
             </h2>
-            <DropAndDragZone className="mt-2 rounded-lg border p-16 sm:p-6" />
+            <DropAndDragZone className="mt-2 rounded-lg border border-foreground/10 p-16 sm:p-6" />
           </div>
         </div>
         <div className="col-span-2">
-          <h2 className="title mb-1 ml-1 text-sm font-medium">Content</h2>
+          <h2 className="title mb-1 ml-1 text-sm font-medium">Nội dung</h2>
           <div className="mt-2 h-fit overflow-hidden rounded-md border">
             <Editor editable={true} />
           </div>
         </div>
         <div className="col-span-2 flex justify-center">
           <Button className="mt-1 w-fit bg-foreground px-7 text-background">
-            Update
+            Lưu chỉnh sửa
           </Button>
         </div>
       </form>
@@ -190,12 +190,11 @@ async function updateHandler(
 
     if (!result.error) blogThumbnailsUploadResults.push(result.data.path);
     else {
-      toast.error(`Error uploading image: ${uploadingFile.name}`);
+      toast.error("Lỗi khi tải ảnh.");
     }
   }
 
-  if (!blogThumbnailsUploadResults.length)
-    throw new Error("No image uploaded.");
+  if (!blogThumbnailsUploadResults.length) throw new Error("Lỗi khi tải ảnh.");
 
   const editorContent = window.localStorage.getItem("content");
   const cleanedJsonString = editorContent?.replace(/\\/g, "");

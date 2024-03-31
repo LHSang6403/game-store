@@ -27,13 +27,14 @@ export default async function OrderHistory() {
         </div>
       ) : (
         <div className="min-h-[100px] w-full overflow-hidden">
-          <h2 className="mb-1 ml-1 text-lg font-medium">Availble Storage</h2>
           <DataTable
             columns={columns}
             data={storage as StorageType[]}
             isPaginationEnabled={true}
             isCollumnVisibilityEnabled={false}
             isSearchEnabled={false}
+            isBorder={false}
+            isSeparator={false}
           />
         </div>
       )}

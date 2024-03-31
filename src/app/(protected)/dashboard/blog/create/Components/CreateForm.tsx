@@ -26,8 +26,8 @@ import createSupabaseBrowserClient from "@/supabase-query/client";
 import { createBlog } from "@app/_actions/blog";
 
 const FormSchema = z.object({
-  title: z.string().min(2, { message: "Title is a compulsory." }),
-  description: z.string().min(2, { message: "Description is a compulsory." }),
+  title: z.string().min(2, { message: "Vui lòng nhập tiêu đề." }),
+  description: z.string().min(2, { message: "Vui lòng nhập mô tả." }),
 });
 
 export default function CreateForm() {
@@ -57,16 +57,16 @@ export default function CreateForm() {
             toast.error(create.createBlogResponse.error.message);
           }
         } else {
-          toast.error("Unknown session.");
+          toast.error("Lỗi phiên đăng nhập.");
         }
       },
       {
-        loading: "Creating blog...",
+        loading: "Đang tạo bài viết...",
         success: () => {
           form.reset();
           router.push("/dashboard/blog");
 
-          return "Blog created successfully. Redirecting to dashboard...";
+          return "Tạo bài viết thành công. Đang chuyển hướng...";
         },
       }
     );
@@ -84,10 +84,10 @@ export default function CreateForm() {
             name="title"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Title</FormLabel>
+                <FormLabel>Tiêu đề</FormLabel>
                 <FormControl>
                   <Input
-                    placeholder="Blog's title"
+                    placeholder="Tiêu đề bài viết"
                     {...field}
                     type="text"
                     onChange={field.onChange}
@@ -103,11 +103,11 @@ export default function CreateForm() {
             name="description"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Description</FormLabel>
+                <FormLabel>Mô tả</FormLabel>
                 <FormControl>
                   <Textarea
                     className="max-h-52 min-h-36 border-[#E5E7EB]"
-                    placeholder="Blog's description"
+                    placeholder="Mô tả ngắn của bài viết"
                     {...field}
                   />
                 </FormControl>
@@ -117,20 +117,18 @@ export default function CreateForm() {
           />
         </div>
         <div className="flex h-fit w-full flex-col xl:col-span-2">
-          <h2 className="title mb-1 ml-1 text-sm font-medium">
-            Blog thumbnails
-          </h2>
-          <DropAndDragZone className="mt-2 rounded-lg border p-16 sm:p-6" />
+          <h2 className="title mb-1 ml-1 text-sm font-medium">Ảnh xem trước</h2>
+          <DropAndDragZone className="mt-2 rounded-lg border border-foreground/10 p-16 sm:p-6" />
         </div>
         <div className="col-span-2">
-          <h2 className="title mb-1 ml-1 text-sm font-medium">Content</h2>
+          <h2 className="title mb-1 ml-1 text-sm font-medium">Nội dung</h2>
           <div className="mt-2 h-fit overflow-hidden rounded-md border">
             <Editor editable={true} />
           </div>
-        </div>{" "}
+        </div>
         <div className="col-span-2 flex justify-center">
           <Button className="mt-1 w-fit bg-foreground px-7 text-background">
-            Create
+            Tạo bài viết
           </Button>
         </div>
       </form>
@@ -158,12 +156,11 @@ async function createHandler(
 
     if (!result.error) blogThumbnailsUploadResults.push(result.data.path);
     else {
-      toast.error(`Error uploading image: ${uploadingFile.name}`);
+      toast.error("Lỗi khi tải ảnh.");
     }
   }
 
-  if (!blogThumbnailsUploadResults.length)
-    throw new Error("No image uploaded.");
+  if (!blogThumbnailsUploadResults.length) throw new Error("Lỗi khi tải ảnh.");
 
   const editorContent = window.localStorage.getItem("content");
   const cleanedJsonString = editorContent?.replace(/\\/g, "");

@@ -24,7 +24,7 @@ export const columns: ColumnDef<ProductWithDescriptionAndStorageType>[] = [
 
       return (
         <div className="line-clamp-3 w-44 overflow-ellipsis sm:w-16">
-          {data.name}
+          {data.product.name}
         </div>
       );
     },
@@ -35,7 +35,7 @@ export const columns: ColumnDef<ProductWithDescriptionAndStorageType>[] = [
     cell: ({ row }) => {
       const data = row.original;
 
-      return <span>{formatCurrency(data?.price)} VND</span>;
+      return <span>{formatCurrency(data?.product.price)} VND</span>;
     },
   },
   {
@@ -56,13 +56,13 @@ export const columns: ColumnDef<ProductWithDescriptionAndStorageType>[] = [
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(data.id)}
+              onClick={() => navigator.clipboard.writeText(data.product.id)}
             >
               Copy order ID
             </DropdownMenuItem>
             <DropdownMenuItem
               onClick={() => {
-                removeProduct(data.id);
+                removeProduct(data.product.id);
               }}
             >
               Remove

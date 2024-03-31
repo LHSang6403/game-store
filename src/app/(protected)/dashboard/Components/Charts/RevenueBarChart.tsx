@@ -1,6 +1,6 @@
 "use client";
 
-import { BarChart, Title } from "@tremor/react";
+import { BarChart } from "@tremor/react";
 import { useQuery } from "@tanstack/react-query";
 import { readOrdersNumbersByDateRange } from "@app/_actions/order";
 import useDatePicker from "@/zustand/useDatePicker";
@@ -25,21 +25,14 @@ export default function RevenueBarChart() {
   return (
     <div>
       {isLoading || !orderPricesByMonth ? (
-        <div className="h-[600px] w-full">
+        <div className="h-[402px] w-full">
           <ChartLoading />
         </div>
       ) : (
-        <div className="h-[600px] w-full overflow-hidden rounded-xl border border-foreground/10 p-2">
-          <Title className="ml-1">Revenues & Profits</Title>
-          <h2 className="ml-1">
-            Total revenue:{" "}
-            <span className="text-[#6B7280]">
-              {totalRevenue > 0 ? dataFormatter(totalRevenue) : "No data"}
-            </span>
-          </h2>
+        <div className="h-[402px] w-full overflow-hidden">
           {orderPricesByMonth && (
             <BarChart
-              className="h-[80%] w-full"
+              className="h-full w-full"
               data={chartData}
               index="name"
               categories={["Revenue"]}

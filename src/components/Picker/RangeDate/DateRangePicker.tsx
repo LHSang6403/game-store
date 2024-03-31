@@ -22,6 +22,8 @@ import {
   CheckIcon,
 } from "@radix-ui/react-icons";
 import { cn } from "@/lib/utils";
+import moment from "moment";
+import "moment/locale/vi";
 
 export interface DateRangePickerProps {
   /** Click handler for applying the updates from DateRangePicker. */
@@ -42,12 +44,14 @@ export interface DateRangePickerProps {
   showCompare?: boolean;
 }
 
-const formatDate = (date: Date, locale: string = "en-us"): string => {
-  return date.toLocaleDateString(locale, {
-    month: "short",
-    day: "numeric",
-    year: "numeric",
-  });
+const capitalizeFirstLetter = (str: string): string => {
+  return str.charAt(0).toUpperCase() + str.slice(1);
+};
+
+const formatDate = (date: Date): string => {
+  moment.locale("vi");
+  const formattedDate = moment(date).format("[Ngày] D, [Th] M YYYY");
+  return capitalizeFirstLetter(formattedDate);
 };
 
 interface DateRange {
@@ -62,12 +66,12 @@ interface Preset {
 
 // Define presets
 const PRESETS: Preset[] = [
-  { name: "thisMonth", label: "This Month" },
-  { name: "lastMonth", label: "Last Month" },
-  { name: "6months", label: "Last 6 Months" },
-  { name: "thisYear", label: "This Year" },
-  { name: "lastYear", label: "Last Year" },
-  { name: "lastTwoYears", label: "Last 2 Years" },
+  { name: "thisMonth", label: "Tháng này" },
+  { name: "lastMonth", label: "Tháng trước" },
+  { name: "6months", label: "6 tháng trước" },
+  { name: "thisYear", label: "Năm nay" },
+  { name: "lastYear", label: "Năm trước" },
+  { name: "lastTwoYears", label: "2 năm trước" },
 ];
 
 /** The DateRangePicker component allows a user to select a range of dates */
@@ -79,7 +83,7 @@ export const DateRangePicker: FC<DateRangePickerProps> & {
   initialCompareFrom,
   initialCompareTo,
   onUpdate,
-  locale = "en-US",
+  locale = "vi-VN",
   showCompare = true,
 }): JSX.Element => {
   const [isOpen, setIsOpen] = useState(false);
@@ -131,7 +135,7 @@ export const DateRangePicker: FC<DateRangePickerProps> & {
 
   const getPresetRange = (presetName: string): DateRange => {
     const preset = PRESETS.find(({ name }) => name === presetName);
-    if (!preset) throw new Error(`Unknown date range preset: ${presetName}`);
+    if (!preset) throw new Error(`Lỗi khoảng thời gian: ${presetName}`);
     const from = new Date();
     const to = new Date();
 
@@ -323,26 +327,26 @@ export const DateRangePicker: FC<DateRangePickerProps> & {
         <Button
           size={"lg"}
           variant="outline"
-          className="h-9 border border-foreground/10"
+          className="h-9 w-full border border-foreground/10"
         >
-          <div className="text-right">
-            <div className="py-1">
-              <div>{`${formatDate(range.from, locale)}${
-                range.to != null ? " - " + formatDate(range.to, locale) : ""
+          <div className="-ml-5 text-left">
+            <div className="">
+              <div>{`${formatDate(range.from)}${
+                range.to != null ? " - " + formatDate(range.to) : ""
               }`}</div>
             </div>
             {rangeCompare != null && (
               <div className="-mt-1 text-xs opacity-60">
                 <>
-                  vs. {formatDate(rangeCompare.from, locale)}
+                  vs. {formatDate(rangeCompare.from)}
                   {rangeCompare.to != null
-                    ? ` - ${formatDate(rangeCompare.to, locale)}`
+                    ? ` - ${formatDate(rangeCompare.to)}`
                     : ""}
                 </>
               </div>
             )}
           </div>
-          <div className="-mr-2 scale-125 pl-1 opacity-60">
+          <div className="-mr-6 scale-125 pl-1 opacity-60">
             {isOpen ? (
               <ChevronUpIcon width={24} />
             ) : (
@@ -396,7 +400,7 @@ export const DateRangePicker: FC<DateRangePickerProps> & {
                       id="compare-mode"
                     />
                   )}
-                  <Label htmlFor="compare-mode">Range Time</Label>
+                  <Label htmlFor="compare-mode">Chọn khoảng thời gian</Label>
                 </div>
                 <div className="flex w-full flex-col gap-2">
                   <div className="flex flex-row justify-center gap-2">
@@ -532,7 +536,7 @@ export const DateRangePicker: FC<DateRangePickerProps> & {
             }}
             variant="ghost"
           >
-            Cancel
+            Hủy
           </Button>
           <Button
             className="text-background"
@@ -546,7 +550,7 @@ export const DateRangePicker: FC<DateRangePickerProps> & {
               }
             }}
           >
-            Update
+            Chọn
           </Button>
         </div>
       </PopoverContent>

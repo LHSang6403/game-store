@@ -21,7 +21,7 @@ import EditProfile from "@/app/(main)/profile/Components/EditProfile";
 export const columns: ColumnDef<CustomerType>[] = [
   {
     accessorKey: "name",
-    header: "Name",
+    header: "Họ tên",
   },
   {
     accessorKey: "dob",
@@ -32,7 +32,7 @@ export const columns: ColumnDef<CustomerType>[] = [
           className="border-none"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Birdthday
+          Sinh nhật
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
@@ -46,11 +46,11 @@ export const columns: ColumnDef<CustomerType>[] = [
   },
   {
     accessorKey: "phone",
-    header: "Phone",
+    header: "SĐT",
   },
   {
     accessorKey: "address",
-    header: "Address",
+    header: "Địa chỉ",
   },
   {
     accessorKey: "level",
@@ -61,7 +61,7 @@ export const columns: ColumnDef<CustomerType>[] = [
           className="w-24 border-none"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Level
+          Điểm
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
@@ -75,7 +75,7 @@ export const columns: ColumnDef<CustomerType>[] = [
   {
     id: "actions",
     header: () => {
-      return <div className="pr-4 text-center lg:pr-0">Actions</div>;
+      return <div className="pr-4 text-center lg:pr-0">Hành động</div>;
     },
     cell: ({ row }) => {
       const data = row.original;
@@ -145,31 +145,40 @@ export const columns: ColumnDef<CustomerType>[] = [
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-              <DropdownMenuLabel>Actions</DropdownMenuLabel>
+              <DropdownMenuLabel>Hành động</DropdownMenuLabel>
               <DropdownMenuItem
                 onClick={() => navigator.clipboard.writeText(data.id)}
               >
-                Copy customer ID
+                Sao chép ID khách hàng
               </DropdownMenuItem>
               <DropdownMenuItem
                 onClick={() => {
                   updateCustomerLevelHandler(data, data.level + 1);
                 }}
               >
-                Update level
+                Nâng cấp điểm
               </DropdownMenuItem>
-              {(availbleRoles as ("Seller" | "Writer" | "Manager")[]).map(
-                (eachRole, index) => (
-                  <DropdownMenuItem
-                    key={index}
-                    onClick={() => {
-                      updateCustomerToStaffHandler(data, eachRole);
-                    }}
-                  >
-                    Update to {eachRole}
-                  </DropdownMenuItem>
-                )
-              )}
+              <DropdownMenuItem
+                onClick={() => {
+                  updateCustomerToStaffHandler(data, "Seller");
+                }}
+              >
+                Cập nhật thành Bán hàng
+              </DropdownMenuItem>
+              <DropdownMenuItem
+                onClick={() => {
+                  updateCustomerToStaffHandler(data, "Writer");
+                }}
+              >
+                Cập nhật thành Biên tập
+              </DropdownMenuItem>
+              <DropdownMenuItem
+                onClick={() => {
+                  updateCustomerToStaffHandler(data, "Manager");
+                }}
+              >
+                Cập nhật thành Quản lí
+              </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
           <EditProfile profile={data} />

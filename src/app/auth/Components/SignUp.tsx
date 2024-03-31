@@ -34,29 +34,29 @@ import { updateUserImage } from "@app/_actions/user";
 
 const FormSchema = z
   .object({
-    name: z.string().min(1, { message: "Name is a compulsory." }),
+    name: z.string().min(1, { message: "Vui lòng nhập tên." }),
     phone: z
       .string()
-      .min(6, { message: "Must be a valid mobile number" })
-      .max(12, { message: "Must be a valid mobile number" })
+      .min(6)
+      .max(12)
       .refine((val) => !Number.isNaN(parseInt(val, 10)), {
-        message: "Expected number, received a string",
+        message: "Số điện thoại không hợp lệ.",
       }),
-    dob: z.string().min(2, { message: "Birthday is a compulsory." }),
-    address: z.string().min(2, { message: "Address is a compulsory." }),
-    ward: z.string().min(2, { message: "Ward is a compulsory." }),
-    district: z.string().min(2, { message: "District is a compulsory." }),
-    province: z.string().min(2, { message: "Province is a compulsory." }),
+    dob: z.string().min(2, { message: "Vui lòng nhập ngày sinh." }),
+    address: z.string().min(2, { message: "Vui lòng nhập địa chỉ." }),
+    ward: z.string().min(2, { message: "Vui lòng nhập phường/xã." }),
+    district: z.string().min(2, { message: "Vui lòng nhập quận/huyện." }),
+    province: z.string().min(2, { message: "Vui lòng nhập tỉnh/thành phố." }),
     email: z.string().email(),
     password: z.string().min(6, {
-      message: "Password must be greater than 5 letters.",
+      message: "Vui lòng nhập mật khẩu dài hơn 5 kí tự.",
     }),
     confirm: z.string().min(6, {
-      message: "Password must be greater than 5 letters.",
+      message: "Vui lòng nhập mật khẩu dài hơn 5 kí tự.",
     }),
   })
   .refine((data) => data.confirm === data.password, {
-    message: "Password did not match",
+    message: "Mật khẩu không trùng khớp.",
     path: ["confirm"],
   });
 
@@ -116,13 +116,13 @@ export default function SignUp() {
           const avatarUrl = uploadAvatarResult.data?.path;
 
           if (avatarUrl) {
-            const updateUserImageResult = await updateUserImage({
+            await updateUserImage({
               id: result.data?.user?.id,
               table: "customer",
               newImage: avatarUrl,
             });
           } else {
-            toast.error("Avatar upload failed.");
+            toast.error("Thêm ảnh thất bại.");
           }
         }
 
@@ -139,11 +139,11 @@ export default function SignUp() {
           clearFiles();
           setDate(undefined);
 
-          toast.success("User created successfully. Confirm your email.");
+          toast.success("Tạo tài khoản thành công. Vui lòng xác nhận email.");
         }
       },
       {
-        loading: "Creating account...",
+        loading: "Đang tạo tài khoản...",
       }
     );
   }
@@ -159,10 +159,10 @@ export default function SignUp() {
           name="name"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Name</FormLabel>
+              <FormLabel>Họ tên</FormLabel>
               <FormControl>
                 <Input
-                  placeholder="Your name"
+                  placeholder="Nhập họ tên"
                   {...field}
                   type="text"
                   onChange={field.onChange}
@@ -177,10 +177,10 @@ export default function SignUp() {
           name="phone"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Phone</FormLabel>
+              <FormLabel>Số điện thoại</FormLabel>
               <FormControl>
                 <Input
-                  placeholder="Your phone number"
+                  placeholder="Nhập số"
                   {...field}
                   type="text"
                   onChange={field.onChange}
@@ -195,7 +195,7 @@ export default function SignUp() {
           name="email"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Email</FormLabel>
+              <FormLabel>Email của bạn</FormLabel>
               <FormControl>
                 <Input
                   placeholder="example@gmail.com"
@@ -209,13 +209,13 @@ export default function SignUp() {
           )}
         />
         <FormItem>
-          <FormLabel>Birthday</FormLabel>
+          <FormLabel>Ngày sinh</FormLabel>
           <Popover>
             <PopoverTrigger asChild>
               <Button
                 variant={"outline"}
                 className={cn(
-                  "w-full justify-start text-left font-normal",
+                  "w-full justify-start border-foreground/10 text-left font-normal",
                   !date && "text-muted-foreground"
                 )}
               >
@@ -223,7 +223,7 @@ export default function SignUp() {
                 {date ? (
                   format(date, "PPP")
                 ) : (
-                  <span className="text-muted-foreground">Pick birthday</span>
+                  <span className="text-muted-foreground">Chọn ngày sinh</span>
                 )}
               </Button>
             </PopoverTrigger>
@@ -251,10 +251,10 @@ export default function SignUp() {
           name="address"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Address</FormLabel>
+              <FormLabel>Địa chỉ</FormLabel>
               <FormControl>
                 <Input
-                  placeholder="Your address"
+                  placeholder="Nhập địa chỉ"
                   {...field}
                   type="text"
                   onChange={field.onChange}
@@ -269,7 +269,7 @@ export default function SignUp() {
           name="district"
           render={() => (
             <FormItem>
-              <FormLabel>Your local</FormLabel>
+              <FormLabel>Khu vực</FormLabel>
               <FormControl>
                 <FormAddressPicker />
               </FormControl>
@@ -282,10 +282,10 @@ export default function SignUp() {
           name="password"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Password</FormLabel>
+              <FormLabel>Mật khẩu</FormLabel>
               <FormControl>
                 <Input
-                  placeholder="Password"
+                  placeholder="Nhập mật khẩu"
                   {...field}
                   type="password"
                   onChange={field.onChange}
@@ -300,10 +300,10 @@ export default function SignUp() {
           name="confirm"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Confirm Password</FormLabel>
+              <FormLabel>Xác nhận mật khẩu</FormLabel>
               <FormControl>
                 <Input
-                  placeholder="Confirm Password"
+                  placeholder="Nhập mật khẩu"
                   {...field}
                   type="password"
                   onChange={field.onChange}
@@ -314,9 +314,9 @@ export default function SignUp() {
           )}
         />
         <div className="col-span-2">
-          <FormLabel>Avatar</FormLabel>
+          <FormLabel>Hình đại diện</FormLabel>
           <DropAndDragZone
-            className="mt-2 rounded-lg border p-16 sm:p-6"
+            className="mt-2 rounded-lg border border-foreground/10 p-16 sm:p-6"
             maxFiles={1}
           />
         </div>
@@ -326,7 +326,7 @@ export default function SignUp() {
             type="submit"
             className="mt-1 w-full bg-foreground text-background"
           >
-            Register
+            Tạo tài khoản
           </Button>
         </div>
       </form>

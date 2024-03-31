@@ -47,24 +47,16 @@ import district from "@/static-data/districts.json";
 import communes from "@/static-data/communes.json";
 
 const FormSchema = z.object({
-  name: z.string().min(2, { message: "Name is a compulsory." }),
+  name: z.string().min(2, { message: "Vui lòng nhập tên." }),
   phone: z
     .string()
-    .min(6, { message: "Must be a valid mobile number" })
-    .max(12, { message: "Must be a valid mobile number" }),
-  address: z
-    .string()
-    .min(2, { message: "Address is a compulsory for shipping." }),
-  ward: z.string().min(2, { message: "Ward is a compulsory for shipping." }),
-  district: z
-    .string()
-    .min(2, { message: "District is a compulsory for shipping." }),
-  province: z
-    .string()
-    .min(5, { message: "Province is a compulsory for shipping." }),
-  shipment: z
-    .string()
-    .min(2, { message: "Shipment service is a compulsory for shipping." }),
+    .min(6, { message: "Vui lòng nhập số điện thoại đúng." })
+    .max(12, { message: "Vui lòng nhập số điện thoại đúng." }),
+  address: z.string().min(2, { message: "Vui lòng nhập địa chỉ." }),
+  ward: z.string().min(2, { message: "Vui lòng nhập phường/xã." }),
+  district: z.string().min(2, { message: "Vui lòng nhập quận/huyện." }),
+  province: z.string().min(5, { message: "Vui lòng nhập tỉnh/thành phố." }),
+  shipment: z.string().min(2, { message: "Vui lòng chọn đơn vị vận chuyển." }),
   note: z.string().nullable(),
 });
 
@@ -170,9 +162,9 @@ export default function CreateForm({
         }
       },
       {
-        loading: "Calculating order...",
-        error: (error) => {
-          return `Failed to calculate order: ${error}`;
+        loading: "Đang tính toán...",
+        error: () => {
+          return "Tính toán không thành công, vui long thử lại.";
         },
       }
     );
@@ -255,7 +247,7 @@ export default function CreateForm({
           >
             <div className="flex w-1/2 flex-col gap-3 lg:w-full">
               <div>
-                <FormLabel>Select existing customer</FormLabel>
+                <FormLabel>Chọn tài khoản khách hàng</FormLabel>
                 <Select
                   onValueChange={(value) => {
                     setCustomerSelect(
@@ -274,9 +266,9 @@ export default function CreateForm({
                   </SelectTrigger>
                   <SelectContent>
                     <SelectGroup>
-                      <SelectLabel>Customer</SelectLabel>{" "}
+                      <SelectLabel>Khách hàng</SelectLabel>
                       <SelectItem key="new" value="new">
-                        Create new
+                        Khách mới
                       </SelectItem>
                       {customersData.map((customer, index) => (
                         <SelectItem key={index} value={customer.id}>
@@ -292,11 +284,11 @@ export default function CreateForm({
                 name="name"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Customer name</FormLabel>
+                    <FormLabel>Tên khách hàng</FormLabel>
                     <FormControl>
                       <Input
                         className="border-[#E5E7EB]"
-                        placeholder="Enter name"
+                        placeholder="Nhập tên"
                         {...field}
                         type="text"
                         onChange={field.onChange}
@@ -311,11 +303,11 @@ export default function CreateForm({
                 name="phone"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Phone number</FormLabel>
+                    <FormLabel>Số điện thoại</FormLabel>
                     <FormControl>
                       <Input
                         className="border-[#E5E7EB]"
-                        placeholder="Enter number"
+                        placeholder="Nhập số"
                         {...field}
                         type="text"
                         onChange={field.onChange}
@@ -330,7 +322,7 @@ export default function CreateForm({
                 name="district"
                 render={() => (
                   <FormItem>
-                    <FormLabel>Order address</FormLabel>
+                    <FormLabel>Khu vực</FormLabel>
                     <FormControl>
                       <FormAddressPicker />
                     </FormControl>
@@ -343,11 +335,11 @@ export default function CreateForm({
                 name="address"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Address</FormLabel>
+                    <FormLabel>Địa chỉ nhà</FormLabel>
                     <FormControl>
                       <Input
                         className="border-[#E5E7EB]"
-                        placeholder="Enter address"
+                        placeholder="Nhập số nhà, tên đường"
                         {...field}
                         onChange={field.onChange}
                       />
@@ -361,7 +353,7 @@ export default function CreateForm({
                 name="shipment"
                 render={() => (
                   <FormItem>
-                    <FormLabel>Shiping service</FormLabel>
+                    <FormLabel>Dịch vụ giao hàng</FormLabel>
                     <FormControl>
                       <SelectShipmentForm
                         onChange={(value) => {
@@ -379,11 +371,11 @@ export default function CreateForm({
                 name="note"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Order note</FormLabel>
+                    <FormLabel>Ghi chú thêm</FormLabel>
                     <FormControl>
                       <Textarea
                         className="max-h-44 min-h-28 border-[#E5E7EB]"
-                        placeholder="Enter note here..."
+                        placeholder="Ghi chú cho đơn hàng của bạn..."
                         {...field}
                         value={field.value ?? ""}
                         onChange={field.onChange}
@@ -396,7 +388,7 @@ export default function CreateForm({
             </div>
             <div className="flex w-1/2 flex-col justify-between lg:w-full">
               <div>
-                <FormLabel>Products</FormLabel>
+                <FormLabel>Sản phẩm</FormLabel>
                 <div className="mt-2 flex h-[540px] flex-col gap-3 overflow-auto pr-2">
                   {productsData.map((prod, index) => (
                     <div key={index}>
@@ -426,7 +418,7 @@ export default function CreateForm({
                 {order && (
                   <div className="flex flex-row items-center justify-between">
                     <span className="">
-                      Price: {formatCurrency(order?.price)} VNĐ
+                      Giá: {formatCurrency(order?.price)} VNĐ
                     </span>
                     <Button
                       onClick={() => {
@@ -435,7 +427,7 @@ export default function CreateForm({
                       variant="outline"
                       className="w-fit border-none"
                     >
-                      Remove all
+                      Xóa tất cả
                     </Button>
                   </div>
                 )}
@@ -444,7 +436,7 @@ export default function CreateForm({
                   type="submit"
                   className="mt-2 w-full bg-foreground text-background"
                 >
-                  Calculate
+                  Tính giá tiền
                 </Button>
               </div>
             </div>

@@ -38,6 +38,8 @@ interface DataTableProps<TData, TValue> {
   isCollumnVisibilityEnabled?: boolean;
   isSearchEnabled?: boolean;
   searchAttribute?: string;
+  isBorder?: boolean;
+  isSeparator?: boolean;
 }
 
 export function DataTable<TData, TValue>({
@@ -47,6 +49,8 @@ export function DataTable<TData, TValue>({
   isCollumnVisibilityEnabled = true,
   isSearchEnabled = true,
   searchAttribute = "name",
+  isBorder = true,
+  isSeparator = true,
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
@@ -72,11 +76,11 @@ export function DataTable<TData, TValue>({
   return (
     <>
       {/* Filters */}
-      <div className="flex items-center justify-between gap-4">
+      <div className="mb-4 flex items-center justify-between gap-4">
         {isSearchEnabled && (
-          <div className="flex items-center py-4">
+          <div className="flex items-center">
             <Input
-              placeholder="Search here..."
+              placeholder="Tìm kiếm..."
               value={
                 (table
                   .getColumn(searchAttribute)
@@ -97,7 +101,7 @@ export function DataTable<TData, TValue>({
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="outline" className="ml-auto">
-                Columns
+                Chọn cột
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
@@ -124,11 +128,11 @@ export function DataTable<TData, TValue>({
       </div>
 
       {/* Table */}
-      <div className="rounded-md border border-foreground/10">
+      <div className={`rounded-md ${isBorder ? "border" : "border-none"}`}>
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
-              <TableRow key={headerGroup.id} className="border-foreground/10">
+              <TableRow key={headerGroup.id} className="">
                 {headerGroup.headers.map((header) => {
                   return (
                     <TableHead key={header.id}>
@@ -150,7 +154,7 @@ export function DataTable<TData, TValue>({
                 <TableRow
                   key={row.id}
                   data-state={row.getIsSelected() && "selected"}
-                  className="border-foreground/10"
+                  className={`${isSeparator ? "" : "border-none"}`}
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>
@@ -178,7 +182,7 @@ export function DataTable<TData, TValue>({
 
       {/* Pagination */}
       {isPaginationEnabled && (
-        <div className="mb-8 mt-4">
+        <div className="my-4">
           <DataTablePagination table={table} />
         </div>
       )}

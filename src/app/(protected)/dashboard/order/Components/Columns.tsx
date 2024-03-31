@@ -33,7 +33,7 @@ import { useSession } from "@/zustand/useSession";
 export const columns: ColumnDef<OrderType>[] = [
   {
     accessorKey: "products",
-    header: "Products",
+    header: "Sản phẩm",
     cell: ({ row }) => {
       const data = row.original;
 
@@ -51,7 +51,7 @@ export const columns: ColumnDef<OrderType>[] = [
   },
   {
     accessorKey: "price",
-    header: "Price",
+    header: "Giá tiền",
     cell: ({ row }) => {
       const data = row.original;
 
@@ -61,7 +61,7 @@ export const columns: ColumnDef<OrderType>[] = [
   {
     accessorKey: "state",
     header: () => {
-      return <div className="w-28 text-center">State</div>;
+      return <div className="w-28 text-center">Tình trạng</div>;
     },
     cell: ({ row }) => {
       const data = row.original;
@@ -87,7 +87,7 @@ export const columns: ColumnDef<OrderType>[] = [
             }
           },
           {
-            loading: "Updating order...",
+            loading: "Đang cập nhật đơn hàng...",
           }
         );
       }
@@ -110,12 +110,12 @@ export const columns: ColumnDef<OrderType>[] = [
           </SelectTrigger>
           <SelectContent>
             <SelectGroup>
-              <SelectLabel>State</SelectLabel>
-              <SelectItem value="pending">Pending</SelectItem>
-              <SelectItem value="shipping">Shipping</SelectItem>
-              <SelectItem value="delivered">Delivered</SelectItem>
-              <SelectItem value="canceled">Canceled</SelectItem>
-              <SelectItem value="returned">Returned</SelectItem>
+              <SelectLabel>Tình trạng</SelectLabel>
+              <SelectItem value="pending">Đang chờ</SelectItem>
+              <SelectItem value="shipping">Đang giao</SelectItem>
+              <SelectItem value="delivered">Đã giao</SelectItem>
+              <SelectItem value="canceled">Đã hủy</SelectItem>
+              <SelectItem value="returned">Đã trả hàng</SelectItem>
             </SelectGroup>
           </SelectContent>
         </Select>
@@ -124,7 +124,7 @@ export const columns: ColumnDef<OrderType>[] = [
   },
   {
     accessorKey: "ship",
-    header: "Ship",
+    header: "Giao hàng",
     cell: ({ row }) => {
       const data = row.original;
 
@@ -140,7 +140,7 @@ export const columns: ColumnDef<OrderType>[] = [
           variant="outline"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Created
+          Ngày tạo
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
@@ -153,11 +153,11 @@ export const columns: ColumnDef<OrderType>[] = [
   },
   {
     accessorKey: "customer_name",
-    header: "Customer",
+    header: "Khách hàng",
   },
   {
     id: "actions",
-    header: "Actions",
+    header: "Hành động",
     cell: ({ row }) => {
       const data = row.original;
       const [isPrintOpen, setIsPrintOpen] = useState(false);
@@ -192,11 +192,11 @@ export const columns: ColumnDef<OrderType>[] = [
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-              <DropdownMenuLabel>Actions</DropdownMenuLabel>
+              <DropdownMenuLabel>Hành động</DropdownMenuLabel>
               <DropdownMenuItem
                 onClick={() => navigator.clipboard.writeText(data.id)}
               >
-                Copy order ID
+                Sao chép ID đơn hàng
               </DropdownMenuItem>
               <DropdownMenuItem
                 disabled={data.shipment_name == "GHTK"} // because do not have api for this
@@ -208,7 +208,7 @@ export const columns: ColumnDef<OrderType>[] = [
                   });
                 }}
               >
-                Print A5
+                In khổ A5
               </DropdownMenuItem>
               {/* <DropdownMenuItem // only GHTK have siza A6
                 disabled={data.shipment_name == "GHN"} 
@@ -220,7 +220,7 @@ export const columns: ColumnDef<OrderType>[] = [
                   });
                 }}
               >
-                Print A6
+                In khổ A6
               </DropdownMenuItem> */}
               <DropdownMenuItem
                 disabled={data.shipment_name == "GHTK"}
@@ -232,7 +232,7 @@ export const columns: ColumnDef<OrderType>[] = [
                   });
                 }}
               >
-                Print 80x80
+                In khổ 80x80
               </DropdownMenuItem>
               <DropdownMenuItem
                 disabled={data.shipment_name == "GHTK"}
@@ -244,7 +244,7 @@ export const columns: ColumnDef<OrderType>[] = [
                   });
                 }}
               >
-                Print 52x70
+                In khổ 52x70
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>

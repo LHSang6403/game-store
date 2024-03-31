@@ -32,7 +32,7 @@ export interface ProductType {
   id: string; // p_key
   created_at: string;
   brand: string;
-  name: string; // p_key
+  name: string;
   description: string;
   images: string[];
   price: number;
@@ -51,20 +51,10 @@ export interface ProductDescriptionType {
 }
 
 export interface ProductWithDescriptionAndStorageType {
-  id: string;
-  created_at: string;
-  brand: string;
-  name: string;
-  description: string;
-  images: string[];
-  price: number;
-  rate: number;
-  sold_quantity: number;
-  description_id: string;
-  category: string;
-  is_deleted: boolean;
+  product: ProductType;
   product_description: ProductDescriptionType;
-  storage: StorageType[];
+  product_storages: ProductStorageType[];
+  storages: StorageType[];
 }
 
 export type ShipmentNameType = "" | "GHTK" | "GHN" | null;
@@ -112,13 +102,23 @@ export interface BlogType {
   is_deleted: boolean;
 }
 
+export interface ProductStorageType {
+  id: string;
+  product_id: string;
+  storage_id: string;
+  quantity: number;
+  product_name: string;
+  storage_name: string;
+}
+
 export interface StorageType {
   id: string; // p_key
   created_at: string;
+  name: string;
   address: string;
-  prod_id: string; // f_key
-  prod_name: string; // f_key
-  quantity: number;
+  ward: string;
+  district: string;
+  province: string;
 }
 
 export interface LogType {

@@ -2,8 +2,8 @@ import SecondaryLogo from "@/components/SecondaryLogo";
 
 export default function Footer() {
   return (
-    <footer className="w-[80%] h-72 xl:h-fit xl:mb-8 border-t border-t-foreground/10 p-10 sm:px-4 flex flex-col justify-center text-center gap-6 text-xs">
-      <div className="flex justify-center items-center">
+    <footer className="flex h-72 w-full flex-col justify-center gap-6 border-t border-t-foreground/10 p-10 text-center text-xs xl:mb-8 xl:h-fit sm:px-4">
+      <div className="flex items-center justify-center">
         <SecondaryLogo />
       </div>
       <p>
@@ -17,7 +17,7 @@ export default function Footer() {
           Supabase
         </a>
       </p>
-      <p className="w-full sm:max-w-full mx-auto text-justify overflow-ellipsis line-clamp-4">
+      <p className="mx-auto line-clamp-4 w-full overflow-ellipsis text-justify sm:max-w-full">
         Introducing our versatile Next.js web project template! Our Next.js web
         project template is designed to streamline the development process for
         your web projects. Built on top of Next.js, a powerful React framework,
@@ -29,11 +29,11 @@ export default function Footer() {
         Components: Leverage the power of React to create reusable UI
         components, making your codebase more modular and maintainable.
       </p>
-      <nav className="w-full mx-auto flex flex-row justify-around sm:grid sm:grid-cols-2 sm:gap-3">
+      <nav className="mx-auto flex w-full flex-row justify-around sm:grid sm:grid-cols-2 sm:gap-3">
         <a
           href="https://supabase.com/?utm_source=create-next-app&utm_medium=template&utm_term=nextjs"
           target="_blank"
-          className="hover:underline border px-2 py-2 border-foreground/5 rounded-md"
+          className="rounded-md border border-foreground/5 px-2 py-2 hover:underline"
           rel="noreferrer"
         >
           Supabase
@@ -41,7 +41,7 @@ export default function Footer() {
         <a
           href="https://supabase.com/?utm_source=create-next-app&utm_medium=template&utm_term=nextjs"
           target="_blank"
-          className="hover:underline border px-2 py-2 border-foreground/5 rounded-md"
+          className="rounded-md border border-foreground/5 px-2 py-2 hover:underline"
           rel="noreferrer"
         >
           Supabase
@@ -49,7 +49,7 @@ export default function Footer() {
         <a
           href="https://supabase.com/?utm_source=create-next-app&utm_medium=template&utm_term=nextjs"
           target="_blank"
-          className="hover:underline border px-2 py-2 border-foreground/5 rounded-md"
+          className="rounded-md border border-foreground/5 px-2 py-2 hover:underline"
           rel="noreferrer"
         >
           Supabase
@@ -57,7 +57,7 @@ export default function Footer() {
         <a
           href="https://supabase.com/?utm_source=create-next-app&utm_medium=template&utm_term=nextjs"
           target="_blank"
-          className="hover:underline border px-2 py-2 border-foreground/5 rounded-md"
+          className="rounded-md border border-foreground/5 px-2 py-2 hover:underline"
           rel="noreferrer"
         >
           Supabase
@@ -65,7 +65,7 @@ export default function Footer() {
         <a
           href="https://supabase.com/?utm_source=create-next-app&utm_medium=template&utm_term=nextjs"
           target="_blank"
-          className="hover:underline border px-2 py-2 border-foreground/5 rounded-md"
+          className="rounded-md border border-foreground/5 px-2 py-2 hover:underline"
           rel="noreferrer"
         >
           Supabase

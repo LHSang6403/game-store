@@ -36,7 +36,7 @@ export function PrintDialog({
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
       <DialogContent className="w-full rounded-md sm:w-full">
         <DialogHeader>
-          <DialogTitle>Printed Label</DialogTitle>
+          <DialogTitle>Xem trước nhãn in</DialogTitle>
         </DialogHeader>
         {modifiedHtmlString === "" ? (
           <>
@@ -55,7 +55,7 @@ export function PrintDialog({
         <DialogFooter>
           <Button
             onClick={() => {
-              console.log("Print api call here");
+              console.log("Print api, call here");
             }}
             type="submit"
             className="w-full text-background"

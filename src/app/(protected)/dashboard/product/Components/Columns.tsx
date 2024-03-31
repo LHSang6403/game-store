@@ -21,15 +21,15 @@ import { useSession } from "@/zustand/useSession";
 export const columns: ColumnDef<ProductType>[] = [
   {
     accessorKey: "brand",
-    header: "Brand",
+    header: "Hiệu",
   },
   {
     accessorKey: "name",
-    header: "Name",
+    header: "Tên sản phẩm",
   },
   {
     accessorKey: "price",
-    header: "Price",
+    header: "Giá",
     cell: ({ row }) => {
       const data = row.original;
       return <div className="">{formatCurrency(data.price)} VND</div>;
@@ -37,7 +37,7 @@ export const columns: ColumnDef<ProductType>[] = [
   },
   {
     accessorKey: "category",
-    header: "Category",
+    header: "Loại",
   },
   {
     accessorKey: "created_at",
@@ -48,7 +48,7 @@ export const columns: ColumnDef<ProductType>[] = [
           className="border-none"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Created
+          Ngày tạo
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
@@ -61,7 +61,7 @@ export const columns: ColumnDef<ProductType>[] = [
   },
   {
     id: "actions",
-    header: "Actions",
+    header: "Hành động",
 
     cell: ({ row }) => {
       const product = row.original;
@@ -85,7 +85,7 @@ export const columns: ColumnDef<ProductType>[] = [
             }
           },
           {
-            loading: "Removing product...",
+            loading: "Đang xóa sản phẩm...",
           }
         );
       }
@@ -93,24 +93,22 @@ export const columns: ColumnDef<ProductType>[] = [
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="ml-2 h-8 w-8 p-0">
+            <Button variant="ghost" className="ml-4 h-8 w-8 p-0">
               <MoreHorizontal className="h-4 w-4" />
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Actions</DropdownMenuLabel>
+            <DropdownMenuLabel>Hành động</DropdownMenuLabel>
             <DropdownMenuItem
               onClick={() => navigator.clipboard.writeText(product.id)}
             >
-              Copy product ID
+              Sao chép ID
             </DropdownMenuItem>
             <DropdownMenuItem>
-              <Link href={"/dashboard/product/" + product.id}>
-                Edit product
-              </Link>
+              <Link href={"/dashboard/product/" + product.id}>Chỉnh sửa</Link>
             </DropdownMenuItem>
             <DropdownMenuItem onClick={() => removeHandler()}>
-              Remove product
+              Xóa sản phẩm
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

@@ -15,7 +15,7 @@ import { LogType } from "@/utils/types";
 export const columns: ColumnDef<LogType>[] = [
   {
     accessorKey: "name",
-    header: "Name",
+    header: "Tên",
     cell: ({ row }) => {
       const data = row.original;
 
@@ -35,7 +35,7 @@ export const columns: ColumnDef<LogType>[] = [
           variant="outline"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Created
+          Ngày tạo
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
@@ -49,7 +49,7 @@ export const columns: ColumnDef<LogType>[] = [
   },
   {
     accessorKey: "actor_name",
-    header: "Actor",
+    header: "Thực hiện bởi",
   },
   {
     accessorKey: "result",
@@ -60,7 +60,7 @@ export const columns: ColumnDef<LogType>[] = [
           variant="outline"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Result
+          Kết quả
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
@@ -72,7 +72,7 @@ export const columns: ColumnDef<LogType>[] = [
   },
   {
     id: "actions",
-    header: "Actions",
+    header: "Hành động",
     cell: ({ row }) => {
       const data = row.original;
 
@@ -84,11 +84,11 @@ export const columns: ColumnDef<LogType>[] = [
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Actions</DropdownMenuLabel>
+            <DropdownMenuLabel>Hành động</DropdownMenuLabel>
             <DropdownMenuItem
               onClick={() => navigator.clipboard.writeText(data.id)}
             >
-              Copy log ID
+              Sao chép ID hoạt động
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

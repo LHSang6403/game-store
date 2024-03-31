@@ -26,10 +26,9 @@ export default function RevenueBarChart() {
           <ChartLoading />
         </div>
       ) : (
-        <div className="min-h-[100px] w-full overflow-hidden rounded-xl border border-foreground/10 p-2 pb-3">
-          <Title className="ml-1">Sold Products</Title>
+        <div className="min-h-[100px] w-full overflow-hidden">
           {ordersResponse && (
-            <BarList data={chartData} className="ml-1 mr-1.5 mt-3 w-auto" />
+            <BarList data={chartData} className="mr-1.5 mt-3 w-auto" />
           )}
         </div>
       )}

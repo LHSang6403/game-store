@@ -24,7 +24,7 @@ export default function Dropdown() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button className="h-8 px-2" variant="outline">
+        <Button className="h-9 px-2" variant="outline">
           Menu
         </Button>
       </DropdownMenuTrigger>
@@ -70,9 +70,9 @@ export default function Dropdown() {
               const result = await signOutHandler();
               if (!result.error) {
                 removeSession();
-                toast.success("You have been logged out.");
+                toast.success("Đăng xuất thành công.");
               } else {
-                toast.error("An error occurred. Please try again.");
+                toast.error("Đã có lỗi xãy ra khi đăng xuất.");
               }
             }}
           >

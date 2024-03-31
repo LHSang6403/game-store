@@ -28,11 +28,11 @@ import { updateStorage } from "@app/_actions/storage";
 import createSupabaseBrowserClient from "@/supabase-query/client";
 
 const FormSchema = z.object({
-  brand: z.string().min(1, { message: "Brand is a compulsory." }),
-  name: z.string().min(1, { message: "Name is a compulsory." }),
-  description: z.string().min(1, { message: "Description is a compulsory." }),
+  brand: z.string().min(1, { message: "Vui lòng nhập hiệu." }),
+  name: z.string().min(1, { message: "Vui lòng nhập tên." }),
+  description: z.string().min(1, { message: "Vui lòng nhập mô tả." }),
   price: z.string().refine((val) => !Number.isNaN(parseInt(val, 10)), {
-    message: "Expected number, received a string",
+    message: "Vui lòng nhập số.",
   }),
   rate: z
     .string()
@@ -40,18 +40,18 @@ const FormSchema = z.object({
       (val) =>
         !isNaN(parseFloat(val)) && parseFloat(val) >= 0 && parseFloat(val) <= 5,
       {
-        message: "Rate must be a number between 0 and 5",
+        message: "Vui lòng nhập số từ 0 đến 5.",
       }
     ),
   sold_quantity: z.string().refine((val) => !Number.isNaN(parseInt(val, 10)), {
-    message: "Expected number, received a string",
+    message: "Vui lòng nhập số.",
   }),
   category: z.string(),
-  storage_address: z.string().min(2, { message: "Address is a compulsory." }),
+  storage_address: z.string().min(2, { message: "Vui lòng nhập địa chỉ." }),
   storage_quantity: z
     .string()
     .refine((val) => !Number.isNaN(parseInt(val, 10)), {
-      message: "Expected number, received a string",
+      message: "Vui lòng nhập số.",
     }),
 });
 
@@ -103,15 +103,15 @@ export default function EditForm({
             !update.updateProductDescriptionResponse.error &&
             !update.updateStorageResponse.error
           ) {
-            toast.success("Product updated successfully.");
+            toast.success("Chỉnh sửa thành công.");
             router.push("/dashboard/product");
           }
         } else {
-          toast.error("Unknown session.");
+          toast.error("Lỗi đăng nhập.");
         }
       },
       {
-        loading: "Updating product...",
+        loading: "Đang chỉnh sửa...",
       }
     );
   }
@@ -128,7 +128,7 @@ export default function EditForm({
         <div className="mt-0.5 flex h-fit w-full flex-col xl:col-span-2">
           <div className="w-full">
             <h2 className="title mb-1 ml-1 text-sm font-medium">
-              Product images
+              Hình sản phẩm
             </h2>
             <div className="mt-1.5 grid w-fit grid-cols-6 gap-3 sm:grid-cols-4">
               {updatedProductImages?.map((image: string, index: number) => (
@@ -151,20 +151,20 @@ export default function EditForm({
           </div>
           <div className="mt-5 w-full xl:mt-4">
             <h2 className="title mb-1 ml-1 text-sm font-medium">
-              Add more images
+              Thêm hình sản phẩm
             </h2>
-            <DropAndDragZone className="mt-1.5 rounded-lg border p-16 sm:p-6" />
+            <DropAndDragZone className="mt-1.5 rounded-lg border border-foreground/10 p-16 sm:p-6" />
           </div>
         </div>
-        <div className="col-span-2 -mt-4">
-          <h2 className="title mb-1 ml-1 text-sm font-medium">Description</h2>
+        <div className="col-span-2 xl:-mt-4">
+          <h2 className="title mb-1 ml-1 text-sm font-medium">Mô tả</h2>
           <div className="mt-2 h-fit overflow-hidden rounded-md border">
             <Editor editable={true} />
           </div>
         </div>
         <div className="col-span-2 flex justify-center">
           <Button className="mt-1 w-fit bg-foreground px-7 text-background">
-            Create
+            Lưu thay đổi
           </Button>
         </div>
       </form>
@@ -195,12 +195,12 @@ async function updateHandler(
 
     if (!result.error) newProductImagesUploadResults.push(result.data.path);
     else {
-      toast.error(`Error uploading image: ${uploadingFile.name}`);
+      toast.error("Lỗi khi lưu hình ảnh.");
     }
   }
 
   if (!newProductImagesUploadResults.length)
-    throw new Error("No image uploaded.");
+    throw new Error("Lỗi khi lưu hình ảnh.");
 
   const updatedProduct: ProductType = {
     id: originalProduct.id,
@@ -235,7 +235,7 @@ async function updateHandler(
     content: JSON.parse(
       cleanedJsonString ?? originalProduct.product_description.content
     ),
-    writer: session?.name ?? "Anonymous",
+    writer: session?.name ?? "Không rõ",
   };
 
   const updateProductDescriptionResponse = await updateProductDescription({

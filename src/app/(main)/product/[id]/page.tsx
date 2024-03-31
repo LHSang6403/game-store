@@ -7,7 +7,7 @@ import Template from "@app/(protected)/template";
 
 export default async function Product({ params }: { params: { id: string } }) {
   const {
-    data: productResponse,
+    data: product,
     error,
     isSuccess,
   } = useProductQuery({ id: params.id });
@@ -18,16 +18,14 @@ export default async function Product({ params }: { params: { id: string } }) {
 
   return (
     <>
-      {isSuccess && productResponse && (
+      {isSuccess && product && (
         <Template>
           <div className="flex h-fit min-h-screen w-full flex-col gap-10 pb-10">
-            <ProductDetail product={productResponse} />
+            <ProductDetail product={product} />
             <h2 className="text-center text-2xl font-medium">
               Product Description
             </h2>
-            <ProductDescription
-              description={productResponse.product_description}
-            />
+            <ProductDescription description={product.product_description} />
           </div>
         </Template>
       )}

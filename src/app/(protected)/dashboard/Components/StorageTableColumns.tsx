@@ -8,7 +8,7 @@ import { ArrowUpDown } from "lucide-react";
 export const columns: ColumnDef<StorageType>[] = [
   {
     accessorKey: "prod_name",
-    header: "Products",
+    header: "Sản phẩm",
   },
   {
     accessorKey: "quantity",
@@ -19,7 +19,7 @@ export const columns: ColumnDef<StorageType>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Availble
+          Có sẵn
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
@@ -32,6 +32,6 @@ export const columns: ColumnDef<StorageType>[] = [
   },
   {
     accessorKey: "address",
-    header: "Storage",
+    header: "Kho",
   },
 ];

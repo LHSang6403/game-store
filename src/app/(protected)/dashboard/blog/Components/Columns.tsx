@@ -20,11 +20,11 @@ import { deleteBlogById } from "@app/_actions/blog";
 export const columns: ColumnDef<BlogType>[] = [
   {
     accessorKey: "title",
-    header: "Title",
+    header: "Tiêu đề",
   },
   {
     accessorKey: "description",
-    header: "Description",
+    header: "Mô tả",
     cell: ({ row }) => {
       const data = row.original;
 
@@ -44,7 +44,7 @@ export const columns: ColumnDef<BlogType>[] = [
           className="border-none"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Created
+          Ngày tạo
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
@@ -57,12 +57,11 @@ export const columns: ColumnDef<BlogType>[] = [
   },
   {
     accessorKey: "writer",
-    header: "Writer",
+    header: "Tác giả",
   },
   {
     id: "actions",
-    header: "Actions",
-
+    header: "Hành động",
     cell: ({ row }) => {
       const data = row.original;
       const session = useSession();
@@ -79,13 +78,13 @@ export const columns: ColumnDef<BlogType>[] = [
                 },
               });
 
-              const remove = ApiErrorHandlerClient({
+              ApiErrorHandlerClient({
                 response: removeResponse,
               });
             }
           },
           {
-            loading: "Removing blog...",
+            loading: "Đang xóa bài viết...",
           }
         );
       }
@@ -98,17 +97,19 @@ export const columns: ColumnDef<BlogType>[] = [
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Actions</DropdownMenuLabel>
+            <DropdownMenuLabel>Hành động</DropdownMenuLabel>
             <DropdownMenuItem
               onClick={() => navigator.clipboard.writeText(data.id)}
             >
-              Copy blog ID
+              Sao chép ID bài viết
             </DropdownMenuItem>
             <DropdownMenuItem>
-              <Link href={"/dashboard/blog/" + data.id}>Edit blog</Link>
+              <Link href={"/dashboard/blog/" + data.id}>
+                Chỉnh sửa bài viết
+              </Link>
             </DropdownMenuItem>
             <DropdownMenuItem onClick={() => removeHandler(data)}>
-              Remove blog
+              Xóa bài viết
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

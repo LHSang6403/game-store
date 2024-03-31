@@ -26,11 +26,11 @@ import {
 } from "@/utils/types/index";
 
 const FormSchema = z.object({
-  brand: z.string().min(2, { message: "Brand is a compulsory." }),
-  name: z.string().min(2, { message: "Name is a compulsory." }),
-  description: z.string().min(2, { message: "Description is a compulsory." }),
+  brand: z.string().min(2, { message: "Vui lòng nhập hiệu." }),
+  name: z.string().min(2, { message: "Vui lòng nhập tên." }),
+  description: z.string().min(2, { message: "Vui lòng nhập mô tả." }),
   price: z.string().refine((val) => !Number.isNaN(parseInt(val, 10)), {
-    message: "Expected number, received a string",
+    message: "Vui lòng nhập số.",
   }),
   rate: z
     .string()
@@ -38,18 +38,18 @@ const FormSchema = z.object({
       (val) =>
         !isNaN(parseFloat(val)) && parseFloat(val) >= 0 && parseFloat(val) <= 5,
       {
-        message: "Rate must be a number between 0 and 5",
+        message: "Vui lòng nhập số từ 0 đến 5.",
       }
     ),
   sold_quantity: z.string().refine((val) => !Number.isNaN(parseInt(val, 10)), {
-    message: "Expected number, received a string",
+    message: "Vui lòng nhập số.",
   }),
   category: z.string(),
-  storage_address: z.string().min(2, { message: "Address is a compulsory." }),
+  storage_address: z.string().min(2, { message: "Vui lòng nhập số địa chỉ." }),
   storage_quantity: z
     .string()
     .refine((val) => !Number.isNaN(parseInt(val, 10)), {
-      message: "Expected number, received a string",
+      message: "Vui lòng nhập số.",
     }),
 });
 
@@ -74,10 +74,9 @@ export default function CreateForm({
     storage_quantity: product?.storage[0]?.quantity.toString() ?? "0",
   };
 
-
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
-    defaultValues:   initState,
+    defaultValues: initState,
     mode: "onBlur",
   });
 
@@ -89,20 +88,19 @@ export default function CreateForm({
         }
       },
       {
-        loading: "Creating product...",
+        loading: "Đang tạo sản phẩm...",
         success: () => {
           form.reset();
           router.push("/dashboard/product");
 
-          return "Product created successfully. Redirecting to dashboard...";
+          return "Tạo sản phẩm thành công. Đang chuyển hướng...";
         },
         error: (error) => {
-          return `Error: ${error.message ?? "Internal Server"}`;
+          return `Lỗi: ${error.message ?? "Lỗi máy chủ"}`;
         },
       }
     );
   }
-
 
   return (
     <Form {...form}>
@@ -114,20 +112,18 @@ export default function CreateForm({
           <ProductFormInputs form={form} />
         </div>
         <div className="flex h-fit w-full flex-col xl:col-span-2">
-          <h2 className="title mb-1 ml-1 text-sm font-medium">
-            Product images
-          </h2>
-          <DropAndDragZone className="mt-2 rounded-lg border p-16 sm:p-6" />
+          <h2 className="title mb-1 ml-1 text-sm font-medium">Hình sản phẩm</h2>
+          <DropAndDragZone className="mt-2 rounded-lg border border-foreground/10 p-16 sm:p-6" />
         </div>
         <div className="col-span-2">
-          <h2 className="title mb-1 ml-1 text-sm font-medium">Description</h2>
+          <h2 className="title mb-1 ml-1 text-sm font-medium">Mô tả</h2>
           <div className="mt-2 h-fit overflow-hidden rounded-md border">
             <Editor editable={true} />
           </div>
         </div>
         <div className="col-span-2 flex justify-center">
           <Button className="mt-1 w-fit bg-foreground px-7 text-background">
-            Create
+            Tạo sản phẩm
           </Button>
         </div>
       </form>
@@ -149,7 +145,7 @@ async function createHandler(
     id: uuidv4(),
     created_at: new Date().toISOString(),
     content: JSON.parse(cleanedJsonString ?? "{}"),
-    writer: session?.name ?? "Anonymous",
+    writer: session?.name ?? "Không rõ",
   };
 
   const roductDescriptionUploadResponse = await createProductDescription(
@@ -176,11 +172,11 @@ async function createHandler(
 
     if (!result.error) productImagesUploadResults.push(result.data.path);
     else {
-      toast.error(`Error uploading image: ${uploadingFile.name}`);
+      toast.error(`Lôi khi lưu ảnh: ${uploadingFile.name}`);
     }
   }
 
-  if (!productImagesUploadResults.length) throw new Error("No image uploaded.");
+  if (!productImagesUploadResults.length) throw new Error("Lỗi khi lưu ảnh.");
 
   // upload product:
   const product = {

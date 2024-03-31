@@ -89,7 +89,7 @@ export const useOrder = create<OrderState>((set) => ({
 
       const updatedOrder = { ...state.order };
       updatedOrder.products.push(prod);
-      updatedOrder.price += prod.price;
+      updatedOrder.price += prod.product.price;
 
       return {
         order: updatedOrder,
@@ -100,10 +100,10 @@ export const useOrder = create<OrderState>((set) => ({
       if (state.order) {
         const updatedOrder = { ...state.order };
 
-        const index = updatedOrder.products.findIndex((prod) => prod.id === id);
+        const index = updatedOrder.products.findIndex((prod) => prod.product.id === id);
 
         if (index !== -1) {
-          updatedOrder.price -= updatedOrder.products[index].price;
+          updatedOrder.price -= updatedOrder.products[index].product.price;
           updatedOrder.products.splice(index, 1);
         }
 
@@ -131,7 +131,7 @@ function createOrderFromProduct(
     state: "pending",
     customer_id: "anonymous",
     customer_name: "anonymous",
-    price: prod.price,
+    price: prod.product.price,
     shipping_fee: 0,
     insurance_fee: 0,
     total_price: 0,

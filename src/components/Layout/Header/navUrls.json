@@ -1,27 +1,27 @@
 [
   {
-    "name": "Home",
+    "name": "Trang chủ",
     "url": "/",
     "permission": ""
   },
   {
-    "name": "Product",
+    "name": "Sản phẩm",
     "url": "/product",
     "permission": ""
   },
   {
-    "name": "Cart",
+    "name": "Giỏ hàng",
     "url": "/cart",
     "permission": ""
   },
   {
-    "name": "Dashboard",
-    "url": "/dashboard",
-    "permission": "Staff"
-  },
-  {
-    "name": "About",
+    "name": "Về Store",
     "url": "/about",
     "permission": ""
+  },
+  {
+    "name": "Nội bộ",
+    "url": "/dashboard",
+    "permission": "Staff"
   }
 ]

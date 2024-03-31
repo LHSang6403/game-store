@@ -40,7 +40,7 @@ export default function ProductCard({
           {formatCurrency(prod.price)} VNĐ
         </div>
         <div className="mb-[2px] mt-0.5 text-xs font-light">
-          Available: {prod.storage[0].quantity} at {prod.storage[0].address}
+          Có sẵn: {prod.storage[0].quantity} tại kho {prod.storage[0].address}
         </div>
       </div>
       <div className="line-clamp-1 overflow-ellipsis text-xs font-light">

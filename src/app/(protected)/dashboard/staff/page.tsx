@@ -8,7 +8,7 @@ export default async function page() {
 
   return (
     <section className="">
-      <h1 className="my-2 text-2xl font-medium">All staff</h1>
+      <h1 className="my-2 text-2xl font-medium">Tất cả nhân viên</h1>
       {staffs.data && (
         <DataTable
           columns={columns}

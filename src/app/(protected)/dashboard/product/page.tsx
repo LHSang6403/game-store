@@ -8,23 +8,25 @@ export default async function Page() {
   const products = await readProducts({ limit: 20, offset: 0 });
 
   return (
-    <section className="">
-      <div className="flex flex-row items-center justify-between ">
-        <h1 className="my-2 text-2xl font-medium">All products</h1>
+    <section className="w-full overflow-auto">
+      <div className="flex flex-row items-center justify-between">
+        <h1 className="my-2 text-2xl font-medium">Tất cả sản phẩm</h1>
         <Link
           className="hover:text-accent-foreground focus:text-accent-foreground flex h-9 w-fit items-center rounded-md px-4 py-2 text-sm font-medium transition-colors hover:bg-accent focus:bg-accent focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[active]:bg-accent/50 data-[state=open]:bg-accent/50"
           href="/dashboard/product/create"
         >
-          Create
+          Tạo mới
         </Link>
       </div>
-      {products.data && (
-        <DataTable
-          columns={columns}
-          data={products.data as ProductType[]}
-          isPaginationEnabled={true}
-        />
-      )}
+      <div className="w-full overflow-hidden">
+        {products.data && (
+          <DataTable
+            columns={columns}
+            data={products.data as ProductType[]}
+            isPaginationEnabled={true}
+          />
+        )}
+      </div>
     </section>
   );
 }
