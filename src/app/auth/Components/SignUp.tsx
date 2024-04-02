@@ -12,7 +12,6 @@ import {
   FormLabel,
   FormMessage,
 } from "@components/ui/form";
-import { Input } from "@components/ui/input";
 import { Button } from "@components/ui/button";
 import { signUpWithEmailAndPassword } from "@auth/_actions/signUp";
 import FormAddressPicker from "@components/Picker/Address/FormAddressPicker";
@@ -31,6 +30,7 @@ import DropAndDragZone from "@components/File/DropAndDragZone";
 import useFiles from "@/zustand/useFiles";
 import createSupabaseBrowserClient from "@/supabase-query/client";
 import { updateUserImage } from "@app/_actions/user";
+import { Input } from "@/components/ui/input";
 
 const FormSchema = z
   .object({
@@ -213,9 +213,9 @@ export default function SignUp() {
           <Popover>
             <PopoverTrigger asChild>
               <Button
-                variant={"outline"}
+                variant="outline"
                 className={cn(
-                  "w-full justify-start border-foreground/10 text-left font-normal",
+                  "w-full justify-start border text-left font-normal",
                   !date && "text-muted-foreground"
                 )}
               >
@@ -258,6 +258,7 @@ export default function SignUp() {
                   {...field}
                   type="text"
                   onChange={field.onChange}
+                  className=""
                 />
               </FormControl>
               <FormMessage />
