@@ -316,7 +316,7 @@ export default function SignUp() {
         <div className="col-span-2">
           <FormLabel>Hình đại diện</FormLabel>
           <DropAndDragZone
-            className="mt-2 rounded-lg border border-foreground/10 p-16 sm:p-6"
+            className="mt-2 rounded-lg border p-16 sm:p-6"
             maxFiles={1}
           />
         </div>

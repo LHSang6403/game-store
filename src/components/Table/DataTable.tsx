@@ -30,6 +30,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { DataTablePagination } from "./Pagination";
+import { FormItem } from "../ui/form";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -85,22 +86,19 @@ export function DataTable<TData, TValue>({
       {/* Filters */}
       <div className="mb-4 flex items-center justify-between gap-4">
         {isSearchEnabled && (
-          <div className="flex items-center">
-            <Input
-              placeholder="Tìm kiếm..."
-              value={
-                (table
-                  .getColumn(searchAttribute)
-                  ?.getFilterValue() as string) ?? ""
-              }
-              onChange={(event) =>
-                table
-                  .getColumn(searchAttribute)
-                  ?.setFilterValue(event.target.value)
-              }
-              className="max-w-sm"
-            />
-          </div>
+          <Input
+            placeholder="Tìm kiếm..."
+            value={
+              (table.getColumn(searchAttribute)?.getFilterValue() as string) ??
+              ""
+            }
+            onChange={(event) =>
+              table
+                .getColumn(searchAttribute)
+                ?.setFilterValue(event.target.value)
+            }
+            className="max-w-52 border border-[#E5E7EB]"
+          />
         )}
 
         {/* Column visibility */}

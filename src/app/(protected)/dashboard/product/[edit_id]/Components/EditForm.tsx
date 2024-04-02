@@ -146,7 +146,7 @@ export default function EditForm({
               <h2 className="title mb-1 ml-1 text-sm font-medium">
                 Thêm hình sản phẩm
               </h2>
-              <DropAndDragZone className="mt-1.5 rounded-lg border border-foreground/10 p-16 sm:p-6" />
+              <DropAndDragZone className="mt-1.5 rounded-lg border p-16 sm:p-6" />
             </div>
           </CardContent>
         </Card>

@@ -61,7 +61,9 @@ export const columns: ColumnDef<BlogType>[] = [
   },
   {
     id: "actions",
-    header: "Hành động",
+    header: () => {
+      return <div className="w-full text-center">Hành động</div>;
+    },
     cell: ({ row }) => {
       const data = row.original;
       const session = useSession();
@@ -90,29 +92,31 @@ export const columns: ColumnDef<BlogType>[] = [
       }
 
       return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="ml-2 h-8 w-8 p-0">
-              <MoreHorizontal className="h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Hành động</DropdownMenuLabel>
-            <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(data.id)}
-            >
-              Sao chép ID bài viết
-            </DropdownMenuItem>
-            <DropdownMenuItem>
-              <Link href={"/dashboard/blog/" + data.id}>
-                Chỉnh sửa bài viết
-              </Link>
-            </DropdownMenuItem>
-            <DropdownMenuItem onClick={() => removeHandler(data)}>
-              Xóa bài viết
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+        <div className="flex w-full items-center justify-center">
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" className="h-8 w-8 p-0">
+                <MoreHorizontal className="h-4 w-4" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuLabel>Hành động</DropdownMenuLabel>
+              <DropdownMenuItem
+                onClick={() => navigator.clipboard.writeText(data.id)}
+              >
+                Sao chép ID bài viết
+              </DropdownMenuItem>
+              <DropdownMenuItem>
+                <Link href={"/dashboard/blog/" + data.id}>
+                  Chỉnh sửa bài viết
+                </Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => removeHandler(data)}>
+                Xóa bài viết
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
       );
     },
   },

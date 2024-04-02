@@ -118,7 +118,7 @@ export default function CreateForm() {
         </div>
         <div className="flex h-fit w-full flex-col xl:col-span-2">
           <h2 className="title mb-1 ml-1 text-sm font-medium">Ảnh xem trước</h2>
-          <DropAndDragZone className="mt-2 rounded-lg border border-foreground/10 p-16 sm:p-6" />
+          <DropAndDragZone className="mt-2 rounded-lg border p-16 sm:p-6" />
         </div>
         <div className="col-span-2">
           <h2 className="title mb-1 ml-1 text-sm font-medium">Nội dung</h2>

@@ -75,7 +75,7 @@ export const columns: ColumnDef<CustomerType>[] = [
   {
     id: "actions",
     header: () => {
-      return <div className="pr-4 text-center lg:pr-0">Hành động</div>;
+      return <div className="w-full text-center">Hành động</div>;
     },
     cell: ({ row }) => {
       const data = row.original;
@@ -137,10 +137,10 @@ export const columns: ColumnDef<CustomerType>[] = [
       }
 
       return (
-        <div className="flex w-full flex-row items-center">
+        <div className="flex w-full flex-row items-center justify-center sm:flex-col">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="ghost" className="ml-3 h-8 w-8 p-0">
+              <Button variant="ghost" className="h-8 w-8 p-0">
                 <MoreHorizontal className="h-4 w-4" />
               </Button>
             </DropdownMenuTrigger>

@@ -327,7 +327,7 @@ export const DateRangePicker: FC<DateRangePickerProps> & {
         <Button
           size={"lg"}
           variant="outline"
-          className="h-9 w-full border border-foreground/10"
+          className="h-9 w-full border"
         >
           <div className="-ml-5 text-left">
             <div className="">

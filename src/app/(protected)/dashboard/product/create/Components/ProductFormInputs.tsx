@@ -21,7 +21,7 @@ export default function ProductFormInputs({ form }: { form: any }) {
           name="brand"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Hiệu</FormLabel>
+              <FormLabel>Hãng sản xuất</FormLabel>
               <FormControl>
                 <Input
                   placeholder="Hiệu sản phẩm"
@@ -76,7 +76,7 @@ export default function ProductFormInputs({ form }: { form: any }) {
           name="price"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Giá</FormLabel>
+              <FormLabel>Giá tiền</FormLabel>
               <FormControl>
                 <Input
                   placeholder="Giá sản phẩm (VNĐ)"

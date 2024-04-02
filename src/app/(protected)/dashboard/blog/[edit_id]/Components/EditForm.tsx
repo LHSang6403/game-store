@@ -150,7 +150,7 @@ export default function EditForm({ blog }: { blog: BlogType }) {
             <h2 className="title mb-1 ml-1 text-sm font-medium">
               Thêm ảnh xem trước
             </h2>
-            <DropAndDragZone className="mt-2 rounded-lg border border-foreground/10 p-16 sm:p-6" />
+            <DropAndDragZone className="mt-2 rounded-lg border p-16 sm:p-6" />
           </div>
         </div>
         <div className="col-span-2">

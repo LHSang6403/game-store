@@ -21,7 +21,7 @@ import { useSession } from "@/zustand/useSession";
 export const columns: ColumnDef<ProductType>[] = [
   {
     accessorKey: "brand",
-    header: "Hiệu",
+    header: "Hãng sản xuất",
   },
   {
     accessorKey: "name",
@@ -32,6 +32,7 @@ export const columns: ColumnDef<ProductType>[] = [
     header: "Giá",
     cell: ({ row }) => {
       const data = row.original;
+
       return <div className="">{formatCurrency(data.price)} VND</div>;
     },
   },
@@ -56,13 +57,15 @@ export const columns: ColumnDef<ProductType>[] = [
     cell: ({ row }) => {
       const date = new Date(row.getValue("created_at"));
       const formatted = date.toLocaleDateString();
-      return <div className="ml-4">{formatted}</div>;
+
+      return <div className="ml-4 w-fit">{formatted}</div>;
     },
   },
   {
     id: "actions",
-    header: "Hành động",
-
+    header: () => {
+      return <div className="w-full text-center">Hành động</div>;
+    },
     cell: ({ row }) => {
       const product = row.original;
       const session = useSession();
@@ -91,27 +94,29 @@ export const columns: ColumnDef<ProductType>[] = [
       }
 
       return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="ml-4 h-8 w-8 p-0">
-              <MoreHorizontal className="h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Hành động</DropdownMenuLabel>
-            <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(product.id)}
-            >
-              Sao chép ID
-            </DropdownMenuItem>
-            <DropdownMenuItem>
-              <Link href={"/dashboard/product/" + product.id}>Chỉnh sửa</Link>
-            </DropdownMenuItem>
-            <DropdownMenuItem onClick={() => removeHandler()}>
-              Xóa sản phẩm
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+        <div className="flex w-full items-center justify-center">
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" className="h-8 w-8 p-0">
+                <MoreHorizontal className="h-4 w-4" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuLabel>Hành động</DropdownMenuLabel>
+              <DropdownMenuItem
+                onClick={() => navigator.clipboard.writeText(product.id)}
+              >
+                Sao chép ID
+              </DropdownMenuItem>
+              <DropdownMenuItem>
+                <Link href={"/dashboard/product/" + product.id}>Chỉnh sửa</Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => removeHandler()}>
+                Xóa sản phẩm
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
       );
     },
   },

@@ -110,7 +110,7 @@ export default function ProductStorageCheckbox({
                       {storage.name}
                     </label>
                   </div>
-                  <CardDescription className="w-full">
+                  <CardDescription className="w-full text-foreground/70">
                     {storage.address}, {storage.ward}, {storage.district},{" "}
                     {storage.province}
                   </CardDescription>

@@ -61,7 +61,7 @@ export const columns: ColumnDef<OrderType>[] = [
   {
     accessorKey: "state",
     header: () => {
-      return <div className="w-28 text-center">Tình trạng</div>;
+      return <div className="ml-3 text-left">Tình trạng</div>;
     },
     cell: ({ row }) => {
       const data = row.original;
@@ -157,7 +157,9 @@ export const columns: ColumnDef<OrderType>[] = [
   },
   {
     id: "actions",
-    header: "Hành động",
+    header: () => {
+      return <div className="w-full text-center">Hành động</div>;
+    },
     cell: ({ row }) => {
       const data = row.original;
       const [isPrintOpen, setIsPrintOpen] = useState(false);
@@ -184,10 +186,10 @@ export const columns: ColumnDef<OrderType>[] = [
       };
 
       return (
-        <>
+        <div className="flex w-full items-center justify-center">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="ghost" className="ml-3 h-8 w-8 p-0">
+              <Button variant="ghost" className="h-8 w-8 p-0">
                 <MoreHorizontal className="h-4 w-4" />
               </Button>
             </DropdownMenuTrigger>
@@ -255,7 +257,7 @@ export const columns: ColumnDef<OrderType>[] = [
               setIsPrintOpen(value);
             }}
           />
-        </>
+        </div>
       );
     },
   },
