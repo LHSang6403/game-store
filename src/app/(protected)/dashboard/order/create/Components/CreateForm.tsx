@@ -41,6 +41,7 @@ import { columns } from "@app/(main)/cart/Components/Summary/Columns";
 import ProductCard from "@app/(protected)/dashboard/order/create/Components/ProductCard";
 import { ApiErrorHandlerClient } from "@utils/errorHandler/apiErrorHandler";
 import ConfirmDialog from "@app/(main)/cart/Components/Summary/ConfirmDialog";
+import { Card, CardHeader, CardContent } from "@components/ui/card";
 
 import province from "@/static-data/provinces.json";
 import district from "@/static-data/districts.json";
@@ -243,153 +244,164 @@ export default function CreateForm({
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
-            className="flex w-full flex-row gap-4 lg:flex-col"
+            className="flex h-full w-full flex-row gap-4 lg:flex-col"
           >
-            <div className="flex w-1/2 flex-col gap-3 lg:w-full">
-              <div>
-                <FormLabel>Chọn tài khoản khách hàng</FormLabel>
-                <Select
-                  onValueChange={(value) => {
-                    setCustomerSelect(
-                      customersData.find((customer) => customer.id === value) ??
-                        null
-                    );
-                    onSelectCustomerChange(value);
-                    if (value === "new") {
-                      form.reset();
-                      clearAll();
-                    }
-                  }}
-                >
-                  <SelectTrigger className="mt-2 w-full">
-                    <SelectValue placeholder="Select customer" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectGroup>
-                      <SelectLabel>Khách hàng</SelectLabel>
-                      <SelectItem key="new" value="new">
-                        Khách mới
-                      </SelectItem>
-                      {customersData.map((customer, index) => (
-                        <SelectItem key={index} value={customer.id}>
-                          {customer.name}
+            <Card className="h-fit w-1/2 lg:w-full">
+              <CardHeader className="pb-3">Thông tin khách hàng</CardHeader>
+              <CardContent className="flex flex-col gap-3">
+                <div>
+                  <FormLabel>Chọn tài khoản khách hàng</FormLabel>
+                  <Select
+                    onValueChange={(value) => {
+                      setCustomerSelect(
+                        customersData.find(
+                          (customer) => customer.id === value
+                        ) ?? null
+                      );
+                      onSelectCustomerChange(value);
+                      if (value === "new") {
+                        form.reset();
+                        clearAll();
+                      }
+                    }}
+                  >
+                    <SelectTrigger className="mt-2 w-full">
+                      <SelectValue placeholder="Select customer" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectGroup>
+                        <SelectLabel>Khách hàng</SelectLabel>
+                        <SelectItem key="new" value="new">
+                          Khách mới
                         </SelectItem>
-                      ))}
-                    </SelectGroup>
-                  </SelectContent>
-                </Select>
-              </div>
-              <FormField
-                control={form.control}
-                name="name"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Tên khách hàng</FormLabel>
-                    <FormControl>
-                      <Input
-                        className="border-[#E5E7EB]"
-                        placeholder="Nhập tên"
-                        {...field}
-                        type="text"
-                        onChange={field.onChange}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="phone"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Số điện thoại</FormLabel>
-                    <FormControl>
-                      <Input
-                        className="border-[#E5E7EB]"
-                        placeholder="Nhập số"
-                        {...field}
-                        type="text"
-                        onChange={field.onChange}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="district"
-                render={() => (
-                  <FormItem>
-                    <FormLabel>Khu vực</FormLabel>
-                    <FormControl>
-                      <FormAddressPicker />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="address"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Địa chỉ nhà</FormLabel>
-                    <FormControl>
-                      <Input
-                        className="border-[#E5E7EB]"
-                        placeholder="Nhập số nhà, tên đường"
-                        {...field}
-                        onChange={field.onChange}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="shipment"
-                render={() => (
-                  <FormItem>
-                    <FormLabel>Dịch vụ giao hàng</FormLabel>
-                    <FormControl>
-                      <SelectShipmentForm
-                        onChange={(value) => {
-                          form.setValue("shipment", value);
-                          setShipment(value as ShipmentNameType, "");
-                        }}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="note"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Ghi chú thêm</FormLabel>
-                    <FormControl>
-                      <Textarea
-                        className="max-h-44 min-h-28 border-[#E5E7EB]"
-                        placeholder="Ghi chú cho đơn hàng của bạn..."
-                        {...field}
-                        value={field.value ?? ""}
-                        onChange={field.onChange}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
-            <div className="flex w-1/2 flex-col justify-between lg:w-full">
-              <div>
-                <FormLabel>Sản phẩm</FormLabel>
-                <div className="mt-2 flex h-[540px] flex-col gap-3 overflow-auto pr-2">
+                        {customersData.map((customer, index) => (
+                          <SelectItem key={index} value={customer.id}>
+                            {customer.name}
+                          </SelectItem>
+                        ))}
+                      </SelectGroup>
+                    </SelectContent>
+                  </Select>
+                </div>
+                <FormField
+                  control={form.control}
+                  name="name"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Tên khách hàng</FormLabel>
+                      <FormControl>
+                        <Input
+                          className="border-[#E5E7EB]"
+                          placeholder="Nhập tên"
+                          {...field}
+                          type="text"
+                          onChange={field.onChange}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="phone"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Số điện thoại</FormLabel>
+                      <FormControl>
+                        <Input
+                          className="border-[#E5E7EB]"
+                          placeholder="Nhập số"
+                          {...field}
+                          type="text"
+                          onChange={field.onChange}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="district"
+                  render={() => (
+                    <FormItem>
+                      <FormLabel>Khu vực</FormLabel>
+                      <FormControl>
+                        <FormAddressPicker />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="address"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Địa chỉ nhà</FormLabel>
+                      <FormControl>
+                        <Input
+                          className="border-[#E5E7EB]"
+                          placeholder="Nhập số nhà, tên đường"
+                          {...field}
+                          onChange={field.onChange}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="shipment"
+                  render={() => (
+                    <FormItem>
+                      <FormLabel>Dịch vụ giao hàng</FormLabel>
+                      <FormControl>
+                        <SelectShipmentForm
+                          onChange={(value) => {
+                            form.setValue("shipment", value);
+                            setShipment(value as ShipmentNameType, "");
+                          }}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="note"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Ghi chú thêm</FormLabel>
+                      <FormControl>
+                        <Textarea
+                          className="max-h-44 min-h-28 border-[#E5E7EB]"
+                          placeholder="Ghi chú cho đơn hàng của bạn..."
+                          {...field}
+                          value={field.value ?? ""}
+                          onChange={field.onChange}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <Button
+                  disabled={!form.formState.isValid || !order}
+                  type="submit"
+                  className="mt-2 w-full bg-foreground text-background"
+                >
+                  Tính giá tiền
+                </Button>
+              </CardContent>
+            </Card>
+            <Card className="h-auto w-1/2 lg:w-full">
+              <CardHeader className="pb-3">Danh sách sản phẩm</CardHeader>
+              <CardContent className="flex h-auto flex-col overflow-hidden">
+                <div className="flex h-[540px] flex-col gap-3 overflow-auto pr-2">
                   {productsData.map((prod, index) => (
                     <div key={index}>
                       <ProductCard
@@ -401,45 +413,40 @@ export default function CreateForm({
                     </div>
                   ))}
                 </div>
-                <div className="mb-2 mt-4">
-                  {orderProducts && (
-                    <DataTable
-                      key={JSON.stringify(orderProducts)}
-                      columns={columns}
-                      data={orderProducts}
-                      isPaginationEnabled={false}
-                      isCollumnVisibilityEnabled={false}
-                      isSearchEnabled={false}
-                    />
-                  )}
-                </div>
-              </div>
-              <div>
-                {order && (
-                  <div className="flex flex-row items-center justify-between">
-                    <span className="">
-                      Giá: {formatCurrency(order?.price)} VNĐ
-                    </span>
-                    <Button
-                      onClick={() => {
-                        removeAll();
-                      }}
-                      variant="outline"
-                      className="w-fit border-none"
-                    >
-                      Xóa tất cả
-                    </Button>
+                <div className="flex flex-col gap-2">
+                  <div>
+                    {orderProducts && (
+                      <DataTable
+                        key={JSON.stringify(orderProducts)}
+                        columns={columns}
+                        data={orderProducts}
+                        isPaginationEnabled={false}
+                        isCollumnVisibilityEnabled={false}
+                        isSearchEnabled={false}
+                      />
+                    )}
                   </div>
-                )}
-                <Button
-                  disabled={!form.formState.isValid || !order}
-                  type="submit"
-                  className="mt-2 w-full bg-foreground text-background"
-                >
-                  Tính giá tiền
-                </Button>
-              </div>
-            </div>
+                  <div>
+                    {order && (
+                      <div className="flex flex-row items-center justify-between">
+                        <span className="">
+                          Giá: {formatCurrency(order?.price)} VNĐ
+                        </span>
+                        <Button
+                          onClick={() => {
+                            removeAll();
+                          }}
+                          variant="outline"
+                          className="w-fit border-none"
+                        >
+                          Xóa tất cả
+                        </Button>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
           </form>
         </Form>
       </div>

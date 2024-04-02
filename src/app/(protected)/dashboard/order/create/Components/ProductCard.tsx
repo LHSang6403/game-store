@@ -2,6 +2,7 @@
 
 import { ProductWithDescriptionAndStorageType } from "@utils/types";
 import formatCurrency from "@/utils/functions/formatCurrency";
+import { is } from "date-fns/locale";
 
 export default function ProductCard({
   prod,
@@ -10,10 +11,14 @@ export default function ProductCard({
   prod: ProductWithDescriptionAndStorageType;
   onAdd: () => void;
 }) {
+  const isSoldOut = prod.product_storages.length === 0;
+
   return (
     <div
       onClick={() => {}}
-      className="h-fit w-full rounded-lg border px-3 py-2 hover:bg-foreground/5"
+      className={`h-fit w-full rounded-lg border px-3 py-2 hover:bg-foreground/5 ${
+        isSoldOut ? "text-foreground/50 hover:!cursor-not-allowed" : ""
+      }`}
     >
       <div className="flex flex-row items-center gap-1.5">
         <svg
@@ -22,8 +27,12 @@ export default function ProductCard({
           viewBox="0 0 24 24"
           stroke-width="1.5"
           stroke="currentColor"
-          className="h-5 w-5 hover:cursor-pointer"
-          onClick={onAdd}
+          className={`h-5 w-5  ${
+            isSoldOut ? "hover:!cursor-not-allowed" : "hover:cursor-pointer"
+          }`}
+          onClick={() => {
+            if (!isSoldOut) onAdd();
+          }}
         >
           <path
             stroke-linecap="round"
@@ -35,17 +44,29 @@ export default function ProductCard({
           {prod.product.brand} {prod.product.name}
         </div>
       </div>
-      <div className="flex flex-row items-end gap-2">
+      <div className="flex flex-row items-center gap-2">
         <div className="mt-0.5 text-sm font-medium">
           {formatCurrency(prod.product.price)} VNĐ
-        </div>
-        <div className="mb-[2px] mt-0.5 text-xs font-light">
-          Có sẵn: {prod.product_storages[0].quantity} tại kho{" "}
-          {prod.storages[0].name}
         </div>
       </div>
       <div className="line-clamp-1 overflow-ellipsis text-xs font-light">
         {prod.product.description}
+      </div>
+      <div className="mt-0.5 line-clamp-2 overflow-ellipsis text-xs font-medium">
+        {" "}
+        {!isSoldOut ? (
+          <div>
+            Đang có sẵn:{" "}
+            {prod.product_storages.map((productStorage, index) => (
+              <span key={index}>
+                {productStorage.quantity} SP tại {productStorage.storage_name}
+                {index !== prod.product_storages.length - 1 && ", "}
+              </span>
+            ))}
+          </div>
+        ) : (
+          <span>Hết hàng</span>
+        )}
       </div>
     </div>
   );

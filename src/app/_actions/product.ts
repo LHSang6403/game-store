@@ -80,34 +80,83 @@ export async function readProducts({
   }
 }
 
-export async function readProductsWithDetail({ limit, offset }) {
+export async function readProductsWithDetail() {
   try {
     const supabase = await createSupabaseServerClient();
 
-    const result = await supabase
+    const productResult = await supabase
       .from("product")
-      .select(
-        `
-  *,
-  product_description (id, content, writer),
-  storage (id, address, quantity)
-`
-      )
-      .range(offset, limit)
+      .select("*")
       .eq("is_deleted", false);
+    const descriptionResult = await supabase
+      .from("product_description")
+      .select("*");
+    const storageResult = await supabase.from("storage").select("*");
+    const productStorageResult = await supabase
+      .from("product_storage")
+      .select("*");
+
+    if (
+      productResult.error ||
+      descriptionResult.error ||
+      storageResult.error ||
+      productStorageResult.error
+    ) {
+      throw new Error("Lỗi khi truy vấn dữ liệu.");
+    }
+
+    const products: ProductType[] = productResult.data || [];
+    const descriptions: ProductDescriptionType[] = descriptionResult.data || [];
+    const storages: StorageType[] = storageResult.data || [];
+    const productStorages: ProductStorageType[] =
+      productStorageResult.data || [];
+
+    const productDetails: ProductWithDescriptionAndStorageType[] = products.map(
+      (product) => {
+        const description = descriptions.find(
+          (desc) => desc.id === product.description_id
+        );
+        const productStoragesFiltered = productStorages.filter(
+          (ps) => ps.product_id === product.id
+        );
+        const productStoragesDetails: ProductStorageType[] =
+          productStoragesFiltered.map((ps) => {
+            const storage = storages.find(
+              (storage) => storage.id === ps.storage_id
+            );
+            return {
+              ...ps,
+              storage_name: storage ? storage.name : "",
+              storage_address: storage ? storage.address : "",
+            };
+          });
+
+        return {
+          product,
+          product_description: description || {
+            id: "",
+            content: "",
+            writer: "",
+            created_at: "",
+          },
+          product_storages: productStoragesDetails,
+          storages,
+        };
+      }
+    );
 
     return {
-      status: result.status,
-      statusText: result.statusText,
-      data: result.data as ProductWithDescriptionAndStorageType[],
-      error: result.error,
+      status: 200,
+      statusText: "OK",
+      data: productDetails,
+      error: null,
     };
   } catch (error: any) {
     return {
       status: 500,
       statusText: "Internal Server Error.",
       data: null,
-      error: error,
+      error,
     };
   }
 }

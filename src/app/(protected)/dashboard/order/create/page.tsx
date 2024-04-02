@@ -3,10 +3,7 @@ import { readProductsWithDetail } from "@/app/_actions/product";
 import { readCustomers } from "@app/_actions/user";
 
 export default async function page() {
-  const products = await readProductsWithDetail({
-    limit: 40,
-    offset: 0,
-  });
+  const products = await readProductsWithDetail();
 
   const customers = await readCustomers({
     limit: 40,
