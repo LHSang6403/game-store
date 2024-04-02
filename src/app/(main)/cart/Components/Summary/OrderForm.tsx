@@ -86,19 +86,15 @@ export default function OrderForm() {
       return <></>;
     }
 
-    if (!customerSession) {
-      toast.error("Đăng nhập để mua hàng.");
-      return <></>;
-    }
-
-    const staffSession = session as StaffType;
-    if ("role" in staffSession) {
-      toast.error("Nhân viên không thể mua hàng.");
-      return <></>;
-    }
-
     toast.promise(
       async () => {
+        if (!customerSession)
+          throw new Error("Không tìm thấy thông tin khách hàng.");
+
+        const staffSession = session as StaffType;
+        if ("role" in staffSession)
+          throw new Error("Nhân viên không thể mua hàng.");
+
         const calFeesResponse = await calShipmentFees({
           formData: data,
           order: order,
