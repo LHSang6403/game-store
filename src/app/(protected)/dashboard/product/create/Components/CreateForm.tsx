@@ -13,8 +13,8 @@ import ProductFormInputs from "@/app/(protected)/dashboard/product/create/Compon
 import useFiles from "@/zustand/useFiles";
 import { useSession } from "@/zustand/useSession";
 import { ProductStorageType } from "@/utils/types/index";
-import { ProductWithDescriptionAndStorageType } from "@/utils/types/index";
 import { useState } from "react";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import ProductStorageCheckbox from "@/app/(protected)/dashboard/product/create/Components/ProductStorageCheckbox";
 import { createHandler } from "@/app/(protected)/dashboard/product/create/_actions/index";
 
@@ -40,23 +40,19 @@ export const FormSchema = z.object({
   category: z.string(),
 });
 
-export default function CreateForm({
-  product,
-}: {
-  product?: ProductWithDescriptionAndStorageType;
-}) {
+export default function CreateForm() {
   const router = useRouter();
   const { files } = useFiles();
   const { session } = useSession();
 
   const initState = {
-    brand: product?.product.brand ?? "",
-    name: product?.product.name ?? "",
-    description: product?.product.description ?? "",
-    price: product?.product.price.toString() ?? "000000",
-    rate: product?.product.rate.toString() ?? "5",
-    sold_quantity: product?.product.sold_quantity.toString() ?? "0",
-    category: product?.product.category ?? "",
+    brand: "",
+    name: "",
+    description: "",
+    price: "",
+    rate: "",
+    sold_quantity: "",
+    category: "",
   };
 
   const form = useForm<z.infer<typeof FormSchema>>({
@@ -72,16 +68,14 @@ export default function CreateForm({
   async function onSubmit(data: z.infer<typeof FormSchema>) {
     toast.promise(
       async () => {
-        if (session) {
-          await createHandler({
-            formData: data,
-            files: files,
-            session: session,
-            productStorages: productStorages,
-          });
-        } else {
-          throw new Error("Lỗi không tìm thấy phiên làm việc.");
-        }
+        if (!session) throw new Error("Lỗi không tìm thấy phiên làm việc.");
+
+        await createHandler({
+          formData: data,
+          files: files,
+          session: session,
+          productStorages: productStorages,
+        });
       },
       {
         loading: "Đang tạo sản phẩm...",
@@ -106,19 +100,22 @@ export default function CreateForm({
       >
         <div className="h-fit w-full xl:col-span-2">
           <ProductFormInputs form={form} />
+        </div>
+        <Card className="flex h-fit w-full flex-col xl:col-span-2">
+          <CardHeader className="pb-3">Hình ảnh sản phẩm</CardHeader>
+          <CardContent className="pb-0">
+            <DropAndDragZone className="mt-2 w-full rounded-lg border border-foreground/10 p-16 sm:p-6" />
+          </CardContent>
+        </Card>
+        <div className="col-span-2">
           <ProductStorageCheckbox
             onValuesChange={(values) => {
               setProductStorages(values);
             }}
           />
         </div>
-        <div className="flex h-fit w-full flex-col xl:col-span-2">
-          <h2 className="title mb-1 ml-1 text-sm font-medium">Hình sản phẩm</h2>
-          <DropAndDragZone className="mt-2 w-full rounded-lg border border-foreground/10 p-16 sm:p-6" />
-        </div>
         <div className="col-span-2">
-          <h2 className="title mb-1 ml-1 text-sm font-medium">Mô tả</h2>
-          <div className="mt-2 h-fit overflow-hidden rounded-md border">
+          <div className="h-fit overflow-hidden rounded-md border">
             <Editor editable={true} />
           </div>
         </div>

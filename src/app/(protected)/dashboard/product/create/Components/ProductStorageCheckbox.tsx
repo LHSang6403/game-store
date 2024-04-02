@@ -4,10 +4,15 @@ import { useQuery } from "@tanstack/react-query";
 import { readStorages } from "@app/_actions/storage";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardDescription,
+} from "@/components/ui/card";
+import {
   FormControl,
   FormField,
   FormItem,
-  FormLabel,
   FormMessage,
 } from "@components/ui/form";
 import { Input } from "@components/ui/input";
@@ -78,51 +83,62 @@ export default function ProductStorageCheckbox({
   }, [productStorages]);
 
   return (
-    <div className="mt-6 flex flex-col gap-1">
-      <FormLabel className="pb-1">Kho vận</FormLabel>
-      {isStorageSuccess &&
-        storages.data &&
-        storages.data.map((storage: StorageType, index) => {
-          const isChecked = productStorages?.some(
-            (item) => item.storage_id === storage.id
-          );
+    <Card>
+      <CardHeader className="pb-4">Kho lưu trữ sản phẩm</CardHeader>
+      <CardContent className="grid grid-cols-2 gap-4">
+        {isStorageSuccess &&
+          storages.data &&
+          storages.data.map((storage: StorageType, index) => {
+            const isChecked = productStorages?.some(
+              (item) => item.storage_id === storage.id
+            );
 
-          return (
-            <div
-              key={index}
-              className="flex h-fit w-full flex-row justify-between gap-4 sm:w-full sm:flex-col"
-            >
-              <div className="flex items-center space-x-2">
-                <Checkbox
-                  className="text-background"
-                  checked={isChecked}
-                  onCheckedChange={() => handleCheckboxChange(storage)}
-                  id={storage.name}
-                />
-                <label className="line-clamp-1 overflow-ellipsis text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-                  {storage.name}
-                </label>
-              </div>
-              <QuantityForm
-                defaultValue={
-                  defaultProductStorages && defaultProductStorages.length > 0
-                    ? defaultProductStorages
-                        .find(
-                          (defaultStorage) =>
-                            defaultStorage.storage_id === storage.id
-                        )
-                        ?.quantity.toString() ?? ""
-                    : ""
-                }
-                isDisabled={!isChecked}
-                onValueChange={(value) =>
-                  handleQuantityChange(value, storage.id)
-                }
-              />
-            </div>
-          );
-        })}
-    </div>
+            return (
+              <Card
+                key={index}
+                className="flex h-full w-full flex-row items-start justify-between gap-4 px-4 py-3 xl:col-span-2 sm:w-full sm:flex-col"
+              >
+                <div className="flex w-full flex-col gap-2">
+                  <div className="flex items-center space-x-3">
+                    <Checkbox
+                      className="text-background"
+                      checked={isChecked}
+                      onCheckedChange={() => handleCheckboxChange(storage)}
+                      id={storage.name}
+                    />
+                    <label className="line-clamp-1 overflow-ellipsis text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                      {storage.name}
+                    </label>
+                  </div>
+                  <CardDescription className="w-full">
+                    {storage.address}, {storage.ward}, {storage.district},{" "}
+                    {storage.province}
+                  </CardDescription>
+                </div>
+                <div className="w-full">
+                  <QuantityForm
+                    defaultValue={
+                      defaultProductStorages &&
+                      defaultProductStorages.length > 0
+                        ? defaultProductStorages
+                            .find(
+                              (defaultStorage) =>
+                                defaultStorage.storage_id === storage.id
+                            )
+                            ?.quantity.toString() ?? ""
+                        : ""
+                    }
+                    isDisabled={!isChecked}
+                    onValueChange={(value) =>
+                      handleQuantityChange(value, storage.id)
+                    }
+                  />
+                </div>
+              </Card>
+            );
+          })}
+      </CardContent>
+    </Card>
   );
 }
 
@@ -176,10 +192,10 @@ export function QuantityForm({
                   {...field}
                   type="text"
                   onChange={field.onChange}
-                  className="h-9 w-24 border-[#E5E7EB]"
+                  className="h-9 w-24 border-[#E5E7EB] sm:w-full"
                 />
               </FormControl>
-              <FormMessage />
+              <FormMessage className="" />
             </FormItem>
           )}
         />

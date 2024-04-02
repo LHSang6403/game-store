@@ -20,6 +20,7 @@ import { useState } from "react";
 import ImageFileItem from "@components/File/ImageFileItem";
 import ProductStorageCheckbox from "@/app/(protected)/dashboard/product/create/Components/ProductStorageCheckbox";
 import { updateHandler } from "@/app/(protected)/dashboard/product/[edit_id]/_actions/index";
+import { Card, CardHeader, CardContent } from "@components/ui/card";
 
 export const FormSchema = z.object({
   brand: z.string().min(1, { message: "Vui lòng nhập hiệu." }),
@@ -87,18 +88,16 @@ export default function EditForm({
   async function onSubmit(data: z.infer<typeof FormSchema>) {
     toast.promise(
       async () => {
-        if (session) {
-          await updateHandler({
-            formData: data,
-            session: session,
-            originalProduct: product,
-            updatedProductImages: updatedProductImages,
-            newProductImages: files,
-            updatedProductStorages: updatedProductStorages,
-          });
-        } else {
-          throw new Error("Lỗi không có phiên làm việc.");
-        }
+        if (!session) throw new Error("Lỗi không có phiên làm việc.");
+
+        await updateHandler({
+          formData: data,
+          session: session,
+          originalProduct: product,
+          updatedProductImages: updatedProductImages,
+          newProductImages: files,
+          updatedProductStorages: updatedProductStorages,
+        });
       },
       {
         loading: "Đang chỉnh sửa...",
@@ -121,18 +120,10 @@ export default function EditForm({
       >
         <div className="h-fit w-full xl:col-span-2">
           <ProductFormInputs form={form} />
-          <ProductStorageCheckbox
-            defaultProductStorages={product.product_storages}
-            onValuesChange={(values) => {
-              setUpdatedProductStorages(values);
-            }}
-          />
         </div>
-        <div className="mt-0.5 flex h-fit w-full flex-col xl:col-span-2">
-          <div className="w-full">
-            <h2 className="title mb-1 ml-1 text-sm font-medium">
-              Hình sản phẩm
-            </h2>
+        <Card className="flex h-fit w-full flex-col xl:col-span-2">
+          <CardHeader className="pb-3">Hình ảnh sản phẩm</CardHeader>
+          <CardContent className="pb-0">
             <div className="mt-1.5 grid w-fit grid-cols-6 gap-3 sm:grid-cols-4">
               {updatedProductImages?.map((image: string, index: number) => (
                 <ImageFileItem
@@ -151,17 +142,23 @@ export default function EditForm({
                 />
               ))}
             </div>
-          </div>
-          <div className="mt-5 w-full xl:mt-4">
-            <h2 className="title mb-1 ml-1 text-sm font-medium">
-              Thêm hình sản phẩm
-            </h2>
-            <DropAndDragZone className="mt-1.5 rounded-lg border border-foreground/10 p-16 sm:p-6" />
-          </div>
+            <div className="mt-5 w-full xl:mt-4">
+              <h2 className="title mb-1 ml-1 text-sm font-medium">
+                Thêm hình sản phẩm
+              </h2>
+              <DropAndDragZone className="mt-1.5 rounded-lg border border-foreground/10 p-16 sm:p-6" />
+            </div>
+          </CardContent>
+        </Card>
+        <div className="col-span-2">
+          <ProductStorageCheckbox
+            onValuesChange={(values) => {
+              setUpdatedProductStorages(values);
+            }}
+          />
         </div>
-        <div className="col-span-2 xl:-mt-4">
-          <h2 className="title mb-1 ml-1 text-sm font-medium">Mô tả</h2>
-          <div className="mt-2 h-fit overflow-hidden rounded-md border">
+        <div className="col-span-2">
+          <div className="h-fit overflow-hidden rounded-md border">
             <Editor editable={true} />
           </div>
         </div>
