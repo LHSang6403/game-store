@@ -25,6 +25,7 @@ import createSupabaseBrowserClient from "@/supabase-query/client";
 import { updateBlog } from "@app/_actions/blog";
 import ImageFileItem from "@components/File/ImageFileItem";
 import { useState } from "react";
+import { Card, CardContent, CardHeader } from "@components/ui/card";
 
 const FormSchema = z.object({
   title: z.string().min(2, { message: "Vui lòng nhập tiêu đề." }),
@@ -84,50 +85,51 @@ export default function EditForm({ blog }: { blog: BlogType }) {
         onSubmit={form.handleSubmit(onSubmit)}
         className="grid grid-cols-2 gap-4"
       >
-        <div className="flex flex-col gap-10 xl:col-span-2 xl:gap-4">
-          <FormField
-            control={form.control}
-            name="title"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Tiêu đề</FormLabel>
-                <FormControl>
-                  <Input
-                    placeholder="Tiêu đề bài viết"
-                    {...field}
-                    type="text"
-                    onChange={field.onChange}
-                    className="border-[#E5E7EB]"
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="description"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Mô tả</FormLabel>
-                <FormControl>
-                  <Textarea
-                    className="max-h-52 min-h-36 border-[#E5E7EB]"
-                    placeholder="Mô tả ngắn bài viết"
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-        </div>
-        <div className="flex flex-col gap-4 xl:col-span-2">
-          <div>
-            <h2 className="title mb-1 ml-1 mt-0.5 text-sm font-medium">
-              Hình ảnh xem trước
-            </h2>
-            <div className="mt-2 grid w-fit grid-cols-6 gap-3 sm:grid-cols-4">
+        <Card className="xl:col-span-2 ">
+          <CardHeader className="pb-3">Chỉnh sửa thông tin bài viết</CardHeader>
+          <CardContent className="flex flex-col gap-4">
+            <FormField
+              control={form.control}
+              name="title"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Tiêu đề</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="Tiêu đề bài viết"
+                      {...field}
+                      type="text"
+                      onChange={field.onChange}
+                      className="border-[#E5E7EB]"
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="description"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Mô tả</FormLabel>
+                  <FormControl>
+                    <Textarea
+                      className="max-h-52 min-h-36 border-[#E5E7EB]"
+                      placeholder="Mô tả ngắn bài viết"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </CardContent>
+        </Card>
+        <Card className="xl:col-span-2">
+          <CardHeader className="pb-3"> Hình ảnh xem trước</CardHeader>
+          <CardContent className="flex flex-col gap-4 pb-0">
+            <div className="grid w-fit grid-cols-6 gap-3 sm:grid-cols-4">
               {updatedBlogThumbnails.map((image: string, index: number) => (
                 <ImageFileItem
                   key={index}
@@ -145,14 +147,14 @@ export default function EditForm({ blog }: { blog: BlogType }) {
                 />
               ))}
             </div>
-          </div>
-          <div className="flex h-fit w-full flex-col xl:col-span-2">
-            <h2 className="title mb-1 ml-1 text-sm font-medium">
-              Thêm ảnh xem trước
-            </h2>
-            <DropAndDragZone className="mt-2 rounded-lg border p-16 sm:p-6" />
-          </div>
-        </div>
+            <div className="flex h-fit w-full flex-col xl:col-span-2">
+              <h2 className="title mb-1 ml-1 text-sm font-medium">
+                Thêm ảnh xem trước
+              </h2>
+              <DropAndDragZone className="mt-2 rounded-lg border p-16 sm:p-6" />
+            </div>
+          </CardContent>
+        </Card>
         <div className="col-span-2">
           <h2 className="title mb-1 ml-1 text-sm font-medium">Nội dung</h2>
           <div className="mt-2 h-fit overflow-hidden rounded-md border">

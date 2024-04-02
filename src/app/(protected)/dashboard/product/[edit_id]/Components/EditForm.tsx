@@ -118,7 +118,7 @@ export default function EditForm({
         onSubmit={form.handleSubmit(onSubmit)}
         className="grid grid-cols-2 gap-4"
       >
-        <div className="h-fit w-full xl:col-span-2">
+        <div className="h-full w-full xl:col-span-2">
           <ProductFormInputs form={form} />
         </div>
         <Card className="flex h-fit w-full flex-col xl:col-span-2">

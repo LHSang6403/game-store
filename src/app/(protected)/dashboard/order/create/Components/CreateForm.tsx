@@ -398,7 +398,7 @@ export default function CreateForm({
                 </Button>
               </CardContent>
             </Card>
-            <Card className="h-auto w-1/2 lg:w-full">
+            <Card className="h-fit w-1/2 lg:w-full">
               <CardHeader className="pb-3">Danh sách sản phẩm</CardHeader>
               <CardContent className="flex h-auto flex-col overflow-hidden">
                 <div className="flex h-[540px] flex-col gap-3 overflow-auto pr-2">

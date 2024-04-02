@@ -24,6 +24,7 @@ import { v4 as uuidv4 } from "uuid";
 import { StaffType, BlogType } from "@/utils/types/index";
 import createSupabaseBrowserClient from "@/supabase-query/client";
 import { createBlog } from "@app/_actions/blog";
+import { Card, CardHeader, CardContent } from "@components/ui/card";
 
 const FormSchema = z.object({
   title: z.string().min(2, { message: "Vui lòng nhập tiêu đề." }),
@@ -78,48 +79,55 @@ export default function CreateForm() {
         onSubmit={form.handleSubmit(onSubmit)}
         className="grid grid-cols-2 gap-4"
       >
-        <div className="flex flex-col gap-4 xl:col-span-2">
-          <FormField
-            control={form.control}
-            name="title"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Tiêu đề</FormLabel>
-                <FormControl>
-                  <Input
-                    placeholder="Tiêu đề bài viết"
-                    {...field}
-                    type="text"
-                    onChange={field.onChange}
-                    className="border-[#E5E7EB]"
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="description"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Mô tả</FormLabel>
-                <FormControl>
-                  <Textarea
-                    className="max-h-52 min-h-36 border-[#E5E7EB]"
-                    placeholder="Mô tả ngắn của bài viết"
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-        </div>
-        <div className="flex h-fit w-full flex-col xl:col-span-2">
-          <h2 className="title mb-1 ml-1 text-sm font-medium">Ảnh xem trước</h2>
-          <DropAndDragZone className="mt-2 rounded-lg border p-16 sm:p-6" />
-        </div>
+        <Card className="xl:col-span-2">
+          <CardHeader className="pb-3">Thông tin bài viêt</CardHeader>
+          <CardContent className="flex flex-col gap-4">
+            <FormField
+              control={form.control}
+              name="title"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Tiêu đề</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="Tiêu đề bài viết"
+                      {...field}
+                      type="text"
+                      onChange={field.onChange}
+                      className="border-[#E5E7EB]"
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="description"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Mô tả</FormLabel>
+                  <FormControl>
+                    <Textarea
+                      className="max-h-52 min-h-36 border-[#E5E7EB]"
+                      placeholder="Mô tả ngắn của bài viết"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </CardContent>
+        </Card>
+        <Card className="flex h-full w-full flex-col xl:col-span-2">
+          <CardHeader className="pb-3">
+            Ảnh xem trước
+          </CardHeader>
+          <CardContent>
+            <DropAndDragZone className="mt-2 rounded-lg border p-16 sm:p-6" />
+          </CardContent>
+        </Card>
         <div className="col-span-2">
           <h2 className="title mb-1 ml-1 text-sm font-medium">Nội dung</h2>
           <div className="mt-2 h-fit overflow-hidden rounded-md border">
