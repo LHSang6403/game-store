@@ -6,6 +6,14 @@ import type { OrderType } from "@utils/types/index";
 import ChartLoading from "@/app/(protected)/dashboard/Components/ChartLoading";
 import useDatePicker from "@/zustand/useDatePicker";
 import { readOrdersByDateRange } from "@/app/_actions/order";
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+  CardContent,
+} from "@components/ui/card";
+import formatVNDate from "@utils/functions/formatVNDate";
 
 export default function RevenueBarChart() {
   const { from, to } = useDatePicker();
@@ -17,26 +25,38 @@ export default function RevenueBarChart() {
   });
 
   const orders = ordersResponse?.data as OrderType[];
-  const chartData = ordersToSoldProducts(orders);
+  const chartData = ordersToTop3SoldProducts(orders);
 
   return (
-    <div className="w-full">
-      {isLoading || !ordersResponse ? (
-        <div className="h-[400px]">
-          <ChartLoading />
+    <Card className="col-span-2 row-span-2 h-full xl:col-span-4">
+      <CardHeader className="flex flex-row items-center pb-0">
+        <div className="grid gap-2">
+          <CardTitle>Bán chạy</CardTitle>
+          <CardDescription>
+            Các sản phẩm bán chạy từ {formatVNDate(from)} đến {formatVNDate(to)}
+          </CardDescription>
         </div>
-      ) : (
-        <div className="min-h-[100px] w-full overflow-hidden">
-          {ordersResponse && (
-            <BarList data={chartData} className="mr-1.5 mt-3 w-auto" />
+      </CardHeader>
+      <CardContent className="mt-2 h-fit">
+        <div className="w-full">
+          {isLoading || !ordersResponse ? (
+            <div className="h-[400px]">
+              <ChartLoading />
+            </div>
+          ) : (
+            <div className="min-h-[100px] w-full overflow-hidden">
+              {ordersResponse && (
+                <BarList data={chartData} className="mr-1.5 mt-3 w-auto" />
+              )}
+            </div>
           )}
         </div>
-      )}
-    </div>
+      </CardContent>
+    </Card>
   );
 }
 
-function ordersToSoldProducts(orders: OrderType[]) {
+export function ordersToTop3SoldProducts(orders: OrderType[]) {
   let soldProducts: {
     name: string;
     value: number;

@@ -18,18 +18,18 @@ export default function RevenueBarChart() {
     staleTime: 1000 * 60 * 60,
   });
 
-  const { chartData, totalRevenue } = ordersToChartData(
+  const { chartData } = ordersToChartData(
     orderPricesByMonth as { month: number; year: number; total: number }[]
   ) as OrdersToChartData;
 
   return (
     <div>
       {isLoading || !orderPricesByMonth ? (
-        <div className="h-[402px] w-full">
+        <div className="h-[405px] w-full">
           <ChartLoading />
         </div>
       ) : (
-        <div className="h-[402px] w-full overflow-hidden">
+        <div className="h-[405px] w-full overflow-hidden">
           {orderPricesByMonth && (
             <BarChart
               className="h-full w-full"

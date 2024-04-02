@@ -11,45 +11,61 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import DataCard from "@/app/(protected)/dashboard/Components/DataCard";
+import { useQuery } from "@tanstack/react-query";
+import { readAllProductStorages } from "@/app/_actions/product_storage";
+import useDatePicker from "@/zustand/useDatePicker";
+import { readCustomers, readStaffs } from "@app/_actions/user";
 
 export default function Dashboard() {
+  const { data: productStorages, isLoading: isProductStoragesLoading } =
+    useQuery({
+      queryKey: ["product-storage", "all"],
+      queryFn: () => readAllProductStorages(),
+      staleTime: 1000 * 60 * 60,
+    });
+
+  const { data: customers, isLoading: isCustomersLoading } = useQuery({
+    queryKey: ["customer", "all"],
+    queryFn: () => readCustomers({ limit: 10000, offset: 0 }),
+    staleTime: 1000 * 60 * 60,
+  });
+
+  const { data: staffs, isLoading: isStaffsLoading } = useQuery({
+    queryKey: ["staff", "all"],
+    queryFn: () => readStaffs({ limit: 10000, offset: 0 }),
+    staleTime: 1000 * 60 * 60,
+  });
+
   return (
     <main className="mt-2 flex w-full flex-col gap-4">
       <div className="grid grid-cols-4 gap-4 xl:grid-cols-2 sm:grid-cols-1 sm:gap-2">
         <DataCard
           title="Nhập hàng"
-          data="120 sản phẩm"
-          previousData="Nhập 120 hôm qua"
+          data="0 sản phẩm"
+          previousData="Chua xong"
           icon={<PackageSearch className="text-muted-foreground h-4 w-4" />}
         />
         <DataCard
           title="Tồn kho"
-          data="120 sản phẩm"
-          previousData="120 sản phẩm tháng trước"
+          data={(productStorages?.data?.length.toString() ?? "0") + " sản phẩm"}
+          previousData="Tổng sản phẩm hiện tại"
           icon={<Container className="text-muted-foreground h-4 w-4" />}
+          isLoading={isProductStoragesLoading}
         />
-        <Card className="col-span-2 row-span-2 h-full xl:col-span-4">
-          <CardHeader className="flex flex-row items-center pb-0">
-            <div className="grid gap-2">
-              <CardTitle>Bán chạy</CardTitle>
-              <CardDescription>Các sản phẩm bán chạy</CardDescription>
-            </div>
-          </CardHeader>
-          <CardContent className="mt-2 h-fit">
-            <SoldBarChart />
-          </CardContent>
-        </Card>
+        <SoldBarChart />
         <DataCard
           title="Khách hàng"
-          data="573 người dùng"
-          previousData="+21 hôm qua"
+          data={(customers?.data?.length.toString() ?? "0") + " người dùng"}
+          previousData="Số lượng tài khoản người dùng hiện tại"
           icon={<Activity className="text-muted-foreground h-4 w-4" />}
+          isLoading={isCustomersLoading}
         />
         <DataCard
           title="Nhân viên"
-          data="40 nhân viên"
-          previousData="Ở Hà Nội và TP Hồ Chí Minh"
+          data={(staffs?.data?.length.toString() ?? "0") + " nhân viên"}
+          previousData="Số lượng nhân viên toàn quốc hiện tại"
           icon={<UsersRound className="text-muted-foreground h-4 w-4" />}
+          isLoading={isStaffsLoading}
         />
       </div>
       <div className="grid grid-cols-2 gap-4 sm:gap-2">

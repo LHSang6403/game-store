@@ -1,30 +1,39 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import DataCardLoading from "@app/(protected)/dashboard/Components/DataCardLoading";
 
 export default function DataCard({
   title,
   data,
   previousData,
   icon,
+  isLoading,
 }: {
   title: string;
   data: string;
   previousData: string;
   icon: React.ReactNode;
+  isLoading?: boolean;
 }) {
   return (
-    <Card>
-      <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-        <CardTitle className="text-sm font-medium">{title}</CardTitle>
-        {icon}
-      </CardHeader>
-      <CardContent>
-        <div className="line-clamp-1 overflow-ellipsis text-xl font-bold">
-          {data}
-        </div>
-        <p className="text-muted-foreground line-clamp-2 overflow-ellipsis text-xs">
-          {previousData}
-        </p>
-      </CardContent>
-    </Card>
+    <>
+      {isLoading ? (
+        <DataCardLoading />
+      ) : (
+        <Card className="h-32">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">{title}</CardTitle>
+            {icon}
+          </CardHeader>
+          <CardContent>
+            <div className="line-clamp-1 overflow-ellipsis text-xl font-bold">
+              {data}
+            </div>
+            <p className="text-muted-foreground line-clamp-2 overflow-ellipsis text-xs">
+              {previousData}
+            </p>
+          </CardContent>
+        </Card>
+      )}
+    </>
   );
 }

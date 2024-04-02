@@ -53,6 +53,28 @@ export async function removeProductStorage(id: string) {
   }
 }
 
+export async function readAllProductStorages() {
+  try {
+    const supabase = await createSupabaseServerClient();
+
+    const result = await supabase.from("product_storage").select("*");
+
+    return {
+      status: result.status,
+      statusText: result.statusText,
+      data: result.data,
+      error: result.error,
+    };
+  } catch (error: any) {
+    return {
+      status: 500,
+      statusText: "Internal Server Error.",
+      data: null,
+      error: error,
+    };
+  }
+}
+
 export async function updateStorageQuantityByProductId({
   prod_id,
   storage_id,

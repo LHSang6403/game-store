@@ -22,8 +22,8 @@ import {
   CheckIcon,
 } from "@radix-ui/react-icons";
 import { cn } from "@/lib/utils";
-import moment from "moment";
 import "moment/locale/vi";
+import formatVNDate from "@utils/functions/formatVNDate";
 
 export interface DateRangePickerProps {
   /** Click handler for applying the updates from DateRangePicker. */
@@ -43,16 +43,6 @@ export interface DateRangePickerProps {
   /** Option for showing compare feature */
   showCompare?: boolean;
 }
-
-const capitalizeFirstLetter = (str: string): string => {
-  return str.charAt(0).toUpperCase() + str.slice(1);
-};
-
-const formatDate = (date: Date): string => {
-  moment.locale("vi");
-  const formattedDate = moment(date).format("[Ngày] D, [Th] M YYYY");
-  return capitalizeFirstLetter(formattedDate);
-};
 
 interface DateRange {
   from: Date;
@@ -324,23 +314,19 @@ export const DateRangePicker: FC<DateRangePickerProps> & {
       }}
     >
       <PopoverTrigger asChild>
-        <Button
-          size={"lg"}
-          variant="outline"
-          className="h-9 w-full border"
-        >
+        <Button size={"lg"} variant="outline" className="h-9 w-full border">
           <div className="-ml-5 text-left">
             <div className="">
-              <div>{`${formatDate(range.from)}${
-                range.to != null ? " - " + formatDate(range.to) : ""
+              <div>{`${formatVNDate(range.from)}${
+                range.to != null ? " - " + formatVNDate(range.to) : ""
               }`}</div>
             </div>
             {rangeCompare != null && (
               <div className="-mt-1 text-xs opacity-60">
                 <>
-                  vs. {formatDate(rangeCompare.from)}
+                  vs. {formatVNDate(rangeCompare.from)}
                   {rangeCompare.to != null
-                    ? ` - ${formatDate(rangeCompare.to)}`
+                    ? ` - ${formatVNDate(rangeCompare.to)}`
                     : ""}
                 </>
               </div>
