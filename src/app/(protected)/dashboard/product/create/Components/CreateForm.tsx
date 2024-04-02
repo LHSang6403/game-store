@@ -12,25 +12,13 @@ import DropAndDragZone from "@components/File/DropAndDragZone";
 import ProductFormInputs from "@/app/(protected)/dashboard/product/create/Components/ProductFormInputs";
 import useFiles from "@/zustand/useFiles";
 import { useSession } from "@/zustand/useSession";
-import { v4 as uuidv4 } from "uuid";
-import createSupabaseBrowserClient from "@/supabase-query/client";
-import { createProduct } from "@app/_actions/product";
-import { createProductDescription } from "@app/_actions/product_description";
-import {
-  ProductDescriptionType,
-  ProductStorageType,
-  ProductType,
-} from "@/utils/types/index";
-import {
-  CustomerType,
-  StaffType,
-  ProductWithDescriptionAndStorageType,
-} from "@/utils/types/index";
+import { ProductStorageType } from "@/utils/types/index";
+import { ProductWithDescriptionAndStorageType } from "@/utils/types/index";
 import { useState } from "react";
-import { createProductStorage } from "@/app/_actions/product_storage";
 import ProductStorageCheckbox from "@/app/(protected)/dashboard/product/create/Components/ProductStorageCheckbox";
+import { createHandler } from "@/app/(protected)/dashboard/product/create/_actions/index";
 
-const FormSchema = z.object({
+export const FormSchema = z.object({
   brand: z.string().min(2, { message: "Vui lòng nhập hiệu." }),
   name: z.string().min(2, { message: "Vui lòng nhập tên." }),
   description: z.string().min(2, { message: "Vui lòng nhập mô tả." }),
@@ -86,13 +74,13 @@ export default function CreateForm({
       async () => {
         if (session) {
           await createHandler({
-            data: data,
+            formData: data,
             files: files,
             session: session,
             productStorages: productStorages,
           });
         } else {
-          toast.error("Lỗi phiên đăng nhập.");
+          throw new Error("Lỗi không tìm thấy phiên làm việc.");
         }
       },
       {
@@ -103,7 +91,9 @@ export default function CreateForm({
 
           return "Tạo sản phẩm thành công. Đang chuyển hướng...";
         },
-        error: "Đã có lỗi xảy ra.",
+        error: (error: any) => {
+          return error.message;
+        },
       }
     );
   }
@@ -144,85 +134,4 @@ export default function CreateForm({
       </form>
     </Form>
   );
-}
-
-async function createHandler({
-  data,
-  files,
-  session,
-  productStorages,
-}: {
-  data: z.infer<typeof FormSchema>;
-  files: unknown[];
-  session: CustomerType | StaffType;
-  productStorages: ProductStorageType[];
-}) {
-  const editorContent = window.localStorage.getItem("content");
-  const cleanedJsonString = editorContent?.replace(/\\/g, "");
-
-  // upload description:
-  const descriptionObject: ProductDescriptionType = {
-    id: uuidv4(),
-    created_at: new Date().toISOString(),
-    content: JSON.parse(cleanedJsonString ?? "{}"),
-    writer: session?.name ?? "Không rõ",
-  };
-  await createProductDescription(descriptionObject);
-
-  // upload product images:
-  const supabase = createSupabaseBrowserClient();
-  const productImagesUploadResults: string[] = [];
-
-  for (const file of files) {
-    const uploadingFile = file as File;
-    const result = await supabase.storage
-      .from("public_files")
-      .upload("/product_images/" + uploadingFile.name, uploadingFile, {
-        upsert: true,
-        duplex: "half",
-      });
-    if (!result.error) productImagesUploadResults.push(result.data.path);
-    else {
-      toast.error(`Lôi khi lưu ảnh: ${uploadingFile.name}`);
-    }
-  }
-
-  if (!productImagesUploadResults.length) throw new Error("Lỗi khi lưu ảnh.");
-
-  // upload product:
-  const product: ProductType = {
-    id: uuidv4(),
-    created_at: new Date().toISOString(),
-    brand: data.brand,
-    name: data.name,
-    description: data.description,
-    images: productImagesUploadResults,
-    price: parseInt(data.price),
-    rate: parseFloat(data.rate),
-    sold_quantity: parseInt(data.sold_quantity),
-    description_id: descriptionObject.id,
-    category: data.category,
-    is_deleted: false,
-  };
-
-  const createProductResult = await createProduct({
-    product: product,
-    actor: {
-      actorId: session.id,
-      actorName: session.name,
-    },
-  });
-
-  // create product_storages for this product:
-  const createdProductStorages = productStorages.map((productStorage) => ({
-    ...productStorage,
-    product_id: product.id,
-    product_name: product.name,
-  }));
-
-  for (const createdProductStorage of createdProductStorages) {
-    await createProductStorage({ productStorage: createdProductStorage });
-  }
-
-  return createProductResult;
 }

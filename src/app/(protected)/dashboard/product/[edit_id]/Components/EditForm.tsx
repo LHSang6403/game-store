@@ -13,25 +13,15 @@ import ProductFormInputs from "@/app/(protected)/dashboard/product/create/Compon
 import useFiles from "@/zustand/useFiles";
 import { useSession } from "@/zustand/useSession";
 import {
-  CustomerType,
-  StaffType,
-  ProductType,
-  ProductDescriptionType,
   ProductWithDescriptionAndStorageType,
   ProductStorageType,
 } from "@/utils/types/index";
 import { useState } from "react";
 import ImageFileItem from "@components/File/ImageFileItem";
-import { updateProduct } from "@app/_actions/product";
-import { updateProductDescription } from "@app/_actions/product_description";
-import {
-  createProductStorage,
-  removeProductStorage,
-} from "@app/_actions/product_storage";
-import createSupabaseBrowserClient from "@/supabase-query/client";
 import ProductStorageCheckbox from "@/app/(protected)/dashboard/product/create/Components/ProductStorageCheckbox";
+import { updateHandler } from "@/app/(protected)/dashboard/product/[edit_id]/_actions/index";
 
-const FormSchema = z.object({
+export const FormSchema = z.object({
   brand: z.string().min(1, { message: "Vui lòng nhập hiệu." }),
   name: z.string().min(1, { message: "Vui lòng nhập tên." }),
   description: z.string().min(1, { message: "Vui lòng nhập mô tả." }),
@@ -98,7 +88,7 @@ export default function EditForm({
     toast.promise(
       async () => {
         if (session) {
-          const update = await updateHandler({
+          await updateHandler({
             formData: data,
             session: session,
             originalProduct: product,
@@ -106,20 +96,19 @@ export default function EditForm({
             newProductImages: files,
             updatedProductStorages: updatedProductStorages,
           });
-
-          if (
-            !update.updatedProductResponse.error &&
-            !update.updateProductDescriptionResponse.error
-          ) {
-            toast.success("Chỉnh sửa thành công.");
-            router.push("/dashboard/product");
-          }
         } else {
-          toast.error("Lỗi đăng nhập.");
+          throw new Error("Lỗi không có phiên làm việc.");
         }
       },
       {
         loading: "Đang chỉnh sửa...",
+        success: () => {
+          router.push("/dashboard/product");
+          return "Chỉnh sửa thành công. Chuyển hướng...";
+        },
+        error: (error: any) => {
+          return error.message;
+        },
       }
     );
   }
@@ -187,103 +176,4 @@ export default function EditForm({
       </form>
     </Form>
   );
-}
-
-async function updateHandler({
-  formData,
-  session,
-  originalProduct,
-  updatedProductImages,
-  newProductImages,
-  updatedProductStorages,
-}: {
-  formData: z.infer<typeof FormSchema>;
-  session: CustomerType | StaffType;
-  originalProduct: ProductWithDescriptionAndStorageType;
-  updatedProductImages: string[];
-  newProductImages: File[];
-  updatedProductStorages: ProductStorageType[];
-}) {
-  // update product:
-  const supabase = createSupabaseBrowserClient();
-  const newProductImagesUploadResults: string[] = [];
-
-  for (const file of newProductImages) {
-    const uploadingFile = file as File;
-
-    const result = await supabase.storage
-      .from("public_files")
-      .upload("/product_images/" + uploadingFile.name, uploadingFile, {
-        upsert: true,
-        duplex: "half",
-      });
-
-    if (!result.error) newProductImagesUploadResults.push(result.data.path);
-    else {
-      toast.error("Lỗi khi lưu hình ảnh.");
-    }
-  }
-
-  if (!newProductImagesUploadResults.length)
-    throw new Error("Lỗi khi lưu hình ảnh.");
-
-  const updatedProduct: ProductType = {
-    id: originalProduct.product.id,
-    created_at: originalProduct.product.created_at,
-    brand: formData.brand,
-    name: formData.name,
-    description: formData.description,
-    images: [...updatedProductImages, ...newProductImagesUploadResults],
-    price: parseInt(formData.price),
-    rate: parseFloat(formData.rate),
-    sold_quantity: parseInt(formData.sold_quantity),
-    description_id: originalProduct.product.description_id,
-    category: formData.category,
-    is_deleted: false,
-  };
-
-  const updatedProductResponse = await updateProduct({
-    updatedProduct: updatedProduct,
-    actor: {
-      actorId: session.id,
-      actorName: session.name,
-    },
-  });
-
-  // update product_description:
-  const editorContent = window.localStorage.getItem("content");
-  const cleanedJsonString = editorContent?.replace(/\\/g, "");
-
-  const updatedProductDescription: ProductDescriptionType = {
-    id: originalProduct.product_description.id,
-    created_at: originalProduct.product_description.created_at,
-    content: JSON.parse(
-      cleanedJsonString ?? originalProduct.product_description.content
-    ),
-    writer: session?.name ?? "Không rõ",
-  };
-
-  const updateProductDescriptionResponse = await updateProductDescription({
-    updatedProductDescription,
-  });
-
-  // update product_storage
-  for (const productStorage of originalProduct.product_storages) {
-    await removeProductStorage(productStorage.id);
-  }
-
-  for (const updatedProductStorage of updatedProductStorages) {
-    const result = await createProductStorage({
-      productStorage: updatedProductStorage,
-    });
-
-    if (result.error) {
-      throw new Error("Lỗi khi lưu kho.");
-    }
-  }
-
-  return {
-    updatedProductResponse,
-    updateProductDescriptionResponse,
-  };
 }
