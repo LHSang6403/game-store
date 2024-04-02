@@ -1,7 +1,7 @@
 "use client";
 
 import SoldBarChart from "@/app/(protected)/dashboard/Components/Charts/SoldBarChart";
-import StorageTable from "@/app/(protected)/dashboard/Components/StorageTable";
+import StorageTables from "@/app/(protected)/dashboard/Components/StorageTables";
 import { Activity, PackageSearch, UsersRound, Container } from "lucide-react";
 import {
   Card,
@@ -28,6 +28,17 @@ export default function Dashboard() {
           previousData="120 sản phẩm tháng trước"
           icon={<Container className="text-muted-foreground h-4 w-4" />}
         />
+        <Card className="col-span-2 row-span-2 h-full xl:col-span-4">
+          <CardHeader className="flex flex-row items-center pb-0">
+            <div className="grid gap-2">
+              <CardTitle>Bán chạy</CardTitle>
+              <CardDescription>Các sản phẩm bán chạy</CardDescription>
+            </div>
+          </CardHeader>
+          <CardContent className="mt-2 h-fit">
+            <SoldBarChart />
+          </CardContent>
+        </Card>
         <DataCard
           title="Khách hàng"
           data="573 người dùng"
@@ -42,30 +53,7 @@ export default function Dashboard() {
         />
       </div>
       <div className="grid grid-cols-2 gap-4 sm:gap-2">
-        <Card className="h-fit xl:col-span-2">
-          <CardHeader className="flex flex-row items-center pb-0">
-            <div className="grid gap-2">
-              <CardTitle>Đã bán</CardTitle>
-              <CardDescription>Các sản phẩm đã bán gần đây</CardDescription>
-            </div>
-          </CardHeader>
-          <CardContent className="mt-2 h-fit">
-            <SoldBarChart />
-          </CardContent>
-        </Card>
-        <Card className="h-fit xl:col-span-2">
-          <CardHeader className="flex flex-row items-center pb-0">
-            <div className="grid gap-2">
-              <CardTitle>Kho bãi</CardTitle>
-              <CardDescription>
-                Hệ thống kho của cửa hàng toàn quốc
-              </CardDescription>
-            </div>
-          </CardHeader>
-          <CardContent className="mt-2 h-fit">
-            <StorageTable />
-          </CardContent>
-        </Card>
+        <StorageTables />
       </div>
     </main>
   );

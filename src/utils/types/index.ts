@@ -103,9 +103,10 @@ export interface BlogType {
 }
 
 export interface ProductStorageType {
-  id: string;
-  product_id: string;
-  storage_id: string;
+  id: string; // p_key
+  created_at: string;
+  product_id: string; // f_key
+  storage_id: string; // f_key
   quantity: number;
   product_name: string;
   storage_name: string;
@@ -119,6 +120,17 @@ export interface StorageType {
   ward: string;
   district: string;
   province: string;
+}
+
+export interface StorageWithProductStorageType {
+  id: string;
+  created_at: string;
+  name: string;
+  address: string;
+  ward: string;
+  district: string;
+  province: string;
+  product_storage: ProductStorageType[];
 }
 
 export interface LogType {

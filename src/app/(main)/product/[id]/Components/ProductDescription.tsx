@@ -10,7 +10,10 @@ export default function ProductDescription({
 }: {
   description: ProductDescriptionType;
 }) {
-  const [content, setContent] = useLocalStorage("content", description.content);
+  const [content, setContent] = useLocalStorage(
+    "content",
+    description.content ?? {}
+  );
 
   useEffect(() => {
     setContent(description.content);

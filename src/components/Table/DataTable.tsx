@@ -40,6 +40,7 @@ interface DataTableProps<TData, TValue> {
   searchAttribute?: string;
   isBorder?: boolean;
   isSeparator?: boolean;
+  defaultPageSize?: number;
 }
 
 export function DataTable<TData, TValue>({
@@ -51,6 +52,7 @@ export function DataTable<TData, TValue>({
   searchAttribute = "name",
   isBorder = true,
   isSeparator = true,
+  defaultPageSize = 10,
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
@@ -59,6 +61,11 @@ export function DataTable<TData, TValue>({
   const table = useReactTable({
     data,
     columns,
+    initialState: {
+      pagination: {
+        pageSize: defaultPageSize,
+      },
+    },
     state: {
       sorting,
       columnFilters,

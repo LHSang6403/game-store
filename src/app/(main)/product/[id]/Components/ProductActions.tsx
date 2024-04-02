@@ -1,30 +1,37 @@
 import { Button } from "@/components/ui/button";
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { Checkbox } from "@/components/ui/checkbox";
 import formatCurrency from "@utils/functions/formatCurrency";
 import { useOrder } from "@/zustand/useOrder";
 import { toast } from "sonner";
-import type { ProductWithDescriptionAndStorageType } from "@utils/types/index";
+import type {
+  ProductStorageType,
+  ProductWithDescriptionAndStorageType,
+} from "@utils/types/index";
+import { useSession } from "@/zustand/useSession";
+import { useState, useEffect } from "react";
 
 export default function ProductActions({
   product,
 }: {
   product: ProductWithDescriptionAndStorageType;
 }) {
-  const { addProduct } = useOrder();
+  const { addProduct, setCustomer } = useOrder();
+  const { session } = useSession();
+  const [isSoldOut, setIsSoldOut] = useState(false);
 
   const handleAddToCart = () => {
     addProduct(product);
-    toast.success("Added successfully!");
+    if (session) setCustomer(session?.id, session?.name);
+
+    toast.success("Thêm vào giỏ hàng thành công!");
   };
+
+  useEffect(() => {
+    product.product_storages.map((store: ProductStorageType, index) => {
+      if (store.quantity <= 0) {
+        setIsSoldOut(true);
+      }
+    });
+  }, []);
 
   return (
     <>
@@ -47,75 +54,39 @@ export default function ProductActions({
           ))}
         </div>
         <div className="text-xl font-semibold">
-          {formatCurrency(product.price)} VND
+          {formatCurrency(product.product.price)} VND
         </div>
         <div className="line-clamp-3 w-full overflow-ellipsis font-light">
-          {product.description}
+          {product.product.description}
         </div>
       </div>
-      <div>
-        <div className="-mt-2 text-sm font-medium text-foreground">
-          Availble:{" "}
-          <span className="font-light">{product.storage[0].quantity}</span>
-        </div>
+      <hr className="w-[60%] rounded border dark:opacity-20 sm:w-full"></hr>
+      <div className="flex flex-col gap-1">
         <div className="text-sm font-medium text-foreground">
-          Storage:{" "}
-          <span className="font-light">{product.storage[0].address}</span>
+          Đã bán:{" "}
+          <span className="font-light">{product.product.sold_quantity}</span>
         </div>
-        <div className="text-sm font-medium text-foreground">
-          Sold: <span className="font-light">{product.sold_quantity}</span>
-        </div>
-        <hr className="my-2 w-[60%] rounded border dark:opacity-20 sm:w-full"></hr>
-        {/* <div className="font-medium text-foreground">Choose options:</div>
-        <div className="mt-0.5">
-          <Select>
-            <SelectTrigger className="w-[180px] border-none ">
-              <SelectValue placeholder="Select option" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectGroup>
-                <SelectLabel>Options</SelectLabel>
-                {product.options.map((option: string, index: number) => (
-                  <SelectItem key={index} value={option}>
-                    {option}
-                  </SelectItem>
-                ))}
-              </SelectGroup>
-            </SelectContent>
-          </Select>
-        </div> */}
-        <div className="mt-4 flex flex-col gap-4 lg:flex-row sm:px-1">
-          <div className="flex items-center space-x-2">
-            <Checkbox disabled={true} id="terms" />
-            <label
-              htmlFor="terms"
-              className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-            >
-              Fast delivery
-            </label>
+        {product.product_storages.map((store, index) => (
+          <div key={index} className="text-sm font-medium text-foreground">
+            Có sẵn:{" "}
+            <span className="font-light">
+              {store.quantity} tại {store.storage_name}
+            </span>
           </div>
-          <div className="flex items-center space-x-2">
-            <Checkbox disabled={true} id="terms" />
-            <label
-              htmlFor="terms"
-              className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-            >
-              Free return
-            </label>
-          </div>
-        </div>
+        ))}
       </div>
-      {product.storage[0].quantity ? (
+      {isSoldOut ? (
+        <div className="text-sm font-light text-foreground">
+          Sản phẩm này hiện đang hết hàng.
+        </div>
+      ) : (
         <Button
+          disabled={isSoldOut}
           className="h-fit w-fit text-background sm:w-full"
           onClick={handleAddToCart}
         >
-          Cart now
+          Thêm vào giỏ hàng
         </Button>
-      ) : (
-        <div className="font-medium text-foreground">
-          This product is currently sold out!
-        </div>
       )}
     </>
   );

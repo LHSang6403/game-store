@@ -125,44 +125,6 @@ export default function ProductFormInputs({ form }: { form: any }) {
           </FormItem>
         )}
       />
-      <FormField
-        control={form.control}
-        name="storage_address"
-        render={({ field }) => (
-          <FormItem>
-            <FormLabel>Địa chỉ kho</FormLabel>
-            <FormControl>
-              <Input
-                placeholder="Kho sản phẩm"
-                {...field}
-                type="text"
-                onChange={field.onChange}
-                className="border-[#E5E7EB]"
-              />
-            </FormControl>
-            <FormMessage />
-          </FormItem>
-        )}
-      />
-      <FormField
-        control={form.control}
-        name="storage_quantity"
-        render={({ field }) => (
-          <FormItem>
-            <FormLabel>Số lượng</FormLabel>
-            <FormControl>
-              <Input
-                placeholder="Số lượng sản phẩm"
-                {...field}
-                type="text"
-                onChange={field.onChange}
-                className="border-[#E5E7EB]"
-              />
-            </FormControl>
-            <FormMessage />
-          </FormItem>
-        )}
-      />
     </div>
   );
 }

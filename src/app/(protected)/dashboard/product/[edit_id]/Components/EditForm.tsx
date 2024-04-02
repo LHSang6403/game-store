@@ -17,15 +17,19 @@ import {
   StaffType,
   ProductType,
   ProductDescriptionType,
-  StorageType,
   ProductWithDescriptionAndStorageType,
+  ProductStorageType,
 } from "@/utils/types/index";
 import { useState } from "react";
 import ImageFileItem from "@components/File/ImageFileItem";
 import { updateProduct } from "@app/_actions/product";
 import { updateProductDescription } from "@app/_actions/product_description";
-import { updateStorage } from "@app/_actions/storage";
+import {
+  createProductStorage,
+  removeProductStorage,
+} from "@app/_actions/product_storage";
 import createSupabaseBrowserClient from "@/supabase-query/client";
+import ProductStorageCheckbox from "@/app/(protected)/dashboard/product/create/Components/ProductStorageCheckbox";
 
 const FormSchema = z.object({
   brand: z.string().min(1, { message: "Vui lòng nhập hiệu." }),
@@ -65,19 +69,19 @@ export default function EditForm({
   const { session } = useSession();
 
   const [updatedProductImages, setUpdatedProductImages] = useState<string[]>(
-    product?.images ?? []
+    product?.product.images ?? []
   );
 
   const initState = {
-    brand: product.brand ?? product?.brand ?? "",
-    name: product?.name ?? "",
-    description: product?.description ?? "",
-    price: product?.price.toString() ?? "1000000",
-    rate: product?.rate.toString() ?? "4",
-    sold_quantity: product?.sold_quantity.toString() ?? "0",
-    category: product?.category ?? "",
-    storage_address: product?.storage[0]?.address ?? "",
-    storage_quantity: product?.storage[0]?.quantity.toString() ?? "0",
+    brand: product?.product.brand ?? "",
+    name: product?.product.name ?? "",
+    description: product?.product.description ?? "",
+    price: product?.product.price.toString() ?? "1000000",
+    rate: product?.product.rate.toString() ?? "4",
+    sold_quantity: product?.product.sold_quantity.toString() ?? "0",
+    category: product?.product.category ?? "",
+    storage_address: product?.storages[0]?.address ?? "",
+    storage_quantity: product?.product_storages[0]?.quantity.toString() ?? "0",
   };
 
   const form = useForm<z.infer<typeof FormSchema>>({
@@ -86,22 +90,26 @@ export default function EditForm({
     mode: "onBlur",
   });
 
+  const [updatedProductStorages, setUpdatedProductStorages] = useState<
+    ProductStorageType[]
+  >([]);
+
   async function onSubmit(data: z.infer<typeof FormSchema>) {
     toast.promise(
       async () => {
         if (session) {
-          const update = await updateHandler(
-            data,
-            session,
-            product,
-            updatedProductImages,
-            files
-          );
+          const update = await updateHandler({
+            formData: data,
+            session: session,
+            originalProduct: product,
+            updatedProductImages: updatedProductImages,
+            newProductImages: files,
+            updatedProductStorages: updatedProductStorages,
+          });
 
           if (
             !update.updatedProductResponse.error &&
-            !update.updateProductDescriptionResponse.error &&
-            !update.updateStorageResponse.error
+            !update.updateProductDescriptionResponse.error
           ) {
             toast.success("Chỉnh sửa thành công.");
             router.push("/dashboard/product");
@@ -124,6 +132,12 @@ export default function EditForm({
       >
         <div className="h-fit w-full xl:col-span-2">
           <ProductFormInputs form={form} />
+          <ProductStorageCheckbox
+            defaultProductStorages={product.product_storages}
+            onValuesChange={(values) => {
+              setUpdatedProductStorages(values);
+            }}
+          />
         </div>
         <div className="mt-0.5 flex h-fit w-full flex-col xl:col-span-2">
           <div className="w-full">
@@ -163,7 +177,10 @@ export default function EditForm({
           </div>
         </div>
         <div className="col-span-2 flex justify-center">
-          <Button className="mt-1 w-fit bg-foreground px-7 text-background">
+          <Button
+            type="submit"
+            className="mt-1 w-fit bg-foreground px-7 text-background"
+          >
             Lưu thay đổi
           </Button>
         </div>
@@ -172,13 +189,21 @@ export default function EditForm({
   );
 }
 
-async function updateHandler(
-  data: z.infer<typeof FormSchema>,
-  session: CustomerType | StaffType,
-  originalProduct: ProductWithDescriptionAndStorageType,
-  updatedProductImages: string[],
-  newProductImages: File[]
-) {
+async function updateHandler({
+  formData,
+  session,
+  originalProduct,
+  updatedProductImages,
+  newProductImages,
+  updatedProductStorages,
+}: {
+  formData: z.infer<typeof FormSchema>;
+  session: CustomerType | StaffType;
+  originalProduct: ProductWithDescriptionAndStorageType;
+  updatedProductImages: string[];
+  newProductImages: File[];
+  updatedProductStorages: ProductStorageType[];
+}) {
   // update product:
   const supabase = createSupabaseBrowserClient();
   const newProductImagesUploadResults: string[] = [];
@@ -203,17 +228,17 @@ async function updateHandler(
     throw new Error("Lỗi khi lưu hình ảnh.");
 
   const updatedProduct: ProductType = {
-    id: originalProduct.id,
-    created_at: originalProduct.created_at,
-    brand: data.brand,
-    name: data.name,
-    description: data.description,
+    id: originalProduct.product.id,
+    created_at: originalProduct.product.created_at,
+    brand: formData.brand,
+    name: formData.name,
+    description: formData.description,
     images: [...updatedProductImages, ...newProductImagesUploadResults],
-    price: parseInt(data.price),
-    rate: parseFloat(data.rate),
-    sold_quantity: parseInt(data.sold_quantity),
-    description_id: originalProduct.description_id,
-    category: data.category,
+    price: parseInt(formData.price),
+    rate: parseFloat(formData.rate),
+    sold_quantity: parseInt(formData.sold_quantity),
+    description_id: originalProduct.product.description_id,
+    category: formData.category,
     is_deleted: false,
   };
 
@@ -242,21 +267,23 @@ async function updateHandler(
     updatedProductDescription,
   });
 
-  // update storage
-  const updatedStorage: StorageType = {
-    id: originalProduct.storage[0].id,
-    created_at: new Date().toISOString(),
-    prod_id: originalProduct.storage[0].prod_id,
-    prod_name: originalProduct.storage[0].prod_name,
-    address: data.storage_address,
-    quantity: parseInt(data.storage_quantity),
-  };
+  // update product_storage
+  for (const productStorage of originalProduct.product_storages) {
+    await removeProductStorage(productStorage.id);
+  }
 
-  const updateStorageResponse = await updateStorage({ updatedStorage });
+  for (const updatedProductStorage of updatedProductStorages) {
+    const result = await createProductStorage({
+      productStorage: updatedProductStorage,
+    });
+
+    if (result.error) {
+      throw new Error("Lỗi khi lưu kho.");
+    }
+  }
 
   return {
     updatedProductResponse,
     updateProductDescriptionResponse,
-    updateStorageResponse,
   };
 }

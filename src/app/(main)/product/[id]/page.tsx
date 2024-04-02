@@ -13,7 +13,7 @@ export default async function Product({ params }: { params: { id: string } }) {
   } = useProductQuery({ id: params.id });
 
   if (error) {
-    throw new Error(error.message || "Failed to fetch product.");
+    throw new Error(error.message || "Không tìm thấy sản phẩm.");
   }
 
   return (
@@ -25,7 +25,9 @@ export default async function Product({ params }: { params: { id: string } }) {
             <h2 className="text-center text-2xl font-medium">
               Product Description
             </h2>
-            <ProductDescription description={product.product_description} />
+            {product.product_description.content && (
+              <ProductDescription description={product.product_description} />
+            )}
           </div>
         </Template>
       )}

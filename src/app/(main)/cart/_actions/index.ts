@@ -83,7 +83,7 @@ export async function processOrderRequestData({
         coupon: null,
         items: [
           ...order.products.map((prod) => ({
-            name: prod.name,
+            name: prod.product.name,
             quantity: 1,
             weight: 1,
           })),
@@ -129,7 +129,7 @@ export async function processOrderRequestData({
         },
         products: [
           ...order.products.map((prod) => ({
-            name: prod.name,
+            name: prod.product.name,
             quantity: 1,
             weight: 1,
           })),

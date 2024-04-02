@@ -1,6 +1,6 @@
 "use client";
 
-import { BarList, Title } from "@tremor/react";
+import { BarList } from "@tremor/react";
 import { useQuery } from "@tanstack/react-query";
 import type { OrderType } from "@utils/types/index";
 import ChartLoading from "@/app/(protected)/dashboard/Components/ChartLoading";
@@ -13,7 +13,7 @@ export default function RevenueBarChart() {
   const { data: ordersResponse, isLoading } = useQuery({
     queryKey: ["orders", from, to],
     queryFn: async () => readOrdersByDateRange({ from: from, to: to }),
-    staleTime: 1000 * 60 * 60,
+    staleTime: 1000 * 60 * 5,
   });
 
   const orders = ordersResponse?.data as OrderType[];
@@ -46,17 +46,20 @@ function ordersToSoldProducts(orders: OrderType[]) {
     orders?.forEach((order) => {
       order.products?.forEach((product) => {
         const existingProductIndex = soldProducts.findIndex(
-          (soldProduct) => soldProduct.name === product.name
+          (soldProduct) => soldProduct.name === product.product.name
         );
 
         if (existingProductIndex !== -1) {
           soldProducts[existingProductIndex].value += 1;
         } else {
-          soldProducts.push({ name: product.name, value: 1 });
+          soldProducts.push({ name: product.product.name, value: 1 });
         }
       });
     });
 
-    return soldProducts;
+    const sortedData = soldProducts.sort((a, b) => b.value - a.value);
+    const top3 = sortedData.slice(0, 3);
+
+    return top3;
   } else return [];
 }

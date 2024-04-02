@@ -70,7 +70,6 @@ export default function ConfirmDialog({
       // *** create ship order & save order ***
 
       async () => {
-        let requestOrderResult: any;
         switch (formData.shipment) {
           case "GHN":
             const GHNResponse = await processOrderRequestData({
@@ -84,8 +83,6 @@ export default function ConfirmDialog({
 
             console.log(ghn);
             setShipment("GHN", ghn.data.order_code);
-
-            requestOrderResult = ghn.data;
             break;
 
           case "GHTK":
@@ -100,21 +97,19 @@ export default function ConfirmDialog({
 
             console.log(ghtk);
             setShipment("GHTK", ghtk.data.label);
-
-            requestOrderResult = ghtk;
             break;
         }
 
         if (!order.shipment_label_code) {
           console.log(order);
-          toast.error("Failed to create order, please try again.");
+          toast.error("Tạo đơn hàng thất bại. Vui lòng thử lại.");
         } else {
           // *** Save to DB after payment and shipment ***
           mutation.mutateAsync(order);
         }
       },
       {
-        loading: "Creating order...",
+        loading: "Đang tạo đơn hàng...",
       }
     );
   }
@@ -123,9 +118,9 @@ export default function ConfirmDialog({
     <Dialog open={isOpen} onOpenChange={() => onOpenChange()}>
       <DialogContent className="rounded-md sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Order confirmation</DialogTitle>
+          <DialogTitle>Xác nhận đơn hàng</DialogTitle>
           <DialogDescription>
-            Check your order and fees carefully and click buy when you're done.
+            Vui lòng kiểm tra lại toàn bộ thông tin đơn hàng trước khi xác nhận.
           </DialogDescription>
         </DialogHeader>
         <div className="mt-2 flex flex-col gap-1 text-sm">
@@ -184,7 +179,7 @@ export default function ConfirmDialog({
           onClick={handleBuy}
           className="w-full bg-foreground text-background"
         >
-          Buy
+          Mua hàng
         </Button>
       </DialogContent>
     </Dialog>

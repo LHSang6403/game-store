@@ -1,13 +1,14 @@
 "use client";
 
 import { ColumnDef } from "@tanstack/react-table";
-import { StorageType } from "@utils/types";
+import { ProductStorageType } from "@utils/types";
 import { Button } from "@/components/ui/button";
-import { ArrowUpDown } from "lucide-react";
+import { ArrowUpDown, ArrowUpRight } from "lucide-react";
+import { useRouter } from "next/navigation";
 
-export const columns: ColumnDef<StorageType>[] = [
+export const columns: ColumnDef<ProductStorageType>[] = [
   {
-    accessorKey: "prod_name",
+    accessorKey: "product_name",
     header: "Sản phẩm",
   },
   {
@@ -27,11 +28,24 @@ export const columns: ColumnDef<StorageType>[] = [
     cell: ({ row }) => {
       const data = row.original;
 
-      return <div className="mx-8 w-fit">{data.quantity}</div>;
+      return <div className="mx-8 w-fit">{data.quantity ?? 0}</div>;
     },
   },
   {
-    accessorKey: "address",
-    header: "Kho",
+    id: "actions",
+    header: "Xem",
+    cell: ({ row }) => {
+      const data = row.original;
+      const router = useRouter();
+
+      return (
+        <Button variant="ghost" className="h-8 w-8 p-0">
+          <ArrowUpRight
+            onClick={() => router.push("/product/" + data.product_id)}
+            className="h-4 w-4"
+          />
+        </Button>
+      );
+    },
   },
 ];

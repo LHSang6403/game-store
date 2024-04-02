@@ -87,13 +87,13 @@ export default function OrderForm() {
     }
 
     if (!customerSession) {
-      toast.error("Please login to buy items.");
+      toast.error("Đăng nhập để mua hàng.");
       return <></>;
     }
 
     const staffSession = session as StaffType;
     if ("role" in staffSession) {
-      toast.error("Staffs can't buy items.");
+      toast.error("Nhân viên không thể mua hàng.");
       return <></>;
     }
 
@@ -121,9 +121,9 @@ export default function OrderForm() {
         }
       },
       {
-        loading: "Calculating order...",
-        error: (error) => {
-          return `Failed to calculate order: ${error}`;
+        loading: "Đang ước tính chi phí...",
+        error: () => {
+          return "Tính toán thất bại. Vui lòng thử lại.";
         },
       }
     );
@@ -133,7 +133,7 @@ export default function OrderForm() {
     <>
       {order && (
         <div className="flex h-fit w-[600px] flex-col gap-2 rounded-md border px-3 py-2 pb-4 sm:w-full">
-          <h2 className="text-lg font-semibold">Your order summary</h2>
+          <h2 className="text-lg font-semibold">Đơn hàng của bạn</h2>
           <Form {...form}>
             <form
               onSubmit={form.handleSubmit(onSubmit)}

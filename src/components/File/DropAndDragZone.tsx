@@ -95,7 +95,7 @@ const DropAndDragZone = ({
   };
 
   return (
-    <form action={action} className="h-fit w-fit">
+    <form action={action} className="h-fit w-full">
       <div
         {...getRootProps({
           className: className,

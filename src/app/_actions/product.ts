@@ -116,25 +116,30 @@ export async function readProductDetailById(id: string) {
   try {
     const supabase = await createSupabaseServerClient();
 
-    const result = await supabase
+    const productResult = await supabase
       .from("product")
-      .select(
-        `
-  *,
-  product_description (id, created_at, content, writer)
-  `
-      )
+      .select("*")
       .eq("id", id)
       .eq("is_deleted", false)
       .single();
 
-    if (result.error) {
+    if (productResult.error || !productResult.data) {
       throw new Error("Lỗi truy vấn sản phẩm.");
     }
 
+    const descriptionResult = await supabase
+      .from("product_description")
+      .select("*")
+      .eq("id", productResult.data.description_id)
+      .single();
+
+    if (descriptionResult.error || !descriptionResult.data) {
+      throw new Error("Lỗi truy vấn mô tả sản phẩm.");
+    }
+
     let resultData: ProductWithDescriptionAndStorageType = {
-      product: result.data as ProductType,
-      product_description: result.data as ProductDescriptionType,
+      product: productResult.data as ProductType,
+      product_description: descriptionResult.data as ProductDescriptionType,
       product_storages: [] as ProductStorageType[],
       storages: [] as StorageType[],
     };
@@ -162,10 +167,10 @@ export async function readProductDetailById(id: string) {
     }
 
     return {
-      status: result.status,
-      statusText: result.statusText,
+      status: productResult.status,
+      statusText: productResult.statusText,
       data: resultData as ProductWithDescriptionAndStorageType,
-      error: result.error,
+      error: productResult.error,
     };
   } catch (error: any) {
     return {

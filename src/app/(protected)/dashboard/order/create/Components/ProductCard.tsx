@@ -32,19 +32,20 @@ export default function ProductCard({
           />
         </svg>
         <div className="text-sm font-medium">
-          {prod.brand} {prod.name}
+          {prod.product.brand} {prod.product.name}
         </div>
       </div>
       <div className="flex flex-row items-end gap-2">
         <div className="mt-0.5 text-sm font-medium">
-          {formatCurrency(prod.price)} VNĐ
+          {formatCurrency(prod.product.price)} VNĐ
         </div>
         <div className="mb-[2px] mt-0.5 text-xs font-light">
-          Có sẵn: {prod.storage[0].quantity} tại kho {prod.storage[0].address}
+          Có sẵn: {prod.product_storages[0].quantity} tại kho{" "}
+          {prod.storages[0].name}
         </div>
       </div>
       <div className="line-clamp-1 overflow-ellipsis text-xs font-light">
-        {prod.description}
+        {prod.product.description}
       </div>
     </div>
   );
