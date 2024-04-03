@@ -1,6 +1,5 @@
-import OrderSummary from "./Components/Summary/OrderSummary";
 import OrderHistory from "./Components/History/OrderHistory";
-import OrderForm from "./Components/Summary/OrderForm";
+import OrderCurrent from "./Components/Summary/OrderCurrent";
 
 export default function Page() {
   return (
@@ -10,16 +9,9 @@ export default function Page() {
       <h1 className="mt-4 text-center text-3xl font-semibold">
         Your selected products
       </h1>
-      <div className="mx-auto flex w-full flex-row justify-center gap-6 xl:flex-col xl:items-center sm:w-full">
-        <div className="flex w-fit flex-col gap-3 sm:w-full">
-          <OrderSummary />
-        </div>
-        <div className="w-fit sm:w-full">
-          <OrderForm />
-        </div>
-      </div>
+      <OrderCurrent />
       <hr className="mx-auto my-4 w-[70%] rounded-full xl:w-[90%]"></hr>
-      <div className="">
+      <div className="xl:w-full">
         <OrderHistory />
       </div>
     </div>

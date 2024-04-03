@@ -90,11 +90,11 @@ export async function updateStorageQuantityByProductId({
     const readResult = await supabase
       .from("product_storage")
       .select("quantity")
-      .eq("prod_id", prod_id)
+      .eq("product_id", prod_id)
       .eq("storage_id", storage_id)
       .single();
 
-    if (readResult.error || !readResult.data)
+    if (readResult.error && !readResult.data)
       throw new Error("Không tìm thấy sản phẩm trong kho.");
 
     const currentQuantity = readResult?.data?.quantity as number;
@@ -103,7 +103,7 @@ export async function updateStorageQuantityByProductId({
     const result = await supabase
       .from("product_storage")
       .update({ quantity: newQuantity })
-      .eq("prod_id", prod_id)
+      .eq("product_id", prod_id)
       .eq("storage_id", storage_id);
 
     return {

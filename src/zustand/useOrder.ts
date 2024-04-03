@@ -1,12 +1,10 @@
 import { create } from "zustand";
 import type { ProductWithDescriptionAndStorageType } from "@utils/types/index";
 import { generate } from "randomstring";
-import type { ShipmentNameType, OrderType } from "@utils/types/index";
+import { OrderType } from "@utils/types/index";
 
 interface OrderState {
   order: OrderType | null;
-  shipment_name: ShipmentNameType;
-  shipment_label_code: string | null;
   setNewID: () => void;
   setPrices: (shipping_fee: number, insurance_fee: number) => void;
   addProduct: (prod: ProductWithDescriptionAndStorageType) => void;
@@ -16,8 +14,6 @@ interface OrderState {
 
 export const useOrder = create<OrderState>((set) => ({
   order: null,
-  shipment_name: "GHTK",
-  shipment_label_code: null,
   setNewID: () =>
     set((state: OrderState) => {
       if (state.order) {

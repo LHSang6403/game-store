@@ -38,6 +38,7 @@ export default function ConfirmDialog({
           order: orderData,
           actor: {
             actorId: session.session.id,
+
             actorName: session.session.name,
           },
         });

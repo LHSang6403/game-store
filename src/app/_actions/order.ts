@@ -25,7 +25,7 @@ export async function createOrder({
     for (const prodId of prodIds) {
       await updateStorageQuantityByProductId({
         prod_id: prodId,
-        storage_id: "1511f03a-3f73-4ed3-b08c-c4819a86843c", // Hardcoded storage id HCM
+        storage_id: order.pick_storage_id, 
         updatedQuantity: -1,
       });
       await updateSoldQuantityByProductId(prodId, 1);

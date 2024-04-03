@@ -90,6 +90,7 @@ export interface OrderType {
   pick_district: string;
   pick_province: string;
   weight: number;
+  pick_storage_id: string;
 }
 
 export interface BlogType {
@@ -121,6 +122,7 @@ export interface StorageType {
   ward: string;
   district: string;
   province: string;
+  area: string;
 }
 
 export interface StorageWithProductStorageType {

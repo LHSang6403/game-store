@@ -17,13 +17,18 @@ import { Input } from "@components/ui/input";
 import { Button } from "@components/ui/button";
 import { useSession } from "@/zustand/useSession";
 import { useOrder } from "@/zustand/useOrder";
-import type { CustomerType, StaffType } from "@utils/types";
+import type { CustomerType, StaffType, StorageType } from "@utils/types";
 import ConfirmDialog from "./ConfirmDialog";
 import { useState, useEffect } from "react";
 import FormAddressPicker from "@components/Picker/Address/FormAddressPicker";
 import useAddressSelects from "@/zustand/useAddressSelects";
 import SelectShipmentForm from "./SelectShipmentForm";
 import { calShipmentFees } from "@/app/(main)/cart/_actions/calShip";
+import LocationDialog from "@app/(main)/cart/Components/Summary/LocationDialog";
+import useLocalStorage from "@/hooks/useLocalStorage";
+import { useQuery } from "@tanstack/react-query";
+import { readStorages } from "@app/_actions/storage";
+import { findAvailableStorage } from "@app/(main)/cart/_actions/findAvailbleStorage";
 
 const FormSchema = z.object({
   name: z.string().min(1, { message: "Name is a compulsory." }),
@@ -52,9 +57,21 @@ const FormSchema = z.object({
 export default function OrderForm() {
   const { order, setPrices, setNewID } = useOrder();
   const { session } = useSession();
-  const { addressValues } = useAddressSelects();
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
   const customerSession = session as CustomerType;
+  const { addressValues } = useAddressSelects();
+
+  const [isConfirmDialogOpen, setIsConfirmDialogOpen] = useState(false);
+  const [isLocationDialogOpen, setIsLocationDialogOpen] = useState(false);
+
+  const { data: storages, isSuccess: isStorageSuccess } = useQuery({
+    queryKey: ["storages", "all"],
+    queryFn: () => readStorages(),
+    staleTime: 1000 * 60 * 60,
+  });
+
+  const [content, setContent] = useLocalStorage("storage", {
+    name: "Miền Trung & Nam",
+  });
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
@@ -94,16 +111,31 @@ export default function OrderForm() {
         if ("role" in staffSession)
           throw new Error("Nhân viên không thể mua hàng.");
 
-        // set enough info to zustand useOrder
+        // set enough info to useOrder's state
         order.address = form.getValues().address;
         order.ward = form.getValues().ward;
         order.district = form.getValues().district;
         order.province = form.getValues().province;
 
-        order.pick_address = "227 Nguyễn Văn Cừ";
-        order.pick_ward = "Phường 4";
-        order.pick_district = "Quận 5";
-        order.pick_province = "TP Hồ Chí Minh";
+        const clientArea = JSON.parse(
+          window.localStorage.getItem("storage") ?? ""
+        ).name;
+
+        // decide the suitable storage for pick all products
+        const suitablePickStorage = findAvailableStorage({
+          order: order,
+          clientArea: clientArea,
+          allStorages: storages?.data ?? [],
+        });
+
+        if (!suitablePickStorage)
+          throw new Error("Hệ thống kho không cung cấp đủ.");
+
+        order.pick_address = suitablePickStorage?.address;
+        order.pick_ward = suitablePickStorage?.ward;
+        order.pick_district = suitablePickStorage?.district;
+        order.pick_province = suitablePickStorage?.province;
+        order.pick_storage_id = suitablePickStorage?.id;
 
         order.customer_id = customerSession.id;
         order.customer_name = form.getValues().name;
@@ -116,7 +148,7 @@ export default function OrderForm() {
         setPrices(calFees?.data?.service_fee, calFees?.data?.insurance_fee);
         setNewID();
 
-        setIsDialogOpen(true);
+        // setIsConfirmDialogOpen(true);
       },
       {
         loading: "Đang ước tính chi phí...",
@@ -127,10 +159,37 @@ export default function OrderForm() {
     );
   }
 
+  // location dialog
+  useEffect(() => {
+    if (!window.localStorage.getItem("storage")) {
+      if (order) {
+        const timeoutToShow = setTimeout(() => {
+          setIsLocationDialogOpen(true);
+        }, 2000);
+
+        const timeoutToHide = setTimeout(() => {
+          setIsLocationDialogOpen(false);
+
+          // set default if user not select
+          if (!window.localStorage.getItem("storage")) {
+            setContent({
+              name: "Miền Trung & Nam",
+            });
+          }
+        }, 5000);
+
+        return () => {
+          clearTimeout(timeoutToShow);
+          clearTimeout(timeoutToHide);
+        };
+      }
+    }
+  }, []);
+
   return (
     <>
       {order && (
-        <div className="flex h-fit w-[600px] flex-col gap-2 rounded-md border px-3 py-2 pb-4 sm:w-full">
+        <div className="flex h-fit w-full flex-col gap-2 rounded-md border px-3 py-2 pb-4">
           <h2 className="text-lg font-semibold">Đơn hàng của bạn</h2>
           <Form {...form}>
             <form
@@ -145,7 +204,6 @@ export default function OrderForm() {
                     <FormLabel>Name</FormLabel>
                     <FormControl>
                       <Input
-                        className="border-[#E5E7EB]"
                         placeholder="Your name"
                         {...field}
                         type="text"
@@ -164,7 +222,6 @@ export default function OrderForm() {
                     <FormLabel>Phone number</FormLabel>
                     <FormControl>
                       <Input
-                        className="border-[#E5E7EB]"
                         placeholder="Enter number"
                         {...field}
                         type="text"
@@ -215,7 +272,6 @@ export default function OrderForm() {
                     <FormLabel>Address</FormLabel>
                     <FormControl>
                       <Input
-                        className="border-[#E5E7EB]"
                         placeholder="Enter address"
                         {...field}
                         onChange={field.onChange}
@@ -249,6 +305,27 @@ export default function OrderForm() {
               >
                 Calculate prices
               </Button>
+              <div>
+                {window.localStorage.getItem("storage") && (
+                  <div className="mt-1 flex h-full flex-col items-start justify-center gap-1">
+                    <FormLabel>
+                      Khu vực:{" "}
+                      {
+                        JSON.parse(window.localStorage.getItem("storage") ?? "")
+                          .name
+                      }
+                    </FormLabel>
+                    <div
+                      onClick={() =>
+                        setIsLocationDialogOpen(!isLocationDialogOpen)
+                      }
+                      className="text-sm font-normal underline hover:cursor-pointer"
+                    >
+                      Thay đổi
+                    </div>
+                  </div>
+                )}
+              </div>
             </form>
           </Form>
         </div>
@@ -257,10 +334,16 @@ export default function OrderForm() {
         <ConfirmDialog
           formData={form.getValues()}
           order={order}
-          isOpen={isDialogOpen}
-          onOpenChange={() => setIsDialogOpen(!isDialogOpen)}
+          isOpen={isConfirmDialogOpen}
+          onOpenChange={() => setIsConfirmDialogOpen(!isConfirmDialogOpen)}
         />
       )}
+      <>
+        <LocationDialog
+          isOpen={isLocationDialogOpen}
+          onOpenChange={() => setIsLocationDialogOpen(!isLocationDialogOpen)}
+        />
+      </>
     </>
   );
 }

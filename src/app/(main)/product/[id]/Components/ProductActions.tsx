@@ -51,7 +51,7 @@ export default function ProductActions({
           ))}
         </div>
         <div className="text-xl font-semibold">
-          {formatCurrency(product.product.price)} VND
+          {formatCurrency(product.product.price)} VNĐ
         </div>
         <div className="line-clamp-3 w-full overflow-ellipsis font-light">
           {product.product.description}
@@ -63,14 +63,9 @@ export default function ProductActions({
           Đã bán:{" "}
           <span className="font-light">{product.product.sold_quantity}</span>
         </div>
-        {product.product_storages.map((store, index) => (
-          <div key={index} className="text-sm font-medium text-foreground">
-            Có sẵn:{" "}
-            <span className="font-light">
-              {store.quantity} tại {store.storage_name}
-            </span>
-          </div>
-        ))}
+        {!isSoldOut && (
+          <span className="text-sm font-light text-foreground">Còn hàng</span>
+        )}
       </div>
       {isSoldOut ? (
         <div className="text-sm font-light text-foreground">

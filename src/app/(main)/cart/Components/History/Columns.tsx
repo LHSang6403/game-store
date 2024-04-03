@@ -89,7 +89,7 @@ export const columns: ColumnDef<OrderType>[] = [
                     },
                   });
 
-                  const processedGHNResponse = ApiErrorHandlerClient({
+                  ApiErrorHandlerClient({
                     response: GHNResponse,
                   });
                 }
@@ -107,7 +107,7 @@ export const columns: ColumnDef<OrderType>[] = [
                     },
                   });
 
-                  const processedGHTKResponse = ApiErrorHandlerClient({
+                  ApiErrorHandlerClient({
                     response: GHTKResponse,
                   });
                 }
