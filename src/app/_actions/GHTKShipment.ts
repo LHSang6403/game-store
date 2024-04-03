@@ -2,7 +2,7 @@
 
 import axios from "axios";
 import { updateStateOrder } from "@app/_actions/order";
-import { GHTKDataType } from "@app/(main)/cart/_actions";
+import { GHTKDataType } from "@/app/(main)/cart/_actions/calShip";
 import { revalidatePath } from "next/cache";
 import { LogActorType } from "@app/_actions/log";
 

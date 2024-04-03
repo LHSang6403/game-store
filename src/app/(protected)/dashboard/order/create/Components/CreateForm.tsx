@@ -25,7 +25,7 @@ import { useState, useEffect } from "react";
 import FormAddressPicker from "@components/Picker/Address/FormAddressPicker";
 import useAddressSelects from "@/zustand/useAddressSelects";
 import SelectShipmentForm from "@app/(main)/cart/Components/Summary/SelectShipmentForm";
-import { calShipmentFees } from "@app/(main)/cart/_actions/index";
+import { calShipmentFees } from "@/app/(main)/cart/_actions/calShip";
 import {
   Select,
   SelectContent,

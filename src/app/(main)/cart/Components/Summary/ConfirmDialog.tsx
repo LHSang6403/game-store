@@ -14,10 +14,8 @@ import { toast } from "sonner";
 import { createOrder } from "@app/_actions/order";
 import { useMutation } from "@tanstack/react-query";
 import formatCurrency from "@/utils/functions/formatCurrency";
-import {
-  processOrderWithGHN,
-  processOrderWithGHTK,
-} from "@app/(main)/cart/_actions";
+import { processOrderGHN } from "@/app/(main)/cart/_actions/processGHN";
+import { processOrderGHTK } from "@/app/(main)/cart/_actions/processGHTK";
 import { useSession } from "@/zustand/useSession";
 
 export default function ConfirmDialog({
@@ -32,7 +30,7 @@ export default function ConfirmDialog({
   onOpenChange: Function;
 }) {
   const session = useSession();
-  
+
   const mutation = useMutation({
     mutationFn: async (orderData: OrderType) => {
       if (session.session) {
@@ -69,7 +67,7 @@ export default function ConfirmDialog({
         switch (formData.shipment) {
           case "GHN":
             try {
-              const GHNResponse = await processOrderWithGHN({
+              const GHNResponse = await processOrderGHN({
                 formData: formData,
                 order: order,
               });
@@ -84,7 +82,7 @@ export default function ConfirmDialog({
 
           case "GHTK":
             try {
-              const GHTKResponse = await processOrderWithGHTK({
+              const GHTKResponse = await processOrderGHTK({
                 formData: formData,
                 order: order,
               });

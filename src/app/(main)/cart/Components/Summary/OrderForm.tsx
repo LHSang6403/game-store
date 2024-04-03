@@ -23,7 +23,7 @@ import { useState, useEffect } from "react";
 import FormAddressPicker from "@components/Picker/Address/FormAddressPicker";
 import useAddressSelects from "@/zustand/useAddressSelects";
 import SelectShipmentForm from "./SelectShipmentForm";
-import { calShipmentFees } from "@app/(main)/cart/_actions/index";
+import { calShipmentFees } from "@/app/(main)/cart/_actions/calShip";
 
 const FormSchema = z.object({
   name: z.string().min(1, { message: "Name is a compulsory." }),
