@@ -29,10 +29,6 @@ export default function OrderSummary() {
               </Button>
             </div>
             <p>
-              <span className="font-semibold">Customer:</span>{" "}
-              {order.customer_name}
-            </p>
-            <p>
               <span className="font-semibold">Created at:</span>{" "}
               {formatReadableTime(order.created_at)}
             </p>

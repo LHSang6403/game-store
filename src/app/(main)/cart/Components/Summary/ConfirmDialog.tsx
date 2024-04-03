@@ -11,31 +11,28 @@ import {
 } from "@components/ui/dialog";
 import { Label } from "@components/ui/label";
 import { toast } from "sonner";
-import { useOrder } from "@/zustand/useOrder";
-import type { CustomerType } from "@utils/types";
 import { createOrder } from "@app/_actions/order";
 import { useMutation } from "@tanstack/react-query";
 import formatCurrency from "@/utils/functions/formatCurrency";
-import { processOrderRequestData } from "../../_actions";
-import { ApiErrorHandlerClient } from "@/utils/errorHandler/apiErrorHandler";
+import {
+  processOrderWithGHN,
+  processOrderWithGHTK,
+} from "@app/(main)/cart/_actions";
 import { useSession } from "@/zustand/useSession";
 
 export default function ConfirmDialog({
   formData,
   order,
-  customerSession,
   isOpen,
   onOpenChange,
 }: {
   formData: any;
   order: OrderType;
-  customerSession: CustomerType;
   isOpen: boolean;
   onOpenChange: Function;
 }) {
-  const { setShipment } = useOrder();
   const session = useSession();
-
+  
   const mutation = useMutation({
     mutationFn: async (orderData: OrderType) => {
       if (session.session) {
@@ -53,6 +50,7 @@ export default function ConfirmDialog({
     },
     onSuccess: () => {
       onOpenChange(false);
+      toast.success("Đã tạo đơn hàng thành công.");
     },
   });
 
@@ -64,52 +62,54 @@ export default function ConfirmDialog({
     //   "Sang's Order payment test 1.",
     //   `${window.location.href}/payment/success`
     // );
-    // console.log("----result", result);
 
+    // create ship order & save order to DB
     toast.promise(
-      // *** create ship order & save order ***
-
       async () => {
         switch (formData.shipment) {
           case "GHN":
-            const GHNResponse = await processOrderRequestData({
-              formData: formData,
-              order: order,
-              customerSession: customerSession,
-            });
-            const ghn = ApiErrorHandlerClient<any>({
-              response: GHNResponse,
-            });
+            try {
+              const GHNResponse = await processOrderWithGHN({
+                formData: formData,
+                order: order,
+              });
 
-            console.log(ghn);
-            setShipment("GHN", ghn.data.order_code);
+              order.shipment_name = "GHN";
+              order.shipment_label_code = GHNResponse.data.order_code;
+            } catch (error) {
+              throw new Error("Tạo đơn GHN thất bại. Vui lòng thử lại.");
+            }
+
             break;
 
           case "GHTK":
-            const GHTKResponse = await processOrderRequestData({
-              formData: formData,
-              order: order,
-              customerSession: customerSession,
-            });
-            const ghtk = ApiErrorHandlerClient<any>({
-              response: GHTKResponse,
-            });
+            try {
+              const GHTKResponse = await processOrderWithGHTK({
+                formData: formData,
+                order: order,
+              });
 
-            console.log(ghtk);
-            setShipment("GHTK", ghtk.data.label);
+              order.shipment_name = "GHTK";
+              order.shipment_label_code = GHTKResponse.data.label;
+            } catch (error) {
+              throw new Error("Tạo đơn GHTK thất bại. Vui lòng thử lại.");
+            }
+
             break;
         }
 
         if (!order.shipment_label_code) {
-          console.log(order);
-          toast.error("Tạo đơn hàng thất bại. Vui lòng thử lại.");
-        } else {
-          // *** Save to DB after payment and shipment ***
-          mutation.mutateAsync(order);
+          throw new Error("Không xác định mã đơn hàng.");
         }
+
+        // save to DB after payment and shipment
+        mutation.mutate(order);
       },
       {
         loading: "Đang tạo đơn hàng...",
+        error: (error: any) => {
+          return "Đã có lỗi xảy ra: " + error.message;
+        },
       }
     );
   }
@@ -126,11 +126,11 @@ export default function ConfirmDialog({
         <div className="mt-2 flex flex-col gap-1 text-sm">
           <div>
             <Label>Customer: </Label>
-            <span className="font-light">{formData.name}</span>
+            <span className="font-light">{order.customer_name}</span>
           </div>
           <div>
             <Label>Phone: </Label>
-            <span className="font-light">{formData.phone}</span>
+            <span className="font-light">{order.customer_phone}</span>
           </div>
           <div>
             <Label htmlFor="name" className="text-right">
@@ -148,8 +148,7 @@ export default function ConfirmDialog({
           <div>
             <Label>Ship to: </Label>
             <span className="font-light">
-              {order.pick_address}, {order.pick_ward}, {order.pick_district},{" "}
-              {order.pick_province}
+              {order.address}, {order.ward}, {order.district}, {order.province}
             </span>
           </div>
           <div>
@@ -169,7 +168,7 @@ export default function ConfirmDialog({
             </span>
           </div>
 
-          <div className="mt-2 font-semibold">
+          <div className="mt-4 font-semibold">
             <Label className="font-semibold">Total price: </Label>
             <span className="">{formatCurrency(order.total_price)} VND</span>
           </div>

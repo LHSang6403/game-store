@@ -3,6 +3,9 @@ import { generate } from "randomstring";
 import type { ShipmentNameType } from "@/utils/types";
 import { calGHNFees, requestGHNOrder } from "@/app/_actions/GHNShipment";
 import { calGHTKFees, requestGHTKOrder } from "@/app/_actions/GHTKShipment";
+import axios from "axios";
+
+import districts from "@/static-data/GHN-api/districts.json";
 
 export interface GHNDataType {
   required_note: string;
@@ -52,117 +55,181 @@ export interface GHTKDataType {
   products: { name: string; quantity: number; weight: number }[];
 }
 
-export async function processOrderRequestData({
+function findGHNDistrictIDByNameExtension(jsonData: any, name: string) {
+  for (const item of jsonData) {
+    if (item && "NameExtension" in item) {
+      const district = item.NameExtension.find((extension) => {
+        return extension.toString() === name;
+      });
+      if (district) {
+        return item.DistrictID;
+      }
+    }
+  }
+  return null;
+}
+
+async function findGHNWardIDByNameExtension(
+  to_district_id: number,
+  name: string
+) {
+  try {
+    const wardsInDistrict = await axios.post(
+      "https://dev-online-gateway.ghn.vn/shiip/public-api/master-data/ward",
+      { district_id: to_district_id },
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Token:
+            process.env.GHN_API_TOKEN ?? "6877003a-dd62-11ee-a6e6-e60958111f48",
+        },
+      }
+    );
+
+    if (!wardsInDistrict.data.data) throw new Error("Lỗi xác định phường.");
+
+    const wards = wardsInDistrict.data.data;
+    for (const item of wards) {
+      const ward = item.NameExtension.find((extension) => {
+        return extension.toString() === name;
+      });
+      if (ward) {
+        return item.WardCode;
+      }
+    }
+    throw new Error("Không tìm thấy phường.");
+  } catch (error: any) {
+    return error;
+  }
+}
+
+export async function processOrderWithGHN({
   formData,
   order,
-  customerSession,
 }: {
   formData: any;
   order: OrderType;
-  customerSession: CustomerType;
 }) {
-  switch (formData.shipment as ShipmentNameType) {
-    case "GHN":
-      const ghnData: GHNDataType = {
-        required_note: "KHONGCHOXEMHANG",
-        from_name: "Game store HCM",
-        from_phone: "0922262456",
-        from_address: "590 CMT8 P.11",
-        from_ward_name: "Phường 1",
-        from_district_name: "Quận 3",
-        from_province_name: "HCM",
-        to_name: formData?.name || customerSession?.name || "Unknown",
-        to_phone: formData?.phone || "0123456789",
-        to_address: formData?.address || customerSession?.address || "Unknown",
-        to_ward_code: "20308", // dynamic with api after, must call GHN api to get ward code
-        to_district_id: 1444, // dynamic with api after, must call GHN api to get district id
-        weight: order.weight || 100,
-        service_id: 0,
-        service_type_id: 2,
-        payment_type_id: 1,
-        coupon: null,
-        items: [
-          ...order.products.map((prod) => ({
-            name: prod.product.name,
-            quantity: 1,
-            weight: 1,
-          })),
-        ],
-      };
+  try {
+    const to_district_id = findGHNDistrictIDByNameExtension(
+      districts,
+      formData?.district
+    );
 
-      const ghnOrderResult = await requestGHNOrder(ghnData as GHNDataType);
-      console.log("GHN", ghnOrderResult);
+    const to_ward_code = await findGHNWardIDByNameExtension(
+      to_district_id,
+      formData?.ward
+    );
 
-      return {
-        status: ghnOrderResult?.status,
-        statusText: ghnOrderResult?.statusText,
-        data: ghnOrderResult?.data,
-        error: ghnOrderResult?.error,
-      };
+    if (!to_district_id || !to_ward_code)
+      throw new Error("Không hỗ trợ địa chỉ giao hàng.");
 
-    case "GHTK":
-      const ghtkData: GHTKDataType = {
-        order: {
-          id: order.id || generate(12),
-          pick_name: "Game store HCM",
-          pick_tel: "0922262456",
-          pick_address: "590 CMT8 P.11",
-          pick_ward: "Phường 1",
-          pick_district: "Quận 3",
-          pick_province: "TP. Hồ Chí Minh",
-          name: formData?.name || customerSession?.name || "Unknown",
-          tel: formData?.phone || "0123456789",
-          address: formData?.address || customerSession?.address || "Unknown",
-          ward: formData?.ward || customerSession?.ward || "Unknown",
-          district:
-            formData?.district || customerSession?.district || "Unknown",
-          province:
-            formData?.province || customerSession?.province || "Unknown",
-          hamlet: "Khác",
-          is_freeship: "1",
-          pick_money: 0,
-          note: order?.note ?? "Khong",
-          value: order?.price || 0,
-          pick_option: "cod",
-          email: "test@gmail.com",
-          return_email: "test2@gmail.com",
-        },
-        products: [
-          ...order.products.map((prod) => ({
-            name: prod.product.name,
-            quantity: 1,
-            weight: 1,
-          })),
-        ],
-      };
+    const ghnData: GHNDataType = {
+      required_note: "KHONGCHOXEMHANG",
+      from_name: "Game store HCM",
+      from_phone: "0922262456",
+      from_address: order.pick_address,
+      from_ward_name: order.pick_ward,
+      from_district_name: order.pick_district,
+      from_province_name: order.pick_province,
+      to_name: formData.name,
+      to_phone: formData.phone,
+      to_address: formData?.address,
+      to_ward_code: to_ward_code.toString(),
+      to_district_id: to_district_id,
+      weight: order.weight || 100,
+      service_id: 0,
+      service_type_id: 2,
+      payment_type_id: 1,
+      coupon: null,
+      items: order.products.map((prod) => ({
+        name: prod.product.name,
+        quantity: 1,
+        weight: 1,
+      })),
+    };
 
-      const ghtkOrderResult = await requestGHTKOrder(ghtkData as GHTKDataType);
-      console.log("GHTK", ghtkOrderResult);
+    const ghnOrderResult = await requestGHNOrder(ghnData);
 
-      return {
-        status: ghtkOrderResult?.status,
-        statusText: ghtkOrderResult?.statusText,
-        data: ghtkOrderResult?.data,
-        error: ghtkOrderResult?.error,
-      };
+    return {
+      status: ghnOrderResult?.status,
+      statusText: ghnOrderResult?.statusText,
+      data: ghnOrderResult?.data,
+      error: null,
+    };
+  } catch (error: any) {
+    return {
+      status: 500,
+      statusText: error.message,
+      data: null,
+      error: error.message,
+    };
   }
+}
 
-  return {
-    status: 500,
-    statusText: "Unknown shipment type.",
-    data: undefined,
-    error: "Unknown shipment type.",
-  };
+export async function processOrderWithGHTK({
+  formData,
+  order,
+}: {
+  formData: any;
+  order: OrderType;
+}) {
+  try {
+    const ghtkData: GHTKDataType = {
+      order: {
+        id: order.id || generate(12),
+        pick_name: "Game store HCM",
+        pick_tel: "0922262456",
+        pick_address: order.pick_address,
+        pick_ward: order.pick_ward,
+        pick_district: order.pick_district,
+        pick_province: order.pick_province,
+        name: formData.name,
+        tel: formData.phone,
+        address: formData.address,
+        ward: formData.ward,
+        district: formData.district,
+        province: formData.province,
+        hamlet: "Khác",
+        is_freeship: "1",
+        pick_money: 0,
+        note: order?.note ?? "Không",
+        value: order?.price || 0,
+        pick_option: "cod",
+        email: "test@gmail.com",
+        return_email: "test2@gmail.com",
+      },
+      products: order.products.map((prod) => ({
+        name: prod.product.name,
+        quantity: 1,
+        weight: 1,
+      })),
+    };
+
+    const ghtkOrderResult = await requestGHTKOrder(ghtkData);
+
+    return {
+      status: ghtkOrderResult?.status,
+      statusText: ghtkOrderResult?.statusText,
+      data: ghtkOrderResult?.data,
+      error: null,
+    };
+  } catch (error: any) {
+    return {
+      status: 500,
+      statusText: error.message,
+      data: null,
+      error: error.message,
+    };
+  }
 }
 
 export async function calShipmentFees({
   formData,
   order,
-  customerSession,
 }: {
   formData: any;
   order: OrderType;
-  customerSession: CustomerType;
 }) {
   switch (formData.shipment as ShipmentNameType) {
     case "GHN":
@@ -190,7 +257,7 @@ export async function calShipmentFees({
           service_fee: responseGHN?.data?.service_fee,
           insurance_fee: responseGHN?.data?.insurance_fee,
         },
-        error: responseGHN?.error,
+        error: null,
       };
 
     case "GHTK":
@@ -199,10 +266,10 @@ export async function calShipmentFees({
         pick_district: "Quận 3",
         pick_ward: "Phường 1",
         pick_address: "590 CMT8 P.11",
-        province: formData?.province || customerSession?.province || "Unknown",
-        district: formData?.district || customerSession?.district || "Unknown",
-        ward: formData?.ward || customerSession?.ward || "Unknown",
-        address: formData?.address || customerSession?.address || "Unknown",
+        province: formData.province,
+        district: formData.district,
+        ward: formData.ward,
+        address: formData.address,
         weight: 300,
         value: order?.price || 0,
         deliver_option: "xteam",
@@ -210,14 +277,16 @@ export async function calShipmentFees({
 
       const responseGHTK = await calGHTKFees(shipFeesRequestGHTK);
 
+      if (!responseGHTK.data) throw new Error("Lỗi khi tính toán chi phí.");
+
       return {
         status: responseGHTK?.status,
         statusText: responseGHTK?.statusText,
         data: {
-          service_fee: responseGHTK?.data?.service_fee,
-          insurance_fee: responseGHTK?.data?.insurance_fee,
+          service_fee: responseGHTK.data.service_fee,
+          insurance_fee: responseGHTK.data.insurance_fee,
         },
-        error: responseGHTK?.error,
+        error: null,
       };
   }
 

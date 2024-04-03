@@ -8,11 +8,6 @@ interface OrderState {
   shipment_name: ShipmentNameType;
   shipment_label_code: string | null;
   setNewID: () => void;
-  setShipment: (
-    shipment_name: ShipmentNameType,
-    shipment_label_code: string
-  ) => void;
-  setCustomer: (id: string, name: string) => void;
   setPrices: (shipping_fee: number, insurance_fee: number) => void;
   addProduct: (prod: ProductWithDescriptionAndStorageType) => void;
   removeProduct: (id: string) => void;
@@ -36,35 +31,6 @@ export const useOrder = create<OrderState>((set) => ({
         return state;
       }
     }),
-  setShipment: (name: ShipmentNameType, label_code: string) =>
-    set((state: OrderState) => {
-      if (state.order) {
-        return {
-          order: {
-            ...state.order,
-            shipment_name: name,
-            shipment_label_code: label_code,
-          },
-        };
-      } else {
-        return state;
-      }
-    }),
-  setCustomer(id: string, name: string) {
-    set((state: OrderState) => {
-      if (state.order) {
-        return {
-          order: {
-            ...state.order,
-            customer_id: id,
-            customer_name: name,
-          },
-        };
-      } else {
-        return state;
-      }
-    });
-  },
   setPrices: (shipping_fee: number, insurance_fee: number) => {
     set((state: OrderState) => {
       if (state.order) {
@@ -72,8 +38,8 @@ export const useOrder = create<OrderState>((set) => ({
           order: {
             ...state.order,
             shipping_fee: shipping_fee,
-            insurance_fee: insurance_fee,
-            total_price: state.order.price + shipping_fee + insurance_fee,
+            insurance_fee: insurance_fee, // currrently not used
+            total_price: state.order.price + shipping_fee,
           },
         };
       } else {
@@ -100,7 +66,9 @@ export const useOrder = create<OrderState>((set) => ({
       if (state.order) {
         const updatedOrder = { ...state.order };
 
-        const index = updatedOrder.products.findIndex((prod) => prod.product.id === id);
+        const index = updatedOrder.products.findIndex(
+          (prod) => prod.product.id === id
+        );
 
         if (index !== -1) {
           updatedOrder.price -= updatedOrder.products[index].product.price;
@@ -129,21 +97,22 @@ function createOrderFromProduct(
     shipment_label_code: "",
     products: [prod],
     state: "pending",
-    customer_id: "anonymous",
-    customer_name: "anonymous",
+    customer_id: "",
+    customer_name: "Không rõ",
+    customer_phone: "",
     price: prod.product.price,
     shipping_fee: 0,
     insurance_fee: 0,
     total_price: 0,
     note: "",
-    address: "255 đường 30/4",
-    ward: "Phường 3",
-    district: "Tp. Tây Ninh",
-    province: "Tây Ninh",
-    pick_address: "227, Nguyễn Văn Cừ",
-    pick_ward: "Phường 4",
-    pick_district: "Quận 5",
-    pick_province: "TP. Hồ Chí Minh",
+    address: "",
+    ward: "",
+    district: "",
+    province: "",
+    pick_address: "",
+    pick_ward: "",
+    pick_district: "",
+    pick_province: "",
     weight: 500,
   };
 }

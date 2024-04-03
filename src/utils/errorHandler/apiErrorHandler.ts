@@ -14,7 +14,7 @@ export function ApiErrorHandlerClient<T>({
 }) {
   if (response.status && response.status >= 200 && response.status < 300) {
     // ok
-    if (isShowToast) toast.success("Successfully processed.");
+    if (isShowToast) toast.success("Thành công!");
 
     return {
       status: response.status,
@@ -28,7 +28,7 @@ export function ApiErrorHandlerClient<T>({
     response.status < 400
   ) {
     // redirect
-    if (isShowToast) toast.success("Redirected.");
+    if (isShowToast) toast.success("Đang chuyển hướng...");
 
     return {
       status: response.status,
@@ -43,7 +43,9 @@ export function ApiErrorHandlerClient<T>({
   ) {
     // client error
     if (isShowToast)
-      toast.error(response.statusText ?? response.error ?? "Client error.");
+      toast.error(
+        response.statusText ?? response.error ?? "Lỗi ở trình duyệt."
+      );
 
     return {
       status: response.status,
@@ -58,7 +60,7 @@ export function ApiErrorHandlerClient<T>({
   ) {
     // server error
     if (isShowToast)
-      toast.error(response.statusText ?? response.error ?? "Server error.");
+      toast.error(response.statusText ?? response.error ?? "Lỗi ở máy chủ.");
 
     return {
       status: response.status,
@@ -69,7 +71,7 @@ export function ApiErrorHandlerClient<T>({
   } else {
     // unknown error
     if (isShowToast)
-      toast.error(response.statusText ?? response.error ?? "Unknown error.");
+      toast.error(response.statusText ?? response.error ?? "Đã có lỗi xảy ra.");
 
     return {
       status: response.status,

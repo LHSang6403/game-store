@@ -23,7 +23,7 @@ export async function requestGHTKOrder(data: GHTKDataType) {
       status: response?.data?.success ? 200 : 500,
       statusText: response?.data?.message,
       data: response?.data?.order,
-      error: response?.data?.message,
+      error: null,
     };
   } catch (error: any) {
     return {
@@ -51,7 +51,7 @@ export async function getGHTKOrder(label: string): Promise<any> {
       status: responseData.data.success ? 200 : 500,
       statusText: responseData.data.message,
       data: responseData.data.order,
-      error: responseData.data.message,
+      error: null,
     };
   } catch (error: any) {
     return {
@@ -79,7 +79,7 @@ export async function getGHTKOrderStatus(label: string) {
       status: responseData.success ? 200 : 500,
       statusText: responseData.message,
       data: responseData.message,
-      error: responseData.message,
+      error: null,
     };
   } catch (error: any) {
     return {
@@ -111,7 +111,7 @@ export async function calGHTKFees(params: any) {
         service_fee: response.data.fee?.ship_fee_only,
         insurance_fee: response.data.fee?.insurance_fee,
       },
-      error: response.data.message,
+      error: null,
     };
   } catch (error: any) {
     return {
@@ -157,7 +157,7 @@ export async function cancelGHTKOrder({
       status: response.data.success ? 200 : 500,
       statusText: response.data.message,
       data: response.data.message,
-      error: response.data.message,
+      error: null,
     };
   } catch (error: any) {
     return {

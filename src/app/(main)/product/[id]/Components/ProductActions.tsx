@@ -6,7 +6,6 @@ import type {
   ProductStorageType,
   ProductWithDescriptionAndStorageType,
 } from "@utils/types/index";
-import { useSession } from "@/zustand/useSession";
 import { useState, useEffect } from "react";
 
 export default function ProductActions({
@@ -14,13 +13,11 @@ export default function ProductActions({
 }: {
   product: ProductWithDescriptionAndStorageType;
 }) {
-  const { addProduct, setCustomer } = useOrder();
-  const { session } = useSession();
+  const { addProduct } = useOrder();
   const [isSoldOut, setIsSoldOut] = useState(false);
 
   const handleAddToCart = () => {
     addProduct(product);
-    if (session) setCustomer(session?.id, session?.name);
 
     toast.success("Thêm vào giỏ hàng thành công!");
   };

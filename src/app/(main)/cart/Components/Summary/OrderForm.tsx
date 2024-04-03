@@ -17,14 +17,13 @@ import { Input } from "@components/ui/input";
 import { Button } from "@components/ui/button";
 import { useSession } from "@/zustand/useSession";
 import { useOrder } from "@/zustand/useOrder";
-import type { CustomerType, ShipmentNameType, StaffType } from "@utils/types";
+import type { CustomerType, StaffType } from "@utils/types";
 import ConfirmDialog from "./ConfirmDialog";
 import { useState, useEffect } from "react";
 import FormAddressPicker from "@components/Picker/Address/FormAddressPicker";
 import useAddressSelects from "@/zustand/useAddressSelects";
 import SelectShipmentForm from "./SelectShipmentForm";
 import { calShipmentFees } from "@app/(main)/cart/_actions/index";
-import { ApiErrorHandlerClient } from "@utils/errorHandler/apiErrorHandler";
 
 const FormSchema = z.object({
   name: z.string().min(1, { message: "Name is a compulsory." }),
@@ -51,7 +50,7 @@ const FormSchema = z.object({
 });
 
 export default function OrderForm() {
-  const { order, setPrices, setCustomer, setNewID, setShipment } = useOrder();
+  const { order, setPrices, setNewID } = useOrder();
   const { session } = useSession();
   const { addressValues } = useAddressSelects();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -95,26 +94,29 @@ export default function OrderForm() {
         if ("role" in staffSession)
           throw new Error("Nhân viên không thể mua hàng.");
 
-        const calFeesResponse = await calShipmentFees({
+        // set enough info to zustand useOrder
+        order.address = form.getValues().address;
+        order.ward = form.getValues().ward;
+        order.district = form.getValues().district;
+        order.province = form.getValues().province;
+
+        order.pick_address = "227 Nguyễn Văn Cừ";
+        order.pick_ward = "Phường 4";
+        order.pick_district = "Quận 5";
+        order.pick_province = "TP Hồ Chí Minh";
+
+        order.customer_id = customerSession.id;
+        order.customer_name = form.getValues().name;
+        order.customer_phone = form.getValues().phone;
+
+        const calFees = await calShipmentFees({
           formData: data,
           order: order,
-          customerSession: customerSession,
         });
+        setPrices(calFees?.data?.service_fee, calFees?.data?.insurance_fee);
+        setNewID();
 
-        const calFees = ApiErrorHandlerClient<{
-          service_fee: number;
-          insurance_fee: number;
-        }>({
-          response: calFeesResponse,
-          isShowToast: false,
-        });
-
-        if (calFees?.data?.service_fee) {
-          setPrices(calFees?.data?.service_fee, calFees?.data?.insurance_fee);
-          setCustomer(customerSession.id, customerSession.name);
-          setNewID();
-          setIsDialogOpen(true);
-        }
+        setIsDialogOpen(true);
       },
       {
         loading: "Đang ước tính chi phí...",
@@ -233,7 +235,6 @@ export default function OrderForm() {
                       <SelectShipmentForm
                         onChange={(value) => {
                           form.setValue("shipment", value);
-                          setShipment(value as ShipmentNameType, "");
                         }}
                       />
                     </FormControl>
@@ -256,7 +257,6 @@ export default function OrderForm() {
         <ConfirmDialog
           formData={form.getValues()}
           order={order}
-          customerSession={customerSession}
           isOpen={isDialogOpen}
           onOpenChange={() => setIsDialogOpen(!isDialogOpen)}
         />

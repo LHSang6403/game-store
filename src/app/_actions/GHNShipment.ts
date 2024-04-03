@@ -4,7 +4,7 @@ import axios from "axios";
 import { GHNDataType } from "@app/(main)/cart/_actions";
 import { revalidatePath } from "next/cache";
 import { updateStateOrder } from "@app/_actions/order";
-import {LogActorType} from "@app/_actions/log"
+import { LogActorType } from "@app/_actions/log";
 
 const headers = {
   "Content-Type": "application/json",
@@ -24,7 +24,7 @@ export async function requestGHNOrder(data: GHNDataType) {
       status: response?.data?.code,
       statusText: response?.data?.message_display,
       data: response?.data?.data,
-      error: response?.data?.message_display,
+      error: null,
     };
   } catch (error: any) {
     return {
@@ -50,7 +50,7 @@ export async function calGHNFees(params: any) {
       status: response?.data?.code,
       statusText: response?.data?.message,
       data: response?.data?.data,
-      error: response?.data?.message,
+      error: null,
     };
   } catch (error: any) {
     return {
@@ -95,7 +95,7 @@ export async function cancelGHNOrder({
         status: response.data.code,
         statusText: response.data.message,
         data: response.data.data,
-        error: response.data?.message,
+        error: null,
       };
     }
 
@@ -122,7 +122,7 @@ export async function getGHNOrder({ order_codes }: { order_codes: string[] }) {
       status: response?.data?.code,
       statusText: response?.data?.message,
       data: response?.data?.data,
-      error: response?.data?.message,
+      error: null,
     };
   } catch (error: any) {
     return {
@@ -157,7 +157,7 @@ export async function printGHNOrder({
       status: 200,
       statusText: "OK",
       data: printResponse?.data,
-      error: undefined,
+      error: null,
     };
   } catch (error: any) {
     return {

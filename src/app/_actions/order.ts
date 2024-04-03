@@ -19,26 +19,24 @@ export async function createOrder({
     const supabase = await createSupabaseServerClient();
 
     const result = await supabase.from("order").insert(order);
+    if (result.error) throw new Error("Lỗi khi tạo order.");
 
-    if (!result.error) {
-      const prodIds = order.products.map((prod) => prod.product.id);
-
-      for (const prodId of prodIds) {
-        await updateStorageQuantityByProductId({
-          prod_id: prodId,
-          storage_id: "1511f03a-3f73-4ed3-b08c-c4819a86843c", // Hardcoded storage id HCM
-          updatedQuantity: -1,
-        });
-        await updateSoldQuantityByProductId(prodId, 1);
-      }
-
-      await saveToLog({
-        logName: "Create order to" + order.pick_address,
-        logType: "Create",
-        logResult: !result.error ? "Success" : "Error",
-        logActor: actor,
+    const prodIds = order.products.map((prod) => prod.product.id);
+    for (const prodId of prodIds) {
+      await updateStorageQuantityByProductId({
+        prod_id: prodId,
+        storage_id: "1511f03a-3f73-4ed3-b08c-c4819a86843c", // Hardcoded storage id HCM
+        updatedQuantity: -1,
       });
+      await updateSoldQuantityByProductId(prodId, 1);
     }
+
+    await saveToLog({
+      logName: "Create order to" + order.pick_address,
+      logType: "Create",
+      logResult: !result.error ? "Success" : "Error",
+      logActor: actor,
+    });
 
     revalidatePath("/cart");
     revalidatePath("/dashboard/order");

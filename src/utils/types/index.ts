@@ -75,6 +75,7 @@ export interface OrderType {
   state: ShipmentState;
   customer_id: string; // f_key
   customer_name: string;
+  customer_phone: string;
   price: number;
   shipping_fee: number; // api call
   insurance_fee: number; // api call
