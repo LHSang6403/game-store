@@ -68,15 +68,7 @@ export default function CreateForm({
   customersData: CustomerType[];
   productsData: ProductWithDescriptionAndStorageType[];
 }) {
-  const {
-    order,
-    addProduct,
-    setShipment,
-    removeAll,
-    setPrices,
-    setCustomer,
-    setNewID,
-  } = useOrder();
+  const { order, addProduct, removeAll, setPrices, setNewID } = useOrder();
 
   const [customerSelect, setCustomerSelect] = useState<CustomerType | null>(
     null
@@ -142,7 +134,6 @@ export default function CreateForm({
           const calFeesResponse = await calShipmentFees({
             formData: data,
             order: order,
-            customerSession: customerSelect,
           });
 
           const calFees = ApiErrorHandlerClient<{
@@ -155,7 +146,8 @@ export default function CreateForm({
 
           if (calFees?.data?.service_fee) {
             setPrices(calFees?.data?.service_fee, calFees?.data?.insurance_fee);
-            setCustomer(customerSelect.id, customerSelect.name);
+            order.customer_id = customerSelect.id;
+            order.customer_name = customerSelect.name;
             setNewID();
 
             setIsDialogOpen(true);
@@ -291,7 +283,6 @@ export default function CreateForm({
                       <FormLabel>Tên khách hàng</FormLabel>
                       <FormControl>
                         <Input
-                          className="border-[#E5E7EB]"
                           placeholder="Nhập tên"
                           {...field}
                           type="text"
@@ -310,7 +301,6 @@ export default function CreateForm({
                       <FormLabel>Số điện thoại</FormLabel>
                       <FormControl>
                         <Input
-                          className="border-[#E5E7EB]"
                           placeholder="Nhập số"
                           {...field}
                           type="text"
@@ -342,7 +332,6 @@ export default function CreateForm({
                       <FormLabel>Địa chỉ nhà</FormLabel>
                       <FormControl>
                         <Input
-                          className="border-[#E5E7EB]"
                           placeholder="Nhập số nhà, tên đường"
                           {...field}
                           onChange={field.onChange}
@@ -362,7 +351,6 @@ export default function CreateForm({
                         <SelectShipmentForm
                           onChange={(value) => {
                             form.setValue("shipment", value);
-                            setShipment(value as ShipmentNameType, "");
                           }}
                         />
                       </FormControl>
@@ -455,7 +443,6 @@ export default function CreateForm({
           key="dashboard-create-confirm-dialog"
           formData={form.getValues()}
           order={order}
-          customerSession={customerSelect}
           isOpen={isDialogOpen}
           onOpenChange={() => setIsDialogOpen(!isDialogOpen)}
         />

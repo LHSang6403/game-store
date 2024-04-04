@@ -1,6 +1,5 @@
 "use client";
 
-import RangeTime from "@/components/Picker/RangeDate/RangeTime";
 import DashboardSidebar from "@app/(protected)/dashboard/Components/DashboardSidebar";
 import Footer from "@/components/Layout/Footer/Footer";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -21,12 +20,7 @@ export default function DashboardLayout({
           <DashboardSidebar />
         </div>
         <TooltipProvider>
-          <div className="w-full p-4 pt-2 sm:p-2">
-            <div className="my-2 hidden w-full sm:block">
-              <RangeTime />
-            </div>
-            {children}
-          </div>
+          <div className="w-full p-4 pt-2 sm:p-2">{children}</div>
         </TooltipProvider>
       </div>
       <Footer />

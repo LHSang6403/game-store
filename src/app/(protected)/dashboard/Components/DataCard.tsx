@@ -19,12 +19,12 @@ export default function DataCard({
       {isLoading ? (
         <DataCardLoading />
       ) : (
-        <Card className="h-32">
+        <Card className="h-32 w-full">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">{title}</CardTitle>
             {icon}
           </CardHeader>
-          <CardContent>
+          <CardContent className="sm:px-6">
             <div className="line-clamp-1 overflow-ellipsis text-xl font-bold">
               {data}
             </div>

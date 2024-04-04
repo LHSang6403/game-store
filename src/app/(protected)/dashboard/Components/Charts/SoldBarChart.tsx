@@ -37,7 +37,7 @@ export default function RevenueBarChart() {
           </CardDescription>
         </div>
       </CardHeader>
-      <CardContent className="mt-2 h-fit">
+      <CardContent className="mt-2 h-fit sm:px-6">
         <div className="w-full">
           {isLoading || !ordersResponse ? (
             <div className="h-[400px]">

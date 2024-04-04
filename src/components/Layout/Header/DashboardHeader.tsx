@@ -10,8 +10,12 @@ import RangeTime from "@/components/Picker/RangeDate/RangeTime";
 import DashboardSidebar from "@/app/(protected)/dashboard/Components/DashboardSidebar";
 import PrimaryLogo from "@components/PrimaryLogo";
 import ThemeButton from "@/components/Theme/ThemeButton";
+import { usePathname } from "next/navigation";
 
 export default function DashboardHeader() {
+  const pathname = usePathname();
+  const pathShowRangeTime = ["/dashboard"];
+
   return (
     <header className="sticky top-0 flex h-16 w-full items-center gap-4 overflow-hidden border-b bg-background px-4 sm:px-2">
       <nav className="flex w-full flex-row items-center gap-2 text-lg font-medium xl:hidden">
@@ -46,9 +50,11 @@ export default function DashboardHeader() {
         </Sheet>
       </div>
       <div className="flex w-full flex-row items-center justify-end gap-4 lg:gap-4 md:gap-2">
-        <div className="sm:hidden">
-          <RangeTime />
-        </div>
+        {pathShowRangeTime.includes(pathname) && (
+          <div className="sm:hidden">
+            <RangeTime />
+          </div>
+        )}
         <ThemeButton />
         <Dropdown />
       </div>

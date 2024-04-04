@@ -30,8 +30,8 @@ export default function Dashboard() {
     orders?.data?.reduce((total, order) => total + order.total_price, 0) ?? 0;
 
   return (
-    <main className="mt-2 grid w-full grid-cols-3 flex-row gap-4">
-      <div className="col-span-2 flex w-full flex-col gap-4 xl:col-span-3">
+    <main className="grid w-full grid-cols-3 flex-row gap-4 pt-2 sm:gap-2 sm:pt-0">
+      <div className="col-span-2 flex w-full flex-col gap-4 xl:col-span-3 sm:gap-2">
         <div className="grid grid-cols-2 gap-4 sm:grid-cols-1 sm:gap-2">
           <DataCard
             title="Doanh thu"
