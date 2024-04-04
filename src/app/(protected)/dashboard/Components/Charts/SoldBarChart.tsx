@@ -14,6 +14,9 @@ import {
   CardContent,
 } from "@components/ui/card";
 import formatVNDate from "@utils/functions/formatVNDate";
+import { motion } from "framer-motion";
+import { useState, useEffect, useRef } from "react";
+import { DateRangePicker } from "@/components/Picker/RangeDate/DateRangePicker";
 
 export default function RevenueBarChart() {
   const { from, to } = useDatePicker();
@@ -27,17 +30,61 @@ export default function RevenueBarChart() {
   const orders = ordersResponse?.data as OrderType[];
   const chartData = ordersToTop3SoldProducts(orders);
 
+  // show range time when scroll to the Sold bar chart
+  const cardRef = useRef(null);
+  const [showRangeTime, setShowRangeTime] = useState(false);
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setShowRangeTime(true);
+        } else {
+          setShowRangeTime(false);
+        }
+      },
+      { threshold: 0.5 }
+    );
+
+    if (cardRef.current) {
+      observer.observe(cardRef.current);
+    }
+
+    return () => {
+      if (cardRef.current) {
+        observer.unobserve(cardRef.current);
+      }
+    };
+  }, []);
+
   return (
-    <Card className="col-span-2 row-span-2 h-full xl:col-span-4">
-      <CardHeader className="flex flex-row items-center pb-0">
-        <div className="grid gap-2">
-          <CardTitle>Bán chạy</CardTitle>
-          <CardDescription>
-            Các sản phẩm bán chạy từ {formatVNDate(from)} đến {formatVNDate(to)}
+    <Card className="col-span-2 row-span-2 h-full xl:col-span-4" ref={cardRef}>
+      <CardHeader className="flex flex-col pb-0">
+        <CardTitle className="mb-2 flex flex-row justify-between">
+          <span>Bán chạy</span>
+          <div className="sm:hidden">
+            <DateRangePicker locale="en-GB" showCompare={false} />
+          </div>
+        </CardTitle>
+        <div className="flex w-full flex-row items-center justify-between sm:flex-col sm:gap-2">
+          <CardDescription className="w-full">
+            Sản phẩm bán chạy{" "}
+            <span className="hidden sm:block">
+              từ {formatVNDate(from)} đến {formatVNDate(to)}
+            </span>
           </CardDescription>
+          {showRangeTime && (
+            <motion.div
+              initial={{ y: 16, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ ease: "easeInOut", duration: 0.5 }}
+              className="fixed bottom-12 z-40 mb-2 hidden sm:block"
+            >
+              <DateRangePicker locale="en-GB" showCompare={false} />
+            </motion.div>
+          )}
         </div>
       </CardHeader>
-      <CardContent className="mt-2 h-fit sm:px-6">
+      <CardContent className="mt-2 h-fit sm:px-6 sm:pb-6">
         <div className="w-full">
           {isLoading || !ordersResponse ? (
             <div className="h-[400px]">

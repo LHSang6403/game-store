@@ -25,11 +25,11 @@ export default function RevenueBarChart() {
   return (
     <div>
       {isLoading || !orderPricesByMonth ? (
-        <div className="h-[405px] w-full">
+        <div className="h-[400px] w-full">
           <ChartLoading />
         </div>
       ) : (
-        <div className="h-[405px] w-full overflow-hidden">
+        <div className="h-[400px] w-full overflow-hidden">
           {orderPricesByMonth && (
             <BarChart
               className="h-full w-full"

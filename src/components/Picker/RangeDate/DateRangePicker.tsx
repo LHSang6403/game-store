@@ -1,4 +1,4 @@
-import React, { type FC, useState, useEffect, useRef } from "react";
+import { FC, useState, useEffect, useRef } from "react";
 import { Button } from "@components/ui/button";
 import {
   Popover,
@@ -24,6 +24,7 @@ import {
 import { cn } from "@/lib/utils";
 import "moment/locale/vi";
 import formatVNDate from "@utils/functions/formatVNDate";
+import useDatePicker from "@/zustand/useDatePicker";
 
 export interface DateRangePickerProps {
   /** Click handler for applying the updates from DateRangePicker. */
@@ -76,6 +77,8 @@ export const DateRangePicker: FC<DateRangePickerProps> & {
   locale = "vi-VN",
   showCompare = true,
 }): JSX.Element => {
+  const { from, to, setFrom, setTo } = useDatePicker();
+
   const [isOpen, setIsOpen] = useState(false);
 
   const previousYear = new Date().getFullYear() - 1;
@@ -258,6 +261,13 @@ export const DateRangePicker: FC<DateRangePickerProps> & {
   };
 
   useEffect(() => {
+    setRange({
+      from: from,
+      to: to,
+    });
+  }, [from, to]);
+
+  useEffect(() => {
     checkPreset();
   }, [range]);
 
@@ -307,16 +317,16 @@ export const DateRangePicker: FC<DateRangePickerProps> & {
       modal={true}
       open={isOpen}
       onOpenChange={(open: boolean) => {
-        if (!open) {
-          resetValues();
-        }
+        // if (!open) {
+        //   resetValues();
+        // }
         setIsOpen(open);
       }}
     >
       <PopoverTrigger asChild>
         <Button size={"lg"} variant="outline" className="h-9 w-full border">
           <div className="-ml-5 text-left">
-            <div className="">
+            <div>
               <div>{`${formatVNDate(range.from)}${
                 range.to != null ? " - " + formatVNDate(range.to) : ""
               }`}</div>
@@ -518,7 +528,7 @@ export const DateRangePicker: FC<DateRangePickerProps> & {
           <Button
             onClick={() => {
               setIsOpen(false);
-              resetValues();
+              // resetValues();
             }}
             variant="ghost"
           >
@@ -533,6 +543,8 @@ export const DateRangePicker: FC<DateRangePickerProps> & {
                 !areRangesEqual(rangeCompare, openedRangeCompareRef.current)
               ) {
                 onUpdate?.({ range, rangeCompare });
+                setFrom(range.from);
+                setTo(range.to);
               }
             }}
           >

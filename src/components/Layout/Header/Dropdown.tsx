@@ -16,10 +16,21 @@ import { signOutHandler } from "@/app/auth/_actions/signOut";
 import { useSession } from "@/zustand/useSession";
 import { toast } from "sonner";
 import Image from "next/image";
+import { useEffect, useState } from "react";
+import { useTheme } from "next-themes";
+import { SunIcon, MoonIcon } from "@heroicons/react/24/solid";
 
 export default function Dropdown() {
   const { session, removeSession } = useSession();
   const router = useRouter();
+
+  const { resolvedTheme, setTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => setMounted(true), []);
+  if (!mounted) {
+    return null;
+  }
 
   return (
     <DropdownMenu>
@@ -53,6 +64,24 @@ export default function Dropdown() {
           <DropdownMenuItem onClick={() => router.push("/profile")}>
             <UserRoundCog className="mr-2 h-4 w-4" />
             Profile
+          </DropdownMenuItem>
+          <DropdownMenuItem>
+            <div
+              aria-label="Toggle Dark Mode"
+              className="flex h-full w-full items-center justify-start"
+              onClick={() =>
+                setTheme(resolvedTheme === "dark" ? "light" : "dark")
+              }
+            >
+              {resolvedTheme === "dark" ? (
+                <SunIcon className="h-4 w-4 text-orange-300" />
+              ) : (
+                <MoonIcon className="h-4 w-4 text-slate-800" />
+              )}
+              <span className="ml-2">
+                {resolvedTheme === "dark" ? "Màu sáng" : "Màu tối"}
+              </span>
+            </div>
           </DropdownMenuItem>
           <DropdownMenuItem>
             <Settings className="mr-2 h-4 w-4" />

@@ -11,7 +11,7 @@ export default function DashboardLayout({
   children: React.ReactNode;
 }): ReturnType<React.FC> {
   return (
-    <div className="flex w-full flex-col">
+    <div className="flex w-full flex-col pt-16 sm:pt-0">
       <div className="">
         <DashboardHeader />
       </div>

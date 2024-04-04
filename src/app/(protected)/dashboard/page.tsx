@@ -7,7 +7,6 @@ import DataCard from "@/app/(protected)/dashboard/Components/DataCard";
 import { useQuery } from "@tanstack/react-query";
 import { readAllProductStorages } from "@/app/_actions/product_storage";
 import { readCustomers, readStaffs } from "@app/_actions/user";
-import RangeTime from "@/components/Picker/RangeDate/RangeTime";
 
 export default function Dashboard() {
   const { data: productStorages, isLoading: isProductStoragesLoading } =
@@ -31,9 +30,6 @@ export default function Dashboard() {
 
   return (
     <main className="flex w-full flex-col gap-4 pt-2 sm:gap-2 sm:pt-0">
-      <div className="hidden w-full sm:block">
-        <RangeTime />
-      </div>
       <div className="flex w-full flex-row gap-4 xl:flex-col sm:gap-2">
         <div className="flex w-1/2 flex-col gap-4 xl:w-full sm:gap-2">
           <div className="flex w-full flex-row gap-4 sm:flex-col sm:gap-2">

@@ -3,7 +3,6 @@
 import PrimaryLogo from "@components/PrimaryLogo";
 import Dropdown from "@components/Layout/Header/Dropdown";
 import NavBar from "@components/Layout/Header/NavBar";
-import ThemeButton from "@components/Theme/ThemeButton";
 import SearchBar from "@components/Search/SearchBar";
 import { usePathname } from "next/navigation";
 
@@ -11,7 +10,7 @@ export default function Header() {
   const path = usePathname();
 
   return (
-    <div className="fixed top-0 z-30 flex h-16 w-full flex-row justify-around bg-background px-10 xl:static xl:justify-between sm:px-4">
+    <div className="fixed top-0 z-30 flex h-16 w-full flex-row items-center justify-around bg-background px-10 xl:static xl:justify-between sm:px-4">
       <div className="mr-auto flex items-center">
         <PrimaryLogo />
       </div>
@@ -22,10 +21,7 @@ export default function Header() {
           <SearchBar />
         </div>
       </nav>
-      <div className="flex items-center gap-2">
-        <ThemeButton />
-        <Dropdown />
-      </div>
+      <Dropdown />
     </div>
   );
 }

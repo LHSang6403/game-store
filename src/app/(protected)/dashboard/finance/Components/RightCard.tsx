@@ -41,7 +41,7 @@ export default function RightCard() {
       .length ?? 0;
 
   return (
-    <Card className="overflow-hidden">
+    <Card className="h-full overflow-hidden">
       <CardHeader className="bg-muted/50 flex flex-row items-start">
         <div className="grid gap-0.5">
           <CardTitle className="group flex items-center gap-2 text-lg">
