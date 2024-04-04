@@ -58,13 +58,13 @@ export async function processOrderGHTK({
         note: order?.note ?? "Không",
         value: order?.price || 0,
         pick_option: "cod",
-        email: "test@gmail.com",
-        return_email: "test2@gmail.com",
+        email: "user@gmail.com",
+        return_email: "gamestorevn2024@gmail.com",
       },
       products: order.products.map((prod) => ({
         name: prod.product.name,
         quantity: 1,
-        weight: 1,
+        weight: 0.4, // Kg
       })),
     };
 

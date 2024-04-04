@@ -142,7 +142,7 @@ export async function processOrderGHN({
       items: order.products.map((prod) => ({
         name: prod.product.name,
         quantity: 1,
-        weight: 1,
+        weight: 400, // Gram
       })),
     };
 
