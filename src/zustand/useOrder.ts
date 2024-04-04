@@ -91,6 +91,7 @@ function createOrderFromProduct(
     created_at: new Date().toISOString(),
     shipment_name: "",
     shipment_label_code: "",
+
     products: [prod],
     state: "pending",
     customer_id: "",
@@ -110,5 +111,6 @@ function createOrderFromProduct(
     pick_district: "",
     pick_province: "",
     weight: 500,
+    pick_storage_id: "",
   };
 }
