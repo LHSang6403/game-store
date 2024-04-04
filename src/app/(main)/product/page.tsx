@@ -8,7 +8,7 @@ import { ProductType } from "@utils/types/index";
 
 export default async function Product() {
   const products = await readProducts({
-    limit: 40,
+    limit: 60,
     offset: 0,
   });
 

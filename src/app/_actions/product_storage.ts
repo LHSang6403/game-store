@@ -1,7 +1,10 @@
 "use server";
 
 import createSupabaseServerClient from "@/supabase-query/server";
-import type { ProductStorageType } from "@utils/types/index";
+import type {
+  InsertedProductStorageType,
+  ProductStorageType,
+} from "@utils/types/index";
 
 export async function createProductStorage({
   productStorage,
@@ -62,7 +65,7 @@ export async function readAllProductStorages() {
     return {
       status: result.status,
       statusText: result.statusText,
-      data: result.data,
+      data: result.data as ProductStorageType[],
       error: result.error,
     };
   } catch (error: any) {
@@ -116,6 +119,56 @@ export async function updateStorageQuantityByProductId({
     return {
       status: 500,
       statusText: "Internal Server Error.",
+      data: null,
+      error: error,
+    };
+  }
+}
+
+export async function updateProductStoragesQuantity({
+  addProductStorageList,
+}: {
+  addProductStorageList: InsertedProductStorageType[];
+}) {
+  try {
+    const supabase = await createSupabaseServerClient();
+    let result;
+
+    for (const addProductStorage of addProductStorageList) {
+      const sproductStorage_id = addProductStorage.product_storage_id;
+
+      const orgiginalProductStorage = await supabase
+        .from("product_storage")
+        .select("*")
+        .eq("id", sproductStorage_id)
+        .single();
+
+      const updatedQuantity =
+        parseInt(orgiginalProductStorage?.data?.quantity ?? 0) +
+        addProductStorage.inserted_quantity;
+
+      const updateResult = await supabase
+        .from("product_storage")
+        .update({ quantity: updatedQuantity })
+        .eq("id", sproductStorage_id);
+
+      if (updateResult.error)
+        throw new Error("Đã có lỗi xảy ra khi nhập thêm sản phẩm vào kho.");
+
+        
+      result = updateResult;
+    }
+
+    return {
+      status: result.status,
+      statusText: result.statusText,
+      data: result.data,
+      error: null,
+    };
+  } catch (error: any) {
+    return {
+      status: 500,
+      statusText: "Lỗi nhập thêm sản phẩm.",
       data: null,
       error: error,
     };

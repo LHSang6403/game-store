@@ -1,5 +1,5 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import DataCardLoading from "@app/(protected)/dashboard/Components/DataCardLoading";
+import DashboardLoading from "@/app/(protected)/dashboard/Components/DashboardLoading";
 
 export default function DataCard({
   title,
@@ -17,7 +17,9 @@ export default function DataCard({
   return (
     <>
       {isLoading ? (
-        <DataCardLoading />
+        <Card className="h-32 w-full p-2">
+          <DashboardLoading />
+        </Card>
       ) : (
         <Card className="h-32 w-full">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">

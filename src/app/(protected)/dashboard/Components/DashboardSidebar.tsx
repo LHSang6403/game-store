@@ -15,6 +15,7 @@ import {
   FileClock,
   Wallet,
   Folder,
+  CopyPlus,
 } from "lucide-react";
 
 export default function DashboardSidebar() {
@@ -61,6 +62,11 @@ export default function DashboardSidebar() {
       name: "Hoạt động",
       link: "/dashboard/log",
       icon: <FileClock className="h-4 w-4" />,
+    },
+    {
+      name: "Nhập kho",
+      link: "/dashboard/insert",
+      icon: <CopyPlus className="h-4 w-4" />,
     },
   ];
 

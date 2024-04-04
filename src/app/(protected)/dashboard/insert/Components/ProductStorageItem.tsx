@@ -1,0 +1,76 @@
+"use client";
+
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import * as z from "zod";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormMessage,
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Card } from "@components/ui/card";
+import { ProductStorageType } from "@/utils/types";
+
+const FormSchema = z.object({
+  add_quantity: z
+    .string()
+    .refine((val) => val === "" || !Number.isNaN(parseInt(val, 10)), {
+      message: "Vui lòng nhập số.",
+    }),
+});
+
+export default function ProductStorageItem({
+  product_storage,
+  onValueChange,
+}: {
+  product_storage: ProductStorageType;
+  onValueChange: (value: number) => void;
+}) {
+  const form = useForm<z.infer<typeof FormSchema>>({
+    resolver: zodResolver(FormSchema),
+    defaultValues: {
+      add_quantity: "",
+    },
+    mode: "onChange",
+  });
+
+  return (
+    <Card className="flex h-20 w-full flex-row justify-between p-2">
+      <div className="flex w-1/2 flex-col justify-between gap-1">
+        <span className="font-medium">{product_storage.product_name}</span>
+        <span className="text-sm">Tồn kho: {product_storage.quantity}</span>
+      </div>
+      <Form {...form}>
+        <form
+          onChange={() => {
+            const value = form.getValues().add_quantity;
+            onValueChange(parseInt(value));
+          }}
+          className="ml-auto mt-auto w-fit"
+        >
+          <FormField
+            control={form.control}
+            name="add_quantity"
+            render={({ field }) => (
+              <FormItem>
+                <FormMessage />
+                <FormControl>
+                  <Input
+                    placeholder="Nhập thêm"
+                    {...field}
+                    type="text"
+                    onChange={field.onChange}
+                    className="h-8 w-28"
+                  />
+                </FormControl>
+              </FormItem>
+            )}
+          />
+        </form>
+      </Form>
+    </Card>
+  );
+}

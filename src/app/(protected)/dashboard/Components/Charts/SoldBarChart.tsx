@@ -3,7 +3,7 @@
 import { BarList } from "@tremor/react";
 import { useQuery } from "@tanstack/react-query";
 import type { OrderType } from "@utils/types/index";
-import ChartLoading from "@/app/(protected)/dashboard/Components/ChartLoading";
+import DashboardLoading from "@/app/(protected)/dashboard/Components/DashboardLoading";
 import useDatePicker from "@/zustand/useDatePicker";
 import { readOrdersByDateRange } from "@/app/_actions/order";
 import {
@@ -57,7 +57,10 @@ export default function RevenueBarChart() {
   }, []);
 
   return (
-    <Card className="col-span-2 row-span-2 h-full xl:col-span-4" ref={cardRef}>
+    <Card
+      className="col-span-2 row-span-2 h-full overflow-hidden xl:col-span-4"
+      ref={cardRef}
+    >
       <CardHeader className="flex flex-col pb-0">
         <CardTitle className="mb-2 flex flex-row justify-between">
           <span>Bán chạy</span>
@@ -84,20 +87,16 @@ export default function RevenueBarChart() {
           )}
         </div>
       </CardHeader>
-      <CardContent className="mt-2 h-fit sm:px-6 sm:pb-6">
-        <div className="w-full">
-          {isLoading || !ordersResponse ? (
-            <div className="h-[400px]">
-              <ChartLoading />
-            </div>
-          ) : (
-            <div className="min-h-[100px] w-full overflow-hidden">
-              {ordersResponse && (
-                <BarList data={chartData} className="mr-1.5 mt-3 w-auto" />
-              )}
-            </div>
-          )}
-        </div>
+      <CardContent className="mt-2 block h-[212px] ">
+        {isLoading ? (
+          <DashboardLoading />
+        ) : (
+          <div className="min-h-[100px] w-full overflow-hidden sm:px-6 sm:pb-6">
+            {ordersResponse && (
+              <BarList data={chartData} className="mr-1.5 mt-3 w-auto" />
+            )}
+          </div>
+        )}
       </CardContent>
     </Card>
   );

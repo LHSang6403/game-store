@@ -5,7 +5,7 @@ import { DataTable } from "@components/Table/DataTable";
 import { readAllStoragesAndProductStorages } from "@/app/_actions/storage";
 import type { ProductStorageType } from "@utils/types/index";
 import { useQuery } from "@tanstack/react-query";
-import ChartLoading from "@app/(protected)/dashboard/Components/ChartLoading";
+import DashboardLoading from "@app/(protected)/dashboard/Components/DashboardLoading";
 import {
   Card,
   CardContent,
@@ -43,7 +43,7 @@ export default async function StorageTables() {
               <div className="w-full">
                 {isLoading ? (
                   <div className="h-[400px]">
-                    <ChartLoading />
+                    <DashboardLoading />
                   </div>
                 ) : (
                   <div className="min-h-[100px] w-full overflow-hidden">
@@ -73,5 +73,3 @@ export default async function StorageTables() {
     </>
   );
 }
-
-
