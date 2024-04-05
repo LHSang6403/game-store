@@ -43,7 +43,7 @@ export default function ProductStorageItem({
   });
 
   return (
-    <Card className="flex h-20 w-full flex-row justify-between p-2">
+    <Card className="flex h-20 w-full flex-row justify-between px-2 py-1">
       <div className="flex w-1/2 flex-col justify-between gap-1">
         <span className="font-medium">{product_storage.product_name}</span>
         <span className="text-sm">Tồn kho: {product_storage.quantity}</span>
@@ -54,7 +54,7 @@ export default function ProductStorageItem({
             const value = parseInt(form.getValues().add_quantity);
             onValueChange(value);
           }}
-          className="ml-auto mt-auto w-fit"
+          className="mb-1 ml-auto mt-auto w-fit"
         >
           <FormField
             control={form.control}

@@ -5,6 +5,7 @@ import type {
   InsertedProductStorageType,
   ProductStorageType,
 } from "@utils/types/index";
+import { revalidatePath } from "next/cache";
 
 export async function createProductStorage({
   productStorage,
@@ -155,9 +156,10 @@ export async function updateProductStoragesQuantity({
       if (updateResult.error)
         throw new Error("Đã có lỗi xảy ra khi nhập thêm sản phẩm vào kho.");
 
-        
       result = updateResult;
     }
+
+    revalidatePath("/dashboard/insert");
 
     return {
       status: result.status,
