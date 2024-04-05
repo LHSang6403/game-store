@@ -59,13 +59,13 @@ function TypicalProduct({
   };
 }) {
   return (
-    <div className="mx-auto h-fit w-full max-w-80 bg-background/5 p-4 text-background transition duration-300 ease-in-out hover:scale-[1.02] hover:cursor-pointer">
-      <div className="relative max-h-44 w-full overflow-hidden">
+    <div className="mx-auto h-fit w-full bg-background/5 p-4 text-background transition duration-300 ease-in-out hover:scale-[1.02] hover:cursor-pointer">
+      <div className="relative w-full overflow-hidden">
         <Image
           alt="Typical Product"
           src={data.image}
-          width={400}
-          height={300}
+          width={500}
+          height={400}
         />
         <div className="absolute -right-8 top-8 h-8 w-24 -rotate-90 transform bg-foreground p-1 text-center text-sm font-light opacity-75">
           Game store

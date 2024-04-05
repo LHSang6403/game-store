@@ -34,7 +34,7 @@ function Promotion({
   data: { title: string; time: string; image: string; description: string };
 }) {
   return (
-    <div className="relative flex h-fit w-full items-center justify-center">
+    <div className="relative flex h-fit w-fit items-center justify-center">
       <div className="w-full opacity-85">
         <Image
           alt="Typical Product"

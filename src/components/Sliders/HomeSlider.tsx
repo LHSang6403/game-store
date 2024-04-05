@@ -57,19 +57,19 @@ export default function HomeSlider() {
                     href="/product"
                     className="transition duration-300 ease-in-out hover:text-foreground"
                   >
-                    Explore
+                    Khám phá
                   </Link>
                   <Link
                     href="/product"
                     className="transition duration-300 ease-in-out hover:text-foreground"
                   >
-                    Shop Now
+                    Mua ngay
                   </Link>
                   <Link
                     href="/about"
                     className="transition duration-300 ease-in-out hover:text-foreground"
                   >
-                    Services
+                    Dịch vụ
                   </Link>
                 </div>
                 <Image
@@ -81,12 +81,12 @@ export default function HomeSlider() {
                   height={960}
                 />
                 <div className="absolute bottom-2 left-6 h-fit w-72 p-3 sm:bottom-40 sm:left-0 sm:w-full sm:px-3 ssm:bottom-20">
-                  <h1 className="-mb-2 text-3xl font-semibold">{image.name}</h1>
+                  <h1 className="text-3xl font-semibold">{image.name}</h1>
                   <Link
                     href="/product"
-                    className="mt-2 text-foreground/70 hover:text-foreground"
+                    className="mt-1 text-foreground/70 hover:text-foreground"
                   >
-                    View more
+                    Chi tiết
                     <ArrowRight className="ml-0.5 inline" />
                   </Link>
                   <p className="mt-2 line-clamp-4 overflow-hidden overflow-ellipsis font-light">

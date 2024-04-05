@@ -11,26 +11,24 @@ function Error({ error, reset }: { error: Error; reset: () => void }) {
   };
 
   return (
-    <div className="w-screen h-screen flex justify-center items-center">
-      <div className="w-[700px] h-fit sm:w-[90%] px-12 py-8 bg-foreground/10 shadow rounded-xl flex flex-col justify-center items-center">
-        <h1 className="text-2xl mb-4 text-primary font-bold">
-          Next.js Application
-        </h1>
-        <p className="text-center h-fit mb-4 text-red-400">
-          We notice that: {error.message}
+    <div className="flex h-screen w-screen items-center justify-center">
+      <div className="flex h-fit w-[700px] flex-col items-center justify-center rounded-xl bg-foreground/10 px-12 py-8 shadow sm:w-[90%]">
+        <h1 className="mb-4 text-2xl font-bold text-primary">Game store</h1>
+        <p className="mb-4 h-fit text-center text-red-400">
+          Lỗi: {error.message}
         </p>
-        <div className="flex flex-row gap-4 mt-2">
+        <div className="mt-2 flex flex-row gap-4">
           <Button
-            className="text-accent bgbackgournd rounded-lg"
+            className="bgbackgournd rounded-lg text-accent"
             onClick={handleClick}
           >
-            Try again
+            Thử lại
           </Button>
           <Button
-            className="text-accent bgbackgournd rounded-lg"
+            className="bgbackgournd rounded-lg text-accent"
             onClick={router.back}
           >
-            Go back
+            Trở về
           </Button>
         </div>
       </div>
