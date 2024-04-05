@@ -1,4 +1,4 @@
-import { GeistSans } from "geist/font/sans";
+import { Roboto_Mono } from "next/font/google";
 import "@app/styles/globals.css";
 import "@app/styles/prosemirror.css";
 import NavDrawer from "@components/Layout/Drawer/NavDrawer";
@@ -12,6 +12,12 @@ export const metadata = {
   keywords: "game, store, online, console, pc, playstation, xbox, nintendo",
 };
 
+const font = Roboto_Mono({
+  weight: "400",
+  subsets: ["latin"],
+  display: "swap",
+});
+
 export default function RootLayout({
   children,
 }: {
@@ -20,7 +26,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`light ${GeistSans.className}`}
+      className={`light ${font.className}`}
       style={{ colorScheme: "light" }}
       suppressHydrationWarning
     >
