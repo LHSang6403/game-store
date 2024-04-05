@@ -1,6 +1,6 @@
 "use client";
 
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { readStorages } from "@app/_actions/storage";
 import { useState } from "react";
 import { readAllProductStorages } from "@/app/_actions/product_storage";
@@ -37,21 +37,25 @@ export default function page() {
     InsertedProductStorageType[]
   >([]);
 
-  const mutation = useMutation({
-    mutationFn: async (
-      insertedProductStorageData: InsertedProductStorageType[]
-    ) =>
-      await updateProductStoragesQuantity({
-        addProductStorageList: insertedProductStorageData,
-      }),
-    onSuccess: () => {
-      toast.success("Đã thêm thành công.");
-      queryClient.invalidateQueries({ queryKey: ["product-storage", "all"] });
-    },
-  });
+  async function handleSubmit() {
+    toast.promise(
+      async () =>
+        await updateProductStoragesQuantity({
+          addProductStorageList: insertedProductStorageData,
+        }),
+      {
+        loading: "Đang cập nhật...",
+        success: () => {
+          queryClient.invalidateQueries({
+            queryKey: ["product-storage", "all"],
+          });
 
-  function handleSubmit() {
-    mutation.mutate(insertedProductStorageData);
+          setInsertedProductStorageData([]);
+
+          return "Cập nhật thành công.";
+        },
+      }
+    );
   }
 
   return (
@@ -66,7 +70,7 @@ export default function page() {
           <ChevronsRight className="h-4 w-4" />
         </Link>
       </div>
-      <div className="flex flex-row gap-2 overflow-hidden lg:flex-col">
+      <div className="flex flex-row gap-2 overflow-hidden lg:flex-col lg:gap-4">
         <div className="flex h-full w-1/2 flex-col gap-2 overflow-auto lg:w-full">
           {isStoragesSuccess &&
             storages?.data?.map((storage, index) => (

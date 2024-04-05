@@ -17,9 +17,14 @@ import { ProductStorageType } from "@/utils/types";
 const FormSchema = z.object({
   add_quantity: z
     .string()
-    .refine((val) => val === "" || !Number.isNaN(parseInt(val, 10)), {
-      message: "Vui lòng nhập số.",
-    }),
+    .refine(
+      (val) =>
+        val === "" ||
+        (!Number.isNaN(parseInt(val, 10)) && parseInt(val, 10) >= 0),
+      {
+        message: "Vui lòng nhập số dương.",
+      }
+    ),
 });
 
 export default function ProductStorageItem({
@@ -46,8 +51,8 @@ export default function ProductStorageItem({
       <Form {...form}>
         <form
           onChange={() => {
-            const value = form.getValues().add_quantity;
-            onValueChange(parseInt(value));
+            const value = parseInt(form.getValues().add_quantity);
+            onValueChange(value);
           }}
           className="ml-auto mt-auto w-fit"
         >
@@ -55,7 +60,7 @@ export default function ProductStorageItem({
             control={form.control}
             name="add_quantity"
             render={({ field }) => (
-              <FormItem>
+              <FormItem className="flex flex-col items-end">
                 <FormMessage />
                 <FormControl>
                   <Input
