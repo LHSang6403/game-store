@@ -26,6 +26,7 @@ import { ApiErrorHandlerClient } from "@/utils/errorHandler/apiErrorHandler";
 import { updateStaffToCustomer } from "@/app/_actions/user";
 import { useSession } from "@/zustand/useSession";
 import EditProfile from "@app/(main)/profile/Components/EditProfile";
+import formatVNDate from "@/utils/functions/formatVNDate";
 
 export const columns: ColumnDef<StaffType>[] = [
   {
@@ -48,8 +49,9 @@ export const columns: ColumnDef<StaffType>[] = [
     },
     cell: ({ row }) => {
       const date = new Date(row.getValue("dob"));
-      const formatted = date.toLocaleDateString();
-      return <div className="ml-4">{formatted}</div>;
+      const formatted = formatVNDate(date);
+
+      return <div className="ml-2 text-left">{formatted}</div>;
     },
   },
   {

@@ -11,12 +11,12 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import formatReadableTime from "@/utils/functions/formatTime";
 import { cancelGHTKOrder } from "@/app/_actions/GHTKShipment";
 import { cancelGHNOrder } from "@/app/_actions/GHNShipment";
 import { toast } from "sonner";
 import { ApiErrorHandlerClient } from "@/utils/errorHandler/apiErrorHandler";
 import { useSession } from "@/zustand/useSession";
+import formatVNDate from "@utils/functions/formatVNDate";
 
 export const columns: ColumnDef<OrderType>[] = [
   {
@@ -51,11 +51,10 @@ export const columns: ColumnDef<OrderType>[] = [
       );
     },
     cell: ({ row }) => {
-      const data = row.original;
+      const date = new Date(row.getValue("created_at"));
+      const formatted = formatVNDate(date);
 
-      return (
-        <div className="text-left">{formatReadableTime(data.created_at)}</div>
-      );
+      return <div className="ml-2 text-left">{formatted}</div>;
     },
   },
   {

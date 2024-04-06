@@ -54,13 +54,10 @@ export async function signUpWithEmailAndPassword({
         district: district,
         province: province,
         level: 0,
-        image:
-          "user_images/defaultAvatar/avatar.jpg",
+        image: "user_images/defaultAvatar/avatar.jpg",
       };
 
-      const customerInsertResult = await supabase
-        .from("customer")
-        .insert(customerObject);
+      await supabase.from("customer").insert(customerObject);
     }
 
     return createResult;

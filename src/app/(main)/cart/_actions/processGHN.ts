@@ -120,10 +120,6 @@ export async function processOrderGHN({
       })),
     };
 
-    // **** bug can not create an order here ****
-
-    console.log(ghnData);
-
     const ghnOrderResult = await requestGHNOrder(ghnData);
 
     return {

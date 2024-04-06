@@ -24,7 +24,7 @@ import GoogleOAuth from "@/app/OAuth/GoogleOAuth";
 const FormSchema = z.object({
   email: z.string().email(),
   password: z.string().min(6, {
-    message: "Mật khẩu phải dài hơn 5 ký tự.",
+    message: "Mật khẩu phải dài hơn 6 ký tự.",
   }),
 });
 

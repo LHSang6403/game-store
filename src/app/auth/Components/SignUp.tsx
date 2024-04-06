@@ -49,10 +49,10 @@ const FormSchema = z
     province: z.string().min(2, { message: "Vui lòng nhập tỉnh/thành phố." }),
     email: z.string().email(),
     password: z.string().min(6, {
-      message: "Vui lòng nhập mật khẩu dài hơn 5 kí tự.",
+      message: "Vui lòng nhập mật khẩu dài hơn 6 kí tự.",
     }),
     confirm: z.string().min(6, {
-      message: "Vui lòng nhập mật khẩu dài hơn 5 kí tự.",
+      message: "Vui lòng nhập mật khẩu dài hơn 6 kí tự.",
     }),
   })
   .refine((data) => data.confirm === data.password, {

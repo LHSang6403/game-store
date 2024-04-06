@@ -6,7 +6,7 @@ import useProductFilter from "@/zustand/useProductFilter";
 import { toast } from "sonner";
 
 export default function CategoryCard({ data }: { data: string }) {
-  const { categories, setCategories } = useProductFilter();
+  const { setCategories } = useProductFilter();
 
   return (
     <Badge

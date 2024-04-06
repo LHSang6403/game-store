@@ -11,6 +11,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { LogType } from "@/utils/types";
+import formatVNDate from "@/utils/functions/formatVNDate";
 
 export const columns: ColumnDef<LogType>[] = [
   {
@@ -42,9 +43,9 @@ export const columns: ColumnDef<LogType>[] = [
     },
     cell: ({ row }) => {
       const date = new Date(row.getValue("created_at"));
-      const formatted = date.toLocaleDateString();
+      const formatted = formatVNDate(date);
 
-      return <div className="ml-4">{formatted}</div>;
+      return <div className="ml-2 text-left">{formatted}</div>;
     },
   },
   {

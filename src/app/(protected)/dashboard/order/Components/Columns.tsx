@@ -38,7 +38,7 @@ export const columns: ColumnDef<OrderType>[] = [
       const data = row.original;
 
       return (
-        <div className="line-clamp-5 w-52 overflow-ellipsis sm:w-36">
+        <div className="line-clamp-5 overflow-ellipsis sm:w-36">
           {data.products.map((prod, index) => (
             <span key={index}>
               {prod.product.name}
@@ -55,7 +55,7 @@ export const columns: ColumnDef<OrderType>[] = [
     cell: ({ row }) => {
       const data = row.original;
 
-      return <div className="">{formatCurrency(data.total_price)} VND</div>;
+      return <div className="">{formatCurrency(data.total_price)}</div>;
     },
   },
   {

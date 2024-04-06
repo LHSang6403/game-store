@@ -17,6 +17,7 @@ import { ApiErrorHandlerClient } from "@/utils/errorHandler/apiErrorHandler";
 import { toast } from "sonner";
 import { useSession } from "@/zustand/useSession";
 import { useRouter } from "next/navigation";
+import formatVNDate from "@/utils/functions/formatVNDate";
 
 export const columns: ColumnDef<ProductType>[] = [
   {
@@ -33,7 +34,7 @@ export const columns: ColumnDef<ProductType>[] = [
     cell: ({ row }) => {
       const data = row.original;
 
-      return <div className="">{formatCurrency(data.price)} VND</div>;
+      return <div className="">{formatCurrency(data.price)} VNĐ</div>;
     },
   },
   {
@@ -56,9 +57,9 @@ export const columns: ColumnDef<ProductType>[] = [
     },
     cell: ({ row }) => {
       const date = new Date(row.getValue("created_at"));
-      const formatted = date.toLocaleDateString();
+      const formatted = formatVNDate(date);
 
-      return <div className="ml-4 w-fit">{formatted}</div>;
+      return <div className="ml-2 text-left">{formatted}</div>;
     },
   },
   {

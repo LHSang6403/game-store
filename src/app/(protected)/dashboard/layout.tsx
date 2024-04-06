@@ -1,45 +1,22 @@
 "use client";
 
-import DashboardSidebar, {
-  dashboardSidebarList,
-} from "@app/(protected)/dashboard/Components/DashboardSidebar";
+import DashboardSidebar from "@app/(protected)/dashboard/Components/DashboardSidebar";
 import Footer from "@/components/Layout/Footer/Footer";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import DashboardHeader from "@/components/Layout/Header/DashboardHeader";
-import { usePathname } from "next/navigation";
-import { useRouter } from "next/navigation";
 import { useSession } from "@/zustand/useSession";
-import { StaffType } from "@/utils/types";
+import { useRouter } from "next/navigation";
 
 export default function DashboardLayout({
   children,
 }: {
   children: React.ReactNode;
 }): ReturnType<React.FC> {
-  const pathname = usePathname();
   const router = useRouter();
   const session = useSession();
-  const staffSession = session.session as StaffType;
 
-  const isAuthorized = () => {
-    if (!staffSession || !("role" in staffSession)) {
-      router.push("/");
-    }
-
-    const currentPath = dashboardSidebarList.find(
-      (dashboardSidebarItem) => dashboardSidebarItem.link === pathname
-    );
-    const currentPathPermission = currentPath?.permission;
-
-    if (currentPathPermission && currentPathPermission !== staffSession.role) {
-      return false;
-    }
-
-    return true;
-  };
-
-  if (!isAuthorized()) {
-    router.push("/dashboard");
+  if (!session.session) {
+    router.push("/auth");
   }
 
   return (

@@ -45,9 +45,9 @@ export default function RightCard() {
       <CardHeader className="bg-muted/50 flex flex-row items-start">
         <div className="grid gap-0.5">
           <CardTitle className="group flex items-center gap-2 text-lg">
-            Báo cáo
+            Báo cáo doanh thu
           </CardTitle>
-          <Button variant="outline" className="mt-2 h-8 w-full">
+          <Button variant="outline" className="mt-2 h-8 w-fit">
             In báo cáo
           </Button>
         </div>

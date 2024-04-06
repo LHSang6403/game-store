@@ -4,31 +4,21 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { toast } from "sonner";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@components/ui/form";
-import { Textarea } from "@components/ui/textarea";
-import { Input } from "@components/ui/input";
+import { Form, FormLabel } from "@components/ui/form";
 import { Button } from "@components/ui/button";
 import { useSession } from "@/zustand/useSession";
 import { useOrder } from "@/zustand/useOrder";
 import type { CustomerType, StaffType } from "@utils/types";
-import ConfirmDialog from "./ConfirmDialog";
+import ConfirmDialog from "@app/(main)/cart/Components/Summary//ConfirmDialog";
 import { useState, useEffect } from "react";
-import FormAddressPicker from "@components/Picker/Address/FormAddressPicker";
 import useAddressSelects from "@/zustand/useAddressSelects";
-import SelectShipmentForm from "./SelectShipmentForm";
 import { calShipmentFees } from "@/app/(main)/cart/_actions/calShip";
 import LocationDialog from "@app/(main)/cart/Components/Summary/LocationDialog";
 import useLocalStorage from "@/hooks/useLocalStorage";
 import { useQuery } from "@tanstack/react-query";
 import { readStorages } from "@app/_actions/storage";
 import { findAvailableStorage } from "@app/(main)/cart/_actions/findAvailbleStorage";
+import OrderFormInputs from "@app/(main)/cart/Components/Summary/OrderFormInputs";
 
 const FormSchema = z.object({
   name: z.string().min(1, { message: "Vui lòng nhập tên." }),
@@ -189,108 +179,7 @@ export default function OrderForm() {
               onSubmit={form.handleSubmit(onSubmit)}
               className="grid w-full grid-cols-2 gap-3 sm:grid-cols-1"
             >
-              <FormField
-                control={form.control}
-                name="name"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Tên</FormLabel>
-                    <FormControl>
-                      <Input
-                        placeholder="Tên khách hàng"
-                        {...field}
-                        type="text"
-                        onChange={field.onChange}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="phone"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Điện thoại</FormLabel>
-                    <FormControl>
-                      <Input
-                        placeholder="Số liên hệ"
-                        {...field}
-                        type="text"
-                        onChange={field.onChange}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="district"
-                render={() => (
-                  <FormItem>
-                    <FormLabel>Tỉnh, huyện, phường</FormLabel>
-                    <FormControl>
-                      <FormAddressPicker />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="note"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Ghi chú thêm</FormLabel>
-                    <FormControl>
-                      <Textarea
-                        className="max-h-44 min-h-28 border-[#E5E7EB]"
-                        placeholder="Ghi chú..."
-                        {...field}
-                        value={field.value ?? ""}
-                        onChange={field.onChange}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="address"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Địa chỉ</FormLabel>
-                    <FormControl>
-                      <Input
-                        placeholder="Số nhà, tên đường"
-                        {...field}
-                        onChange={field.onChange}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="shipment"
-                render={() => (
-                  <FormItem>
-                    <FormLabel>Dịch vụ giao hàng</FormLabel>
-                    <FormControl>
-                      <SelectShipmentForm
-                        onChange={(value) => {
-                          form.setValue("shipment", value);
-                        }}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+              <OrderFormInputs form={form} />
               <Button
                 disabled={!form.formState.isValid}
                 type="submit"

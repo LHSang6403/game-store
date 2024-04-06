@@ -18,7 +18,7 @@ import formatVNDate from "@/utils/functions/formatVNDate";
 import { DateRangePicker } from "@/components/Picker/RangeDate/DateRangePicker";
 
 const dataFormatter = (number: number) =>
-  `${Intl.NumberFormat("us").format(number).toString()} VND`;
+  `${Intl.NumberFormat("us").format(number).toString()} VNĐ`;
 
 export default function RevenueBarChart() {
   const { from, to } = useDatePicker();

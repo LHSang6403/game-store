@@ -17,6 +17,7 @@ import { ApiErrorHandlerClient } from "@/utils/errorHandler/apiErrorHandler";
 import { updateCustomerLevel } from "@app/_actions/user";
 import { useSession } from "@/zustand/useSession";
 import EditProfile from "@/app/(main)/profile/Components/EditProfile";
+import formatVNDate from "@/utils/functions/formatVNDate";
 
 export const columns: ColumnDef<CustomerType>[] = [
   {
@@ -39,9 +40,9 @@ export const columns: ColumnDef<CustomerType>[] = [
     },
     cell: ({ row }) => {
       const date = new Date(row.getValue("dob"));
-      const formatted = date.toLocaleDateString();
+      const formatted = formatVNDate(date);
 
-      return <div className="ml-4">{formatted}</div>;
+      return <div className="ml-2 text-left">{formatted}</div>;
     },
   },
   {
@@ -79,7 +80,6 @@ export const columns: ColumnDef<CustomerType>[] = [
     },
     cell: ({ row }) => {
       const data = row.original;
-      const availbleRoles = ["Seller", "Writer", "Manager"];
       const session = useSession();
 
       function updateCustomerLevelHandler(

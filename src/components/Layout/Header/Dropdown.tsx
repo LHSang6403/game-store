@@ -16,21 +16,13 @@ import { signOutHandler } from "@/app/auth/_actions/signOut";
 import { useSession } from "@/zustand/useSession";
 import { toast } from "sonner";
 import Image from "next/image";
-import { useEffect, useState } from "react";
 import { useTheme } from "next-themes";
 import { SunIcon, MoonIcon } from "@heroicons/react/24/solid";
 
 export default function Dropdown() {
   const { session, removeSession } = useSession();
   const router = useRouter();
-
   const { resolvedTheme, setTheme } = useTheme();
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => setMounted(true), []);
-  if (!mounted) {
-    return null;
-  }
 
   return (
     <DropdownMenu>
@@ -96,6 +88,7 @@ export default function Dropdown() {
               if (!result.error) {
                 removeSession();
                 toast.success("Đăng xuất thành công.");
+                router.push("/auth");
               } else {
                 toast.error("Đã có lỗi xãy ra khi đăng xuất.");
               }

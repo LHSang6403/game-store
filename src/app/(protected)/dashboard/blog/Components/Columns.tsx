@@ -16,6 +16,7 @@ import { ApiErrorHandlerClient } from "@/utils/errorHandler/apiErrorHandler";
 import { toast } from "sonner";
 import { useSession } from "@/zustand/useSession";
 import { deleteBlogById } from "@app/_actions/blog";
+import formatVNDate from "@utils/functions/formatVNDate";
 
 export const columns: ColumnDef<BlogType>[] = [
   {
@@ -51,8 +52,9 @@ export const columns: ColumnDef<BlogType>[] = [
     },
     cell: ({ row }) => {
       const date = new Date(row.getValue("created_at"));
-      const formatted = date.toLocaleDateString();
-      return <div className="ml-4">{formatted}</div>;
+      const formatted = formatVNDate(date);
+
+      return <div className="ml-2">{formatted}</div>;
     },
   },
   {
