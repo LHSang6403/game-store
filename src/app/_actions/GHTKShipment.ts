@@ -28,7 +28,7 @@ export async function requestGHTKOrder(data: GHTKDataType) {
   } catch (error: any) {
     return {
       status: 500,
-      statusText: "Internal Server Error",
+      statusText: "Lỗi máy chủ",
       data: null,
       error: error.message,
     };
@@ -56,7 +56,7 @@ export async function getGHTKOrder(label: string): Promise<any> {
   } catch (error: any) {
     return {
       status: 500,
-      statusText: "Internal Server Error",
+      statusText: "Lỗi máy chủ",
       data: null,
       error: error.message,
     };
@@ -84,7 +84,7 @@ export async function getGHTKOrderStatus(label: string) {
   } catch (error: any) {
     return {
       status: 500,
-      statusText: "Internal Server Error",
+      statusText: "Lỗi máy chủ",
       data: null,
       error: error.message,
     };
@@ -116,7 +116,7 @@ export async function calGHTKFees(params: any) {
   } catch (error: any) {
     return {
       status: 500,
-      statusText: "Internal Server Error",
+      statusText: "Lỗi máy chủ",
       data: null,
       error: error.message,
     };
@@ -144,7 +144,7 @@ export async function cancelGHTKOrder({
     );
 
     if (response.data.success) {
-      const updateResult = await updateStateOrder({
+      await updateStateOrder({
         id: id,
         state: "Đã hủy",
         actor: actor,
@@ -162,7 +162,7 @@ export async function cancelGHTKOrder({
   } catch (error: any) {
     return {
       status: 500,
-      statusText: "Internal Server Error",
+      statusText: "Lỗi máy chủ",
       data: null,
       error: error.message,
     };

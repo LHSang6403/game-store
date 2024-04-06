@@ -6,6 +6,7 @@ import type {
   ProductStorageType,
 } from "@utils/types/index";
 import { revalidatePath } from "next/cache";
+import { saveToLog } from "./log";
 
 export async function createProductStorage({
   productStorage,
@@ -28,7 +29,7 @@ export async function createProductStorage({
   } catch (error: any) {
     return {
       status: 500,
-      statusText: "Internal Server Error.",
+      statusText: "Lỗi máy chủ",
       data: null,
       error: error,
     };
@@ -50,7 +51,7 @@ export async function removeProductStorage(id: string) {
   } catch (error: any) {
     return {
       status: 500,
-      statusText: "Internal Server Error.",
+      statusText: "Lỗi máy chủ",
       data: null,
       error: error,
     };
@@ -72,7 +73,7 @@ export async function readAllProductStorages() {
   } catch (error: any) {
     return {
       status: 500,
-      statusText: "Internal Server Error.",
+      statusText: "Lỗi máy chủ",
       data: null,
       error: error,
     };
@@ -119,7 +120,7 @@ export async function updateStorageQuantityByProductId({
   } catch (error: any) {
     return {
       status: 500,
-      statusText: "Internal Server Error.",
+      statusText: "Lỗi máy chủ",
       data: null,
       error: error,
     };

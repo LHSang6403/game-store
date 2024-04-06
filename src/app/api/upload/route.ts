@@ -25,7 +25,7 @@ export async function POST(req: Request) {
 
     if (error) {
       console.error("Error handling POST request:", error);
-      return new Response("Internal Server Error", { status: 500 });
+      return new Response("Lỗi máy chủ", { status: 500 });
     }
 
     return Response.json({
@@ -36,6 +36,6 @@ export async function POST(req: Request) {
     });
   } catch (error) {
     console.error("Error handling POST request:", error);
-    return new Response("Internal Server Error", { status: 500 });
+    return new Response("Lỗi máy chủ", { status: 500 });
   }
 }

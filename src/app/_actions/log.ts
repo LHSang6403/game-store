@@ -17,8 +17,8 @@ export async function saveToLog({
   logActor,
 }: {
   logName: string;
-  logType: "Read" | "Create" | "Update" | "Delete";
-  logResult: "Success" | "Error";
+  logType: "Đọc" | "Tạo mới" | "Cập nhật" | "Xóa";
+  logResult: "Thành công" | "Thất bại";
   logActor: LogActorType;
 }) {
   try {
@@ -47,7 +47,7 @@ export async function saveToLog({
   } catch (error: any) {
     return {
       status: 500,
-      statusText: "Internal server error",
+      statusText: "Lỗi máy chủ",
       data: null,
       error: error.message,
     };
@@ -69,7 +69,7 @@ export async function readLogs() {
   } catch (error: any) {
     return {
       status: 500,
-      statusText: "Internal server error",
+      statusText: "Lỗi máy chủ",
       data: null,
       error: error.message,
     };

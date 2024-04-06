@@ -19,7 +19,7 @@ export async function createBlog({ blog }: { blog: BlogType }) {
   } catch (error: any) {
     return {
       status: 500,
-      statusText: "Internal Server Error.",
+      statusText: "Lỗi máy chủ",
       data: null,
       error: error,
     };
@@ -51,7 +51,7 @@ export async function readBlogs({
   } catch (error: any) {
     return {
       status: 500,
-      statusText: "Internal Server Error.",
+      statusText: "Lỗi máy chủ",
       data: null,
       error: error,
     };
@@ -78,7 +78,7 @@ export async function readBlogById(id: string) {
   } catch (error: any) {
     return {
       status: 500,
-      statusText: "Internal Server Error.",
+      statusText: "Lỗi máy chủ",
       data: null,
       error: error,
     };
@@ -101,9 +101,9 @@ export async function deleteBlogById({
       .eq("id", blog.id);
 
     await saveToLog({
-      logName: "Delete blog " + blog.title,
-      logType: "Delete",
-      logResult: !result.error ? "Success" : "Error",
+      logName: "Xóa bài viết " + blog.title,
+      logType: "Xóa",
+      logResult: !result.error ? "Thành công" : "Thất bại",
       logActor: actor,
     });
 
@@ -116,7 +116,7 @@ export async function deleteBlogById({
   } catch (error: any) {
     return {
       status: 500,
-      statusText: "Internal Server Error.",
+      statusText: "Lỗi máy chủ",
       data: null,
       error: error,
     };
@@ -141,8 +141,8 @@ export async function updateBlog({
 
     await saveToLog({
       logName: "Update blog " + updatedBlog.title,
-      logType: "Update",
-      logResult: !result.error ? "Success" : "Error",
+      logType: "Cập nhật",
+      logResult: !result.error ? "Thành công" : "Thất bại",
       logActor: actor,
     });
 
@@ -155,7 +155,7 @@ export async function updateBlog({
   } catch (error: any) {
     return {
       status: 500,
-      statusText: "Internal Server Error.",
+      statusText: "Lỗi máy chủ",
       data: null,
       error: error,
     };

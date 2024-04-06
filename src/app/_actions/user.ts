@@ -14,7 +14,8 @@ export async function readUserSession() {
     const supabase = await createSupabaseServerClient();
     const result = await supabase.auth.getSession();
 
-    if (!result?.data?.session) throw new Error("No session.");
+    if (!result?.data?.session)
+      throw new Error("Không xác định phiên đăng nhập.");
 
     const userMetadataRole = result?.data?.session?.user?.user_metadata?.role;
     const userId = result?.data?.session?.user?.id;
@@ -54,12 +55,12 @@ export async function readUserSession() {
         error: customerResult.error,
       };
     }
-  } catch {
+  } catch (error: any) {
     return {
       status: 500,
-      statusText: "Internal server error",
+      statusText: "Lỗi máy chủ",
       data: null,
-      error: "No session.",
+      error: error.message,
     };
   }
 }
@@ -90,10 +91,10 @@ export async function updateStaffRole({
     );
 
     await saveToLog({
-      logName: "Update Staff to " + updatedRole,
-      logType: "Update",
+      logName: "Cập nhật nhân viên thành " + updatedRole,
+      logType: "Cập nhật",
       logResult:
-        !updateResult.error && !updateAdminResult ? "Success" : "Error",
+        !updateResult.error && !updateAdminResult ? "Thành công" : "Thất bại",
       logActor: actor,
     });
 
@@ -109,9 +110,9 @@ export async function updateStaffRole({
   } catch (error: any) {
     return {
       status: 500,
-      statusText: "Internal Server Error",
+      statusText: "Lỗi máy chủ",
       data: null,
-      error: "Error on update.",
+      error: error.message,
     };
   }
 }
@@ -139,9 +140,9 @@ export async function updateCustomerToStaff({
     if (hasOrders) {
       return {
         status: 400,
-        statusText: "Customer is having orders.",
+        statusText: "Khách hàng đang có đơn.",
         data: null,
-        error: "Customer is having orders.",
+        error: "Khách hàng đang có đơn.",
       };
     } else {
       const customerResult = await supabase
@@ -167,9 +168,9 @@ export async function updateCustomerToStaff({
         revalidatePath("/dashboard/staff");
 
         await saveToLog({
-          logName: "Update Customer " + customer.name + " to Staff",
-          logType: "Update",
-          logResult: !result.error ? "Success" : "Error",
+          logName: "Cập nhật khách hàng " + customer.name + " thành nhân viên",
+          logType: "Cập nhật",
+          logResult: !result.error ? "Thành công" : "Thất bại",
           logActor: actor,
         });
 
@@ -179,14 +180,14 @@ export async function updateCustomerToStaff({
           data: result.data,
           error: result.error,
         };
-      } else throw new Error("User can not found.");
+      } else throw new Error("Lỗi phiên đăng nhập.");
     }
-  } catch {
+  } catch (error: any) {
     return {
       status: 500,
-      statusText: "Internal server error.",
+      statusText: "Lỗi máy chủ",
       data: null,
-      error: "Error on update.",
+      error: error.message,
     };
   }
 }
@@ -225,9 +226,9 @@ export async function updateStaffToCustomer({
       revalidatePath("/dashboard/staff");
 
       await saveToLog({
-        logName: "Update Staff " + staff.name + " to Customer",
-        logType: "Update",
-        logResult: !result.error ? "Success" : "Error",
+        logName: "Cập nhật nhân viên " + staff.name + " thành khách hàng",
+        logType: "Cập nhật",
+        logResult: !result.error ? "Thành công" : "Thất bại",
         logActor: actor,
       });
 
@@ -237,13 +238,13 @@ export async function updateStaffToCustomer({
         data: result.data,
         error: result.error,
       };
-    } else throw new Error("User can not found.");
+    } else throw new Error("Lỗi phiên đăng nhập");
   } catch (error: any) {
     return {
       status: 500,
-      statusText: "Internal server error.",
+      statusText: "Lỗi máy chủ",
       data: null,
-      error: "Error on update.",
+      error: error.message,
     };
   }
 }
@@ -278,9 +279,9 @@ export async function updateUserProfile({
     }
 
     await saveToLog({
-      logName: "Update profile of " + updatedUser.name,
-      logType: "Update",
-      logResult: !result.error ? "Success" : "Error",
+      logName: "Cập nhật tài khoản " + updatedUser.name,
+      logType: "Cập nhật",
+      logResult: !result.error ? "Thành công" : "Thất bại",
       logActor: actor,
     });
 
@@ -290,12 +291,12 @@ export async function updateUserProfile({
       data: result.data,
       error: result.error,
     };
-  } catch {
+  } catch (error: any) {
     return {
       status: 500,
-      statusText: "Error on update.",
+      statusText: "Lỗi máy chủ",
       data: null,
-      error: "Error on update.",
+      error: error.message,
     };
   }
 }
@@ -321,12 +322,12 @@ export async function readStaffs({
       data: result.data as StaffType[],
       error: result.error,
     };
-  } catch {
+  } catch (error: any) {
     return {
       status: 500,
-      statusText: "Internal server error.",
+      statusText: "Lỗi máy chủ",
       data: null,
-      error: "Error on read.",
+      error: error.message,
     };
   }
 }
@@ -353,12 +354,12 @@ export async function readCustomers({
       data: result.data as CustomerType[],
       error: result.error,
     };
-  } catch {
+  } catch (error: any) {
     return {
       status: 500,
-      statusText: "Internal server error.",
+      statusText: "Lỗi máy chủ",
       data: null,
-      error: "Error on read.",
+      error: error.message,
     };
   }
 }
@@ -383,9 +384,10 @@ export async function updateCustomerLevel({
     if (!result.error) revalidatePath("/dashboard/customer");
 
     await saveToLog({
-      logName: "Update Customer level " + customer.name + " to " + newLevel,
-      logType: "Update",
-      logResult: !result.error ? "Success" : "Error",
+      logName:
+        "Cập nhật điểm khách hàng " + customer.name + " thành " + newLevel,
+      logType: "Cập nhật",
+      logResult: !result.error ? "Thành công" : "Thất bại",
       logActor: actor,
     });
 
@@ -398,9 +400,9 @@ export async function updateCustomerLevel({
   } catch (error: any) {
     return {
       status: 500,
-      statusText: "Internal server error.",
+      statusText: "Lỗi máy chủ",
       data: null,
-      error: "Error on update.",
+      error: error.message,
     };
   }
 }
@@ -431,9 +433,9 @@ export async function updateUserImage({
   } catch (error: any) {
     return {
       status: 500,
-      statusText: "Internal server error.",
+      statusText: "Lỗi máy chủ",
       data: null,
-      error: "Error on update.",
+      error: error.message,
     };
   }
 }

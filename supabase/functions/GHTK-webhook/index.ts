@@ -51,7 +51,7 @@ Deno.serve(async (req) => {
       headers: { "Content-Type": "application/json" },
     });
   } catch {
-    return new Response(JSON.stringify({ error: "Internal Server Error" }), {
+    return new Response(JSON.stringify({ error: "Lỗi máy chủ" }), {
       status: 500,
       headers: { "Content-Type": "application/json" },
     });

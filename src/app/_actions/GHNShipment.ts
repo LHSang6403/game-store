@@ -31,7 +31,7 @@ export async function requestGHNOrder(data: GHNDataType) {
   } catch (error: any) {
     return {
       status: 500,
-      statusText: "Internal Server Error",
+      statusText: "Lỗi máy chủ",
       data: null,
       error: error.message,
     };
@@ -57,7 +57,7 @@ export async function calGHNFees(params: any) {
   } catch (error: any) {
     return {
       status: 500,
-      statusText: "Internal Server Error",
+      statusText: "Lỗi máy chủ",
       data: null,
       error: error.message,
     };
@@ -105,7 +105,7 @@ export async function cancelGHNOrder({
   } catch (error: any) {
     return {
       status: 500,
-      statusText: "Internal Server Error",
+      statusText: "Lỗi máy chủ",
       data: null,
       error: error.message,
     };
@@ -129,7 +129,7 @@ export async function getGHNOrder({ order_codes }: { order_codes: string[] }) {
   } catch (error: any) {
     return {
       status: 500,
-      statusText: "Internal Server Error",
+      statusText: "Lỗi máy chủ",
       data: null,
       error: error.message,
     };
@@ -164,7 +164,7 @@ export async function printGHNOrder({
   } catch (error: any) {
     return {
       status: 500,
-      statusText: "Internal Server Error",
+      statusText: "Lỗi máy chủ",
       data: null,
       error: error.message,
     };

@@ -18,7 +18,7 @@ export async function createProductDescription(des: ProductDescriptionType) {
   } catch (error: any) {
     return {
       status: 500,
-      statusText: "Internal Server Error",
+      statusText: "Lỗi máy chủ",
       data: null,
       error: error.message,
     };
@@ -44,7 +44,7 @@ export async function readProductDescription({ id }: { id: string }) {
   } catch (error: any) {
     return {
       status: 500,
-      statusText: "Internal Server Error",
+      statusText: "Lỗi máy chủ",
       data: null,
       error: error.message,
     };
@@ -73,7 +73,7 @@ export async function updateProductDescription({
   } catch (error: any) {
     return {
       status: 500,
-      statusText: "Internal Server Error",
+      statusText: "Lỗi máy chủ",
       data: null,
       error: error.message,
     };

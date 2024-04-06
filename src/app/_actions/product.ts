@@ -23,9 +23,9 @@ export async function createProduct({
     const result = await supabase.from("product").insert(product);
 
     await saveToLog({
-      logName: "Create product" + product.name,
-      logType: "Create",
-      logResult: !result.error ? "Success" : "Error",
+      logName: "Tạo sản phẩm" + product.name,
+      logType: "Tạo mới",
+      logResult: !result.error ? "Thành công" : "Thất bại",
       logActor: actor,
     });
 
@@ -41,7 +41,7 @@ export async function createProduct({
   } catch (error: any) {
     return {
       status: 500,
-      statusText: "Internal Server Error.",
+      statusText: "Lỗi máy chủ",
       data: null,
       error: error,
     };
@@ -73,7 +73,7 @@ export async function readProducts({
   } catch (error: any) {
     return {
       status: 500,
-      statusText: "Internal Server Error.",
+      statusText: "Lỗi máy chủ",
       data: null,
       error: error,
     };
@@ -154,7 +154,7 @@ export async function readProductsWithDetail() {
   } catch (error: any) {
     return {
       status: 500,
-      statusText: "Internal Server Error.",
+      statusText: "Lỗi máy chủ",
       data: null,
       error,
     };
@@ -224,7 +224,7 @@ export async function readProductDetailById(id: string) {
   } catch (error: any) {
     return {
       status: 500,
-      statusText: "Internal Server Error.",
+      statusText: "Lỗi máy chủ",
       data: null,
       error: error,
     };
@@ -245,7 +245,7 @@ export async function updateSoldQuantityByProductId(
       .single();
 
     if (result.error) {
-      throw new Error("Failed to retrieve sold quantity for product.");
+      throw new Error("Lỗi truy vấn mô tả sản phẩm.");
     }
 
     const currentSoldQuantity = result.data.sold_quantity as number;
@@ -265,7 +265,7 @@ export async function updateSoldQuantityByProductId(
   } catch (error: any) {
     return {
       status: 500,
-      statusText: "Internal Server Error.",
+      statusText: "Lỗi máy chủ",
       data: null,
       error: error,
     };
@@ -290,7 +290,7 @@ export async function readAllProductsWithNameAndId() {
   } catch (error: any) {
     return {
       status: 500,
-      statusText: "Internal Server Error.",
+      statusText: "Lỗi máy chủ",
       data: null,
       error: error,
     };
@@ -307,7 +307,7 @@ export async function readAllCategories() {
       .eq("is_deleted", false);
 
     if (result.error) {
-      throw new Error("Failed to retrieve sold quantity for product.");
+      throw new Error("Lỗi truy vấn mô tả sản phẩm.");
     }
 
     const uniqueCategories = Array.from(
@@ -323,7 +323,7 @@ export async function readAllCategories() {
   } catch (error: any) {
     return {
       status: 500,
-      statusText: "Internal Server Error.",
+      statusText: "Lỗi máy chủ",
       data: null,
       error: error?.message,
     };
@@ -352,7 +352,7 @@ export async function readProductBrands() {
   } catch (error: any) {
     return {
       status: 500,
-      statusText: "Internal Server Error.",
+      statusText: "Lỗi máy chủ",
       data: null,
       error: error,
     };
@@ -375,9 +375,9 @@ export async function removeProductById({
       .eq("id", product.id);
 
     await saveToLog({
-      logName: "Remove product" + product.name,
-      logType: "Delete",
-      logResult: !removeResult.error ? "Success" : "Error",
+      logName: "Xóa sản phẩm" + product.name,
+      logType: "Xóa",
+      logResult: !removeResult.error ? "Thành công" : "Thất bại",
       logActor: actor,
     });
 
@@ -390,7 +390,7 @@ export async function removeProductById({
   } catch (error: any) {
     return {
       status: 500,
-      statusText: "Internal Server Error.",
+      statusText: "Lỗi máy chủ",
       data: null,
       error: error,
     };
@@ -414,9 +414,9 @@ export async function updateProduct({
       .eq("is_deleted", false);
 
     await saveToLog({
-      logName: "Update product " + updatedProduct.name,
-      logType: "Update",
-      logResult: !result.error ? "Success" : "Error",
+      logName: "Cập nhật sản phẩm " + updatedProduct.name,
+      logType: "Cập nhật",
+      logResult: !result.error ? "Thành công" : "Thất bại",
       logActor: actor,
     });
 
@@ -429,7 +429,7 @@ export async function updateProduct({
   } catch (error: any) {
     return {
       status: 500,
-      statusText: "Internal Server Error.",
+      statusText: "Lỗi máy chủ",
       data: null,
       error: error,
     };

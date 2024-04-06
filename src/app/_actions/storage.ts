@@ -35,7 +35,7 @@ export async function readStorages() {
   } catch (error: any) {
     return {
       status: 500,
-      statusText: "Internal Server Error.",
+      statusText: "Lỗi máy chủ",
       data: null,
       error: error,
     };
@@ -64,7 +64,7 @@ export async function readAllStoragesAndProductStorages() {
   } catch (error: any) {
     return {
       status: 500,
-      statusText: "Internal Server Error.",
+      statusText: "Lỗi máy chủ",
       data: null,
       error: error,
     };

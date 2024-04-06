@@ -17,7 +17,7 @@ export async function downloadFiles(bucket: string, files: string[]) {
   } catch (error: any) {
     return {
       status: 500,
-      statusText: "Internal server error.",
+      statusText: "Lỗi máy chủ",
       data: null,
       error: error.message,
     };

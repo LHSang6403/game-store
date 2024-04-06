@@ -32,9 +32,9 @@ export async function createOrder({
     }
 
     await saveToLog({
-      logName: "Create order to" + order.pick_address,
-      logType: "Create",
-      logResult: !result.error ? "Success" : "Error",
+      logName: "Tạo đơn " + order.pick_address,
+      logType: "Tạo mới",
+      logResult: !result.error ? "Thành công" : "Thất bại",
       logActor: actor,
     });
 
@@ -67,9 +67,9 @@ export async function updateStateOrder({
     if (!result.error) revalidatePath("/dashboard/order");
 
     await saveToLog({
-      logName: "Update state order " + id + " to " + state,
-      logType: "Update",
-      logResult: !result.error ? "Success" : "Error",
+      logName: "Cập nhật đơn " + id + " thành " + state,
+      logType: "Cập nhật",
+      logResult: !result.error ? "Thành công" : "Thất bại",
       logActor: actor,
     });
 
@@ -82,7 +82,7 @@ export async function updateStateOrder({
   } catch (error: any) {
     return {
       status: 500,
-      statusText: "Internal server error.",
+      statusText: "Lỗi máy chủ",
       data: null,
       error: error.message,
     };
@@ -107,7 +107,7 @@ export async function readOrdersByCustomerId(customerId: string) {
   } catch (error: any) {
     return {
       status: 500,
-      statusText: "Internal server error",
+      statusText: "Lỗi máy chủ",
       data: null,
       error: "No data.",
     };
@@ -138,7 +138,7 @@ export async function readOrders({
   } catch (error: any) {
     return {
       status: 500,
-      statusText: "Internal server error.",
+      statusText: "Lỗi máy chủ",
       data: null,
       error: error.message,
     };
