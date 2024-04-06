@@ -47,7 +47,7 @@ export default function SearchBar() {
           className="h-8"
           type="text"
           autoComplete="off"
-          placeholder="Searching..."
+          placeholder="Tìm kiếm..."
           {...register("search")}
           onChange={(e) => setSearchText(e.target.value)}
         />

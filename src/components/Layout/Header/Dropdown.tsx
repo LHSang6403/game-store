@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { LogOut, Settings, UserRoundCog } from "lucide-react";
+import { LogOut, UserRoundCog } from "lucide-react";
 import { Button } from "@components/ui/button";
 import {
   DropdownMenu,
@@ -40,7 +40,7 @@ export default function Dropdown() {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="mx-3 w-56 bg-background">
-        <DropdownMenuLabel>My Account</DropdownMenuLabel>
+        <DropdownMenuLabel>Game Store</DropdownMenuLabel>
         <DropdownMenuGroup>
           {session !== null && (
             <DropdownMenuItem className="focus:bg-background">
@@ -63,7 +63,7 @@ export default function Dropdown() {
           <DropdownMenuSeparator />
           <DropdownMenuItem onClick={() => router.push("/profile")}>
             <UserRoundCog className="mr-2 h-4 w-4" />
-            Profile
+            Chi tiết
           </DropdownMenuItem>
           <DropdownMenuItem>
             <div
@@ -83,15 +83,11 @@ export default function Dropdown() {
               </span>
             </div>
           </DropdownMenuItem>
-          <DropdownMenuItem>
-            <Settings className="mr-2 h-4 w-4" />
-            Settings
-          </DropdownMenuItem>
         </DropdownMenuGroup>
         {session === null ? (
           <DropdownMenuItem onClick={() => router.push("/auth")}>
             <LogOut className="mr-2 h-4 w-4" />
-            Log in
+            Đăng nhập
           </DropdownMenuItem>
         ) : (
           <DropdownMenuItem
@@ -106,7 +102,7 @@ export default function Dropdown() {
             }}
           >
             <LogOut className="mr-2 h-4 w-4" />
-            Log out
+            Đăng xuất
           </DropdownMenuItem>
         )}
       </DropdownMenuContent>

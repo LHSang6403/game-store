@@ -41,7 +41,7 @@ export const FormSchema = z.object({
   sold_quantity: z.string().refine((val) => !Number.isNaN(parseInt(val, 10)), {
     message: "Vui lòng nhập số.",
   }),
-  category: z.string(),
+  category: z.string().min(2, { message: "Vui lòng nhập loại." }),
   storage_address: z.string().min(2, { message: "Vui lòng nhập địa chỉ." }),
   storage_quantity: z
     .string()
@@ -78,7 +78,7 @@ export default function EditForm({
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: initState,
-    mode: "onBlur",
+    mode: "onChange",
   });
 
   const [updatedProductStorages, setUpdatedProductStorages] = useState<
@@ -152,6 +152,7 @@ export default function EditForm({
         </Card>
         <div className="col-span-2">
           <ProductStorageCheckbox
+            defaultProductStorages={product.product_storages ?? []}
             onValuesChange={(values) => {
               setUpdatedProductStorages(values);
             }}

@@ -1,7 +1,7 @@
 "use client";
 
 import { ColumnDef } from "@tanstack/react-table";
-import { MoreHorizontal, ArrowUpDown } from "lucide-react";
+import { MoreHorizontal, ArrowUpDown, ArrowUpRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -13,10 +13,10 @@ import {
 import type { ProductType } from "@utils/types";
 import formatCurrency from "@utils/functions/formatCurrency";
 import { removeProductById } from "@app/_actions/product";
-import Link from "next/link";
 import { ApiErrorHandlerClient } from "@/utils/errorHandler/apiErrorHandler";
 import { toast } from "sonner";
 import { useSession } from "@/zustand/useSession";
+import { useRouter } from "next/navigation";
 
 export const columns: ColumnDef<ProductType>[] = [
   {
@@ -69,6 +69,7 @@ export const columns: ColumnDef<ProductType>[] = [
     cell: ({ row }) => {
       const product = row.original;
       const session = useSession();
+      const router = useRouter();
 
       async function removeHandler() {
         toast.promise(
@@ -95,6 +96,12 @@ export const columns: ColumnDef<ProductType>[] = [
 
       return (
         <div className="flex w-full items-center justify-center">
+          <Button variant="ghost" className="h-8 w-8 p-0">
+            <ArrowUpRight
+              onClick={() => router.push("/product/" + product.id)}
+              className="h-4 w-4"
+            />
+          </Button>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" className="h-8 w-8 p-0">
@@ -109,7 +116,13 @@ export const columns: ColumnDef<ProductType>[] = [
                 Sao chép ID
               </DropdownMenuItem>
               <DropdownMenuItem>
-                <Link href={"/dashboard/product/" + product.id}>Chỉnh sửa</Link>
+                <button
+                  onClick={() =>
+                    router.push("/dashboard/product/" + product.id)
+                  }
+                >
+                  Chỉnh sửa
+                </button>
               </DropdownMenuItem>
               <DropdownMenuItem onClick={() => removeHandler()}>
                 Xóa sản phẩm

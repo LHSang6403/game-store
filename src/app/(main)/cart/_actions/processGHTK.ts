@@ -53,7 +53,7 @@ export async function processOrderGHTK({
         district: formData.district,
         province: formData.province,
         hamlet: "Khác",
-        is_freeship: "1",
+        is_freeship: "0",
         pick_money: 0,
         note: order?.note ?? "Không",
         value: order?.price || 0,

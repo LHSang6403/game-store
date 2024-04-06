@@ -4,21 +4,13 @@ import { ColumnDef } from "@tanstack/react-table";
 import { ProductWithDescriptionAndStorageType } from "@utils/types";
 import formatCurrency from "@utils/functions/formatCurrency";
 import { Button } from "@components/ui/button";
-import { MoreHorizontal } from "lucide-react";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@components/ui/dropdown-menu";
+import { Trash2 } from "lucide-react";
 import { useOrder } from "@/zustand/useOrder";
 
 export const columns: ColumnDef<ProductWithDescriptionAndStorageType>[] = [
   {
     accessorKey: "name",
-    header: "Name",
+    header: "Tên",
     cell: ({ row }) => {
       const data = row.original;
 
@@ -31,7 +23,7 @@ export const columns: ColumnDef<ProductWithDescriptionAndStorageType>[] = [
   },
   {
     accessorKey: "price",
-    header: "Price",
+    header: "Giá tiền",
     cell: ({ row }) => {
       const data = row.original;
 
@@ -40,35 +32,18 @@ export const columns: ColumnDef<ProductWithDescriptionAndStorageType>[] = [
   },
   {
     id: "actions",
-    header: "Actions",
     cell: ({ row }) => {
       const data = row.original;
       const { removeProduct } = useOrder();
 
       return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="ml-2 h-8 w-8 p-0">
-              <MoreHorizontal className="h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(data.product.id)}
-            >
-              Copy order ID
-            </DropdownMenuItem>
-            <DropdownMenuItem
-              onClick={() => {
-                removeProduct(data.product.id);
-              }}
-            >
-              Remove
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+        <Button
+          onClick={() => removeProduct(data.product.id)}
+          variant="ghost"
+          className="h-fit"
+        >
+          <Trash2 className="h-4 w-4" />
+        </Button>
       );
     },
   },

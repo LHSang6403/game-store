@@ -14,19 +14,19 @@ export default function Improvement() {
       className="mx-20 flex flex-row gap-6 text-justify xl:mx-6 lg:flex-col sm:mx-2"
     >
       <p className="w-1/2 lg:w-full">
-        At Game Toys Store, we're committed to constant innovation and
-        improvement. We believe that staying ahead of the curve is essential in
-        the ever-evolving world of gaming. That's why we're always on the
-        lookout for the latest trends, technologies, and innovations to enhance
-        your gaming experience. From updating our product selection with the
-        newest releases to implementing cutting-edge features in our store,
-        we're dedicated to providing you with the best possible gaming
-        environment. Our team is constantly striving to learn and grow,
-        attending industry events, and seeking feedback from our customers to
-        ensure that we're meeting your needs and expectations. With each passing
-        day, we're pushing the boundaries and setting new standards for
-        excellence in gaming retail. Join us on this journey of continuous
-        improvement, and let's elevate the world of gaming together!
+        Tại Game Store, chúng tôi cam kết liên tục đổi mới và cải tiến. Chúng
+        tôi tin rằng việc luôn đi đầu trong thế giới game đang thay đổi không
+        ngừng này là điều cần thiết. Đó là lý do tại sao chúng tôi luôn tìm kiếm
+        các xu hướng, công nghệ và đổi mới mới nhất để nâng cao trải nghiệm game
+        của bạn. Từ việc cập nhật lựa chọn sản phẩm của chúng tôi với các phiên
+        bản mới nhất đến việc triển khai các tính năng tiên tiến trong cửa hàng
+        của chúng tôi, chúng tôi tận tụy đem đến cho bạn môi trường chơi game
+        tốt nhất có thể. Đội ngũ của chúng tôi luôn nỗ lực học hỏi và phát
+        triển, tham dự các sự kiện ngành và tìm kiếm phản hồi từ khách hàng để
+        đảm bảo rằng chúng tôi đang đáp ứng nhu cầu và mong đợi của bạn. Mỗi
+        ngày, chúng tôi đều đẩy mạnh giới hạn và đặt ra các tiêu chuẩn mới cho
+        sự xuất sắc trong bán lẻ game. Hãy cùng tham gia vào hành trình cải tiến
+        liên tục này, và hãy cùng nhau nâng cao thế giới game!
       </p>
       <div className="w-1/2 lg:w-full">
         <Image

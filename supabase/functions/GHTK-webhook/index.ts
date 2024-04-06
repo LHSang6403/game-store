@@ -20,25 +20,25 @@ Deno.serve(async (req) => {
     const statusId = data.status_id;
 
     let updatedState:
-      | "pending"
-      | "shipping"
-      | "delivered"
-      | "canceled"
-      | "returned"
+      | "Đang chờ"
+      | "Đang giao"
+      | "Đã giao"
+      | "Đã hủy"
+      | "Đã trả hàng"
       | null = null;
 
     if (Number(statusId) === -1) {
-      updatedState = "canceled";
+      updatedState = "Đã hủy";
     } else if (1 <= Number(statusId) && Number(statusId) <= 3) {
-      updatedState = "pending";
+      updatedState = "Đang chờ";
     } else if (Number(statusId) === 4) {
-      updatedState = "shipping";
+      updatedState = "Đang giao";
     } else if (Number(statusId) === 5 || Number(statusId) === 45) {
-      updatedState = "delivered";
+      updatedState = "Đã giao";
     } else if (Number(statusId) === 21) {
-      updatedState = "returned";
+      updatedState = "Đã trả hàng";
     } else {
-      updatedState = "pending";
+      updatedState = "Đang chờ";
     }
 
     const { data: responseData, error } = await supabase

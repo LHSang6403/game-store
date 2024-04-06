@@ -44,7 +44,7 @@ export default function CreateForm() {
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: initState,
-    mode: "onBlur",
+    mode: "onChange",
   });
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {
@@ -121,9 +121,7 @@ export default function CreateForm() {
           </CardContent>
         </Card>
         <Card className="flex h-full w-full flex-col xl:col-span-2">
-          <CardHeader className="pb-3">
-            Ảnh xem trước
-          </CardHeader>
+          <CardHeader className="pb-3">Ảnh xem trước</CardHeader>
           <CardContent>
             <DropAndDragZone className="mt-2 rounded-lg border p-16 sm:p-6" />
           </CardContent>

@@ -1,4 +1,5 @@
-import { Roboto_Mono } from "next/font/google";
+import { Roboto } from "next/font/google";
+
 import "@app/styles/globals.css";
 import "@app/styles/prosemirror.css";
 import NavDrawer from "@components/Layout/Drawer/NavDrawer";
@@ -12,7 +13,7 @@ export const metadata = {
   keywords: "game, store, online, console, pc, playstation, xbox, nintendo",
 };
 
-const font = Roboto_Mono({
+const font = Roboto({
   weight: "400",
   subsets: ["latin"],
   display: "swap",

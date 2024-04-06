@@ -12,28 +12,28 @@ interface Event {
 export default function Timeline(): JSX.Element {
   const events: Event[] = [
     {
-      time: "February 2022",
-      title: "Application UI code in Tailwind CSS",
+      time: "Tháng 5 năm 2022",
+      title: "Mở cửa hàng chính thức",
       description:
-        "Get access to over 20+ pages including a dashboard layout, charts, kanban board, calendar, and pre-order E-commerce & Marketing pages.",
+        "Cuối cùng, vào tháng 5, chúng tôi chính thức mở cửa hàng và chào đón khách hàng đầu tiên. Sự kiện này đánh dấu bước khởi đầu mới cho chúng tôi trong thế giới kinh doanh game.",
     },
     {
-      time: "March 2022",
-      title: "Marketing UI design in Figma",
+      time: "Tháng 4 năm 2022",
+      title: "Chạy thử và kiểm tra",
       description:
-        "All of the pages and components are first designed in Figma and we keep a parity between the two versions even as we update the project.",
+        "Trước khi mở cửa hàng chính thức, chúng tôi tiến hành các buổi chạy thử và kiểm tra kỹ lưỡng để đảm bảo mọi thứ hoạt động suôn sẻ.",
     },
     {
-      time: "April 2022",
-      title: "E-Commerce UI code in Tailwind CSS",
+      time: "Tháng 3 năm 2022",
+      title: "Tối ưu giá và sản phẩm",
       description:
-        "Get started with dozens of web components and interactive elements built on top of Tailwind CSS.",
+        "Sau khi thu thập thông tin từ các khảo sát, chúng tôi tối ưu hóa giá cả và chọn lựa sản phẩm phù hợp để đáp ứng nhu cầu của khách hàng.",
     },
     {
-      time: "April 2022",
-      title: "E-Commerce UI code in Tailwind CSS",
+      time: "Tháng 2 năm 2022",
+      title: "Khảo sát thị trường",
       description:
-        "Get started with dozens of web components and interactive elements built on top of Tailwind CSS.",
+        "Chúng tôi bắt đầu bằng việc tiến hành các cuộc khảo sát thị trường để hiểu rõ nhu cầu của khách hàng và định hình chiến lược kinh doanh.",
     },
   ];
 

@@ -18,29 +18,29 @@ export default function HomeSlider() {
       name: "Sony Play Station",
       src: "/assets/images/gamePlay/g8.png",
       description:
-        "Experience unparalleled smoothness - blending exquisite design with powerful performance for an unmatched mobile experience.",
-      click: () => console.log("Clicked"),
+        "Trải nghiệm sự mượt mà không giới hạn - kết hợp thiết kế tinh tế với hiệu suất mạnh mẽ để tạo ra một trải nghiệm di động không giống ai.",
+      click: () => console.log("Đã click"),
     },
     {
       name: "Play Station 5",
       src: "/assets/images/gamePlay/g10.png",
       description:
-        "Power and elegance converge - combining advanced technology with premium design to create a unique and sophisticated experience.",
-      click: () => console.log("Clicked"),
+        "Sức mạnh và thanh lịch hội tụ - kết hợp công nghệ tiên tiến với thiết kế cao cấp để tạo ra một trải nghiệm độc đáo và tinh tế.",
+      click: () => console.log("Đã click"),
     },
     {
       name: "Classic Nitendo Switch",
       src: "/assets/images/gamePlay/g14.png",
       description:
-        "Elevate your mobile experience with Nitendo - cutting-edge technology meets sleek design for unparalleled performance and style.",
-      click: () => console.log("Clicked"),
+        "Nâng cao trải nghiệm di động của bạn với Nitendo - công nghệ tiên tiến gặp gỡ thiết kế mạnh mẽ cho hiệu suất và phong cách không giới hạn.",
+      click: () => console.log("Đã click"),
     },
     {
       name: "Round Device Game",
       src: "/assets/images/gamePlay/g19.png",
       description:
-        "Elevate your work experience with Classic series - seamlessly blending innovative technology with elegant design for performance.",
-      click: () => console.log("Clicked"),
+        "Nâng cao trải nghiệm làm việc của bạn với dòng sản phẩm Classic - kết hợp công nghệ đổi mới với thiết kế thanh lịch để đạt hiệu suất cao.",
+      click: () => console.log("Đã click"),
     },
   ];
 

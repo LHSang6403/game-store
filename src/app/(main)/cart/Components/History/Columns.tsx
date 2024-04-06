@@ -21,7 +21,7 @@ import { useSession } from "@/zustand/useSession";
 export const columns: ColumnDef<OrderType>[] = [
   {
     accessorKey: "prod_names",
-    header: "Products",
+    header: "Sản phẩm",
     cell: ({ row }) => {
       const data = row.original;
 
@@ -45,7 +45,7 @@ export const columns: ColumnDef<OrderType>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Ordered at
+          Vào lúc
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
@@ -60,7 +60,7 @@ export const columns: ColumnDef<OrderType>[] = [
   },
   {
     accessorKey: "state",
-    header: "State",
+    header: "Tình trạng",
     cell: ({ row }) => {
       const data = row.original;
 
@@ -69,7 +69,7 @@ export const columns: ColumnDef<OrderType>[] = [
   },
   {
     id: "actions",
-    header: "Actions",
+    header: "Hành động",
     cell: ({ row }) => {
       const data = row.original;
       const session = useSession();
@@ -116,7 +116,7 @@ export const columns: ColumnDef<OrderType>[] = [
             }
           },
           {
-            loading: "Canceling order...",
+            loading: "Đang hủy đơn...",
           }
         );
       }
@@ -130,20 +130,20 @@ export const columns: ColumnDef<OrderType>[] = [
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-              <DropdownMenuLabel>Actions</DropdownMenuLabel>
+              <DropdownMenuLabel>Hành động</DropdownMenuLabel>
               <DropdownMenuItem
                 onClick={() => navigator.clipboard.writeText(data.id)}
               >
-                Copy order ID
+                Sao chép ID đơn hàng
               </DropdownMenuItem>
               {data.shipment_label_code && (
                 <DropdownMenuItem
-                  disabled={data.state !== "pending"}
+                  disabled={data.state !== "Đang chờ"}
                   onClick={() => {
                     cancelOrderHandler(data);
                   }}
                 >
-                  Cancel order
+                  Hủy đơn hàng
                 </DropdownMenuItem>
               )}
             </DropdownMenuContent>

@@ -1,4 +1,4 @@
-import type { OrderType } from "@/utils/types";
+import { OrderType } from "@/utils/types";
 import { requestGHNOrder } from "@/app/_actions/GHNShipment";
 import axios from "axios";
 
@@ -21,35 +21,8 @@ export interface GHNDataType {
   service_id: number;
   service_type_id: number;
   payment_type_id: number;
-  coupon: null | any;
+  coupon: any;
   items: { name: string; quantity: number; weight: number }[];
-}
-
-export interface GHTKDataType {
-  order: {
-    id: string;
-    pick_name: string;
-    pick_province: string;
-    pick_district: string;
-    pick_ward: string;
-    pick_address: string;
-    pick_tel: string;
-    tel: string;
-    name: string;
-    address: string;
-    province: string;
-    district: string;
-    ward: string;
-    hamlet: string;
-    is_freeship: string;
-    pick_money: number;
-    note: string;
-    value: number;
-    pick_option: string;
-    email: string;
-    return_email: string;
-  };
-  products: { name: string; quantity: number; weight: number }[];
 }
 
 function findGHNDistrictIDByNameExtension(jsonData: any, name: string) {
@@ -94,6 +67,7 @@ async function findGHNWardIDByNameExtension(
         return item.WardCode;
       }
     }
+
     throw new Error("Không tìm thấy phường.");
   } catch (error: any) {
     return error;
@@ -131,10 +105,10 @@ export async function processOrderGHN({
       from_province_name: order.pick_province,
       to_name: formData.name,
       to_phone: formData.phone,
-      to_address: formData?.address,
+      to_address: formData.address,
       to_ward_code: to_ward_code.toString(),
       to_district_id: to_district_id,
-      weight: order.weight || 100,
+      weight: 400,
       service_id: 0,
       service_type_id: 2,
       payment_type_id: 1,
@@ -146,6 +120,8 @@ export async function processOrderGHN({
       })),
     };
 
+    // **** bug can not create an order here ****
+
     const ghnOrderResult = await requestGHNOrder(ghnData);
 
     return {
@@ -155,6 +131,7 @@ export async function processOrderGHN({
       error: null,
     };
   } catch (error: any) {
+    console.log(error.message);
     return {
       status: 500,
       statusText: error.message,

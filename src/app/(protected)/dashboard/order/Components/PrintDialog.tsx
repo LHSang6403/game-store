@@ -19,8 +19,8 @@ export function PrintDialog({
   isOpen: boolean;
   onOpenChange: (open: boolean) => void;
 }) {
-  function removeElementById(htmlString, id) {
-    const wrapper = document.createElement("div");
+  function removeElementById(htmlString: string, id: string) {
+    const wrapper = document?.createElement("div");
     wrapper.innerHTML = htmlString;
 
     const elementToRemove = wrapper.querySelector(`#${id}`);

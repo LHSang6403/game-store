@@ -6,8 +6,8 @@ export default function Advertisement() {
   return (
     <div className="relative max-h-[90vh] min-h-[70vh] w-full bg-foreground dark:bg-background xl:h-screen">
       <h1 className="absolute left-28 top-16 max-w-80 text-5xl font-bold text-background/90 dark:text-foreground sm:left-8 sm:top-10 sm:w-60 sm:text-3xl">
-        This is Online Game Store: <span className="text-[#FD5E4F]">Nit</span>
-        <span className="text-[#07BCDD]">endo</span>
+        Game Store Việt Nam: <span className="text-[#07BCDD]">Nit</span>
+        <span className="text-[#FD5E4F]">endo</span>
       </h1>
       <div className="to-hsl(222.2, 84%, 4%) absolute bottom-16 left-40 z-0 grid h-44 w-44 grid-cols-10 gap-1 rounded-full bg-gradient-to-l from-[#07BCDD] xl:bottom-24 lg:left-12 sm:left-8 sm:opacity-60"></div>
       <div className="to-hsl(222.2, 84%, 4%) absolute bottom-20 left-44 z-0 grid h-48 w-48 grid-cols-10 gap-1 rounded-full bg-gradient-to-r from-[#FD5E4F] opacity-70 xl:bottom-28 lg:left-20 sm:left-12 sm:opacity-50"></div>
@@ -34,9 +34,9 @@ export default function Advertisement() {
           2024 Nitendo Switch OLED
         </h2>
         <p className="mt-2 line-clamp-5 overflow-ellipsis dark:text-foreground">
-          The Nintendo Switch is a versatile gaming console that offers both
-          traditional console gaming experience and the flexibility of handheld
-          gaming.
+          Nintendo Switch là một máy chơi game linh hoạt cung cấp cả trải nghiệm
+          chơi game truyền thống trên console và tính linh hoạt của việc chơi
+          trên tay.
         </p>
         <Link href="/product" className="font-light">
           Explore

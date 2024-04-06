@@ -22,9 +22,7 @@ export default async function Product({ params }: { params: { id: string } }) {
         <Template>
           <div className="flex h-fit min-h-screen w-full flex-col gap-10 pb-10">
             <ProductDetail product={product} />
-            <h2 className="text-center text-2xl font-medium">
-              Product Description
-            </h2>
+            <h2 className="text-center text-2xl font-medium">Mô tả chi tiết</h2>
             {product.product_description.content && (
               <ProductDescription description={product.product_description} />
             )}

@@ -10,12 +10,12 @@ export default async function page() {
   if (!session.data || session.error)
     return (
       <div className="mt-10 flex flex-col items-center">
-        <span className="text-xl font-medium">You are not logged in. </span>
+        <span className="text-xl font-medium">Bạn chưa đăng nhập.</span>
         <Link
           className="text-base text-foreground/80 hover:text-foreground"
           href="/auth"
         >
-          Login
+          Đăng nhập ngay
         </Link>
       </div>
     );
@@ -28,7 +28,9 @@ export default async function page() {
 
   return (
     <div className="flex flex-col gap-8 px-10 pb-10 xl:px-6 sm:px-4">
-      <h1 className="text-center text-3xl font-semibold">Your profile</h1>
+      <h1 className="text-center text-3xl font-semibold">
+        Thông tin tài khoản
+      </h1>
       <div className="flex w-full flex-col items-center gap-2">
         <div className="flex h-32 w-32 justify-center rounded-full border p-0.5">
           <Image
@@ -46,7 +48,7 @@ export default async function page() {
         <EditProfile profile={session.data.detailData} />
         <div className="w-fit rounded-md">
           <p className="text-left">
-            <span className="font-semibold">Name: </span>
+            <span className="font-semibold">Tên người dùng: </span>
             {session.data?.detailData?.name}
           </p>
           <p className="text-left">
@@ -54,15 +56,15 @@ export default async function page() {
             {session.data?.detailData?.email}
           </p>
           <p className="text-left">
-            <span className="font-semibold">Birdthday: </span>{" "}
+            <span className="font-semibold">Ngày sinh: </span>{" "}
             {formattedDOB ?? "Unknown"}
           </p>
           <p className="text-left">
-            <span className="font-semibold">Phone: </span>{" "}
+            <span className="font-semibold">Số điện thoại: </span>{" "}
             {session.data?.detailData?.phone ?? "Unknown"}
           </p>
           <p className="max-w-[500px] text-left">
-            <span className="font-semibold">Address: </span>{" "}
+            <span className="font-semibold">Địa chỉ: </span>{" "}
             {session.data?.detailData?.address +
               ", " +
               session.data?.detailData?.ward +
@@ -73,12 +75,12 @@ export default async function page() {
           </p>
           {"role" in session.data?.detailData ? (
             <p className="text-left">
-              <span className="font-semibold">Role: </span>{" "}
+              <span className="font-semibold">Vai trò: </span>{" "}
               {session.data?.detailData.role}
             </p>
           ) : (
             <p className="text-left">
-              <span className="font-semibold">Level: </span>{" "}
+              <span className="font-semibold">Điểm: </span>{" "}
               {session.data?.detailData?.level}
             </p>
           )}

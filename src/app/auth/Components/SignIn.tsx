@@ -23,7 +23,7 @@ import { useSession } from "@/zustand/useSession";
 const FormSchema = z.object({
   email: z.string().email(),
   password: z.string().min(6, {
-    message: "Password must be greater than 5 letters.",
+    message: "Mật khẩu phải dài hơn 5 ký tự.",
   }),
 });
 
@@ -37,7 +37,7 @@ export default function SignIn() {
       email: "",
       password: "",
     },
-    mode: "onBlur",
+    mode: "onChange",
   });
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {
@@ -68,14 +68,14 @@ export default function SignIn() {
             form.reset();
             router.push("/");
 
-            toast.success("Signed in successfully.");
+            toast.success("Đăng nhập thành công!");
           } else {
-            toast.error("Failed to sign in.");
+            toast.error("Đăng nhập thất bại");
           }
         }
       },
       {
-        loading: "Signing account...",
+        loading: "Đang đăng nhập...",
       }
     );
   }
@@ -110,10 +110,10 @@ export default function SignIn() {
             name="password"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Password</FormLabel>
+                <FormLabel>Mật khẩu</FormLabel>
                 <FormControl>
                   <Input
-                    placeholder="password"
+                    placeholder="mật khẩu"
                     {...field}
                     type="password"
                     onChange={field.onChange}
@@ -129,13 +129,13 @@ export default function SignIn() {
               type="submit"
               className="mt-1 w-full bg-background text-foreground hover:text-accent"
             >
-              Forget Password
+              Quên mật khẩu
             </Button>
             <Button
               type="submit"
               className="mt-1 w-full bg-foreground text-background"
             >
-              Sign In
+              Đăng nhập
             </Button>
           </div>
         </form>

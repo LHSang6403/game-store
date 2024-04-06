@@ -6,14 +6,14 @@ export default function ClientCards() {
       name: "John Doe",
       image: "/assets/images/people/male.png",
       review:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna.",
+        "Thiết bị chơi game này thực sự ấn tượng! Các tính năng độc đáo sẽ khiến bạn say mê.",
       rating: 4,
     },
     {
       name: "John Sm.",
       image: "/assets/images/people/female.png",
       review:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna.",
+        "Thiết bị chơi game này thực sự ấn tượng! Đồ họa sống động, trải nghiệm chơi thú vị.",
       rating: 5,
     },
   ];

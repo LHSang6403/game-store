@@ -60,11 +60,11 @@ export interface ProductWithDescriptionAndStorageType {
 export type ShipmentNameType = "" | "GHTK" | "GHN" | null;
 
 export type ShipmentState =
-  | "pending"
-  | "shipping"
-  | "delivered"
-  | "canceled"
-  | "returned";
+  | "Đang chờ"
+  | "Đang giao"
+  | "Đã giao"
+  | "Đã hủy"
+  | "Đã trả hàng";
 
 export interface OrderType {
   id: string;

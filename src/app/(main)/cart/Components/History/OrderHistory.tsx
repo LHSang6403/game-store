@@ -15,7 +15,7 @@ export default async function OrderHistory() {
     <div className="mx-auto w-fit xl:w-auto">
       {session.data && !history.error && "data" in history && (
         <>
-          <h2 className="mb-1 text-lg font-semibold">Your history</h2>
+          <h2 className="mb-1 text-lg font-semibold">Lịch sử mua hàng</h2>
           <DataTable
             columns={columns}
             data={history.data as OrderType[]}

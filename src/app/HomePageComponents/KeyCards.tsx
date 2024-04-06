@@ -1,24 +1,24 @@
 export default function KeyCards() {
   const keyValues = [
     {
-      title: "Variety",
+      title: "Đa dạng",
       description:
-        "At Store, we guarantee range of products from reputable brands at competitive prices.",
+        "Tại cửa hàng, chúng tôi cam kết cung cấp một loạt các sản phẩm từ các thương hiệu uy tín với giá cả cạnh tranh.",
     },
     {
-      title: "Professional",
+      title: "Chuyên nghiệp",
       description:
-        "With experienced and knowledgeable staff, Store prioritizes top-notch service.",
+        "Với đội ngũ nhân viên giàu kinh nghiệm và am hiểu, cửa hàng luôn ưu tiên dịch vụ chất lượng cao.",
     },
     {
-      title: "Competitive",
+      title: "Cạnh tranh",
       description:
-        "Store is offering quality at the most competitive prices on the market.",
+        "Cửa hàng đang cung cấp chất lượng với mức giá cạnh tranh nhất trên thị trường.",
     },
     {
-      title: "Quality",
+      title: "Chất lượng",
       description:
-        "We prioritize product and service quality, ensuring items are genuine and new.",
+        "Chúng tôi ưu tiên chất lượng sản phẩm và dịch vụ, đảm bảo các mặt hàng là hàng chính hãng và mới 100%.",
     },
   ];
 

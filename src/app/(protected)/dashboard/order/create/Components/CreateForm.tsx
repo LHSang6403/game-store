@@ -4,27 +4,16 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { toast } from "sonner";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@components/ui/form";
-import { Textarea } from "@components/ui/textarea";
-import { Input } from "@components/ui/input";
+import { Form, FormLabel } from "@components/ui/form";
 import { Button } from "@components/ui/button";
 import { useOrder } from "@/zustand/useOrder";
 import type {
   CustomerType,
-  ShipmentNameType,
   ProductWithDescriptionAndStorageType,
+  StorageType,
 } from "@utils/types";
 import { useState, useEffect } from "react";
-import FormAddressPicker from "@components/Picker/Address/FormAddressPicker";
 import useAddressSelects from "@/zustand/useAddressSelects";
-import SelectShipmentForm from "@app/(main)/cart/Components/Summary/SelectShipmentForm";
 import { calShipmentFees } from "@/app/(main)/cart/_actions/calShip";
 import {
   Select,
@@ -38,10 +27,10 @@ import {
 import formatCurrency from "@/utils/functions/formatCurrency";
 import { DataTable } from "@components/Table/DataTable";
 import { columns } from "@app/(main)/cart/Components/Summary/Columns";
-import ProductCard from "@app/(protected)/dashboard/order/create/Components/ProductCard";
-import { ApiErrorHandlerClient } from "@utils/errorHandler/apiErrorHandler";
+import ProductCard from "@/app/(protected)/dashboard/order/create/Components/ProductCard";
 import ConfirmDialog from "@app/(main)/cart/Components/Summary/ConfirmDialog";
 import { Card, CardHeader, CardContent } from "@components/ui/card";
+import CreateFormInputs from "@app/(protected)/dashboard/order/create/Components/CreateFormInputs";
 
 import province from "@/static-data/provinces.json";
 import district from "@/static-data/districts.json";
@@ -62,18 +51,21 @@ const FormSchema = z.object({
 });
 
 export default function CreateForm({
-  customersData,
-  productsData,
+  storages,
+  customers,
+  products,
 }: {
-  customersData: CustomerType[];
-  productsData: ProductWithDescriptionAndStorageType[];
+  storages: StorageType[];
+  customers: CustomerType[];
+  products: ProductWithDescriptionAndStorageType[];
 }) {
   const { order, addProduct, removeAll, setPrices, setNewID } = useOrder();
-
   const [customerSelect, setCustomerSelect] = useState<CustomerType | null>(
     null
   );
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [selectedStorage, setSelectedStorage] =
+    useState<string>("Kho Hồ Chí Minh");
 
   const orderProducts = order?.products;
   const { addressValues, setProvince, setDistrict, setCommune, clearAll } =
@@ -91,7 +83,7 @@ export default function CreateForm({
       shipment: "GHTK",
       note: "",
     },
-    mode: "onBlur",
+    mode: "onChange",
   });
 
   useEffect(() => {
@@ -131,17 +123,33 @@ export default function CreateForm({
 
         // calculate, open confirm dialog, and create order
         if (order && customerSelect) {
-          const calFeesResponse = await calShipmentFees({
+          // set enough info to useOrder's state
+          order.address = form.getValues().address;
+          order.ward = form.getValues().ward;
+          order.district = form.getValues().district;
+          order.province = form.getValues().province;
+
+          // auto decide base on id province!!!!
+          const suitablePickStorage = storages.find(
+            (storage) => storage.name === selectedStorage
+          );
+
+          if (!suitablePickStorage)
+            throw new Error("Không tìm thấy kho phù hợp.");
+
+          order.pick_address = suitablePickStorage.address;
+          order.pick_ward = suitablePickStorage.ward;
+          order.pick_district = suitablePickStorage.district;
+          order.pick_province = suitablePickStorage.province;
+          order.pick_storage_id = suitablePickStorage.id;
+
+          order.customer_id = customerSelect.id;
+          order.customer_name = form.getValues().name;
+          order.customer_phone = form.getValues().phone;
+
+          const calFees = await calShipmentFees({
             formData: data,
             order: order,
-          });
-
-          const calFees = ApiErrorHandlerClient<{
-            service_fee: number;
-            insurance_fee: number;
-          }>({
-            response: calFeesResponse,
-            isShowToast: false,
           });
 
           if (calFees?.data?.service_fee) {
@@ -167,38 +175,38 @@ export default function CreateForm({
     if (value !== "new" && value) {
       form.setValue(
         "name",
-        customersData.find((customer) => customer.id === value)?.name ?? ""
+        customers.find((customer) => customer.id === value)?.name ?? ""
       );
       form.setValue(
         "address",
-        customersData.find((customer) => customer.id === value)?.address ?? ""
+        customers.find((customer) => customer.id === value)?.address ?? ""
       );
       form.setValue(
         "ward",
-        customersData.find((customer) => customer.id === value)?.ward ?? ""
+        customers.find((customer) => customer.id === value)?.ward ?? ""
       );
       form.setValue(
         "district",
-        customersData.find((customer) => customer.id === value)?.district ?? ""
+        customers.find((customer) => customer.id === value)?.district ?? ""
       );
       form.setValue(
         "province",
-        customersData.find((customer) => customer.id === value)?.province ?? ""
+        customers.find((customer) => customer.id === value)?.province ?? ""
       );
       form.setValue(
         "phone",
-        customersData.find((customer) => customer.id === value)?.phone ?? ""
+        customers.find((customer) => customer.id === value)?.phone ?? ""
       );
 
       const provinceId =
         province.find(
           (province) =>
             province.name ===
-            customersData.find((customer) => customer.id === value)?.province
+            customers.find((customer) => customer.id === value)?.province
         )?.idProvince ?? "";
 
       setProvince(
-        customersData.find((customer) => customer.id === value)?.province ?? "",
+        customers.find((customer) => customer.id === value)?.province ?? "",
         provinceId
       );
 
@@ -206,11 +214,11 @@ export default function CreateForm({
         district.find(
           (district) =>
             district.name ===
-            customersData.find((customer) => customer.id === value)?.district
+            customers.find((customer) => customer.id === value)?.district
         )?.idDistrict ?? "";
 
       setDistrict(
-        customersData.find((customer) => customer.id === value)?.district ?? "",
+        customers.find((customer) => customer.id === value)?.district ?? "",
         districtId
       );
 
@@ -218,11 +226,11 @@ export default function CreateForm({
         communes.find(
           (commune) =>
             commune.name ===
-            customersData.find((customer) => customer.id === value)?.ward
+            customers.find((customer) => customer.id === value)?.ward
         )?.idCommune ?? "";
 
       setCommune(
-        customersData.find((customer) => customer.id === value)?.ward ?? "",
+        customers.find((customer) => customer.id === value)?.ward ?? "",
         communeId
       );
 
@@ -239,16 +247,15 @@ export default function CreateForm({
             className="flex h-full w-full flex-row gap-4 lg:flex-col"
           >
             <Card className="h-fit w-1/2 lg:w-full">
-              <CardHeader className="pb-3">Thông tin khách hàng</CardHeader>
+              <CardHeader className="pb-3">Thông tin đơn hàng</CardHeader>
               <CardContent className="flex flex-col gap-3">
                 <div>
                   <FormLabel>Chọn tài khoản khách hàng</FormLabel>
                   <Select
                     onValueChange={(value) => {
                       setCustomerSelect(
-                        customersData.find(
-                          (customer) => customer.id === value
-                        ) ?? null
+                        customers.find((customer) => customer.id === value) ??
+                          null
                       );
                       onSelectCustomerChange(value);
                       if (value === "new") {
@@ -258,7 +265,7 @@ export default function CreateForm({
                     }}
                   >
                     <SelectTrigger className="mt-2 w-full">
-                      <SelectValue placeholder="Select customer" />
+                      <SelectValue placeholder="Chọn khách hàng" />
                     </SelectTrigger>
                     <SelectContent>
                       <SelectGroup>
@@ -266,7 +273,7 @@ export default function CreateForm({
                         <SelectItem key="new" value="new">
                           Khách mới
                         </SelectItem>
-                        {customersData.map((customer, index) => (
+                        {customers.map((customer, index) => (
                           <SelectItem key={index} value={customer.id}>
                             {customer.name}
                           </SelectItem>
@@ -275,108 +282,7 @@ export default function CreateForm({
                     </SelectContent>
                   </Select>
                 </div>
-                <FormField
-                  control={form.control}
-                  name="name"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Tên khách hàng</FormLabel>
-                      <FormControl>
-                        <Input
-                          placeholder="Nhập tên"
-                          {...field}
-                          type="text"
-                          onChange={field.onChange}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="phone"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Số điện thoại</FormLabel>
-                      <FormControl>
-                        <Input
-                          placeholder="Nhập số"
-                          {...field}
-                          type="text"
-                          onChange={field.onChange}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="district"
-                  render={() => (
-                    <FormItem>
-                      <FormLabel>Khu vực</FormLabel>
-                      <FormControl>
-                        <FormAddressPicker />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="address"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Địa chỉ nhà</FormLabel>
-                      <FormControl>
-                        <Input
-                          placeholder="Nhập số nhà, tên đường"
-                          {...field}
-                          onChange={field.onChange}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="shipment"
-                  render={() => (
-                    <FormItem>
-                      <FormLabel>Dịch vụ giao hàng</FormLabel>
-                      <FormControl>
-                        <SelectShipmentForm
-                          onChange={(value) => {
-                            form.setValue("shipment", value);
-                          }}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="note"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Ghi chú thêm</FormLabel>
-                      <FormControl>
-                        <Textarea
-                          className="max-h-44 min-h-28 border-[#E5E7EB]"
-                          placeholder="Ghi chú cho đơn hàng của bạn..."
-                          {...field}
-                          value={field.value ?? ""}
-                          onChange={field.onChange}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+                <CreateFormInputs form={form} />
                 <Button
                   disabled={!form.formState.isValid || !order}
                   type="submit"
@@ -389,17 +295,46 @@ export default function CreateForm({
             <Card className="h-fit w-1/2 lg:w-full">
               <CardHeader className="pb-3">Danh sách sản phẩm</CardHeader>
               <CardContent className="flex h-auto flex-col overflow-hidden">
-                <div className="flex h-[540px] flex-col gap-3 overflow-auto pr-2">
-                  {productsData.map((prod, index) => (
-                    <div key={index}>
-                      <ProductCard
-                        prod={prod}
-                        onAdd={() => {
-                          addProduct(prod);
-                        }}
-                      />
-                    </div>
-                  ))}
+                <div className="my-1">
+                  <Select
+                    defaultValue={selectedStorage}
+                    onValueChange={(value) => {
+                      setSelectedStorage(value);
+                    }}
+                  >
+                    <SelectTrigger className="w-full">
+                      <SelectValue placeholder="Chọn kho" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectGroup>
+                        <SelectLabel>Các kho toàn quốc</SelectLabel>
+                        {storages.map((storage, index) => (
+                          <SelectItem key={index} value={storage.name}>
+                            {storage.name}
+                          </SelectItem>
+                        ))}
+                      </SelectGroup>
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div className="mt-3 flex h-[540px] flex-col gap-3 overflow-auto pr-2">
+                  {products
+                    .filter((product) =>
+                      product.product_storages.some(
+                        (product_storage) =>
+                          product_storage.storage_name === selectedStorage
+                      )
+                    )
+                    .map((prod, index) => (
+                      <div key={index}>
+                        <ProductCard
+                          prod={prod}
+                          onAdd={() => {
+                            addProduct(prod);
+                          }}
+                        />
+                      </div>
+                    ))}
                 </div>
                 <div className="flex flex-col gap-2">
                   <div>

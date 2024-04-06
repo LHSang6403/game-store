@@ -77,7 +77,7 @@ export default function SignUp() {
       password: "",
       confirm: "",
     },
-    mode: "onBlur",
+    mode: "onChange",
   });
 
   const [date, setDate] = useState<Date>();

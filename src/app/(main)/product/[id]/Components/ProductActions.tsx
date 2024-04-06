@@ -22,9 +22,13 @@ export default function ProductActions({
     toast.success("Thêm vào giỏ hàng thành công!");
   };
 
+  console.log(product.product_storages);
+
   useEffect(() => {
-    product.product_storages.map((store: ProductStorageType, index) => {
-      if (store.quantity <= 0) {
+    if (product.product_storages.length <= 0) setIsSoldOut(true);
+
+    product.product_storages.map((productStore: ProductStorageType) => {
+      if (productStore.quantity <= 0) {
         setIsSoldOut(true);
       }
     });

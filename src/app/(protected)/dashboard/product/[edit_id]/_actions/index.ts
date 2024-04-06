@@ -8,7 +8,6 @@ import {
   ProductWithDescriptionAndStorageType,
   ProductStorageType,
 } from "@/utils/types/index";
-
 import { updateProduct } from "@app/_actions/product";
 import { updateProductDescription } from "@app/_actions/product_description";
 import {
@@ -16,7 +15,7 @@ import {
   removeProductStorage,
 } from "@app/_actions/product_storage";
 import createSupabaseBrowserClient from "@/supabase-query/client";
-import { FormSchema } from "../Components/EditForm";
+import { FormSchema } from "@app/(protected)/dashboard/product/[edit_id]/Components/EditForm";
 
 export async function updateHandler({
   formData,
@@ -106,13 +105,19 @@ export async function updateHandler({
   if (updateProductDescriptionResponse.error)
     throw new Error("Lỗi khi lưu mô tả sản phẩm.");
 
+  // update product_storage
   if (updatedProductStorages.length > 0) {
-    // update product_storage
     for (const productStorage of originalProduct.product_storages) {
       await removeProductStorage(productStorage.id);
     }
 
-    for (const updatedProductStorage of updatedProductStorages) {
+    const productStorages = updatedProductStorages.map((productStorage) => ({
+      ...productStorage,
+      product_id: updatedProduct.id,
+      product_name: updatedProduct.name,
+    }));
+
+    for (const updatedProductStorage of productStorages) {
       const result = await createProductStorage({
         productStorage: updatedProductStorage,
       });

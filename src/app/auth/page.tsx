@@ -6,7 +6,7 @@ export default function Login() {
   return (
     <Template>
       <div className="flex min-h-screen w-screen flex-col items-center justify-center overflow-auto py-6 sm:pb-16 sm:pt-10">
-        <h1 className="text-lg font-semibold">App Authentication</h1>
+        <h1 className="text-lg font-semibold">Xác thực tài khoản</h1>
         <div className="flex h-fit w-fit flex-col gap-2 bg-background sm:w-full sm:px-2">
           <span className="w-auto">
             <Link
@@ -27,7 +27,7 @@ export default function Login() {
               >
                 <polyline points="15 18 9 12 15 6" />
               </svg>
-              Back
+              Trở về
             </Link>
           </span>
           <AuthCardTabs />

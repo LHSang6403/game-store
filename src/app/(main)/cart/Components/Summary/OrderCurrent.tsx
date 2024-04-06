@@ -21,12 +21,12 @@ export default function OrderCurrent() {
         </div>
       ) : (
         <div className="w-full text-center font-light">
-          Please, select order in
+          Chọn sản phẩm tại
           <Link
             className="hover:text-accent-foreground focus:text-accent-foreground h-9 w-fit rounded-md p-2 text-center text-sm font-medium transition-colors hover:bg-accent focus:bg-accent focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[active]:bg-accent/50 data-[state=open]:bg-accent/50"
             href="/product"
           >
-            Product
+            Sản phẩm
           </Link>
         </div>
       )}

@@ -40,13 +40,13 @@ export default function FormAddressPicker() {
             placeholder={
               addressValues.province !== ""
                 ? addressValues.province
-                : "Select province"
+                : "Chọn tỉnh"
             }
           />
         </SelectTrigger>
         <SelectContent>
           <SelectGroup>
-            <SelectLabel>Provinces</SelectLabel>
+            <SelectLabel>Tỉnh, thành</SelectLabel>
             {province.map((pro, index) => (
               <SelectItem
                 key={index}
@@ -71,13 +71,13 @@ export default function FormAddressPicker() {
             placeholder={
               addressValues.district !== ""
                 ? addressValues.district
-                : "Select district"
+                : "Chọn quận"
             }
           />
         </SelectTrigger>
         <SelectContent>
           <SelectGroup>
-            <SelectLabel>Districts</SelectLabel>
+            <SelectLabel>Quận, huyện</SelectLabel>
             {districtsInProvince.map((dis, index) => (
               <SelectItem
                 key={index}
@@ -101,13 +101,13 @@ export default function FormAddressPicker() {
             placeholder={
               addressValues.commune !== ""
                 ? addressValues.commune
-                : "Select ward"
+                : "Chọn phường"
             }
           />
         </SelectTrigger>
         <SelectContent>
           <SelectGroup>
-            <SelectLabel>Communes</SelectLabel>
+            <SelectLabel>Phường, xã</SelectLabel>
             {communesInDistrict.map((com, index) => (
               <SelectItem
                 key={index}

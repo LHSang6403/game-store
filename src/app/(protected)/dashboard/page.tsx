@@ -2,7 +2,12 @@
 
 import SoldBarChart from "@/app/(protected)/dashboard/Components/Charts/SoldBarChart";
 import StorageTables from "@/app/(protected)/dashboard/Components/StorageTables";
-import { Activity, PackageSearch, UsersRound, Container } from "lucide-react";
+import {
+  Activity,
+  PackageSearch,
+  UsersRound,
+  Container,
+} from "lucide-react";
 import DataCard from "@/app/(protected)/dashboard/Components/DataCard";
 import { useQuery } from "@tanstack/react-query";
 import { readAllProductStorages } from "@/app/_actions/product_storage";

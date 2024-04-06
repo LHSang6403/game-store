@@ -17,7 +17,9 @@ export async function requestGHNOrder(data: GHNDataType) {
     const response = await axios.post(
       process.env.GHN_URL + "/shipping-order/create",
       data,
-      { headers }
+      {
+        headers,
+      }
     );
 
     return {
@@ -81,7 +83,7 @@ export async function cancelGHNOrder({
     if (response.data.code === 200) {
       const updateResult = await updateStateOrder({
         id: id,
-        state: "canceled",
+        state: "Đã hủy",
         actor: actor,
       });
 

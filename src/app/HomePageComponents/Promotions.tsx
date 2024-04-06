@@ -6,16 +6,18 @@ export default function Promotions() {
   const promotions = [
     {
       title: "20% OFF",
-      time: "This month!",
+      time: "Tháng này!",
       image: "/assets/images/gameSetup/g3.png",
-      description: "This is a description for the promotion. It can be short.",
+      description:
+        "Đây là mô tả cho chương trình khuyến mãi. Nó có thể ngắn gọn.",
     },
     {
       title: "50% OFF",
-      time: "Next month!",
+      time: "Tháng tới!",
       image: "/assets/images/gameSetup/g2.png",
 
-      description: "This is a description for the promotion. It can be short.",
+      description:
+        "Đây là mô tả cho chương trình khuyến mãi. Nó có thể ngắn gọn.",
     },
   ];
 
@@ -47,10 +49,10 @@ function Promotion({
         <div className="h-fit w-56 border border-background p-3 text-foreground transition duration-300 ease-in-out hover:scale-[1.02] hover:cursor-pointer">
           <h2 className="w-28 bg-[#ef7440] px-2 text-2xl font-bold">Sale</h2>
           <div className="flex w-fit flex-row">
-            <h2 className="line-clamp-1 w-32 overflow-ellipsis bg-foreground p-1 text-2xl font-bold text-background">
+            <h2 className="line-clamp-1 w-32 overflow-ellipsis bg-foreground p-1 pt-0 text-2xl font-bold text-background">
               {data.title}
             </h2>
-            <p className="-ml-2.5 line-clamp-2 w-20 overflow-ellipsis bg-foreground p-1 text-xl font-bold leading-5 text-background">
+            <p className="-ml-2.5 line-clamp-2 w-20 overflow-ellipsis bg-foreground p-1 text-xl font-bold leading-6 text-background">
               {data.time}
             </p>
           </div>
@@ -59,7 +61,7 @@ function Promotion({
           </p>
           <div className="ml-1 mt-1 flex flex-row gap-0.5">
             <Link className="text-sm font-light" href="/">
-              View detail
+              Chi tiết
             </Link>
             <ArrowRightIcon className="mt-0.5 h-4 w-4" />
           </div>

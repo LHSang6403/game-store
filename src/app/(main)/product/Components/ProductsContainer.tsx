@@ -59,12 +59,12 @@ export default function ProductsContainer({
         <Button
           onClick={() => {
             removeAllFilters();
-            toast.success("All filters are removed.");
+            toast.success("Đã xóa các bộ lọc.");
           }}
           variant="outline"
           className=""
         >
-          Remove filters{" "}
+          Xóa bộ lọc{" "}
         </Button>
       )}
       <PaginationButtons

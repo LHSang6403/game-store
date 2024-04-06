@@ -42,6 +42,7 @@ export default function ConfirmDialog({
             actorName: session.session.name,
           },
         });
+
         if (response.error) {
           toast.error(response.error);
         }
@@ -75,7 +76,7 @@ export default function ConfirmDialog({
 
               order.shipment_name = "GHN";
               order.shipment_label_code = GHNResponse.data.order_code;
-            } catch (error) {
+            } catch (error: any) {
               throw new Error("Tạo đơn GHN thất bại. Vui lòng thử lại.");
             }
 
@@ -90,7 +91,7 @@ export default function ConfirmDialog({
 
               order.shipment_name = "GHTK";
               order.shipment_label_code = GHTKResponse.data.label;
-            } catch (error) {
+            } catch (error: any) {
               throw new Error("Tạo đơn GHTK thất bại. Vui lòng thử lại.");
             }
 
@@ -124,16 +125,16 @@ export default function ConfirmDialog({
         </DialogHeader>
         <div className="mt-2 flex flex-col gap-1 text-sm">
           <div>
-            <Label>Customer: </Label>
+            <Label>Khách hàng: </Label>
             <span className="font-light">{order.customer_name}</span>
           </div>
           <div>
-            <Label>Phone: </Label>
+            <Label>Điện thoại: </Label>
             <span className="font-light">{order.customer_phone}</span>
           </div>
           <div>
             <Label htmlFor="name" className="text-right">
-              Selected products:{" "}
+              Sản phẩm:{" "}
             </Label>
             {order.products.map((prod, index) => (
               <>
@@ -145,31 +146,32 @@ export default function ConfirmDialog({
             ))}
           </div>
           <div>
-            <Label>Ship to: </Label>
+            <Label>Giao đến: </Label>
             <span className="font-light">
               {order.address}, {order.ward}, {order.district}, {order.province}
             </span>
           </div>
           <div>
-            <Label>Products price: </Label>
+            <Label>Giá sản phẩm: </Label>
             <span className="font-light">
-              {formatCurrency(order.price)} VND
+              {formatCurrency(order.price ?? "0")} VNĐ
             </span>
           </div>
           <div>
-            <Label>Ship service: </Label>
+            <Label>Giao hàng: </Label>
             <span className="font-light">{formData.shipment}</span>
           </div>
           <div>
-            <Label>Shipping fee: </Label>
+            <Label>Phí giao hàng : </Label>
             <span className="font-light">
-              {formatCurrency(order.shipping_fee)} VND
+              {formatCurrency(order.shipping_fee ?? "0")} VNĐ
             </span>
           </div>
-
           <div className="mt-4 font-semibold">
             <Label className="font-semibold">Total price: </Label>
-            <span className="">{formatCurrency(order.total_price)} VND</span>
+            <span className="">
+              {formatCurrency(order.total_price ?? "0")} VNĐ
+            </span>
           </div>
         </div>
         <Button

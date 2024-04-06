@@ -33,7 +33,6 @@ export function findAvailableStorage({
 
     // If all products are found in this storage, return it
     if (foundAllProducts) {
-      console.log("All products found in storage", storage.name);
       return storage;
     }
   }

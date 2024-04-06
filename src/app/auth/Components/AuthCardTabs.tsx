@@ -20,25 +20,25 @@ export default function AuthCardTabs() {
           className="rounded-md data-[state=active]:bg-foreground data-[state=active]:text-accent"
           value="sign-in"
         >
-          Sign In
+          Đăng nhập
         </TabsTrigger>
         <TabsTrigger
           className="rounded-md data-[state=active]:bg-foreground data-[state=active]:text-accent"
           value="sign-up"
         >
-          Sign Up
+          Đăng ký
         </TabsTrigger>
       </TabsList>
       <TabsContent value="sign-in">
         <Card>
           <CardHeader>
-            <CardTitle>Log in</CardTitle>
+            <CardTitle>Đăng nhập</CardTitle>
             <CardDescription>
-              Use account: <br />
+              Tài khoản test: <br />
               lhsang6403@gmail.com (customer), <br />
               lhsang21@clc.fitus.edu.vn (customer), <br />
               gamestorevn2024@gmail.com (admin), <br />
-              and password: 123456, and click Sign In.
+              and password: 123456.
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -49,10 +49,7 @@ export default function AuthCardTabs() {
       <TabsContent value="sign-up">
         <Card>
           <CardHeader>
-            <CardTitle>Register</CardTitle>
-            {/* <CardDescription>
-              Create your account information, we will use this to verify users.
-            </CardDescription> */}
+            <CardTitle>Đăng ký</CardTitle>
           </CardHeader>
           <CardContent>
             <SignUp />

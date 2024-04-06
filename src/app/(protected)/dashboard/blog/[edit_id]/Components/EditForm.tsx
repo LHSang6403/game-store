@@ -49,7 +49,7 @@ export default function EditForm({ blog }: { blog: BlogType }) {
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: initState,
-    mode: "onBlur",
+    mode: "onChange",
   });
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {

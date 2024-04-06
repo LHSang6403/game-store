@@ -65,12 +65,11 @@ export const columns: ColumnDef<OrderType>[] = [
     },
     cell: ({ row }) => {
       const data = row.original;
+      const session = useSession();
 
-      async function handleUpdateState(newState: ShipmentState) {
+      function handleUpdateState(newState: ShipmentState) {
         toast.promise(
           async () => {
-            const session = useSession();
-
             if (session.session) {
               const updateResponse = await updateStateOrder({
                 id: data.id,
@@ -81,6 +80,7 @@ export const columns: ColumnDef<OrderType>[] = [
                 },
               });
 
+              console.log(updateResponse);
               ApiErrorHandlerClient({
                 response: updateResponse,
               });
@@ -93,29 +93,22 @@ export const columns: ColumnDef<OrderType>[] = [
       }
       return (
         <Select
-          defaultValue={data.state ?? "Unknown"}
-          onValueChange={(
-            value:
-              | "pending"
-              | "shipping"
-              | "delivered"
-              | "canceled"
-              | "returned"
-          ) => {
+          defaultValue={data.state ?? "Không rõ"}
+          onValueChange={(value: ShipmentState) => {
             handleUpdateState(value);
           }}
         >
           <SelectTrigger className="w-28 border-none">
-            <SelectValue placeholder="Select a state" />
+            <SelectValue placeholder="Chọn tình trạng" />
           </SelectTrigger>
           <SelectContent>
             <SelectGroup>
               <SelectLabel>Tình trạng</SelectLabel>
-              <SelectItem value="pending">Đang chờ</SelectItem>
-              <SelectItem value="shipping">Đang giao</SelectItem>
-              <SelectItem value="delivered">Đã giao</SelectItem>
-              <SelectItem value="canceled">Đã hủy</SelectItem>
-              <SelectItem value="returned">Đã trả hàng</SelectItem>
+              <SelectItem value="Đang chờ">Đang chờ</SelectItem>
+              <SelectItem value="Đang giao">Đang giao</SelectItem>
+              <SelectItem value="Đã giao">Đã giao</SelectItem>
+              <SelectItem value="Đã hủy">Đã hủy</SelectItem>
+              <SelectItem value="Đã trả hàng">Đã trả hàng</SelectItem>
             </SelectGroup>
           </SelectContent>
         </Select>

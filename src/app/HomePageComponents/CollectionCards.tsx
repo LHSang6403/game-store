@@ -18,12 +18,12 @@ export default function CollectionCards() {
     {
       title: "Sony Play Station 4",
       description:
-        "The Sony Play is a flagship game station that comes with a 6.81-inch AMOLED display. The phone has a triple camera setup on the back, which includes a 50MP primary sensor, a 48MP ultra-wide sensor, and a 48MP telephoto sensor. The device is powered by a Qualcomm Snapdragon 888 SoC, and it has a 5,000mAh battery with 67W fast charging support.",
+        "Sony Play Station 4 là một trạm trò chơi cao cấp đi kèm với màn hình AMOLED 6,81 inch. Điện thoại có một bộ cảm biến camera ba ở phía sau, bao gồm một cảm biến chính 50MP, một cảm biến siêu rộng 48MP và một cảm biến telephoto 48MP. Thiết bị được trang bị vi xử lý Qualcomm Snapdragon 888, và có pin 5.000mAh hỗ trợ sạc nhanh 67W.",
     },
     {
       title: "Microsoft Xbox Series",
       description:
-        "The Xbox is a flagship that comes with a 6.3-inch OLED display. The phone has a dual-camera setup on the back, which includes a 12.2MP primary sensor and a 16MP telephoto sensor. The device is powered by a Qualcomm Snapdragon 855 SoC, and it has a 3,700mAh battery with 18W fast charging support.",
+        "Microsoft Xbox Series là một trạm trò chơi cao cấp đi kèm với màn hình OLED 6,3 inch. Điện thoại có một bộ cảm biến camera kép ở phía sau, bao gồm một cảm biến chính 12,2MP và một cảm biến telephoto 16MP. Thiết bị được trang bị vi xử lý Qualcomm Snapdragon 855, và có pin 3.700mAh hỗ trợ sạc nhanh 18W.",
     },
   ];
 

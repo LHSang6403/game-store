@@ -25,7 +25,7 @@ export async function createOrder({
     for (const prodId of prodIds) {
       await updateStorageQuantityByProductId({
         prod_id: prodId,
-        storage_id: order.pick_storage_id, 
+        storage_id: order.pick_storage_id,
         updatedQuantity: -1,
       });
       await updateSoldQuantityByProductId(prodId, 1);

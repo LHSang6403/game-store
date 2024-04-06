@@ -10,7 +10,7 @@ export default function TypicalProducts() {
       price: 100,
       image: "/assets/images/gamePlay/g1.png",
       description:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna.",
+        "Future Switch của Nitendo là một lựa chọn tuyệt vời cho những người đam mê trò chơi. Với thiết kế hiện đại và công nghệ tiên tiến, sản phẩm này mang đến trải nghiệm chơi game đỉnh cao và thú vị.",
     },
     {
       brand: "Classic",
@@ -18,7 +18,7 @@ export default function TypicalProducts() {
       price: 100,
       image: "/assets/images/gamePlay/g3.png",
       description:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna.",
+        "Game Boy Series của Classic là dòng sản phẩm được nhiều người yêu thích trong cộng đồng game thủ. Với sự kết hợp hoàn hảo giữa thiết kế cổ điển và hiệu suất mạnh mẽ, đây là lựa chọn tốt cho mọi người muốn tận hưởng những trải nghiệm game retro.",
     },
     {
       brand: "Sup Gaming",
@@ -26,7 +26,7 @@ export default function TypicalProducts() {
       price: 100,
       image: "/assets/images/gamePlay/g5.png",
       description:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna.",
+        "Play Handheld của Sup Gaming là một thiết bị chơi game cầm tay linh hoạt và tiện lợi. Với màn hình rộng và khả năng chơi nhiều trò chơi khác nhau, sản phẩm này phù hợp cho cả người chơi mới và các game thủ kỳ cựu.",
     },
     {
       brand: "Nitendo",
@@ -34,7 +34,7 @@ export default function TypicalProducts() {
       price: 100,
       image: "/assets/images/gameSetup/g3.png",
       description:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna.",
+        "2024 Switch của Nitendo là một bước tiến mới trong công nghệ chơi game. Với tính năng và hiệu suất cải tiến, sản phẩm này mang lại trải nghiệm chơi game đỉnh cao và không thể bỏ qua cho mọi người yêu thích trò chơi.",
     },
   ];
 
@@ -77,7 +77,7 @@ function TypicalProduct({
       <h2 className="line-clamp-2 overflow-ellipsis text-center text-lg font-semibold">
         {data.name}
       </h2>
-      <hr className="mt-1 w-[60%] border-t border-t-background/20"></hr>
+      <hr className="mb-1 mt-3 w-[60%] border-t border-t-background/20"></hr>
       <p className="line-clamp-4 overflow-ellipsis text-sm font-light">
         {data.description}
       </p>

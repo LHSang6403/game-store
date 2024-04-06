@@ -4,7 +4,6 @@ import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
@@ -44,13 +43,13 @@ import district from "@/static-data/districts.json";
 import communes from "@/static-data/communes.json";
 
 const FormSchema = z.object({
-  name: z.string().min(2),
-  phone: z.string().min(2),
-  dob: z.string().min(2),
-  address: z.string().min(2),
-  ward: z.string().min(2),
-  district: z.string().min(2),
-  province: z.string().min(2),
+  name: z.string().min(2, "Vui lòng nhập tên của bạn."),
+  phone: z.string().min(2, "Vui lòng nhập số điện thoại."),
+  dob: z.string().min(2, "Vui lòng nhập ngày sinh."),
+  address: z.string().min(2, "Vui lòng nhập địa chỉ của bạn."),
+  ward: z.string().min(2, "Vui lòng nhập phường/xã."),
+  district: z.string().min(2, "Vui lòng nhập quận/huyện."),
+  province: z.string().min(2, "Vui lòng nhập tỉnh/thành phố."),
 });
 
 export default function EditProfile({
@@ -72,7 +71,7 @@ export default function EditProfile({
       district: profile.district,
       province: profile.province,
     },
-    mode: "onBlur",
+    mode: "onChange",
   });
 
   const [date, setDate] = useState<Date>();
@@ -154,15 +153,12 @@ export default function EditProfile({
     <Dialog open={isOpen} onOpenChange={() => setIsOpen(!isOpen)}>
       <DialogTrigger asChild>
         <Button variant="outline" className="h-8 border-none">
-          Edit
+          Chỉnh sửa
         </Button>
       </DialogTrigger>
       <DialogContent className="rounded-md pb-0 sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Edit profile</DialogTitle>
-          <DialogDescription>
-            Make changes to your profile here. Click save when you're done.
-          </DialogDescription>
+          <DialogTitle>Chỉnh sửa thông tin tài khoản</DialogTitle>
         </DialogHeader>
         <Form {...form}>
           <form
@@ -174,7 +170,7 @@ export default function EditProfile({
               name="name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Name</FormLabel>
+                  <FormLabel>Tên người dùng</FormLabel>
                   <FormControl>
                     <Input
                       placeholder="Your name"
@@ -193,7 +189,7 @@ export default function EditProfile({
               name="phone"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Phone</FormLabel>
+                  <FormLabel>Số điện thoại</FormLabel>
                   <FormControl>
                     <Input
                       placeholder="Your phone number"
@@ -208,7 +204,7 @@ export default function EditProfile({
               )}
             />
             <FormItem>
-              <FormLabel>Birthday</FormLabel>
+              <FormLabel>Ngày sinh</FormLabel>
               <Popover>
                 <PopoverTrigger asChild>
                   <Button
@@ -222,9 +218,7 @@ export default function EditProfile({
                     {date ? (
                       format(date, "PPP")
                     ) : (
-                      <span className="text-muted-foreground">
-                        Pick birthday
-                      </span>
+                      <span className="text-muted-foreground">Chọn ngày</span>
                     )}
                   </Button>
                 </PopoverTrigger>
@@ -252,7 +246,7 @@ export default function EditProfile({
               name="district"
               render={() => (
                 <FormItem>
-                  <FormLabel>Your local</FormLabel>
+                  <FormLabel>Khu vực</FormLabel>
                   <FormControl>
                     <FormAddressPicker />
                   </FormControl>
@@ -265,7 +259,7 @@ export default function EditProfile({
               name="address"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Address</FormLabel>
+                  <FormLabel>Địa chỉ nhà</FormLabel>
                   <FormControl>
                     <Input
                       placeholder="Your address"
@@ -283,7 +277,7 @@ export default function EditProfile({
               type="submit"
               className="mx-auto mt-2 w-fit bg-foreground px-7 text-background"
             >
-              Create
+              Lưu thay đổi
             </Button>
           </form>
         </Form>

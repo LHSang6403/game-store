@@ -30,15 +30,8 @@ import useProductFilter from "@/zustand/useProductFilter";
 import { toast } from "sonner";
 
 export default function FilterArea() {
-  const {
-    brands,
-    categories,
-    startPrice,
-    endPrice,
-    setPrice,
-    setBrands,
-    setCategories,
-  } = useProductFilter();
+  const { brands, categories, endPrice, setPrice, setBrands, setCategories } =
+    useProductFilter();
 
   const { data: brandsData } = useQuery({
     queryKey: ["brands"],
@@ -59,21 +52,21 @@ export default function FilterArea() {
           className="bg- fixed left-0 top-[50%] rotate-90 border-none sm:-left-6"
           variant="outline"
         >
-          Filter
+          Bộ lọc
           <ChevronUpIcon className="ml-0.5 h-4 w-4" />
         </Button>
       </SheetTrigger>
       <SheetContent side="left" className="w-80">
         <SheetHeader>
-          <SheetTitle>Select your interests</SheetTitle>
+          <SheetTitle>Bộ lọc sản phẩm</SheetTitle>
           <SheetDescription>
-            To make your experience better, we need to know what you like.
+            Chọn các đặc điểm sản phẩm để xem tiện lợi hơn.
           </SheetDescription>
         </SheetHeader>
         <div className="flex flex-col">
           <div className="mt-4 flex flex-col gap-2">
             <Label htmlFor="name" className="text-left">
-              Brand
+              Nhà SX
             </Label>
             <Select
               onValueChange={(value) => {
@@ -82,12 +75,12 @@ export default function FilterArea() {
               defaultValue={brands[0] ?? "All"}
             >
               <SelectTrigger className="h-9 w-[60%]">
-                <SelectValue placeholder="Select one" />
+                <SelectValue placeholder="Chọn" />
               </SelectTrigger>
               <SelectContent>
                 <SelectGroup>
-                  <SelectLabel>Brands</SelectLabel>
-                  <SelectItem value="All">All</SelectItem>
+                  <SelectLabel>Nhà SX</SelectLabel>
+                  <SelectItem value="All">Tất cả</SelectItem>
                   {brandsData?.data?.map((each) => (
                     <SelectItem value={each}>{each}</SelectItem>
                   ))}
@@ -97,7 +90,7 @@ export default function FilterArea() {
           </div>
           <div className="mt-4 flex flex-col gap-2">
             <Label htmlFor="name" className="text-left">
-              Category
+              Thể loại
             </Label>
             <Select
               onValueChange={(value) => {
@@ -106,12 +99,12 @@ export default function FilterArea() {
               defaultValue={categories[0] ?? "All"}
             >
               <SelectTrigger className="h-9 w-[60%]">
-                <SelectValue placeholder="Select one" />
+                <SelectValue placeholder="Chọn" />
               </SelectTrigger>
               <SelectContent>
                 <SelectGroup>
-                  <SelectLabel>Category</SelectLabel>
-                  <SelectItem value="All">All</SelectItem>
+                  <SelectLabel>Các loại</SelectLabel>
+                  <SelectItem value="All">Tất cả</SelectItem>
                   {categoriesData?.data?.map((each, index: number) => (
                     <SelectItem key={index} value={each}>
                       {each}
@@ -123,7 +116,7 @@ export default function FilterArea() {
           </div>
           <div className="mt-4 flex flex-col gap-2">
             <Label htmlFor="name" className="text-left">
-              Price from 0 to {formatCurrency(endPrice)} VND
+              Giá từ 0 đến {formatCurrency(endPrice)} VNĐ
             </Label>
             <Slider
               defaultValue={[endPrice]}
@@ -145,7 +138,7 @@ export default function FilterArea() {
               type="submit"
               className="text-background"
             >
-              Select
+              Áp dụng
             </Button>
           </SheetClose>
         </SheetFooter>

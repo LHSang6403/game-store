@@ -93,7 +93,7 @@ function createOrderFromProduct(
     shipment_label_code: "",
 
     products: [prod],
-    state: "pending",
+    state: "Đang chờ",
     customer_id: "",
     customer_name: "Không rõ",
     customer_phone: "",
