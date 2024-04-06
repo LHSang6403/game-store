@@ -13,7 +13,7 @@ export default async function ProtectedLayout({
   console.log(session);
 
   if (session && !("role" in session)) {
-    router.push("/auth");
+    router.push("/");
   }
 
   return <div className="min-h-screen w-full">{children}</div>;

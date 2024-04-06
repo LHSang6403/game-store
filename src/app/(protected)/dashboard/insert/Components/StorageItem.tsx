@@ -12,7 +12,7 @@ export default function StorageItem({
     <Card
       className={`${
         isSelected ? "bg-accent" : ""
-      } flex h-fit w-full flex-row justify-between px-2 py-1 hover:cursor-pointer`}
+      } flex h-20 w-full flex-row justify-between px-2 py-1 hover:cursor-pointer`}
     >
       <div className="flex w-full flex-col justify-between gap-1">
         <span className="font-medium">{storage.name}</span>
