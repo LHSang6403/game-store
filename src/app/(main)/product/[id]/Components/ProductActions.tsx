@@ -22,8 +22,6 @@ export default function ProductActions({
     toast.success("Thêm vào giỏ hàng thành công!");
   };
 
-  console.log(product.product_storages);
-
   useEffect(() => {
     if (product.product_storages.length <= 0) setIsSoldOut(true);
 

@@ -10,7 +10,6 @@ export default async function ProtectedLayout({
 }) {
   const router = useRouter();
   const { session } = useSession();
-  console.log(session);
 
   if (session && !("role" in session)) {
     router.push("/");

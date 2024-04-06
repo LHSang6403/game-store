@@ -19,6 +19,7 @@ import { signInWithEmailAndPassword } from "@auth/_actions/signIn";
 import { ApiErrorHandlerClient } from "@/utils/errorHandler/apiErrorHandler";
 import { readUserSession } from "@/app/_actions/user";
 import { useSession } from "@/zustand/useSession";
+import GoogleOAuth from "@/app/OAuth/GoogleOAuth";
 
 const FormSchema = z.object({
   email: z.string().email(),
@@ -140,6 +141,7 @@ export default function SignIn() {
           </div>
         </form>
       </Form>
+      <GoogleOAuth />
     </div>
   );
 }

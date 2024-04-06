@@ -2,7 +2,6 @@
 
 import { ProductWithDescriptionAndStorageType } from "@utils/types";
 import formatCurrency from "@/utils/functions/formatCurrency";
-import { is } from "date-fns/locale";
 
 export default function ProductCard({
   prod,
@@ -15,7 +14,6 @@ export default function ProductCard({
 
   return (
     <div
-      onClick={() => {}}
       className={`h-fit w-full rounded-lg border px-3 py-2 hover:bg-foreground/5 ${
         isSoldOut ? "text-foreground/50 hover:!cursor-not-allowed" : ""
       }`}
