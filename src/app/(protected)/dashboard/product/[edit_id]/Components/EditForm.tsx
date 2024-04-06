@@ -9,7 +9,7 @@ import { Button } from "@components/ui/button";
 import { useRouter } from "next/navigation";
 import Editor from "@/components/Editor";
 import DropAndDragZone from "@/components/File/DropAndDragZone";
-import ProductFormInputs from "@/app/(protected)/dashboard/product/create/Components/ProductFormInputs";
+import CreateProductFormInputs from "@/app/(protected)/dashboard/product/create/Components/CreateProductFormInputs";
 import useFiles from "@/zustand/useFiles";
 import { useSession } from "@/zustand/useSession";
 import {
@@ -119,7 +119,7 @@ export default function EditForm({
         className="grid grid-cols-2 gap-4"
       >
         <div className="h-full w-full xl:col-span-2">
-          <ProductFormInputs form={form} />
+          <CreateProductFormInputs form={form} />
         </div>
         <Card className="flex h-fit w-full flex-col xl:col-span-2">
           <CardHeader className="pb-3">Hình ảnh sản phẩm</CardHeader>

@@ -17,7 +17,7 @@ import {
 } from "@components/ui/form";
 import { Input } from "@components/ui/input";
 import { useState, useEffect } from "react";
-import { StorageType, ProductStorageType, ProductType } from "@/utils/types";
+import { StorageType, ProductStorageType } from "@/utils/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";

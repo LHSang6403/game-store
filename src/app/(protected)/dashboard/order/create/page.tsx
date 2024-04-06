@@ -2,7 +2,6 @@ import CreateForm from "@/app/(protected)/dashboard/order/create/Components/Crea
 import { readProductsWithDetail } from "@/app/_actions/product";
 import { readCustomers } from "@app/_actions/user";
 import { readStorages } from "@app/_actions/storage";
-import { readAllProductStorages } from "@/app/_actions/product_storage";
 
 export default async function page() {
   const products = await readProductsWithDetail();

@@ -11,7 +11,7 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Input } from "@components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 
-export default function ProductFormInputs({ form }: { form: any }) {
+export default function CreateProductFormInputs({ form }: { form: any }) {
   return (
     <Card className="h-full">
       <CardHeader className="pb-3">Thông tin sản phẩm</CardHeader>

@@ -1,5 +1,4 @@
 import * as z from "zod";
-import { toast } from "sonner";
 import { v4 as uuidv4 } from "uuid";
 import createSupabaseBrowserClient from "@/supabase-query/client";
 import { createProduct } from "@app/_actions/product";

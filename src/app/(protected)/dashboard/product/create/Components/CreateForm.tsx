@@ -9,7 +9,7 @@ import { Button } from "@components/ui/button";
 import { useRouter } from "next/navigation";
 import Editor from "@/components/Editor";
 import DropAndDragZone from "@components/File/DropAndDragZone";
-import ProductFormInputs from "@/app/(protected)/dashboard/product/create/Components/ProductFormInputs";
+import ProductFormInputs from "@/app/(protected)/dashboard/product/create/Components/CreateProductFormInputs";
 import useFiles from "@/zustand/useFiles";
 import { useSession } from "@/zustand/useSession";
 import { ProductStorageType } from "@/utils/types/index";
@@ -22,9 +22,16 @@ export const FormSchema = z.object({
   brand: z.string().min(2, { message: "Vui lòng nhập hiệu." }),
   name: z.string().min(2, { message: "Vui lòng nhập tên." }),
   description: z.string().min(2, { message: "Vui lòng nhập mô tả." }),
-  price: z.string().refine((val) => !Number.isNaN(parseInt(val, 10)), {
-    message: "Vui lòng nhập số.",
-  }),
+  price: z
+    .string()
+    .refine(
+      (val) =>
+        val === "" ||
+        (!Number.isNaN(parseInt(val, 10)) && parseInt(val, 10) >= 0),
+      {
+        message: "Vui lòng nhập số hợp lệ.",
+      }
+    ),
   rate: z
     .string()
     .refine(
