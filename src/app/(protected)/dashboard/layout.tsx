@@ -6,18 +6,21 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import DashboardHeader from "@/components/Layout/Header/DashboardHeader";
 import { useSession } from "@/zustand/useSession";
 import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 export default function DashboardLayout({
   children,
 }: {
   children: React.ReactNode;
 }): ReturnType<React.FC> {
-  const router = useRouter();
-  const session = useSession();
+  useEffect(() => {
+    const router = useRouter();
+    const session = useSession();
 
-  if (!session.session) {
-    router.push("/auth");
-  }
+    if (!session.session) {
+      router.push("/auth");
+    }
+  }, []);
 
   return (
     <div className="flex w-full flex-col pt-16 sm:pt-0">
