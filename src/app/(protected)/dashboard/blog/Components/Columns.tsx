@@ -10,13 +10,21 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import type { BlogType } from "@utils/types";
+import { BlogType } from "@utils/types";
 import Link from "next/link";
 import { ApiErrorHandlerClient } from "@/utils/errorHandler/apiErrorHandler";
 import { toast } from "sonner";
 import { useSession } from "@/zustand/useSession";
 import { deleteBlogById } from "@app/_actions/blog";
 import formatVNDate from "@utils/functions/formatVNDate";
+
+export const columns_headers = [
+  { accessKey: "title", name: "Tiêu đề" },
+  { accessKey: "description", name: "Mô tả" },
+  { accessKey: "created_at", name: "Ngày tạo" },
+  { accessKey: "writer", name: "Tác giả" },
+  { accessKey: "actions", name: "Hành động" },
+];
 
 export const columns: ColumnDef<BlogType>[] = [
   {

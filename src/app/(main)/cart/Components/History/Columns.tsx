@@ -18,6 +18,13 @@ import { ApiErrorHandlerClient } from "@/utils/errorHandler/apiErrorHandler";
 import { useSession } from "@/zustand/useSession";
 import formatVNDate from "@utils/functions/formatVNDate";
 
+export const columns_headers = [
+  { accessKey: "prod_names", name: "Sản phẩm" },
+  { accessKey: "created_at", name: " Vào lúc" },
+  { accessKey: "state", name: "Tình trạng" },
+  { accessKey: "actions", name: "Hành động" },
+];
+
 export const columns: ColumnDef<OrderType>[] = [
   {
     accessorKey: "prod_names",
@@ -54,7 +61,7 @@ export const columns: ColumnDef<OrderType>[] = [
       const date = new Date(row.getValue("created_at"));
       const formatted = formatVNDate(date);
 
-      return <div className="ml-2 text-left">{formatted}</div>;
+      return <div className="ml-2 w-32 text-left">{formatted}</div>;
     },
   },
   {
@@ -63,7 +70,7 @@ export const columns: ColumnDef<OrderType>[] = [
     cell: ({ row }) => {
       const data = row.original;
 
-      return <div className="text-center">{data.state}</div>;
+      return <div className="w-28 text-left">{data.state}</div>;
     },
   },
   {

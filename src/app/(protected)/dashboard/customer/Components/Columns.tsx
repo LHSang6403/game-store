@@ -19,6 +19,15 @@ import { useSession } from "@/zustand/useSession";
 import EditProfile from "@/app/(main)/profile/Components/EditProfile";
 import formatVNDate from "@/utils/functions/formatVNDate";
 
+export const columns_headers = [
+  { accessKey: "name", name: "Họ tên" },
+  { accessKey: "dob", name: "Ngày sinh" },
+  { accessKey: "phone", name: "SĐT" },
+  { accessKey: "address", name: "Địa chỉ" },
+  { accessKey: "level", name: "Điểm" },
+  { accessKey: "actions", name: "Hành động" },
+];
+
 export const columns: ColumnDef<CustomerType>[] = [
   {
     accessorKey: "name",
@@ -33,7 +42,7 @@ export const columns: ColumnDef<CustomerType>[] = [
           className="border-none"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Sinh nhật
+          Ngày sinh
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
@@ -42,16 +51,30 @@ export const columns: ColumnDef<CustomerType>[] = [
       const date = new Date(row.getValue("dob"));
       const formatted = formatVNDate(date);
 
-      return <div className="ml-2 text-left">{formatted}</div>;
+      return (
+        <div className="ml-2 text-left">
+          {row.getValue("dob") ? formatted : "Không rõ"}
+        </div>
+      );
     },
   },
   {
     accessorKey: "phone",
     header: "SĐT",
+    cell: ({ row }) => {
+      const data = row.original;
+
+      return <div className="text-left">{data.phone ?? "Không rõ"}</div>;
+    },
   },
   {
     accessorKey: "address",
     header: "Địa chỉ",
+    cell: ({ row }) => {
+      const data = row.original;
+
+      return <div className="text-left">{data.address ?? "Không rõ"}</div>;
+    },
   },
   {
     accessorKey: "level",

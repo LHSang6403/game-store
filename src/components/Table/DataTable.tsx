@@ -42,6 +42,10 @@ interface DataTableProps<TData, TValue> {
   isBorder?: boolean;
   isSeparator?: boolean;
   defaultPageSize?: number;
+  columns_headers?: {
+    accessKey: string;
+    name: string;
+  }[];
 }
 
 export function DataTable<TData, TValue>({
@@ -54,6 +58,7 @@ export function DataTable<TData, TValue>({
   isBorder = true,
   isSeparator = true,
   defaultPageSize = 10,
+  columns_headers,
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
@@ -123,7 +128,9 @@ export function DataTable<TData, TValue>({
                         column.toggleVisibility(!!value)
                       }
                     >
-                      {column.id}
+                      {columns_headers?.find(
+                        (col_hed) => col_hed.accessKey === column.id
+                      )?.name ?? column.id}
                     </DropdownMenuCheckboxItem>
                   );
                 })}

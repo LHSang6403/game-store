@@ -27,7 +27,9 @@ export const columns: ColumnDef<ProductWithDescriptionAndStorageType>[] = [
     cell: ({ row }) => {
       const data = row.original;
 
-      return <span>{formatCurrency(data?.product.price)} VNĐ</span>;
+      return (
+        <span className="">{formatCurrency(data?.product.price)} VNĐ</span>
+      );
     },
   },
   {

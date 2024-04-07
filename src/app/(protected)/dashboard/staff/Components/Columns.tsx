@@ -28,6 +28,14 @@ import { useSession } from "@/zustand/useSession";
 import EditProfile from "@app/(main)/profile/Components/EditProfile";
 import formatVNDate from "@/utils/functions/formatVNDate";
 
+export const columns_headers = [
+  { accessKey: "name", name: "Họ tên" },
+  { accessKey: "dob", name: "Ngày sinh" },
+  { accessKey: "phone", name: "SĐT" },
+  { accessKey: "role", name: "Vai trò" },
+  { accessKey: "Actions", name: "Hành động" },
+];
+
 export const columns: ColumnDef<StaffType>[] = [
   {
     accessorKey: "name",
@@ -48,10 +56,15 @@ export const columns: ColumnDef<StaffType>[] = [
       );
     },
     cell: ({ row }) => {
-      const date = new Date(row.getValue("dob"));
+      const data = row.original;
+      const date = new Date(data.dob);
       const formatted = formatVNDate(date);
 
-      return <div className="ml-2 text-left">{formatted}</div>;
+      return (
+        <div className="ml-2 text-left">
+          {data.dob ? formatted : "Không rõ"}
+        </div>
+      );
     },
   },
   {
@@ -116,7 +129,7 @@ export const columns: ColumnDef<StaffType>[] = [
     },
   },
   {
-    id: "actions",
+    id: "Actions",
     header: () => {
       return <div className="w-full text-center">Hành động</div>;
     },

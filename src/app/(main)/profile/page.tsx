@@ -20,11 +20,17 @@ export default async function page() {
       </div>
     );
 
-  const dobDate = new Date(session?.data?.detailData?.dob.toString() ?? "");
+  const birthday = session?.data?.detailData?.dob;
+  const dobDate = new Date(birthday?.toString() ?? "");
   const day = dobDate.getDate();
   const month = dobDate.getMonth() + 1;
   const year = dobDate.getFullYear();
   const formattedDOB = `${day}/${month}/${year}`;
+
+  const province = session.data?.detailData?.province;
+  const district = session.data?.detailData?.district;
+  const ward = session.data?.detailData?.ward;
+  const address = session.data?.detailData?.address;
 
   return (
     <div className="flex flex-col gap-8 px-10 pb-10 xl:px-6 sm:px-4">
@@ -37,7 +43,7 @@ export default async function page() {
             src={
               process.env.NEXT_PUBLIC_SUPABASE_URL +
               "/storage/v1/object/public/public_files/" +
-              session.data.detailData.image
+              (session.data?.detailData?.image ?? "")
             }
             alt="profile"
             width={150}
@@ -49,39 +55,35 @@ export default async function page() {
         <div className="w-fit rounded-md">
           <p className="text-left">
             <span className="font-semibold">Tên người dùng: </span>
-            {session.data?.detailData?.name}
+            {session.data?.detailData?.name ?? "Chưa có thông tin"}
           </p>
           <p className="text-left">
             <span className="font-semibold">Email: </span>{" "}
-            {session.data?.detailData?.email}
+            {session.data?.detailData?.email ?? "Chưa có thông tin"}
           </p>
           <p className="text-left">
             <span className="font-semibold">Ngày sinh: </span>{" "}
-            {formattedDOB ?? "Unknown"}
+            {birthday ? formattedDOB : "Chưa có thông tin"}
           </p>
           <p className="text-left">
             <span className="font-semibold">Số điện thoại: </span>{" "}
-            {session.data?.detailData?.phone ?? "Unknown"}
+            {session.data?.detailData?.phone ?? "Chưa có thông tin"}
           </p>
           <p className="max-w-[500px] text-left">
             <span className="font-semibold">Địa chỉ: </span>{" "}
-            {session.data?.detailData?.address +
-              ", " +
-              session.data?.detailData?.ward +
-              ", " +
-              session.data?.detailData?.district +
-              ", " +
-              session.data?.detailData?.province ?? "Unknown"}
+            {ward && district && address
+              ? `${ward}, ${district}, ${address}, ${province}`
+              : "Chưa có thông tin"}
           </p>
           {"role" in session.data?.detailData ? (
             <p className="text-left">
               <span className="font-semibold">Vai trò: </span>{" "}
-              {session.data?.detailData.role}
+              {session.data?.detailData.role ?? "Chưa có thông tin"}
             </p>
           ) : (
             <p className="text-left">
               <span className="font-semibold">Điểm: </span>{" "}
-              {session.data?.detailData?.level}
+              {session.data?.detailData?.level ?? "Chưa có thông tin"}
             </p>
           )}
         </div>

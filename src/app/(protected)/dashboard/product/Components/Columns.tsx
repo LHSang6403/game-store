@@ -19,14 +19,37 @@ import { useSession } from "@/zustand/useSession";
 import { useRouter } from "next/navigation";
 import formatVNDate from "@/utils/functions/formatVNDate";
 
+export const columns_headers = [
+  { accessKey: "brand", name: "Hãng sản xuất" },
+  { accessKey: "name", name: "Tên sản phẩm" },
+  { accessKey: "price", name: "Giá" },
+  { accessKey: "category", name: "Loại" },
+  { accessKey: "created_at", name: "Ngày tạo" },
+  { accessKey: "actions", name: "Hành động" },
+];
+
 export const columns: ColumnDef<ProductType>[] = [
   {
     accessorKey: "brand",
     header: "Hãng sản xuất",
+    cell: ({ row }) => {
+      const data = row.original;
+
+      return <div className="max-w-32">{formatCurrency(data.brand)}</div>;
+    },
   },
   {
     accessorKey: "name",
     header: "Tên sản phẩm",
+    cell: ({ row }) => {
+      const data = row.original;
+
+      return (
+        <div className="line-clamp-3 max-w-36 overflow-ellipsis sm:w-20">
+          {formatCurrency(data.name)}
+        </div>
+      );
+    },
   },
   {
     accessorKey: "price",

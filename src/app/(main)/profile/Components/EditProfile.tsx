@@ -80,25 +80,33 @@ export default function EditProfile({
 
   // set default address and bidthday
   useEffect(() => {
-    setDate(new Date(profile.dob));
+    if (
+      profile.dob &&
+      profile.address &&
+      profile.ward &&
+      profile.district &&
+      profile.province
+    ) {
+      setDate(new Date(profile.dob));
 
-    const provinceId =
-      province.find((province) => province.name === profile.province)
-        ?.idProvince ?? "";
+      const provinceId =
+        province.find((province) => province.name === profile.province)
+          ?.idProvince ?? "";
 
-    setProvince(profile.province, provinceId);
+      setProvince(profile.province, provinceId);
 
-    const districtId =
-      district.find((district) => district.name === profile.district)
-        ?.idDistrict ?? "";
+      const districtId =
+        district.find((district) => district.name === profile.district)
+          ?.idDistrict ?? "";
 
-    setDistrict(profile.district, districtId);
+      setDistrict(profile.district, districtId);
 
-    const communeId =
-      communes.find((commune) => commune.name === profile.ward)?.idCommune ??
-      "";
+      const communeId =
+        communes.find((commune) => commune.name === profile.ward)?.idCommune ??
+        "";
 
-    setCommune(profile.ward, communeId);
+      setCommune(profile.ward, communeId);
+    }
   }, []);
 
   // update address

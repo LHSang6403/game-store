@@ -2,7 +2,10 @@ import { readOrders } from "@app/_actions/order";
 import Link from "next/link";
 import { OrderType } from "@utils/types";
 import { DataTable } from "@components/Table/DataTable";
-import { columns } from "@app/(protected)/dashboard/order/Components/Columns";
+import {
+  columns,
+  columns_headers,
+} from "@app/(protected)/dashboard/order/Components/Columns";
 
 export default async function page() {
   const orders = await readOrders({ limit: 20, offset: 0 });
@@ -24,6 +27,7 @@ export default async function page() {
           data={orders.data as OrderType[]}
           isPaginationEnabled={true}
           searchAttribute="customer_name"
+          columns_headers={columns_headers}
         />
       )}
     </section>

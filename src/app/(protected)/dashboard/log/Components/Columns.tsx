@@ -13,6 +13,14 @@ import {
 import { LogType } from "@/utils/types";
 import formatVNDate from "@/utils/functions/formatVNDate";
 
+export const columns_headers = [
+  { accessKey: "name", name: "Tên" },
+  { accessKey: "created_at", name: "Ngày tạo" },
+  { accessKey: "actor_name", name: "Thực hiện bởi" },
+  { accessKey: "result", name: "Kết quả" },
+  { accessKey: "actions", name: "Hành động" },
+];
+
 export const columns: ColumnDef<LogType>[] = [
   {
     accessorKey: "name",

@@ -1,7 +1,10 @@
 import { readLogs } from "@app/_actions/log";
 import { LogType } from "@utils/types";
 import { DataTable } from "@components/Table/DataTable";
-import { columns } from "@app/(protected)/dashboard/log/Components/Columns";
+import {
+  columns,
+  columns_headers,
+} from "@app/(protected)/dashboard/log/Components/Columns";
 
 export default async function page() {
   const logs = await readLogs();
@@ -14,6 +17,7 @@ export default async function page() {
           columns={columns}
           data={logs.data as LogType[]}
           isPaginationEnabled={true}
+          columns_headers={columns_headers}
         />
       )}
     </section>

@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { DataTable } from "@components/Table/DataTable";
-import { columns } from "./Components/Columns";
+import { columns, columns_headers } from "./Components/Columns";
 import { readBlogs } from "@/app/_actions/blog";
 import type { BlogType } from "@utils/types/index";
 
@@ -24,6 +24,7 @@ export default async function page() {
           data={blogs?.data as BlogType[]}
           isPaginationEnabled={true}
           searchAttribute="title"
+          columns_headers={columns_headers}
         />
       )}
     </section>

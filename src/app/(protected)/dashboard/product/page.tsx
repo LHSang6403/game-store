@@ -1,8 +1,11 @@
-import { columns } from "@app/(protected)/dashboard/product/Components/Columns";
+import {
+  columns,
+  columns_headers,
+} from "@app/(protected)/dashboard/product/Components/Columns";
 import { DataTable } from "@components/Table/DataTable";
 import Link from "next/link";
 import { readProducts } from "@/app/_actions/product";
-import type { ProductType } from "@utils/types/index";
+import { ProductType } from "@utils/types/index";
 
 export default async function Page() {
   const products = await readProducts({ limit: 50, offset: 0 });
@@ -24,6 +27,7 @@ export default async function Page() {
             columns={columns}
             data={products.data as ProductType[]}
             isPaginationEnabled={true}
+            columns_headers={columns_headers}
           />
         )}
       </div>

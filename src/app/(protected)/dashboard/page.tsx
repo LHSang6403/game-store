@@ -28,11 +28,10 @@ export default function Dashboard() {
     staleTime: 1000 * 60 * 60,
   });
 
-  const totalQuantity =
-    productStorages?.data?.reduce(
-      (total, current) => total + current.quantity,
-      0
-    ) ?? 0;
+  const totalQuantity = productStorages?.data?.reduce(
+    (total, current) => total + current.quantity,
+    0
+  );
 
   return (
     <main className="flex w-full flex-col gap-4 pt-2 sm:gap-2 sm:pt-0">
@@ -41,9 +40,10 @@ export default function Dashboard() {
           <div className="flex w-full flex-row gap-4 sm:flex-col sm:gap-2">
             <DataCard
               title="Tổng"
-              data={totalQuantity?.toString() + " sản phẩm"}
+              data={(totalQuantity?.toString() ?? "0") + " sản phẩm"}
               previousData="Tổng sản phẩm hiện có"
               icon={<PackageSearch className="text-muted-foreground h-4 w-4" />}
+              isLoading={isProductStoragesLoading}
             />
             <DataCard
               title="Tồn kho"

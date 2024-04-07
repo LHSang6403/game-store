@@ -10,6 +10,15 @@ export const columns: ColumnDef<ProductStorageType>[] = [
   {
     accessorKey: "product_name",
     header: "Sản phẩm",
+    cell: ({ row }) => {
+      const data = row.original;
+
+      return (
+        <div className="line-clamp-2 w-36 overflow-ellipsis text-left">
+          {data.product_name}
+        </div>
+      );
+    },
   },
   {
     accessorKey: "quantity",
@@ -28,7 +37,7 @@ export const columns: ColumnDef<ProductStorageType>[] = [
     cell: ({ row }) => {
       const data = row.original;
 
-      return <div className="mx-8 w-fit">{data.quantity ?? 0}</div>;
+      return <div className="w-24 text-center">{data.quantity ?? 0}</div>;
     },
   },
   {

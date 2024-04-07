@@ -30,6 +30,16 @@ import { ApiErrorHandlerClient } from "@/utils/errorHandler/apiErrorHandler";
 import { ShipmentState } from "@utils/types/index";
 import { useSession } from "@/zustand/useSession";
 
+export const columns_headers = [
+  { accessKey: "products", name: "Sản phẩm" },
+  { accessKey: "price", name: "Giá tiền" },
+  { accessKey: "state", name: "Tình trạng" },
+  { accessKey: "ship", name: "Giao hàng" },
+  { accessKey: "created_at", name: "Ngày tạo" },
+  { accessKey: "customer_name", name: "Khách hàng" },
+  { accessKey: "actions", name: "Hành động" },
+];
+
 export const columns: ColumnDef<OrderType>[] = [
   {
     accessorKey: "products",
@@ -38,7 +48,7 @@ export const columns: ColumnDef<OrderType>[] = [
       const data = row.original;
 
       return (
-        <div className="line-clamp-5 overflow-ellipsis sm:w-36">
+        <div className="line-clamp-5 w-48 overflow-ellipsis sm:w-36">
           {data.products.map((prod, index) => (
             <span key={index}>
               {prod.product.name}
@@ -147,6 +157,11 @@ export const columns: ColumnDef<OrderType>[] = [
   {
     accessorKey: "customer_name",
     header: "Khách hàng",
+    cell: ({ row }) => {
+      const data = row.original;
+
+      return <div className="w-24 text-left">{data.customer_name}</div>;
+    },
   },
   {
     id: "actions",
