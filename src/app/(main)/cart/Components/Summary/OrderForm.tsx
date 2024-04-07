@@ -33,7 +33,7 @@ const FormSchema = z.object({
     .string()
     .min(2, { message: "Vui lòng chọn địa chỉ của bạn để giao hàng." }),
   district: z.string().min(2, { message: "Vui lòng chọn địa chỉ của bạn." }),
-  province: z.string().min(5, { message: "Vui lòng chọn địa chỉ của bạn." }),
+  province: z.string().min(2, { message: "Vui lòng chọn địa chỉ của bạn." }),
   shipment: z.string().min(2, { message: "Vui lòng chọn tên dịch vụ." }),
   note: z.string().nullable(),
 });
@@ -127,7 +127,13 @@ export default function OrderForm() {
             order: order,
           });
 
-          setPrices(calFees?.data?.service_fee, calFees?.data?.insurance_fee);
+          if (!calFees?.data?.service_fee)
+            throw new Error("Tính toán thất bại, vui lòng thử lại.");
+
+          setPrices(
+            calFees?.data?.service_fee,
+            calFees?.data?.insurance_fee ?? 0
+          );
           setNewID();
 
           setIsConfirmDialogOpen(true);

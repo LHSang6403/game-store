@@ -22,8 +22,8 @@ export default function SelectShipmentForm({
       </SelectTrigger>
       <SelectContent>
         <SelectGroup>
-          <SelectLabel>Services</SelectLabel>
-          <SelectItem value="GHTK">GH Tiet Kiem</SelectItem>
+          <SelectLabel>Dịch vụ</SelectLabel>
+          <SelectItem value="GHTK">GH Tiết kiệm</SelectItem>
           <SelectItem value="GHN">GH Nhanh</SelectItem>
         </SelectGroup>
       </SelectContent>

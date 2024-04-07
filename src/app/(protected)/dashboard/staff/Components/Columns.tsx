@@ -106,7 +106,7 @@ export const columns: ColumnDef<StaffType>[] = [
 
       return (
         <Select
-          defaultValue={data.role ?? "Unknown"}
+          defaultValue={data.role ?? "Không rõ"}
           onValueChange={(value: StaffRole) => {
             handleUpdateRole(value);
           }}

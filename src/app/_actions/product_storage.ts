@@ -99,9 +99,6 @@ export async function updateStorageQuantityByProductId({
       .eq("storage_id", storage_id)
       .single();
 
-    if (readResult.error && !readResult.data)
-      throw new Error("Không tìm thấy sản phẩm trong kho.");
-
     const currentQuantity = readResult?.data?.quantity as number;
     const newQuantity = currentQuantity + updatedQuantity;
 

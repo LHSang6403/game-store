@@ -2,6 +2,12 @@ import type { OrderType } from "@/utils/types";
 import type { ShipmentNameType } from "@/utils/types";
 import { calGHNFees } from "@/app/_actions/GHNShipment";
 import { calGHTKFees } from "@/app/_actions/GHTKShipment";
+import {
+  findGHNDistrictIDByNameExtension,
+  findGHNWardIDByNameExtension,
+} from "./processGHN";
+
+import districts from "@/static-data/GHN-api/districts.json";
 
 export async function calShipmentFees({
   formData,
@@ -12,16 +18,39 @@ export async function calShipmentFees({
 }) {
   switch (formData.shipment as ShipmentNameType) {
     case "GHN":
+      const to_district_id = findGHNDistrictIDByNameExtension(
+        districts,
+        formData?.district
+      );
+
+      const to_ward_code = await findGHNWardIDByNameExtension(
+        to_district_id,
+        formData?.ward
+      );
+
+      const from_district_id = findGHNDistrictIDByNameExtension(
+        districts,
+        order.pick_district
+      );
+
+      const from_ward_code = await findGHNWardIDByNameExtension(
+        from_district_id,
+        order.pick_ward
+      );
+
+      if (!to_district_id || !to_ward_code)
+        throw new Error("Không hỗ trợ địa chỉ giao hàng.");
+
       const shipFeesRequestGHN = {
-        from_district_id: 1444,
-        from_ward_code: "20301",
+        from_district_id: from_district_id,
+        from_ward_code: from_ward_code.toString(),
         service_id: 53320,
         service_type_id: null,
-        to_district_id: 1443,
-        to_ward_code: "20211",
+        to_ward_code: to_ward_code.toString(),
+        to_district_id: to_district_id,
         height: 50,
         length: 20,
-        weight: 300,
+        weight: 400 * order.products.length,
         width: 20,
         insurance_value: 0,
         cod_failed_amount: 2000,
@@ -41,17 +70,17 @@ export async function calShipmentFees({
 
     case "GHTK":
       const shipFeesRequestGHTK = {
-        pick_province: "TP. Hồ Chí Minh",
-        pick_district: "Quận 3",
-        pick_ward: "Phường 1",
-        pick_address: "590 CMT8 P.11",
+        pick_province: order.pick_province,
+        pick_district: order.pick_district,
+        pick_ward: order.pick_ward,
+        pick_address: order.pick_address,
         province: formData.province,
         district: formData.district,
         ward: formData.ward,
         address: formData.address,
-        weight: 300,
-        value: order?.price || 0,
-        deliver_option: "xteam",
+        weight: 0.4 * order.products.length,
+        value: order?.price ?? 0,
+        deliver_option: "none",
       };
 
       const responseGHTK = await calGHTKFees(shipFeesRequestGHTK);

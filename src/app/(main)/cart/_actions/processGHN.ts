@@ -25,7 +25,7 @@ export interface GHNDataType {
   items: { name: string; quantity: number; weight: number }[];
 }
 
-function findGHNDistrictIDByNameExtension(jsonData: any, name: string) {
+export function findGHNDistrictIDByNameExtension(jsonData: any, name: string) {
   for (const item of jsonData) {
     if (item && "NameExtension" in item) {
       const district = item.NameExtension.find((extension) => {
@@ -39,7 +39,7 @@ function findGHNDistrictIDByNameExtension(jsonData: any, name: string) {
   return null;
 }
 
-async function findGHNWardIDByNameExtension(
+export async function findGHNWardIDByNameExtension(
   to_district_id: number,
   name: string
 ) {
@@ -108,7 +108,7 @@ export async function processOrderGHN({
       to_address: formData.address,
       to_ward_code: to_ward_code.toString(),
       to_district_id: to_district_id,
-      weight: 400,
+      weight: 400 * order.products.length,
       service_id: 0,
       service_type_id: 2,
       payment_type_id: 1,
