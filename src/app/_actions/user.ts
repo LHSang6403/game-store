@@ -135,56 +135,47 @@ export async function updateCustomerToStaff({
       .eq("customer_id", customer.id);
 
     const hasOrders = orders?.data && orders?.data.length > 0;
+    if (hasOrders) throw new Error("Khách hàng đang có đơn.");
 
-    if (hasOrders) {
-      return {
-        status: 400,
-        statusText: "Khách hàng đang có đơn.",
-        data: null,
-        error: "Khách hàng đang có đơn.",
-      };
-    } else {
-      const customerResult = await supabase
-        .from("customer")
-        .select("*")
-        .eq("id", customer.id)
-        .single();
+    const customerResult = await supabase
+      .from("customer")
+      .select("*")
+      .eq("id", customer.id)
+      .single();
 
-      const customerData = customerResult.data;
+    const customerData = customerResult.data;
+    if (!customerData) throw new Error("Lỗi phiên đăng nhập.");
 
-      if (customerData) {
-        await supabaseAdmin.auth.admin.updateUserById(customer.id, {
-          user_metadata: { role: role },
-        });
+    await supabaseAdmin.auth.admin.updateUserById(customer.id, {
+      user_metadata: { role: role },
+    });
 
-        await supabase.from("customer").delete().eq("id", customer.id);
+    await supabase.from("customer").delete().eq("id", customer.id);
 
-        const result = await supabase
-          .from("staff")
-          .insert(customerToStaff(customerData, role));
+    const result = await supabase
+      .from("staff")
+      .insert(customerToStaff(customerData, role));
 
-        revalidatePath("/dashboard/customer");
-        revalidatePath("/dashboard/staff");
+    revalidatePath("/dashboard/customer");
+    revalidatePath("/dashboard/staff");
 
-        await saveToLog({
-          logName: "Cập nhật khách hàng " + customer.name + " thành nhân viên",
-          logType: "Cập nhật",
-          logResult: !result.error ? "Thành công" : "Thất bại",
-          logActor: actor,
-        });
+    await saveToLog({
+      logName: "Cập nhật khách hàng " + customer.name + " thành nhân viên",
+      logType: "Cập nhật",
+      logResult: !result.error ? "Thành công" : "Thất bại",
+      logActor: actor,
+    });
 
-        return {
-          status: result.status,
-          statusText: result.statusText,
-          data: result.data,
-          error: result.error,
-        };
-      } else throw new Error("Lỗi phiên đăng nhập.");
-    }
+    return {
+      status: result.status,
+      statusText: result.statusText,
+      data: result.data,
+      error: result.error,
+    };
   } catch (error: any) {
     return {
       status: 500,
-      statusText: "Lỗi máy chủ",
+      statusText: error.message,
       data: null,
       error: error.message,
     };
@@ -212,7 +203,7 @@ export async function updateStaffToCustomer({
 
     if (staffData) {
       await supabaseAdmin.auth.admin.updateUserById(staff.id, {
-        user_metadata: { role: "Customer" },
+        user_metadata: { role: "Khách hàng" },
       });
 
       await supabase.from("staff").delete().eq("id", staff.id);
@@ -343,7 +334,7 @@ export async function readCustomers({
       .from("customer")
       .select("*")
       .range(offset, limit)
-      .neq("name", "Default Staff Create");
+      .neq("name", "Khách hàng qua điện thoại");
 
     return {
       status: result.status,

@@ -34,7 +34,7 @@ export async function signUpWithEmailAndPassword({
         data: {
           name: name,
           phone: phone,
-          role: "Customer", // by default
+          role: "Khách hàng", // by default
         },
       },
     });

@@ -1,21 +1,13 @@
-"use client";
-
-import { useSession } from "@/zustand/useSession";
-import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { readUserSession } from "@app/_actions/user";
+import { redirect } from "next/navigation";
 
 export default async function ProtectedLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const router = useRouter();
-  const session = useSession();
+  const session = await readUserSession();
+  if (!session.data?.data) return redirect("/auth");
 
-  useEffect(() => {
-    if (!session.session || !("role" in session.session)) {
-      router.push("/auth");
-    }
-  }, []);
   return <div className="min-h-screen w-full">{children}</div>;
 }

@@ -127,7 +127,6 @@ export default function SignIn() {
           />
           <div className="flex w-full flex-row gap-3">
             <Button
-              type="submit"
               className="mt-1 w-full bg-background text-foreground hover:text-accent"
             >
               Quên mật khẩu
