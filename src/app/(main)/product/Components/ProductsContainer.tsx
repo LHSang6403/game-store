@@ -64,7 +64,7 @@ export default function ProductsContainer({
           variant="outline"
           className=""
         >
-          Xóa bộ lọc{" "}
+          Xóa bộ lọc
         </Button>
       )}
       <PaginationButtons
