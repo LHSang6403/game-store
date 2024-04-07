@@ -33,17 +33,19 @@ export default function FilterArea() {
   const { brands, categories, endPrice, setPrice, setBrands, setCategories } =
     useProductFilter();
 
-  const { data: brandsData } = useQuery({
+  const { data: brandsData, isLoading: isBrandsDataLoading } = useQuery({
     queryKey: ["brands"],
     queryFn: async () => await readProductBrands(),
     staleTime: 1000 * 60 * 60,
   });
 
-  const { data: categoriesData } = useQuery({
-    queryKey: ["categories"],
-    queryFn: async () => await readAllCategories(),
-    staleTime: 1000 * 60 * 60,
-  });
+  const { data: categoriesData, isLoading: isCategoriesDataLoading } = useQuery(
+    {
+      queryKey: ["categories"],
+      queryFn: async () => await readAllCategories(),
+      staleTime: 1000 * 60 * 60,
+    }
+  );
 
   return (
     <Sheet>
@@ -69,6 +71,7 @@ export default function FilterArea() {
               Nhà SX
             </Label>
             <Select
+              disabled={isBrandsDataLoading}
               onValueChange={(value) => {
                 setBrands([value]);
               }}
@@ -93,6 +96,7 @@ export default function FilterArea() {
               Thể loại
             </Label>
             <Select
+              disabled={isCategoriesDataLoading}
               onValueChange={(value) => {
                 setCategories([value]);
               }}

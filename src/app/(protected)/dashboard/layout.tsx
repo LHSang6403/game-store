@@ -1,27 +1,14 @@
-"use client";
 
 import DashboardSidebar from "@app/(protected)/dashboard/Components/DashboardSidebar";
 import Footer from "@/components/Layout/Footer/Footer";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import DashboardHeader from "@/components/Layout/Header/DashboardHeader";
-import { useSession } from "@/zustand/useSession";
-import { useRouter } from "next/navigation";
-import { useEffect } from "react";
 
 export default function DashboardLayout({
   children,
 }: {
   children: React.ReactNode;
 }): ReturnType<React.FC> {
-  useEffect(() => {
-    const router = useRouter();
-    const session = useSession();
-
-    if (!session.session) {
-      router.push("/auth");
-    }
-  }, []);
-
   return (
     <div className="flex w-full flex-col pt-16 sm:pt-0">
       <div className="">

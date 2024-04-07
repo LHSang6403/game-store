@@ -1,10 +1,7 @@
 "use client";
 
-import { StaffType } from "@/utils/types";
 import { useSession } from "@/zustand/useSession";
 import { useRouter } from "next/navigation";
-import { usePathname } from "next/navigation";
-import { dashboardSidebarList } from "@app/(protected)/dashboard/Components/DashboardSidebar";
 import { useEffect } from "react";
 
 export default async function ProtectedLayout({
@@ -12,32 +9,13 @@ export default async function ProtectedLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const router = useRouter();
+  const session = useSession();
+
   useEffect(() => {
-    const pathname = usePathname();
-    const router = useRouter();
-    const session = useSession();
-    const staffSession = session.session as StaffType;
-
-    const isAuthorized = () => {
-      const currentPath = dashboardSidebarList.find(
-        (dashboardSidebarItem) => dashboardSidebarItem.link === pathname
-      );
-      const currentPathPermission = currentPath?.permission;
-
-      if (
-        currentPathPermission &&
-        currentPathPermission !== staffSession.role
-      ) {
-        return false;
-      }
-
-      return true;
-    };
-
-    if (!isAuthorized()) {
-      router.push("/dashboard");
+    if (!session.session || !("role" in session.session)) {
+      router.push("/auth");
     }
   }, []);
-
   return <div className="min-h-screen w-full">{children}</div>;
 }

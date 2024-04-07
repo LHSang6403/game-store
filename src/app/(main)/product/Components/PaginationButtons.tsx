@@ -35,7 +35,9 @@ export default function PaginationButtons({
         {[...Array(totalPages)].map((_, index) => (
           <PaginationItem key={index}>
             <PaginationLink
-              className={`h-9 ${index + 1 === currentPage ? "font-bold" : ""}`}
+              className={`h-9 ${
+                index + 1 === currentPage ? "border font-bold" : ""
+              }`}
               href="#"
               onClick={() => handlePageChange(index + 1)}
             >
