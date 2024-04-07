@@ -134,14 +134,14 @@ export const columns: ColumnDef<CustomerType>[] = [
 
       function updateCustomerToStaffHandler(
         customer: CustomerType,
-        eachRole: StaffRole
+        staffRole: StaffRole
       ) {
         toast.promise(
           async () => {
             if (session.session) {
               const updateResponse = await updateCustomerToStaff({
                 customer: customer,
-                role: eachRole,
+                role: staffRole,
                 actor: {
                   actorId: session.session.id,
                   actorName: session.session.name,
