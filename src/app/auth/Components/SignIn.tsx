@@ -16,7 +16,6 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { signInWithEmailAndPassword } from "@auth/_actions/signIn";
-import { ApiErrorHandlerClient } from "@/utils/errorHandler/apiErrorHandler";
 import { readUserSession } from "@/app/_actions/user";
 import { useSession } from "@/zustand/useSession";
 import GoogleOAuth from "@/app/OAuth/GoogleOAuth";
@@ -53,11 +52,7 @@ export default function SignIn() {
             toast.error(result.error.message);
           }
         } else {
-          const sessionResponse = await readUserSession();
-          const session = ApiErrorHandlerClient<any>({
-            response: sessionResponse,
-            isShowToast: false,
-          });
+          const session = await readUserSession();
 
           if (
             session.data &&
@@ -114,7 +109,7 @@ export default function SignIn() {
                 <FormLabel>Mật khẩu</FormLabel>
                 <FormControl>
                   <Input
-                    placeholder="mật khẩu"
+                    placeholder="Mật khẩu"
                     {...field}
                     type="password"
                     onChange={field.onChange}
@@ -127,6 +122,10 @@ export default function SignIn() {
           />
           <div className="flex w-full flex-row gap-3">
             <Button
+              type="button"
+              onClick={() => {
+                router.push("/auth/forget-password");
+              }}
               className="mt-1 w-full bg-background text-foreground hover:text-accent"
             >
               Quên mật khẩu
