@@ -45,12 +45,11 @@ export default function ConfirmDialog({
 
         if (response.error) {
           toast.error(response.error);
+        } else {
+          onOpenChange(false);
+          toast.success("Đã tạo đơn hàng thành công.");
         }
       }
-    },
-    onSuccess: () => {
-      onOpenChange(false);
-      toast.success("Đã tạo đơn hàng thành công.");
     },
   });
 

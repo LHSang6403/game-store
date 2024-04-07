@@ -140,7 +140,7 @@ export async function updateBlog({
       .eq("is_deleted", false);
 
     await saveToLog({
-      logName: "Update blog " + updatedBlog.title,
+      logName: "Cập nhật bài viết " + updatedBlog.title,
       logType: "Cập nhật",
       logResult: !result.error ? "Thành công" : "Thất bại",
       logActor: actor,

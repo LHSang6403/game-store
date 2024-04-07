@@ -1,11 +1,11 @@
 "use client";
 
-import formatReadableTime from "@utils/functions/formatTime";
 import formatCurrency from "@/utils/functions/formatCurrency";
 import { Button } from "@/components/ui/button";
 import { useOrder } from "@/zustand/useOrder";
 import { DataTable } from "@components/Table/DataTable";
 import { columns } from "./Columns";
+import formatVNDate from "@/utils/functions/formatVNDate";
 
 export default function OrderSummary() {
   const { order, removeAll } = useOrder();
@@ -28,7 +28,7 @@ export default function OrderSummary() {
           </div>
           <p>
             <span className="font-semibold">Vào lúc:</span>{" "}
-            {formatReadableTime(order.created_at)}
+            {formatVNDate(new Date(order.created_at))}
           </p>
           <p>
             <span className="font-semibold">Tình trạng:</span> {order.state}

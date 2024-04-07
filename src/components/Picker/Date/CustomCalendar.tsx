@@ -11,6 +11,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { vi } from "date-fns/locale";
 
 export type CalendarProps = React.ComponentProps<typeof DayPicker>;
 
@@ -22,6 +23,7 @@ function CustomCalendar({
 }: CalendarProps) {
   return (
     <DayPicker
+      locale={vi}
       showOutsideDays={showOutsideDays}
       className={cn("p-2", className)}
       classNames={{

@@ -88,22 +88,16 @@ export async function readProductsWithDetail() {
       .from("product")
       .select("*")
       .eq("is_deleted", false);
+
     const descriptionResult = await supabase
       .from("product_description")
       .select("*");
+
     const storageResult = await supabase.from("storage").select("*");
+
     const productStorageResult = await supabase
       .from("product_storage")
       .select("*");
-
-    if (
-      productResult.error ||
-      descriptionResult.error ||
-      storageResult.error ||
-      productStorageResult.error
-    ) {
-      throw new Error("Lỗi khi truy vấn dữ liệu.");
-    }
 
     const products: ProductType[] = productResult.data || [];
     const descriptions: ProductDescriptionType[] = descriptionResult.data || [];
@@ -172,19 +166,11 @@ export async function readProductDetailById(id: string) {
       .eq("is_deleted", false)
       .single();
 
-    if (productResult.error || !productResult.data) {
-      throw new Error("Lỗi truy vấn sản phẩm.");
-    }
-
     const descriptionResult = await supabase
       .from("product_description")
       .select("*")
       .eq("id", productResult.data.description_id)
       .single();
-
-    if (descriptionResult.error || !descriptionResult.data) {
-      throw new Error("Lỗi truy vấn mô tả sản phẩm.");
-    }
 
     let resultData: ProductWithDescriptionAndStorageType = {
       product: productResult.data as ProductType,
@@ -244,11 +230,7 @@ export async function updateSoldQuantityByProductId(
       .eq("id", id)
       .single();
 
-    if (result.error) {
-      throw new Error("Lỗi truy vấn mô tả sản phẩm.");
-    }
-
-    const currentSoldQuantity = result.data.sold_quantity as number;
+    const currentSoldQuantity = result?.data?.sold_quantity as number;
     const newSoldQuantity = currentSoldQuantity + updatingQuantity;
 
     const updateResult = await supabase
@@ -306,12 +288,8 @@ export async function readAllCategories() {
       .select("category")
       .eq("is_deleted", false);
 
-    if (result.error) {
-      throw new Error("Lỗi truy vấn mô tả sản phẩm.");
-    }
-
     const uniqueCategories = Array.from(
-      new Set(result.data.map((item: { category: string }) => item.category))
+      new Set(result?.data?.map((item: { category: string }) => item.category))
     );
 
     return {

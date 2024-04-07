@@ -12,6 +12,7 @@ import { Button } from "@/components/ui/button";
 import { updateProductStoragesQuantity } from "@app/_actions/product_storage";
 import { toast } from "sonner";
 import StorageItem from "./StorageItem";
+import { useSession } from "@/zustand/useSession";
 
 export default function SelectionLists({
   storages,
@@ -20,6 +21,8 @@ export default function SelectionLists({
   storages: StorageType[];
   productStorages: ProductStorageType[];
 }) {
+  const { session } = useSession();
+
   const [selectedStorage, setSelectedStorage] =
     useState<string>("Kho Hồ Chí Minh");
 
@@ -29,10 +32,17 @@ export default function SelectionLists({
 
   async function handleSubmit() {
     toast.promise(
-      async () =>
-        await updateProductStoragesQuantity({
-          addProductStorageList: insertedProductStorageData,
-        }),
+      async () => {
+        if (session) {
+          await updateProductStoragesQuantity({
+            addProductStorageList: insertedProductStorageData,
+            actor: {
+              actorId: session.id,
+              actorName: session.name,
+            },
+          });
+        }
+      },
       {
         loading: "Đang cập nhật...",
         success: () => {
@@ -82,7 +92,9 @@ export default function SelectionLists({
                           if (value > 0) {
                             newInsertedProductStorageData.push({
                               product_storage_id: product_storage.id,
+                              storage_name: product_storage.storage_name,
                               inserted_quantity: value,
+                              product_name: product_storage.product_name,
                             });
                           }
 

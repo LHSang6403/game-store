@@ -15,7 +15,6 @@ import {
 import { Button } from "@components/ui/button";
 import { signUpWithEmailAndPassword } from "@auth/_actions/signUp";
 import FormAddressPicker from "@components/Picker/Address/FormAddressPicker";
-import { format } from "date-fns";
 import { Calendar as CalendarIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { CustomCalendar } from "@components/Picker/Date/CustomCalendar";
@@ -31,6 +30,7 @@ import useFiles from "@/zustand/useFiles";
 import createSupabaseBrowserClient from "@/supabase-query/client";
 import { updateUserImage } from "@app/_actions/user";
 import { Input } from "@/components/ui/input";
+import formatVNDate from "@/utils/functions/formatVNDate";
 
 const FormSchema = z
   .object({
@@ -221,7 +221,7 @@ export default function SignUp() {
               >
                 <CalendarIcon className="mr-2 h-4 w-4" />
                 {date ? (
-                  format(date, "PPP")
+                  formatVNDate(date)
                 ) : (
                   <span className="text-muted-foreground">Chọn ngày sinh</span>
                 )}

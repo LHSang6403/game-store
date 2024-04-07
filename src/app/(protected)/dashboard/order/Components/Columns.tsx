@@ -82,7 +82,7 @@ export const columns: ColumnDef<OrderType>[] = [
           async () => {
             if (session.session) {
               const updateResponse = await updateStateOrder({
-                id: data.id,
+                order: data,
                 state: newState,
                 actor: {
                   actorId: session.session?.id,

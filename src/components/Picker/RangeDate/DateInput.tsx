@@ -207,7 +207,7 @@ const DateInput: React.FC<DateInputProps> = ({ value, onChange }) => {
         ref={monthRef}
         max={12}
         maxLength={2}
-        value={date.month.toString()}
+        value={date.day.toString()}
         onChange={handleInputChange("month")}
         onKeyDown={handleKeyDown("month")}
         onFocus={(e) => {
@@ -225,7 +225,7 @@ const DateInput: React.FC<DateInputProps> = ({ value, onChange }) => {
         ref={dayRef}
         max={31}
         maxLength={2}
-        value={date.day.toString()}
+        value={date.month.toString()}
         onChange={handleInputChange("day")}
         onKeyDown={handleKeyDown("day")}
         onFocus={(e) => {

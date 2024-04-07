@@ -116,7 +116,9 @@ export interface ProductStorageType {
 
 export interface InsertedProductStorageType {
   product_storage_id: string;
+  storage_name: string;
   inserted_quantity: number;
+  product_name: string;
 }
 
 export interface StorageType {

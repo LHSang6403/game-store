@@ -5,6 +5,7 @@ import { updateStateOrder } from "@app/_actions/order";
 import { GHTKDataType } from "@/app/(main)/cart/_actions/processGHTK";
 import { revalidatePath } from "next/cache";
 import { LogActorType } from "@app/_actions/log";
+import { OrderType } from "@/utils/types";
 
 export async function requestGHTKOrder(data: GHTKDataType) {
   try {
@@ -124,11 +125,11 @@ export async function calGHTKFees(params: any) {
 }
 
 export async function cancelGHTKOrder({
-  id,
+  order,
   label,
   actor,
 }: {
-  id: string;
+  order: OrderType;
   label: string;
   actor: LogActorType;
 }) {
@@ -145,20 +146,22 @@ export async function cancelGHTKOrder({
 
     if (response.data.success) {
       await updateStateOrder({
-        id: id,
+        order: order,
         state: "Đã hủy",
         actor: actor,
       });
+
+      revalidatePath("/cart");
+
+      return {
+        status: response.data.success ? 200 : 500,
+        statusText: response.data.message,
+        data: response.data.message,
+        error: null,
+      };
     }
 
-    revalidatePath("/cart");
-
-    return {
-      status: response.data.success ? 200 : 500,
-      statusText: response.data.message,
-      data: response.data.message,
-      error: null,
-    };
+    throw new Error("Hủy đơn không thành công");
   } catch (error: any) {
     return {
       status: 500,

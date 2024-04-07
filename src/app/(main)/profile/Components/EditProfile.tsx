@@ -27,7 +27,6 @@ import { ApiErrorHandlerClient } from "@/utils/errorHandler/apiErrorHandler";
 import FormAddressPicker from "@components/Picker/Address/FormAddressPicker";
 import { CustomCalendar } from "@components/Picker/Date/CustomCalendar";
 import { Calendar as CalendarIcon } from "lucide-react";
-import { format } from "date-fns";
 import { cn } from "@/lib/utils";
 import {
   Popover,
@@ -37,6 +36,7 @@ import {
 import { useState, useEffect } from "react";
 import useAddressSelects from "@/zustand/useAddressSelects";
 import { useSession } from "@/zustand/useSession";
+import formatVNDate from "@/utils/functions/formatVNDate";
 
 import province from "@/static-data/provinces.json";
 import district from "@/static-data/districts.json";
@@ -224,7 +224,7 @@ export default function EditProfile({
                   >
                     <CalendarIcon className="mr-2 h-4 w-4" />
                     {date ? (
-                      format(date, "PPP")
+                      formatVNDate(date)
                     ) : (
                       <span className="text-muted-foreground">Chọn ngày</span>
                     )}

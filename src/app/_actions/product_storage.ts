@@ -6,7 +6,7 @@ import type {
   ProductStorageType,
 } from "@utils/types/index";
 import { revalidatePath } from "next/cache";
-import { saveToLog } from "./log";
+import { saveToLog, LogActorType } from "@app/_actions/log";
 
 export async function createProductStorage({
   productStorage,
@@ -129,12 +129,13 @@ export async function updateStorageQuantityByProductId({
 
 export async function updateProductStoragesQuantity({
   addProductStorageList,
+  actor,
 }: {
   addProductStorageList: InsertedProductStorageType[];
+  actor: LogActorType;
 }) {
   try {
     const supabase = await createSupabaseServerClient();
-    let result;
 
     for (const addProductStorage of addProductStorageList) {
       const sproductStorage_id = addProductStorage.product_storage_id;
@@ -154,18 +155,26 @@ export async function updateProductStoragesQuantity({
         .update({ quantity: updatedQuantity })
         .eq("id", sproductStorage_id);
 
-      if (updateResult.error)
-        throw new Error("Đã có lỗi xảy ra khi nhập thêm sản phẩm vào kho.");
-
-      result = updateResult;
+      await saveToLog({
+        logName:
+          "Nhập thêm " +
+          addProductStorage.inserted_quantity +
+          " " +
+          addProductStorage.product_name +
+          " vào kho " +
+          addProductStorage.storage_name,
+        logType: "Cập nhật",
+        logResult: !updateResult.error ? "Thành công" : "Thất bại",
+        logActor: actor,
+      });
     }
 
     revalidatePath("/dashboard/insert");
 
     return {
-      status: result.status,
-      statusText: result.statusText,
-      data: result.data,
+      status: 200,
+      statusText: "Cập nhật thành công",
+      data: addProductStorageList,
       error: null,
     };
   } catch (error: any) {

@@ -24,8 +24,6 @@ export async function readStorages() {
 
     const result = await supabase.from("storage").select("*");
 
-    if (result.error || !result.data) throw new Error("Lỗi truy vấn kho.");
-
     return {
       status: result.status,
       statusText: result.statusText,
@@ -52,8 +50,6 @@ export async function readAllStoragesAndProductStorages() {
   product_storage (id, product_id, storage_id, product_name, storage_name, quantity)
   `
     );
-
-    if (result.error || !result.data) throw new Error("Lỗi truy vấn kho.");
 
     return {
       status: result.status,

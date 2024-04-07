@@ -5,6 +5,7 @@ import { GHNDataType } from "@/app/(main)/cart/_actions/processGHN";
 import { revalidatePath } from "next/cache";
 import { updateStateOrder } from "@app/_actions/order";
 import { LogActorType } from "@app/_actions/log";
+import { OrderType } from "@/utils/types";
 
 const headers = {
   "Content-Type": "application/json",
@@ -65,11 +66,11 @@ export async function calGHNFees(params: any) {
 }
 
 export async function cancelGHNOrder({
-  id,
+  order,
   order_codes,
   actor,
 }: {
-  id: string;
+  order: OrderType;
   order_codes: string[];
   actor: LogActorType;
 }) {
@@ -81,15 +82,11 @@ export async function cancelGHNOrder({
     );
 
     if (response.data.code === 200) {
-      const updateResult = await updateStateOrder({
-        id: id,
+      await updateStateOrder({
+        order: order,
         state: "Đã hủy",
         actor: actor,
       });
-
-      if (updateResult?.error) {
-        throw new Error(updateResult.error);
-      }
 
       revalidatePath("/cart");
 
@@ -101,7 +98,7 @@ export async function cancelGHNOrder({
       };
     }
 
-    throw new Error(response.data.message);
+    throw new Error("Hủy đơn không thành công");
   } catch (error: any) {
     return {
       status: 500,

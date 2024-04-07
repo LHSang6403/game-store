@@ -87,7 +87,7 @@ export const columns: ColumnDef<OrderType>[] = [
               case "GHN":
                 if (session.session) {
                   const GHNResponse = await cancelGHNOrder({
-                    id: data.id,
+                    order: data,
                     order_codes: [data.shipment_label_code!],
                     actor: {
                       actorId: session.session.id,
@@ -105,7 +105,7 @@ export const columns: ColumnDef<OrderType>[] = [
               case "GHTK":
                 if (session.session) {
                   const GHTKResponse = await cancelGHTKOrder({
-                    id: data.id,
+                    order: data,
                     label: data.shipment_label_code!,
                     actor: {
                       actorId: session.session.id,

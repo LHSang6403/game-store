@@ -19,7 +19,6 @@ export async function createOrder({
     const supabase = await createSupabaseServerClient();
 
     const result = await supabase.from("order").insert(order);
-    if (result.error) throw new Error("Lỗi khi tạo order.");
 
     const prodIds = order.products.map((prod) => prod.product.id);
     for (const prodId of prodIds) {
@@ -32,7 +31,7 @@ export async function createOrder({
     }
 
     await saveToLog({
-      logName: "Tạo đơn " + order.pick_address,
+      logName: "Tạo đơn " + order.address,
       logType: "Tạo mới",
       logResult: !result.error ? "Thành công" : "Thất bại",
       logActor: actor,
@@ -41,18 +40,28 @@ export async function createOrder({
     revalidatePath("/cart");
     revalidatePath("/dashboard/order");
 
-    return result;
+    return {
+      status: result.status,
+      statusText: result.statusText,
+      data: result.data,
+      error: null,
+    };
   } catch (error: any) {
-    return { error: error.message };
+    return {
+      status: 500,
+      statusText: "Lỗi máy chủ",
+      data: null,
+      error: error.message,
+    };
   }
 }
 
 export async function updateStateOrder({
-  id,
+  order,
   state,
   actor,
 }: {
-  id: string;
+  order: OrderType;
   state: ShipmentState;
   actor: LogActorType;
 }) {
@@ -62,12 +71,12 @@ export async function updateStateOrder({
     const result = await supabase
       .from("order")
       .update({ state: state })
-      .eq("id", id);
+      .eq("id", order.id);
 
-    if (!result.error) revalidatePath("/dashboard/order");
+    revalidatePath("/dashboard/order");
 
     await saveToLog({
-      logName: "Cập nhật đơn " + id + " thành " + state,
+      logName: "Cập nhật đơn " + order.address + " thành " + state,
       logType: "Cập nhật",
       logResult: !result.error ? "Thành công" : "Thất bại",
       logActor: actor,

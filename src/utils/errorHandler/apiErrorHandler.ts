@@ -6,9 +6,9 @@ export function ApiErrorHandlerClient<T>({
 }: {
   response: {
     status?: number | undefined;
-    error?: any | undefined;
     statusText?: string | undefined;
     data?: T | undefined | null;
+    error?: any | undefined;
   };
   isShowToast?: boolean;
 }) {

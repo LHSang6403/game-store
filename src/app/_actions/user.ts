@@ -98,8 +98,7 @@ export async function updateStaffRole({
       logActor: actor,
     });
 
-    if (!updateResult.error && !updateAdminResult)
-      revalidatePath("/dashboard/staff");
+    revalidatePath("/dashboard/staff");
 
     return {
       status: updateResult.status,
@@ -270,13 +269,11 @@ export async function updateUserProfile({
       .update(updatedUser)
       .eq("id", updatedUser.id);
 
-    if (!result.error) {
-      revalidatePath("/profile");
+    revalidatePath("/profile");
 
-      await supabaseAdmin.auth.admin.updateUserById(updatedUser.id, {
-        user_metadata: { name: updatedUser.name, phone: updatedUser.phone },
-      });
-    }
+    await supabaseAdmin.auth.admin.updateUserById(updatedUser.id, {
+      user_metadata: { name: updatedUser.name, phone: updatedUser.phone },
+    });
 
     await saveToLog({
       logName: "Cập nhật tài khoản " + updatedUser.name,
@@ -381,7 +378,7 @@ export async function updateCustomerLevel({
       .update({ level: newLevel })
       .eq("id", customer.id);
 
-    if (!result.error) revalidatePath("/dashboard/customer");
+    revalidatePath("/dashboard/customer");
 
     await saveToLog({
       logName:
