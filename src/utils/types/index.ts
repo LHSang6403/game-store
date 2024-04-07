@@ -10,8 +10,10 @@ export interface StaffType {
   district: string;
   province: string;
   image: string;
-  role: "Seller" | "Writer" | "Manager";
+  role: StaffRole;
 }
+
+export type StaffRole = "Bán hàng" | "Biên tập" | "Quản lý";
 
 export interface CustomerType {
   id: string; // p_key

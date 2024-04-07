@@ -1,6 +1,6 @@
 "use server";
 
-import type { CustomerType, StaffType } from "@utils/types";
+import type { CustomerType, StaffRole, StaffType } from "@utils/types";
 import createSupabaseServerClient, {
   createSupabaseAdmin,
 } from "@/supabase-query/server";
@@ -21,9 +21,9 @@ export async function readUserSession() {
     const userId = result?.data?.session?.user?.id;
 
     if (
-      userMetadataRole === "Seller" ||
-      userMetadataRole === "Writer" ||
-      userMetadataRole === "Manager"
+      userMetadataRole === "Bán hàng" ||
+      userMetadataRole === "Biên tập" ||
+      userMetadataRole === "Quản lý"
     ) {
       const staffResult = await supabase
         .from("staff")
@@ -122,7 +122,7 @@ export async function updateCustomerToStaff({
   actor,
 }: {
   customer: CustomerType;
-  role: "Seller" | "Writer" | "Manager";
+  role: StaffRole;
   actor: LogActorType;
 }) {
   try {

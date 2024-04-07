@@ -1,8 +1,8 @@
-import type { CustomerType, StaffType } from "../types";
+import type { CustomerType, StaffRole, StaffType } from "../types";
 
 export default function customerToStaff(
   customer: CustomerType,
-  staffRole: "Seller" | "Writer" | "Manager"
+  staffRole: StaffRole
 ): StaffType {
   return {
     id: customer.id,

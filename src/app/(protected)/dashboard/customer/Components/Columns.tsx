@@ -10,7 +10,7 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import type { CustomerType } from "@utils/types";
+import type { CustomerType, StaffRole } from "@utils/types";
 import { updateCustomerToStaff } from "@/app/_actions/user";
 import { toast } from "sonner";
 import { ApiErrorHandlerClient } from "@/utils/errorHandler/apiErrorHandler";
@@ -134,7 +134,7 @@ export const columns: ColumnDef<CustomerType>[] = [
 
       function updateCustomerToStaffHandler(
         customer: CustomerType,
-        eachRole: "Seller" | "Writer" | "Manager"
+        eachRole: StaffRole
       ) {
         toast.promise(
           async () => {
@@ -183,24 +183,24 @@ export const columns: ColumnDef<CustomerType>[] = [
               </DropdownMenuItem>
               <DropdownMenuItem
                 onClick={() => {
-                  updateCustomerToStaffHandler(data, "Seller");
+                  updateCustomerToStaffHandler(data, "Bán hàng");
                 }}
               >
                 Cập nhật thành Bán hàng
               </DropdownMenuItem>
               <DropdownMenuItem
                 onClick={() => {
-                  updateCustomerToStaffHandler(data, "Writer");
+                  updateCustomerToStaffHandler(data, "Biên tập");
                 }}
               >
                 Cập nhật thành Biên tập
               </DropdownMenuItem>
               <DropdownMenuItem
                 onClick={() => {
-                  updateCustomerToStaffHandler(data, "Manager");
+                  updateCustomerToStaffHandler(data, "Quản lý");
                 }}
               >
-                Cập nhật thành Quản lí
+                Cập nhật thành Quản lý
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>

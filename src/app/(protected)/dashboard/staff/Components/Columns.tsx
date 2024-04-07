@@ -19,7 +19,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import type { StaffType } from "@utils/types";
+import type { StaffRole, StaffType } from "@utils/types";
 import { updateStaffRole } from "@/app/_actions/user";
 import { toast } from "sonner";
 import { ApiErrorHandlerClient } from "@/utils/errorHandler/apiErrorHandler";
@@ -80,9 +80,7 @@ export const columns: ColumnDef<StaffType>[] = [
       const data = row.original;
       const session = useSession();
 
-      const handleUpdateRole = async (
-        newRole: "Writer" | "Manager" | "Seller"
-      ) => {
+      const handleUpdateRole = async (newRole: StaffRole) => {
         toast.promise(
           async () => {
             if (session.session) {
@@ -109,7 +107,7 @@ export const columns: ColumnDef<StaffType>[] = [
       return (
         <Select
           defaultValue={data.role ?? "Unknown"}
-          onValueChange={(value: "Seller" | "Writer" | "Manager") => {
+          onValueChange={(value: StaffRole) => {
             handleUpdateRole(value);
           }}
         >
@@ -119,9 +117,9 @@ export const columns: ColumnDef<StaffType>[] = [
           <SelectContent>
             <SelectGroup>
               <SelectLabel>Nhân viên</SelectLabel>
-              <SelectItem value="Seller">Bán hàng</SelectItem>
-              <SelectItem value="Writer">Biên tập</SelectItem>
-              <SelectItem value="Manager">Quản lí</SelectItem>
+              <SelectItem value="Bán hàng">Bán hàng</SelectItem>
+              <SelectItem value="Biên tập">Biên tập</SelectItem>
+              <SelectItem value="Quản lý">Quản lý</SelectItem>
             </SelectGroup>
           </SelectContent>
         </Select>
