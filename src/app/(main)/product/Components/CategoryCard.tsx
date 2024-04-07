@@ -3,7 +3,6 @@
 import Image from "next/image";
 import { Badge } from "@/components/ui/badge";
 import useProductFilter from "@/zustand/useProductFilter";
-import { toast } from "sonner";
 
 export default function CategoryCard({ data }: { data: string }) {
   const { setCategories } = useProductFilter();
@@ -12,7 +11,6 @@ export default function CategoryCard({ data }: { data: string }) {
     <Badge
       onClick={() => {
         setCategories([data]);
-        toast.success(`${data} is selected.`);
       }}
       variant="secondary"
       className="h-8 w-fit overflow-ellipsis hover:cursor-pointer hover:bg-foreground/10"

@@ -27,7 +27,6 @@ import formatCurrency from "@/utils/functions/formatCurrency";
 import { useQuery } from "@tanstack/react-query";
 import { readProductBrands, readAllCategories } from "@/app/_actions/product";
 import useProductFilter from "@/zustand/useProductFilter";
-import { toast } from "sonner";
 
 export default function FilterArea() {
   const { brands, categories, endPrice, setPrice, setBrands, setCategories } =
@@ -135,13 +134,7 @@ export default function FilterArea() {
         </div>
         <SheetFooter className="mt-8">
           <SheetClose asChild>
-            <Button
-              onClick={() => {
-                toast.success("Filter is applied.");
-              }}
-              type="submit"
-              className="text-background"
-            >
+            <Button type="submit" className="text-background">
               Áp dụng
             </Button>
           </SheetClose>

@@ -132,26 +132,21 @@ export default function EditProfile({
         updatedUser.province = data.province;
 
         if (session) {
-          const updateResponse = await updateUserProfile({
+          await updateUserProfile({
             updatedUser: updatedUser,
             actor: { actorId: session.id, actorName: session.name },
-          });
-
-          ApiErrorHandlerClient({
-            response: updateResponse,
-            isShowToast: false,
           });
         }
       },
       {
-        loading: "Updating profile...",
+        loading: "Đang cập nhật...",
         success: () => {
           form.reset();
           setIsOpen(false);
-          return "Profile updated successfully!";
+          return "Cập nhật thông tin thành công!";
         },
-        error: (error) => {
-          return `Error: ${error.message ?? "Internal Server"}`;
+        error: () => {
+          return "Đã có lỗi xảy ra. Vui lòng thử lại.";
         },
       }
     );
