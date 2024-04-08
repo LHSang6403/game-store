@@ -46,9 +46,9 @@ export default function Dashboard() {
               isLoading={isProductStoragesLoading}
             />
             <DataCard
-              title="Tồn kho"
+              title="Phân loại"
               data={(productStorages?.data?.length.toString() ?? "0") + " loại"}
-              previousData="Tổng sản phẩm hiện tại"
+              previousData="Các loại sản phẩm hiện tại"
               icon={<Container className="text-muted-foreground h-4 w-4" />}
               isLoading={isProductStoragesLoading}
             />

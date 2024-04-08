@@ -29,6 +29,7 @@ import { printGHNOrder } from "@/app/_actions/GHNShipment";
 import { ApiErrorHandlerClient } from "@/utils/errorHandler/apiErrorHandler";
 import { ShipmentState } from "@utils/types/index";
 import { useSession } from "@/zustand/useSession";
+import formatVNDate from "@/utils/functions/formatVNDate";
 
 export const columns_headers = [
   { accessKey: "products", name: "Sản phẩm" },
@@ -90,7 +91,6 @@ export const columns: ColumnDef<OrderType>[] = [
                 },
               });
 
-              console.log(updateResponse);
               ApiErrorHandlerClient({
                 response: updateResponse,
               });
@@ -149,9 +149,11 @@ export const columns: ColumnDef<OrderType>[] = [
       );
     },
     cell: ({ row }) => {
-      const date = new Date(row.getValue("created_at"));
-      const formatted = date.toLocaleDateString();
-      return <div className="ml-4">{formatted}</div>;
+      const data = row.original;
+
+      return (
+        <div className="ml-2">{formatVNDate(new Date(data.created_at))}</div>
+      );
     },
   },
   {
@@ -180,14 +182,9 @@ export const columns: ColumnDef<OrderType>[] = [
         label_code: string;
         size: "A5" | "80x80" | "52x70";
       }) => {
-        const printResponse = await printGHNOrder({
+        const print = await printGHNOrder({
           order_codes: [label_code],
           size: size,
-        });
-
-        const print = ApiErrorHandlerClient({
-          response: printResponse,
-          isShowToast: false,
         });
 
         setPrintResult(print.data);
