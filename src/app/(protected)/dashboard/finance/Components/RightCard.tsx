@@ -11,11 +11,7 @@ import { readOrdersByDateRange } from "@/app/_actions/order";
 import { ordersToTop3SoldProducts } from "@app/(protected)/dashboard/Components/Charts/SoldBarChart";
 
 export default function RightCard() {
-  const {
-    data: orders,
-    isLoading: isOrdersLoading,
-    isSuccess: isOrdersSuccess,
-  } = useQuery({
+  const { data: orders } = useQuery({
     queryKey: ["orders", "all"],
     queryFn: () => readOrders({ offset: 0, limit: 10000 }),
     staleTime: 1000 * 60 * 60,
@@ -23,7 +19,7 @@ export default function RightCard() {
 
   const { from, to } = useDatePicker();
 
-  const { data: ordersResponse, isLoading } = useQuery({
+  const { data: ordersResponse } = useQuery({
     queryKey: ["orders", from, to],
     queryFn: async () => readOrdersByDateRange({ from: from, to: to }),
     staleTime: 1000 * 60 * 5,

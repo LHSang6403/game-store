@@ -6,7 +6,8 @@ import type {
   ProductStorageType,
 } from "@utils/types/index";
 import { revalidatePath } from "next/cache";
-import { saveToLog, LogActorType } from "@app/_actions/log";
+import { saveToLog } from "@app/_actions/log";
+import { LogActorType } from "@utils/types/index";
 
 export async function createProductStorage({
   productStorage,

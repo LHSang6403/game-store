@@ -158,3 +158,8 @@ export interface LogType {
 export interface FileWithPreview extends File {
   preview: string;
 }
+
+export interface LogActorType {
+  actorId: string;
+  actorName: string;
+}

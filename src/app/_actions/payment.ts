@@ -62,15 +62,16 @@ export default async function generatePaymentUrl(
       }
     );
 
-    if (!response.ok) {
-      throw new Error("Failed to fetch payment URL");
-    }
-
     const result = JSON.stringify({ directUrl, response });
 
     return result;
-  } catch (error) {
-    throw new Error("Failed to generate payment URL");
+  } catch (error: any) {
+    return {
+      status: 500,
+      statusText: "Lỗi máy chủ",
+      data: null,
+      error: error.message,
+    };
   }
 }
 

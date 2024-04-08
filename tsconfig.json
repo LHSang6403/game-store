@@ -38,5 +38,5 @@
     "src/app/(protected)/dashboard/product/create/Components/NovelEditor.tsx",
     "src/app/(protected)/dashboard/order/create/Components"
   ],
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules", "supabase"]
 }

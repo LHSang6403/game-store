@@ -30,7 +30,7 @@ export default function RevenueBarChart() {
   });
 
   const { chartData } = ordersToChartData(
-    orderPricesByMonth as { month: number; year: number; total: number }[]
+    orderPricesByMonth?.data as { month: number; year: number; total: number }[]
   ) as OrdersToChartData;
 
   // show range time when scroll to the Revenue bar chart

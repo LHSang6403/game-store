@@ -20,8 +20,6 @@ export default function Product({ data }: { data: ProductType }) {
           className="!w-full"
           width={200}
           height={200}
-          blurDataURL="/public/assets/images/blur/blur1.png"
-          placeholder="blur"
         />
       </div>
       <div className="h-fit w-full px-4 pb-3 pt-1">

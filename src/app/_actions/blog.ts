@@ -1,8 +1,8 @@
 "use server";
 
 import createSupabaseServerClient from "@/supabase-query/server";
-import { BlogType } from "@utils/types";
-import { saveToLog, LogActorType } from "@app/_actions/log";
+import { BlogType, LogActorType } from "@utils/types";
+import { saveToLog } from "@app/_actions/log";
 
 export async function createBlog({ blog }: { blog: BlogType }) {
   try {

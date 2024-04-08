@@ -1,12 +1,12 @@
 "use server";
 
 import createSupabaseServerClient from "@/supabase-query/server";
-import type { OrderType } from "@utils/types/index";
+import type { OrderType, LogActorType } from "@utils/types/index";
 import { updateStorageQuantityByProductId } from "@/app/_actions/product_storage";
 import { updateSoldQuantityByProductId } from "@/app/_actions/product";
 import { revalidatePath } from "next/cache";
 import { ShipmentState } from "@utils/types/index";
-import { saveToLog, LogActorType } from "@app/_actions/log";
+import { saveToLog } from "@app/_actions/log";
 
 export async function createOrder({
   order,
@@ -170,9 +170,19 @@ export async function readOrdersByDateRange({
       .gte("created_at", from.toISOString())
       .lte("created_at", to.toISOString());
 
-    return { data: result.data as OrderType[], error: result.error };
+    return {
+      status: result.status,
+      statusText: result.statusText,
+      data: result.data as OrderType[],
+      error: result.error,
+    };
   } catch (error: any) {
-    return { error: error.message };
+    return {
+      status: 500,
+      statusText: "Lỗi máy chủ",
+      data: null,
+      error: error.message,
+    };
   }
 }
 
@@ -219,8 +229,18 @@ export async function readOrdersNumbersByDateRange({
       });
     }
 
-    return orderPricesByMonth;
+    return {
+      status: result.status,
+      statusText: result.statusText,
+      data: orderPricesByMonth,
+      error: result.error,
+    };
   } catch (error: any) {
-    return { error: error.message };
+    return {
+      status: 500,
+      statusText: "Lỗi máy chủ",
+      data: null,
+      error: error.message,
+    };
   }
 }

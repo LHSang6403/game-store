@@ -12,9 +12,19 @@ export async function createStorage(storage: StorageType) {
 
     const result = await supabase.from("storage").insert(storage);
 
-    return result;
+    return {
+      status: result.status,
+      statusText: result.statusText,
+      data: result.data,
+      error: result.error,
+    };
   } catch (error: any) {
-    return error;
+    return {
+      status: 500,
+      statusText: "Lỗi máy chủ",
+      data: null,
+      error: error,
+    };
   }
 }
 

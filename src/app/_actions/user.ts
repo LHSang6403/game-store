@@ -1,13 +1,18 @@
 "use server";
 
-import type { CustomerType, StaffRole, StaffType } from "@utils/types";
+import type {
+  CustomerType,
+  StaffRole,
+  StaffType,
+  LogActorType,
+} from "@utils/types";
 import createSupabaseServerClient, {
   createSupabaseAdmin,
 } from "@/supabase-query/server";
 import { revalidatePath } from "next/cache";
 import customerToStaff from "@utils/functions/customerToStaff";
 import staffToCustomer from "@utils/functions/staffToCustomer";
-import { saveToLog, LogActorType } from "@app/_actions/log";
+import { saveToLog } from "@app/_actions/log";
 
 export async function readUserSession() {
   try {

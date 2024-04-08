@@ -4,8 +4,7 @@ import axios from "axios";
 import { GHNDataType } from "@/app/(main)/cart/_actions/processGHN";
 import { revalidatePath } from "next/cache";
 import { updateStateOrder } from "@app/_actions/order";
-import { LogActorType } from "@app/_actions/log";
-import { OrderType } from "@/utils/types";
+import { OrderType, LogActorType } from "@/utils/types";
 
 const headers = {
   "Content-Type": "application/json",

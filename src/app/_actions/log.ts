@@ -4,11 +4,7 @@ import createSupabaseServerClient from "@/supabase-query/server";
 import type { LogType } from "@utils/types/index";
 import { revalidatePath } from "next/cache";
 import { v4 as uuidv4 } from "uuid";
-
-export interface LogActorType {
-  actorId: string;
-  actorName: string;
-}
+import { LogActorType } from "@utils/types/index";
 
 export async function saveToLog({
   logName,
