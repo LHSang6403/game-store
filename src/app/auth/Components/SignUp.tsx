@@ -321,11 +321,11 @@ export default function SignUp() {
             maxFiles={1}
           />
         </div>
-        <div className="col-span-2">
+        <div className="col-span-2 -mt-4 flex items-center justify-center">
           <Button
             disabled={!form.formState.isValid}
             type="submit"
-            className="mt-1 w-full bg-foreground text-background"
+            className="w-36 bg-foreground text-background sm:w-full"
           >
             Tạo tài khoản
           </Button>

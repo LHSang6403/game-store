@@ -169,7 +169,7 @@ export function QuantityForm({
 
   useEffect(() => {
     if (isDisabled) {
-      form.setValue("storage_quantity", "0");
+      form.setValue("storage_quantity", "");
     }
   }, [isDisabled]);
 

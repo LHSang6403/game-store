@@ -85,7 +85,7 @@ export default function EditForm({ blog }: { blog: BlogType }) {
         onSubmit={form.handleSubmit(onSubmit)}
         className="grid grid-cols-2 gap-4"
       >
-        <Card className="xl:col-span-2 ">
+        <Card className="h-fit min-h-[440px] xl:col-span-2 ">
           <CardHeader className="pb-3">Chỉnh sửa thông tin bài viết</CardHeader>
           <CardContent className="flex flex-col gap-4">
             <FormField
@@ -126,7 +126,7 @@ export default function EditForm({ blog }: { blog: BlogType }) {
             />
           </CardContent>
         </Card>
-        <Card className="xl:col-span-2">
+        <Card className="h-fit min-h-[440px] xl:col-span-2">
           <CardHeader className="pb-3"> Hình ảnh xem trước</CardHeader>
           <CardContent className="flex flex-col gap-4 pb-0">
             <div className="grid w-fit grid-cols-6 gap-3 sm:grid-cols-4">

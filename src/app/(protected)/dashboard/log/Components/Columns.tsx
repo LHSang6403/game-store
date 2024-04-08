@@ -39,21 +39,23 @@ export const columns: ColumnDef<LogType>[] = [
     accessorKey: "created_at",
     header: ({ column }) => {
       return (
-        <Button
-          className="border-none"
-          variant="outline"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Ngày tạo
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
+        <div className="flex w-32 items-center justify-center border-none">
+          <Button
+            className="border-none"
+            variant="outline"
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          >
+            Ngày tạo
+            <ArrowUpDown className="ml-2 h-4 w-4" />
+          </Button>
+        </div>
       );
     },
     cell: ({ row }) => {
       const date = new Date(row.getValue("created_at"));
       const formatted = formatVNDate(date);
 
-      return <div className="ml-2 text-left">{formatted}</div>;
+      return <div className="w-32 text-center">{formatted}</div>;
     },
   },
   {

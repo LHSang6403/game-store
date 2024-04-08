@@ -45,14 +45,16 @@ export const columns: ColumnDef<StaffType>[] = [
     accessorKey: "dob",
     header: ({ column }) => {
       return (
-        <Button
-          variant="outline"
-          className="border-none"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Ngày sinh
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
+        <div className="flex w-32 items-center justify-center border-none">
+          <Button
+            variant="outline"
+            className="border-none"
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          >
+            Ngày sinh
+            <ArrowUpDown className="ml-2 h-4 w-4" />
+          </Button>
+        </div>
       );
     },
     cell: ({ row }) => {
@@ -61,7 +63,7 @@ export const columns: ColumnDef<StaffType>[] = [
       const formatted = formatVNDate(date);
 
       return (
-        <div className="ml-2 text-left">
+        <div className="w-32 text-center">
           {data.dob ? formatted : "Không rõ"}
         </div>
       );

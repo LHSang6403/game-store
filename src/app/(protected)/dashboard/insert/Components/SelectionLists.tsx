@@ -57,7 +57,7 @@ export default function SelectionLists({
   return (
     <>
       <div className="flex flex-row gap-2 overflow-hidden lg:flex-col lg:gap-4">
-        <div className="flex h-full w-1/2 flex-col gap-2 overflow-auto lg:w-full">
+        <div className="flex max-h-[572px] w-1/2 flex-col gap-2 overflow-auto pr-1 lg:w-full">
           {storages.map((storage, index) => (
             <div key={index} onClick={() => setSelectedStorage(storage.name)}>
               <StorageItem

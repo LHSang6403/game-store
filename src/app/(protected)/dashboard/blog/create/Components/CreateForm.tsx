@@ -79,7 +79,7 @@ export default function CreateForm() {
         onSubmit={form.handleSubmit(onSubmit)}
         className="grid grid-cols-2 gap-4"
       >
-        <Card className="xl:col-span-2">
+        <Card className="h-fit min-h-[440px] xl:col-span-2">
           <CardHeader className="pb-3">Thông tin bài viêt</CardHeader>
           <CardContent className="flex flex-col gap-4">
             <FormField
@@ -120,7 +120,7 @@ export default function CreateForm() {
             />
           </CardContent>
         </Card>
-        <Card className="flex h-full w-full flex-col xl:col-span-2">
+        <Card className="flex h-fit min-h-[440px] w-full flex-col xl:col-span-2">
           <CardHeader className="pb-3">Ảnh xem trước</CardHeader>
           <CardContent>
             <DropAndDragZone className="mt-2 rounded-lg border p-16 sm:p-6" />

@@ -38,16 +38,7 @@ export const FormSchema = z.object({
         message: "Vui lòng nhập số từ 0 đến 5.",
       }
     ),
-  sold_quantity: z.string().refine((val) => !Number.isNaN(parseInt(val, 10)), {
-    message: "Vui lòng nhập số.",
-  }),
   category: z.string().min(2, { message: "Vui lòng nhập loại." }),
-  storage_address: z.string().min(2, { message: "Vui lòng nhập địa chỉ." }),
-  storage_quantity: z
-    .string()
-    .refine((val) => !Number.isNaN(parseInt(val, 10)), {
-      message: "Vui lòng nhập số.",
-    }),
 });
 
 export default function EditForm({
@@ -69,10 +60,7 @@ export default function EditForm({
     description: product?.product.description ?? "",
     price: product?.product.price.toString() ?? "1000000",
     rate: product?.product.rate.toString() ?? "4",
-    sold_quantity: product?.product.sold_quantity.toString() ?? "0",
     category: product?.product.category ?? "",
-    storage_address: product?.storages[0]?.address ?? "",
-    storage_quantity: product?.product_storages[0]?.quantity.toString() ?? "0",
   };
 
   const form = useForm<z.infer<typeof FormSchema>>({
@@ -118,10 +106,10 @@ export default function EditForm({
         onSubmit={form.handleSubmit(onSubmit)}
         className="grid grid-cols-2 gap-4"
       >
-        <div className="h-full w-full xl:col-span-2">
+        <div className="h-fit min-h-[550px] w-full xl:col-span-2">
           <CreateProductFormInputs form={form} />
         </div>
-        <Card className="flex h-fit w-full flex-col xl:col-span-2">
+        <Card className="flex h-fit min-h-[550px] w-full flex-col xl:col-span-2">
           <CardHeader className="pb-3">Hình ảnh sản phẩm</CardHeader>
           <CardContent className="pb-0">
             <div className="mt-1.5 grid w-fit grid-cols-6 gap-3 sm:grid-cols-4">

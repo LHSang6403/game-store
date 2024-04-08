@@ -11,9 +11,9 @@ export default function ImageFileItem({
   removeHandler: () => void;
 }) {
   return (
-    <div className="group h-fit w-16 overflow-hidden hover:cursor-pointer">
-      <div className="relative flex h-12 items-center justify-center overflow-hidden rounded-lg border p-1">
-        <Image src={image} alt="Product image" width={70} height={70} />
+    <div className="group w-full overflow-hidden hover:cursor-pointer">
+      <div className="relative flex aspect-square w-full items-center justify-center overflow-hidden rounded-lg border p-1">
+        <Image src={image} alt="Product image" width={75} height={75} />
         <div className="absolute left-0 top-0 hidden h-full w-full items-center justify-center bg-foreground/20 group-hover:flex">
           <svg
             xmlns="http://www.w3.org/2000/svg"

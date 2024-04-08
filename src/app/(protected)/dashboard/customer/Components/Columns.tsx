@@ -37,14 +37,16 @@ export const columns: ColumnDef<CustomerType>[] = [
     accessorKey: "dob",
     header: ({ column }) => {
       return (
-        <Button
-          variant="outline"
-          className="border-none"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Ngày sinh
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
+        <div className="flex w-32 items-center justify-center border-none">
+          <Button
+            variant="outline"
+            className="border-none"
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          >
+            Ngày sinh
+            <ArrowUpDown className="ml-2 h-4 w-4" />
+          </Button>
+        </div>
       );
     },
     cell: ({ row }) => {
@@ -52,7 +54,7 @@ export const columns: ColumnDef<CustomerType>[] = [
       const formatted = formatVNDate(date);
 
       return (
-        <div className="ml-2 text-left">
+        <div className="w-32 text-center">
           {row.getValue("dob") ? formatted : "Không rõ"}
         </div>
       );
@@ -127,7 +129,7 @@ export const columns: ColumnDef<CustomerType>[] = [
             }
           },
           {
-            loading: "Updating...",
+            loading: "Đang cập nhật...",
           }
         );
       }
@@ -154,7 +156,7 @@ export const columns: ColumnDef<CustomerType>[] = [
             }
           },
           {
-            loading: "Updating...",
+            loading: "Đang cập nhật...",
           }
         );
       }
