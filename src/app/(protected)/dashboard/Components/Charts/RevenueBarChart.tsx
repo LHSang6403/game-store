@@ -56,11 +56,12 @@ export default function RevenueBarChart() {
                   className="h-full w-full"
                   data={chartData}
                   index="name"
-                  categories={["Revenue"]}
+                  categories={["DoanhThu"]}
                   colors={["green"]}
                   valueFormatter={dataFormatter}
                   yAxisWidth={90}
                   onValueChange={(v) => console.log(v)}
+                  noDataText="Không có đơn hàng"
                 />
               )}
             </div>
@@ -72,7 +73,7 @@ export default function RevenueBarChart() {
 }
 
 interface OrdersToChartData {
-  chartData: { name: string; Revenue: number }[];
+  chartData: { name: string; DoanhThu: number }[];
   totalRevenue: number;
 }
 
@@ -87,7 +88,7 @@ const ordersToChartData = (
 ) => {
   let chartData: {
     name: string;
-    Revenue: number;
+    DoanhThu: number;
   }[] = [];
 
   let totalRevenue = 0;
@@ -104,7 +105,7 @@ const ordersToChartData = (
       for (let i = 0; i < orders.length; i++) {
         chartData.push({
           name: `${orders[i].month}, ${orders[i].year}`,
-          Revenue: orders[i].total,
+          DoanhThu: orders[i].total,
         });
         totalRevenue += orders[i].total;
       }

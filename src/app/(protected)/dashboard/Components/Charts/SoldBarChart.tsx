@@ -65,7 +65,7 @@ export default function RevenueBarChart() {
         <CardTitle className="mb-2 flex flex-row justify-between">
           <span>Bán chạy</span>
           <div className="sm:hidden">
-            <DateRangePicker locale="en-GB" showCompare={false} />
+            <DateRangePicker showCompare={false} />
           </div>
         </CardTitle>
         <div className="flex w-full flex-row items-center justify-between sm:flex-col sm:gap-2">
@@ -82,7 +82,7 @@ export default function RevenueBarChart() {
               transition={{ ease: "easeInOut", duration: 0.5 }}
               className="fixed bottom-12 z-40 mb-2 hidden sm:block"
             >
-              <DateRangePicker locale="en-GB" showCompare={false} />
+              <DateRangePicker showCompare={false} />
             </motion.div>
           )}
         </div>

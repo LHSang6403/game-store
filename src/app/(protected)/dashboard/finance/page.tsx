@@ -27,10 +27,12 @@ export default function Dashboard() {
 
   const countOrdersByProvince = (orders) => {
     const ordersByProvince = {};
+
     orders?.data?.forEach((order) => {
       const { province } = order;
       ordersByProvince[province] = (ordersByProvince[province] || 0) + 1;
     });
+
     return ordersByProvince;
   };
 
