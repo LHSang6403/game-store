@@ -2,7 +2,10 @@ import { readCustomers } from "@app/_actions/user";
 import Link from "next/link";
 import { CustomerType } from "@/utils/types";
 import { DataTable } from "@components/Table/DataTable";
-import { columns, columns_headers } from "./Components/Columns";
+import {
+  columns,
+  columns_headers,
+} from "@app/(protected)/dashboard/customer/Components/Columns";
 
 export default async function page() {
   const customers = await readCustomers({ limit: 40, offset: 0 });

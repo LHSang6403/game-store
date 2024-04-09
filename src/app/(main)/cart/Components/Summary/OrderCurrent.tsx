@@ -2,7 +2,7 @@
 
 import { useOrder } from "@/zustand/useOrder";
 import OrderSummary from "./OrderSummary";
-import OrderForm from "./OrderForm";
+import OrderForm from "@app/(main)/cart/Components/Summary/OrderForm";
 import Link from "next/link";
 
 export default function OrderCurrent() {

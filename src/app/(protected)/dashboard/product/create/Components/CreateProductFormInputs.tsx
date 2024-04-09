@@ -28,7 +28,6 @@ export default function CreateProductFormInputs({ form }: { form: any }) {
                   {...field}
                   type="text"
                   onChange={field.onChange}
-                  className="border-[#E5E7EB]"
                 />
               </FormControl>
               <FormMessage />
@@ -47,7 +46,6 @@ export default function CreateProductFormInputs({ form }: { form: any }) {
                   {...field}
                   type="text"
                   onChange={field.onChange}
-                  className="border-[#E5E7EB]"
                 />
               </FormControl>
               <FormMessage />
@@ -83,7 +81,6 @@ export default function CreateProductFormInputs({ form }: { form: any }) {
                   {...field}
                   type="text"
                   onChange={field.onChange}
-                  className="border-[#E5E7EB]"
                 />
               </FormControl>
               <FormMessage />
@@ -102,7 +99,6 @@ export default function CreateProductFormInputs({ form }: { form: any }) {
                   {...field}
                   type="text"
                   onChange={field.onChange}
-                  className="border-[#E5E7EB]"
                 />
               </FormControl>
               <FormMessage />
@@ -121,7 +117,6 @@ export default function CreateProductFormInputs({ form }: { form: any }) {
                   {...field}
                   type="text"
                   onChange={field.onChange}
-                  className="border-[#E5E7EB]"
                 />
               </FormControl>
               <FormMessage />

@@ -14,16 +14,16 @@ import { FormSchema } from "@/app/(protected)/dashboard/product/create/Component
 
 export async function createHandler({
   formData,
-  files,
+  productImages,
   session,
   productStorages,
 }: {
   formData: z.infer<typeof FormSchema>;
-  files: unknown[];
+  productImages: unknown[];
   session: CustomerType | StaffType;
   productStorages: ProductStorageType[];
 }) {
-  if (files.length === 0) throw new Error("Lỗi không có ảnh sản phẩm.");
+  if (productImages.length === 0) throw new Error("Lỗi không có ảnh sản phẩm.");
 
   // create description:
   const editorContent = window.localStorage.getItem("content");
@@ -47,7 +47,7 @@ export async function createHandler({
   const supabase = createSupabaseBrowserClient();
   const productImagesUploadResults: string[] = [];
 
-  for (const file of files) {
+  for (const file of productImages) {
     const uploadingFile = file as File;
     const result = await supabase.storage
       .from("public_files")

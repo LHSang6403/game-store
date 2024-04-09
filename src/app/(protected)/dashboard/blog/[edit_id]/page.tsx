@@ -4,7 +4,7 @@ import useLocalStorage from "@/hooks/useLocalStorage";
 import { useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { readBlogById } from "@app/_actions/blog";
-import EditForm from "./Components/EditForm";
+import EditForm from "@app/(protected)/dashboard/blog/[edit_id]/Components/EditForm";
 
 export default function page({ params }: { params: { edit_id: string } }) {
   const { data: blog } = useQuery({

@@ -60,7 +60,7 @@ export function PrintDialog({
             type="submit"
             className="w-full text-background"
           >
-            Print
+            In
           </Button>
         </DialogFooter>
       </DialogContent>

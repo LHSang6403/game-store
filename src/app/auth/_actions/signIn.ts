@@ -15,6 +15,6 @@ export async function signInWithEmailAndPassword(data: {
 
     return result;
   } catch {
-    return { data: null, error: "Failed to sign in." };
+    return { data: null, error: "Đăng nhập thất bại." };
   }
 }

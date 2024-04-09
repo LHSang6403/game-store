@@ -47,7 +47,7 @@ const FormSchema = z
     ward: z.string().min(2, { message: "Vui lòng nhập phường/xã." }),
     district: z.string().min(2, { message: "Vui lòng nhập quận/huyện." }),
     province: z.string().min(2, { message: "Vui lòng nhập tỉnh/thành phố." }),
-    email: z.string().email(),
+    email: z.string().email("Email không đúng định dạng."),
     password: z.string().min(6, {
       message: "Vui lòng nhập mật khẩu dài hơn 6 kí tự.",
     }),

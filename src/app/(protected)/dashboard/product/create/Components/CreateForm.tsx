@@ -75,7 +75,7 @@ export default function CreateForm() {
 
         await createHandler({
           formData: data,
-          files: files,
+          productImages: files,
           session: session,
           productStorages: productStorages,
         });
@@ -113,7 +113,6 @@ export default function CreateForm() {
         <div className="col-span-2">
           <ProductStorageCheckbox
             onValuesChange={(values) => {
-              console.log(values);
               setProductStorages(values);
             }}
           />
@@ -125,7 +124,7 @@ export default function CreateForm() {
         </div>
         <div className="col-span-2 flex justify-center">
           <Button
-            disabled={productStorages.length === 0 || !form.formState.isValid}
+            disabled={!form.formState.isValid || files.length === 0}
             type="submit"
             className="mt-1 w-fit bg-foreground px-7 text-background"
           >

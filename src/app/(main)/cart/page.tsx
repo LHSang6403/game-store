@@ -1,5 +1,5 @@
-import OrderHistory from "./Components/History/OrderHistory";
-import OrderCurrent from "./Components/Summary/OrderCurrent";
+import OrderHistory from "@app/(main)/cart/Components/History/OrderHistory";
+import OrderCurrent from "@app/(main)/cart/Components/Summary/OrderCurrent";
 
 export default function Page() {
   return (

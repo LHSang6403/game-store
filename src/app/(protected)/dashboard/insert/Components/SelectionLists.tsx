@@ -7,11 +7,11 @@ import {
   StorageType,
 } from "@/utils/types";
 import { useState } from "react";
-import ProductStorageItem from "./ProductStorageItem";
+import ProductStorageItem from "@app/(protected)/dashboard/insert/Components/ProductStorageItem";
 import { Button } from "@/components/ui/button";
 import { updateProductStoragesQuantity } from "@app/_actions/product_storage";
 import { toast } from "sonner";
-import StorageItem from "./StorageItem";
+import StorageItem from "@app/(protected)/dashboard/insert/Components/StorageItem";
 import { useSession } from "@/zustand/useSession";
 
 export default function SelectionLists({
@@ -41,7 +41,7 @@ export default function SelectionLists({
               actorName: session.name,
             },
           });
-        }
+        } else throw new Error("Lỗi không xác định phiên đăng nhập.");
       },
       {
         loading: "Đang cập nhật...",
@@ -49,6 +49,9 @@ export default function SelectionLists({
           setInsertedProductStorageData([]);
 
           return "Cập nhật thành công.";
+        },
+        error: (error: any) => {
+          return error.message;
         },
       }
     );

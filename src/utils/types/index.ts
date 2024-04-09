@@ -1,5 +1,5 @@
 export interface StaffType {
-  id: string; // p_key
+  id: string;
   created_at: string;
   name: string;
   dob: string;
@@ -16,7 +16,7 @@ export interface StaffType {
 export type StaffRole = "Bán hàng" | "Biên tập" | "Quản lý";
 
 export interface CustomerType {
-  id: string; // p_key
+  id: string;
   created_at: string;
   name: string;
   dob: string;
@@ -31,7 +31,7 @@ export interface CustomerType {
 }
 
 export interface ProductType {
-  id: string; // p_key
+  id: string;
   created_at: string;
   brand: string;
   name: string;
@@ -40,13 +40,13 @@ export interface ProductType {
   price: number;
   rate: number;
   sold_quantity: number;
-  description_id: string; // f_key
+  description_id: string;
   category: string;
   is_deleted: boolean;
 }
 
 export interface ProductDescriptionType {
-  id: string; // p_key
+  id: string;
   created_at: string;
   content: any;
   writer: string;
@@ -75,12 +75,12 @@ export interface OrderType {
   shipment_label_code: string | null;
   products: ProductWithDescriptionAndStorageType[];
   state: ShipmentState;
-  customer_id: string; // f_key
+  customer_id: string;
   customer_name: string;
   customer_phone: string;
   price: number;
-  shipping_fee: number; // api call
-  insurance_fee: number; // api call
+  shipping_fee: number;
+  insurance_fee: number;
   total_price: number;
   note: string;
   address: string;
@@ -107,10 +107,10 @@ export interface BlogType {
 }
 
 export interface ProductStorageType {
-  id: string; // p_key
+  id: string;
   created_at: string;
-  product_id: string; // f_key
-  storage_id: string; // f_key
+  product_id: string;
+  storage_id: string;
   quantity: number;
   product_name: string;
   storage_name: string;
@@ -124,7 +124,7 @@ export interface InsertedProductStorageType {
 }
 
 export interface StorageType {
-  id: string; // p_key
+  id: string;
   created_at: string;
   name: string;
   address: string;

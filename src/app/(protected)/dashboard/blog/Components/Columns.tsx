@@ -12,7 +12,6 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { BlogType } from "@utils/types";
 import Link from "next/link";
-import { ApiErrorHandlerClient } from "@/utils/errorHandler/apiErrorHandler";
 import { toast } from "sonner";
 import { useSession } from "@/zustand/useSession";
 import { deleteBlogById } from "@app/_actions/blog";
@@ -83,22 +82,22 @@ export const columns: ColumnDef<BlogType>[] = [
       async function removeHandler(blog: BlogType) {
         toast.promise(
           async () => {
-            if (session.session) {
-              const removeResponse = await deleteBlogById({
-                blog: blog,
-                actor: {
-                  actorId: session.session.id,
-                  actorName: session.session.name,
-                },
-              });
-
-              ApiErrorHandlerClient({
-                response: removeResponse,
-              });
-            }
+            if (!session.session)
+              throw new Error("Không thể xác định phiên đăng nhập.");
+            await deleteBlogById({
+              blog: blog,
+              actor: {
+                actorId: session.session.id,
+                actorName: session.session.name,
+              },
+            });
           },
           {
+            success: "Xóa bài viết thành công",
             loading: "Đang xóa bài viết...",
+            error: (error: any) => {
+              return error.message;
+            },
           }
         );
       }

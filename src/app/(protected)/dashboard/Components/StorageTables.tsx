@@ -1,6 +1,6 @@
 "use client";
 
-import { columns } from "./StorageTableColumns";
+import { columns } from "@app/(protected)/dashboard/Components/StorageTableColumns";
 import { DataTable } from "@components/Table/DataTable";
 import { readAllStoragesAndProductStorages } from "@/app/_actions/storage";
 import type { ProductStorageType } from "@utils/types/index";

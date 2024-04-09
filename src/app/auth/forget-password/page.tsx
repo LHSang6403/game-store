@@ -20,7 +20,7 @@ import Link from "next/link";
 import createSupabaseBrowserClient from "@/supabase-query/client";
 
 const FormSchema = z.object({
-  email: z.string().email(),
+  email: z.string().email("Email không hợp lệ."),
 });
 
 export default function SignUp() {

@@ -13,7 +13,6 @@ import {
 import type { ProductType } from "@utils/types";
 import formatCurrency from "@utils/functions/formatCurrency";
 import { removeProductById } from "@app/_actions/product";
-import { ApiErrorHandlerClient } from "@/utils/errorHandler/apiErrorHandler";
 import { toast } from "sonner";
 import { useSession } from "@/zustand/useSession";
 import { useRouter } from "next/navigation";
@@ -100,22 +99,23 @@ export const columns: ColumnDef<ProductType>[] = [
       async function removeHandler() {
         toast.promise(
           async () => {
-            if (session.session) {
-              const removeResponse = await removeProductById({
-                product: product,
-                actor: {
-                  actorId: session.session.id,
-                  actorName: session.session.name,
-                },
-              });
+            if (!session.session)
+              throw new Error("Không xác định phiên đăng nhập.");
 
-              ApiErrorHandlerClient({
-                response: removeResponse,
-              });
-            }
+            await removeProductById({
+              product: product,
+              actor: {
+                actorId: session.session.id,
+                actorName: session.session.name,
+              },
+            });
           },
           {
+            success: "Xóa thành công.",
             loading: "Đang xóa sản phẩm...",
+            error: (error: any) => {
+              return error.message;
+            },
           }
         );
       }

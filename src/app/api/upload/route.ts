@@ -24,7 +24,6 @@ export async function POST(req: Request) {
       });
 
     if (error) {
-      console.error("Error handling POST request:", error);
       return new Response("Lỗi máy chủ", { status: 500 });
     }
 
@@ -35,7 +34,6 @@ export async function POST(req: Request) {
         data!.path,
     });
   } catch (error) {
-    console.error("Error handling POST request:", error);
     return new Response("Lỗi máy chủ", { status: 500 });
   }
 }

@@ -21,7 +21,7 @@ import { useSession } from "@/zustand/useSession";
 import GoogleOAuth from "@/app/OAuth/GoogleOAuth";
 
 const FormSchema = z.object({
-  email: z.string().email(),
+  email: z.string().email("Email không hợp lệ."),
   password: z.string().min(6, {
     message: "Mật khẩu phải dài hơn 6 ký tự.",
   }),
@@ -136,6 +136,7 @@ export default function SignIn() {
             </Button>
             <Button
               type="submit"
+              disabled={!form.formState.isValid}
               className="mt-1 w-full bg-foreground text-background"
             >
               Đăng nhập

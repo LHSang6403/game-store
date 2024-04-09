@@ -62,6 +62,6 @@ export async function signUpWithEmailAndPassword({
 
     return createResult;
   } catch {
-    return { data: null, error: "Failed to sign up." };
+    return { data: null, error: "Tạo tài khoản thất bại." };
   }
 }

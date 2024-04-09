@@ -18,14 +18,14 @@ import {
 } from "@/utils/types/index";
 import { useState } from "react";
 import ImageFileItem from "@components/File/ImageFileItem";
-import ProductStorageCheckbox from "@/app/(protected)/dashboard/product/create/Components/ProductStorageCheckbox";
-import { updateHandler } from "@/app/(protected)/dashboard/product/[edit_id]/_actions/index";
+import ProductStorageCheckbox from "@app/(protected)/dashboard/product/create/Components/ProductStorageCheckbox";
+import { updateHandler } from "@app/(protected)/dashboard/product/[edit_id]/_actions/index";
 import { Card, CardHeader, CardContent } from "@components/ui/card";
 
 export const FormSchema = z.object({
-  brand: z.string().min(1, { message: "Vui lòng nhập hiệu." }),
-  name: z.string().min(1, { message: "Vui lòng nhập tên." }),
-  description: z.string().min(1, { message: "Vui lòng nhập mô tả." }),
+  brand: z.string().min(2, { message: "Vui lòng nhập hiệu." }),
+  name: z.string().min(2, { message: "Vui lòng nhập tên." }),
+  description: z.string().min(2, { message: "Vui lòng nhập mô tả." }),
   price: z.string().refine((val) => !Number.isNaN(parseInt(val, 10)), {
     message: "Vui lòng nhập số.",
   }),
@@ -153,6 +153,7 @@ export default function EditForm({
         </div>
         <div className="col-span-2 flex justify-center">
           <Button
+            disabled={files.length === 0 || !form.formState.isValid}
             type="submit"
             className="mt-1 w-fit bg-foreground px-7 text-background"
           >

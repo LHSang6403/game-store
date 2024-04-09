@@ -192,10 +192,10 @@ export function QuantityForm({
                   {...field}
                   type="text"
                   onChange={field.onChange}
-                  className="h-9 w-24 border-[#E5E7EB] sm:w-full"
+                  className="h-9 w-24 sm:w-full"
                 />
               </FormControl>
-              <FormMessage className="" />
+              <FormMessage />
             </FormItem>
           )}
         />

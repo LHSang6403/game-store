@@ -22,7 +22,6 @@ import {
 import type { StaffRole, StaffType } from "@utils/types";
 import { updateStaffRole } from "@/app/_actions/user";
 import { toast } from "sonner";
-import { ApiErrorHandlerClient } from "@/utils/errorHandler/apiErrorHandler";
 import { updateStaffToCustomer } from "@/app/_actions/user";
 import { useSession } from "@/zustand/useSession";
 import EditProfile from "@app/(main)/profile/Components/EditProfile";
@@ -90,23 +89,24 @@ export const columns: ColumnDef<StaffType>[] = [
       const handleUpdateRole = async (newRole: StaffRole) => {
         toast.promise(
           async () => {
-            if (session.session) {
-              const updateResponse = await updateStaffRole({
-                staff: data,
-                updatedRole: newRole,
-                actor: {
-                  actorId: session.session?.id,
-                  actorName: session.session?.name,
-                },
-              });
+            if (!session.session)
+              throw new Error("Không thể xác định phiên đăng nhập.");
 
-              ApiErrorHandlerClient<any>({
-                response: updateResponse,
-              });
-            }
+            await updateStaffRole({
+              staff: data,
+              updatedRole: newRole,
+              actor: {
+                actorId: session.session?.id,
+                actorName: session.session?.name,
+              },
+            });
           },
           {
+            success: "Cập nhật vai trò thành công.",
             loading: "Đang cập nhật...",
+            error: (error: any) => {
+              return error.message;
+            },
           }
         );
       };
@@ -145,22 +145,23 @@ export const columns: ColumnDef<StaffType>[] = [
       function updateStaffToCustomerHandler(staff: StaffType) {
         toast.promise(
           async () => {
-            if (session.session) {
-              const updateResponse = await updateStaffToCustomer({
-                staff: staff,
-                actor: {
-                  actorId: session.session.id,
-                  actorName: session.session.name,
-                },
-              });
+            if (!session.session)
+              throw new Error("Không thể xác định phiên đăng nhập.");
 
-              ApiErrorHandlerClient({
-                response: updateResponse,
-              });
-            }
+            await updateStaffToCustomer({
+              staff: staff,
+              actor: {
+                actorId: session.session.id,
+                actorName: session.session.name,
+              },
+            });
           },
           {
+            success: "Chuyển thành khách hàng thành công.",
             loading: "Đang cập nhật...",
+            error: (error: any) => {
+              return error.message;
+            },
           }
         );
       }

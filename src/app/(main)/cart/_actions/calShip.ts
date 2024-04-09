@@ -5,7 +5,7 @@ import { calGHTKFees } from "@/app/_actions/GHTKShipment";
 import {
   findGHNDistrictIDByNameExtension,
   findGHNWardIDByNameExtension,
-} from "./processGHN";
+} from "@app/(main)/cart/_actions/processGHN";
 
 import districts from "@/static-data/GHN-api/districts.json";
 

@@ -23,10 +23,9 @@ import type { OrderType } from "@utils/types";
 import formatCurrency from "@utils/functions/formatCurrency";
 import { toast } from "sonner";
 import { updateStateOrder } from "@app/_actions/order";
-import { PrintDialog } from "./PrintDialog";
+import { PrintDialog } from "@app/(protected)/dashboard/order/Components/PrintDialog";
 import { useState } from "react";
 import { printGHNOrder } from "@/app/_actions/GHNShipment";
-import { ApiErrorHandlerClient } from "@/utils/errorHandler/apiErrorHandler";
 import { ShipmentState } from "@utils/types/index";
 import { useSession } from "@/zustand/useSession";
 import formatVNDate from "@/utils/functions/formatVNDate";
@@ -81,23 +80,24 @@ export const columns: ColumnDef<OrderType>[] = [
       function handleUpdateState(newState: ShipmentState) {
         toast.promise(
           async () => {
-            if (session.session) {
-              const updateResponse = await updateStateOrder({
-                order: data,
-                state: newState,
-                actor: {
-                  actorId: session.session?.id,
-                  actorName: session.session?.name,
-                },
-              });
+            if (!session.session)
+              throw new Error("Không xác định phiên đăng nhập.");
 
-              ApiErrorHandlerClient({
-                response: updateResponse,
-              });
-            }
+            await updateStateOrder({
+              order: data,
+              state: newState,
+              actor: {
+                actorId: session.session?.id,
+                actorName: session.session?.name,
+              },
+            });
           },
           {
             loading: "Đang cập nhật đơn hàng...",
+            success: "Cập nhật đơn hàng thành công!",
+            error: (error: any) => {
+              return error.message;
+            },
           }
         );
       }
@@ -218,7 +218,7 @@ export const columns: ColumnDef<OrderType>[] = [
               >
                 In khổ A5
               </DropdownMenuItem>
-              {/* <DropdownMenuItem // only GHTK have siza A6
+              {/* <DropdownMenuItem // only GHTK have siza A6, can not test GHTK print in sandbox
                 disabled={data.shipment_name == "GHN"} 
                 onClick={() => {
                   setIsPrintOpen(!isPrintOpen);

@@ -3,7 +3,7 @@ import { create } from "zustand";
 export const MAX_PRICE = 50000000;
 
 export type ProductFilter = {
-  brands: string[]; // in case of clients require multiple categories
+  brands: string[]; // in case of clients require choose multiple brands
   categories: string[];
   startPrice: number;
   endPrice: number;

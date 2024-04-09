@@ -45,7 +45,7 @@ const FormSchema = z.object({
   address: z.string().min(2, { message: "Vui lòng nhập địa chỉ." }),
   ward: z.string().min(2, { message: "Vui lòng nhập phường/xã." }),
   district: z.string().min(2, { message: "Vui lòng nhập quận/huyện." }),
-  province: z.string().min(5, { message: "Vui lòng nhập tỉnh/thành phố." }),
+  province: z.string().min(2, { message: "Vui lòng nhập tỉnh/thành phố." }),
   shipment: z.string().min(2, { message: "Vui lòng chọn đơn vị vận chuyển." }),
   note: z.string().nullable(),
 });

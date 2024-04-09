@@ -4,6 +4,7 @@ import createSupabaseServerClient from "@/supabase-query/server";
 import { BlogType, LogActorType } from "@utils/types";
 import { saveToLog } from "@app/_actions/log";
 import { checkRoleStaff } from "@app/_actions/user";
+import { revalidatePath } from "next/cache";
 
 export async function createBlog({ blog }: { blog: BlogType }) {
   try {
@@ -20,6 +21,8 @@ export async function createBlog({ blog }: { blog: BlogType }) {
     const supabase = await createSupabaseServerClient();
 
     const result = await supabase.from("blog").insert(blog);
+
+    revalidatePath("/dashboard/blog")
 
     return {
       status: result.status,

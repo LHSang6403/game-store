@@ -12,7 +12,7 @@ export async function signOutHandler() {
   } catch {
     return {
       data: null,
-      error: "Failed to sign out.",
+      error: "Đăng xuất thất bại.",
     };
   }
 }

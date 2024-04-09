@@ -18,7 +18,6 @@ export default function ProductActions({
 
   const handleAddToCart = () => {
     addProduct(product);
-
     toast.success("Thêm vào giỏ hàng thành công!");
   };
 

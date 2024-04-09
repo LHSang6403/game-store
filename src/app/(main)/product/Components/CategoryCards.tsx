@@ -1,5 +1,5 @@
 import { readAllCategories } from "@/app/_actions/product";
-import CategoryCard from "./CategoryCard";
+import CategoryCard from "@app/(main)/product/Components/CategoryCard";
 
 export default async function CategoryCards() {
   const categories = await readAllCategories();

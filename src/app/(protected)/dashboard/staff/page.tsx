@@ -1,7 +1,10 @@
 import { readStaffs } from "@app/_actions/user";
 import { StaffType } from "@/utils/types";
 import { DataTable } from "@components/Table/DataTable";
-import { columns, columns_headers } from "./Components/Columns";
+import {
+  columns,
+  columns_headers,
+} from "@app/(protected)/dashboard/staff/Components/Columns";
 
 export default async function page() {
   const staffs = await readStaffs({ limit: 20, offset: 0 });

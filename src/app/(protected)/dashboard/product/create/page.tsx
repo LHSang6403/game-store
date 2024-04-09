@@ -1,4 +1,4 @@
-import CreateForm from "./Components/CreateForm";
+import CreateForm from "@app/(protected)/dashboard/product/create/Components/CreateForm";
 
 export default function page() {
   return (

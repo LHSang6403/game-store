@@ -33,29 +33,30 @@ export async function updateHandler({
   updatedProductStorages: ProductStorageType[];
 }) {
   // update product images:
+  if (newProductImages.length === 0)
+    throw new Error("Lỗi không có ảnh sản phẩm.");
+
   const supabase = createSupabaseBrowserClient();
   const newProductImagesUploadResults: string[] = [];
 
-  if (newProductImages.length > 0) {
-    for (const file of newProductImages) {
-      const uploadingFile = file as File;
+  for (const file of newProductImages) {
+    const uploadingFile = file as File;
 
-      const result = await supabase.storage
-        .from("public_files")
-        .upload("/product_images/" + uploadingFile.name, uploadingFile, {
-          upsert: true,
-          duplex: "half",
-        });
+    const result = await supabase.storage
+      .from("public_files")
+      .upload("/product_images/" + uploadingFile.name, uploadingFile, {
+        upsert: true,
+        duplex: "half",
+      });
 
-      if (!result.error) newProductImagesUploadResults.push(result.data.path);
-      else {
-        toast.error("Lỗi khi lưu hình ảnh.");
-      }
+    if (!result.error) newProductImagesUploadResults.push(result.data.path);
+    else {
+      toast.error("Lỗi khi lưu hình ảnh.");
     }
-
-    if (!newProductImagesUploadResults.length)
-      throw new Error("Lỗi khi lưu hình ảnh.");
   }
+
+  if (!newProductImagesUploadResults.length)
+    throw new Error("Lỗi khi lưu hình ảnh.");
 
   const updatedProduct: ProductType = {
     id: originalProduct.product.id,

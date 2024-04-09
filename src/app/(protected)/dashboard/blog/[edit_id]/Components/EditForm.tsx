@@ -208,7 +208,7 @@ async function updateHandler(
     created_at: originalBlog.created_at,
     title: data.title,
     description: data.description,
-    content: cleanedJsonString,
+    content: JSON.parse(cleanedJsonString ?? "{}"),
     thumbnails: [...originalBlog.thumbnails, ...blogThumbnailsUploadResults],
     writer: originalBlog.writer,
     is_deleted: false,

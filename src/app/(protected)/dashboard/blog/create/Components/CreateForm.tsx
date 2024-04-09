@@ -132,7 +132,10 @@ export default function CreateForm() {
           </div>
         </div>
         <div className="col-span-2 flex justify-center">
-          <Button className="mt-1 w-fit bg-foreground px-7 text-background">
+          <Button
+            disabled={!form.formState.isValid || files.length === 0}
+            className="mt-1 w-fit bg-foreground px-7 text-background"
+          >
             Tạo bài viết
           </Button>
         </div>
@@ -178,7 +181,7 @@ async function createHandler(
     created_at: new Date().toISOString(),
     title: data.title,
     description: data.description,
-    content: cleanedJsonString,
+    content: JSON.parse(cleanedJsonString ?? "{}"),
     thumbnails: blogThumbnailsUploadResults,
     writer: session.name,
     is_deleted: false,

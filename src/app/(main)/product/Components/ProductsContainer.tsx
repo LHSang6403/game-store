@@ -6,7 +6,6 @@ import type { ProductType } from "@utils/types/index";
 import useProductFilter from "@/zustand/useProductFilter";
 import { Button } from "@components/ui/button";
 import { useState } from "react";
-import { toast } from "sonner";
 import { MAX_PRICE } from "@/zustand/useProductFilter";
 
 export default function ProductsContainer({
@@ -59,10 +58,8 @@ export default function ProductsContainer({
         <Button
           onClick={() => {
             removeAllFilters();
-            toast.success("Đã xóa các bộ lọc.");
           }}
           variant="outline"
-          className=""
         >
           Xóa bộ lọc
         </Button>
