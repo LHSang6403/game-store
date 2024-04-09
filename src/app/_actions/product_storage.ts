@@ -8,6 +8,7 @@ import type {
 import { revalidatePath } from "next/cache";
 import { saveToLog } from "@app/_actions/log";
 import { LogActorType } from "@utils/types/index";
+import { checkRoleAuthenticated, checkRoleStaff } from "@app/_actions/user";
 
 export async function createProductStorage({
   productStorage,
@@ -15,6 +16,16 @@ export async function createProductStorage({
   productStorage: ProductStorageType;
 }) {
   try {
+    const isManagerAuthenticated = await checkRoleStaff({
+      role: "Quản lý",
+    });
+    const isSellerAuthenticated = await checkRoleStaff({
+      role: "Bán hàng",
+    });
+
+    if (!isManagerAuthenticated && !isSellerAuthenticated)
+      throw new Error("Không có quyền lưu kho sản phẩm");
+
     const supabase = await createSupabaseServerClient();
 
     const result = await supabase
@@ -39,6 +50,12 @@ export async function createProductStorage({
 
 export async function removeProductStorage(id: string) {
   try {
+    const isManagerAuthenticated = await checkRoleStaff({
+      role: "Quản lý",
+    });
+    if (!isManagerAuthenticated)
+      throw new Error("Không có quyền xóa kho sản phẩm");
+
     const supabase = await createSupabaseServerClient();
 
     const result = await supabase.from("product_storage").delete().eq("id", id);
@@ -91,6 +108,9 @@ export async function updateStorageQuantityByProductId({
   updatedQuantity: number; // can be negative or positive
 }) {
   try {
+    const isAuthenticated = await checkRoleAuthenticated();
+    if (!isAuthenticated) throw new Error("Chưa có thông tin đăng nhập");
+
     const supabase = await createSupabaseServerClient();
 
     const readResult = await supabase
@@ -133,6 +153,16 @@ export async function updateProductStoragesQuantity({
   actor: LogActorType;
 }) {
   try {
+    const isManagerAuthenticated = await checkRoleStaff({
+      role: "Quản lý",
+    });
+    const isSellerAuthenticated = await checkRoleStaff({
+      role: "Bán hàng",
+    });
+
+    if (!isManagerAuthenticated && !isSellerAuthenticated)
+      throw new Error("Không có quyền nhập kho sản phẩm");
+
     const supabase = await createSupabaseServerClient();
 
     for (const addProductStorage of addProductStorageList) {

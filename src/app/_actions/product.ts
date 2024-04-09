@@ -11,6 +11,7 @@ import type {
 import { revalidatePath } from "next/cache";
 import { saveToLog } from "@app/_actions/log";
 import { LogActorType } from "@utils/types/index";
+import { checkRoleAuthenticated, checkRoleStaff } from "@app/_actions/user";
 
 export async function createProduct({
   product,
@@ -20,6 +21,12 @@ export async function createProduct({
   actor: LogActorType;
 }) {
   try {
+    const isManagerAuthenticated = await checkRoleStaff({ role: "Quản lý" });
+    const isSellerAuthenticated = await checkRoleStaff({ role: "Bán hàng" });
+
+    if (!isManagerAuthenticated && !isSellerAuthenticated)
+      throw new Error("Không có quyền tạo sản phẩm");
+
     const supabase = await createSupabaseServerClient();
     const result = await supabase.from("product").insert(product);
 
@@ -223,6 +230,9 @@ export async function updateSoldQuantityByProductId(
   updatingQuantity: number
 ) {
   try {
+    const isAuthenticated = await checkRoleAuthenticated();
+    if (!isAuthenticated) throw new Error("Chưa có thông tin đăng nhập");
+
     const supabase = await createSupabaseServerClient();
 
     const result = await supabase
@@ -346,6 +356,9 @@ export async function removeProductById({
   actor: LogActorType;
 }) {
   try {
+    const isManagerAuthenticated = await checkRoleStaff({ role: "Quản lý" });
+    if (!isManagerAuthenticated) throw new Error("Không có quyền xóa sản phẩm");
+
     const supabase = await createSupabaseServerClient();
 
     const removeResult = await supabase
@@ -384,6 +397,16 @@ export async function updateProduct({
   actor: LogActorType;
 }) {
   try {
+    const isManagerAuthenticated = await checkRoleStaff({
+      role: "Quản lý",
+    });
+    const isSellerAuthenticated = await checkRoleStaff({
+      role: "Bán hàng",
+    });
+
+    if (!isManagerAuthenticated && !isSellerAuthenticated)
+      throw new Error("Không có quyền cập nhật sản phẩm");
+
     const supabase = await createSupabaseServerClient();
 
     const result = await supabase

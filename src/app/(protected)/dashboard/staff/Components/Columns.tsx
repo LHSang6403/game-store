@@ -72,6 +72,11 @@ export const columns: ColumnDef<StaffType>[] = [
   {
     accessorKey: "phone",
     header: "SĐT",
+    cell: ({ row }) => {
+      const data = row.original;
+
+      return <div className="text-left">{data.phone ?? "Không rõ"}</div>;
+    },
   },
   {
     accessorKey: "role",

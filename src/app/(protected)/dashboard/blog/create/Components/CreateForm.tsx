@@ -52,13 +52,9 @@ export default function CreateForm() {
       async () => {
         if (session) {
           const staffSession = session as StaffType;
-
-          const create = await createHandler(data, staffSession, files);
-          if (create.createBlogResponse.error) {
-            toast.error(create.createBlogResponse.error.message);
-          }
+          await createHandler(data, staffSession, files);
         } else {
-          toast.error("Lỗi phiên đăng nhập.");
+          throw new Error("Lỗi phiên đăng nhập.");
         }
       },
       {
@@ -68,6 +64,9 @@ export default function CreateForm() {
           router.push("/dashboard/blog");
 
           return "Tạo bài viết thành công. Đang chuyển hướng...";
+        },
+        error: (error: any) => {
+          return error.message;
         },
       }
     );
@@ -149,6 +148,9 @@ async function createHandler(
 ) {
   const supabase = createSupabaseBrowserClient();
   const blogThumbnailsUploadResults: string[] = [];
+
+  if (thumbnails.length === 0)
+    throw new Error("Vui lòng tải lên ít nhất 1 ảnh.");
 
   for (const file of thumbnails) {
     const uploadingFile = file as File;

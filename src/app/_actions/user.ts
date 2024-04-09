@@ -80,6 +80,10 @@ export async function updateStaffRole({
   actor: LogActorType;
 }) {
   try {
+    const isManagerAuthenticeated = await checkRoleStaff({ role: "Quản lý" });
+    if (!isManagerAuthenticeated)
+      throw new Error("Tài khoản không có quyền cập nhật.");
+
     const supabase = await createSupabaseServerClient();
     const supabaseAdmin = await createSupabaseAdmin();
 
@@ -131,6 +135,10 @@ export async function updateCustomerToStaff({
   actor: LogActorType;
 }) {
   try {
+    const isManagerAuthenticated = await checkRoleStaff({ role: "Quản lý" });
+    if (!isManagerAuthenticated)
+      throw new Error("Tài khoản không có quyền cập nhật.");
+
     const supabase = await createSupabaseServerClient();
     const supabaseAdmin = await createSupabaseAdmin();
 
@@ -195,6 +203,10 @@ export async function updateStaffToCustomer({
   actor: LogActorType;
 }) {
   try {
+    const isManagerAuthenticated = await checkRoleStaff({ role: "Quản lý" });
+    if (!isManagerAuthenticated)
+      throw new Error("Tài khoản không có quyền cập nhật.");
+
     const supabase = await createSupabaseServerClient();
     const supabaseAdmin = await createSupabaseAdmin();
 
@@ -252,6 +264,10 @@ export async function updateUserProfile({
   actor: LogActorType;
 }) {
   try {
+    const isAuthenticated = await checkRoleAuthenticated();
+    if (!isAuthenticated)
+      throw new Error("Không xác định tài khoản đăng nhập.");
+
     const supabase = await createSupabaseServerClient();
     const supabaseAdmin = await createSupabaseAdmin();
 
@@ -367,6 +383,17 @@ export async function updateCustomerLevel({
   actor: LogActorType;
 }) {
   try {
+    const isManagerAuthenticated = await checkRoleStaff({
+      role: "Quản lý",
+    });
+    const isSellerAuthenticated = await checkRoleStaff({
+      role: "Bán hàng",
+    });
+
+    if (!isManagerAuthenticated && !isSellerAuthenticated) {
+      throw new Error("Tài khoản không có quyền cập nhật.");
+    }
+
     const supabase = await createSupabaseServerClient();
 
     const result = await supabase
@@ -410,6 +437,10 @@ export async function updateUserImage({
   newImage: string;
 }) {
   try {
+    const isAuthenticated = await checkRoleAuthenticated();
+    if (!isAuthenticated)
+      throw new Error("Không xác định tài khoản đăng nhập.");
+
     const supabase = await createSupabaseServerClient();
 
     const result = await supabase
@@ -430,5 +461,40 @@ export async function updateUserImage({
       data: null,
       error: error.message,
     };
+  }
+}
+
+// Check role functions
+
+export async function checkRoleAuthenticated() {
+  try {
+    const session = await readUserSession();
+
+    if (session.data?.data) return true;
+  } catch (error: any) {
+    return false;
+  }
+}
+
+export async function checkRoleCustomer() {
+  try {
+    const session = await readUserSession();
+    const customerSession = session.data?.detailData as CustomerType;
+
+    if (customerSession && "level" in customerSession) return true;
+  } catch (error: any) {
+    return false;
+  }
+}
+
+export async function checkRoleStaff({ role }: { role: StaffRole }) {
+  try {
+    const session = await readUserSession();
+    const staffSession = session.data?.detailData as StaffType;
+
+    if (staffSession && "role" in staffSession && staffSession.role === role)
+      return true;
+  } catch (error: any) {
+    return false;
   }
 }

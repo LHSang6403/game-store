@@ -60,18 +60,22 @@ export default function SignIn() {
             session.data.detailData
           ) {
             setSession(session.data.detailData);
-
-            form.reset();
-            router.push("/");
-
-            toast.success("Đăng nhập thành công!");
           } else {
-            toast.error("Đăng nhập thất bại");
+            throw new Error("Đăng nhập thất bại");
           }
         }
       },
       {
         loading: "Đang đăng nhập...",
+        success: () => {
+          form.reset();
+          router.push("/");
+
+          return "Đăng nhập thành công!";
+        },
+        error: (error: any) => {
+          return error.message;
+        },
       }
     );
   }

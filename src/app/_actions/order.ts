@@ -7,6 +7,7 @@ import { updateSoldQuantityByProductId } from "@/app/_actions/product";
 import { revalidatePath } from "next/cache";
 import { ShipmentState } from "@utils/types/index";
 import { saveToLog } from "@app/_actions/log";
+import { checkRoleAuthenticated, checkRoleStaff } from "@app/_actions/user";
 
 export async function createOrder({
   order,
@@ -16,6 +17,10 @@ export async function createOrder({
   actor: LogActorType;
 }) {
   try {
+    const isAuthenticated = await checkRoleAuthenticated();
+    if (!isAuthenticated)
+      throw new Error("Không xác định tài khoản đăng nhập.");
+
     const supabase = await createSupabaseServerClient();
 
     const result = await supabase.from("order").insert(order);
@@ -66,6 +71,10 @@ export async function updateStateOrder({
   actor: LogActorType;
 }) {
   try {
+    const isAuthenticated = await checkRoleAuthenticated();
+    if (!isAuthenticated)
+      throw new Error("Không xác định tài khoản đăng nhập.");
+
     const supabase = await createSupabaseServerClient();
 
     const result = await supabase
@@ -162,6 +171,22 @@ export async function readOrdersByDateRange({
   to: Date;
 }) {
   try {
+    const isManagerAuthenticated = await checkRoleStaff({ role: "Quản lý" });
+    const isSellerAuthenticated = await checkRoleStaff({
+      role: "Bán hàng",
+    });
+    const isWriterAuthenticated = await checkRoleStaff({
+      role: "Biên tập",
+    });
+
+    if (
+      !isManagerAuthenticated &&
+      !isSellerAuthenticated &&
+      !isWriterAuthenticated
+    ) {
+      throw new Error("Không có quyền truy cập.");
+    }
+
     const supabase = await createSupabaseServerClient();
 
     const result = await supabase
@@ -194,6 +219,9 @@ export async function readOrdersNumbersByDateRange({
   to: Date;
 }) {
   try {
+    const isManagerAuthenticated = await checkRoleStaff({ role: "Quản lý" });
+    if (!isManagerAuthenticated) throw new Error("Không có quyền truy cập.");
+
     const supabase = await createSupabaseServerClient();
 
     const orderPricesByMonth: { month: number; year: number; total: number }[] =

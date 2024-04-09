@@ -57,14 +57,9 @@ export default function EditForm({ blog }: { blog: BlogType }) {
       async () => {
         if (session) {
           const staffSession = session as StaffType;
-
-          const update = await updateHandler(blog, data, staffSession, files);
-
-          if (update.updateBlogResponse.error) {
-            toast.error(update.updateBlogResponse.error.message);
-          }
+          await updateHandler(blog, data, staffSession, files);
         } else {
-          toast.error("Lỗi phiên đăng nhập.");
+          throw new Error("Lỗi phiên đăng nhập.");
         }
       },
       {
@@ -74,6 +69,9 @@ export default function EditForm({ blog }: { blog: BlogType }) {
           router.push("/dashboard/blog");
 
           return "Chỉnh sủa bài viết thành công. Đang chuyển hướng...";
+        },
+        error: (error: any) => {
+          return error.message;
         },
       }
     );
@@ -127,7 +125,7 @@ export default function EditForm({ blog }: { blog: BlogType }) {
           </CardContent>
         </Card>
         <Card className="h-fit min-h-[440px] xl:col-span-2">
-          <CardHeader className="pb-3"> Hình ảnh xem trước</CardHeader>
+          <CardHeader className="pb-3">Hình ảnh xem trước</CardHeader>
           <CardContent className="flex flex-col gap-4 pb-0">
             <div className="grid w-fit grid-cols-6 gap-3 sm:grid-cols-4">
               {updatedBlogThumbnails.map((image: string, index: number) => (
@@ -178,25 +176,29 @@ async function updateHandler(
   addThumbnails: File[]
 ) {
   const supabase = createSupabaseBrowserClient();
+
   const blogThumbnailsUploadResults: string[] = [];
+  if (addThumbnails.length > 0) {
+    for (const file of addThumbnails) {
+      const uploadingFile = file as File;
+      const result = await supabase.storage
+        .from("public_files")
+        .upload("/blog_thumbnails/" + uploadingFile.name, uploadingFile, {
+          upsert: true,
+          duplex: "half",
+        });
 
-  for (const file of addThumbnails) {
-    const uploadingFile = file as File;
+      console.log("===", result);
 
-    const result = await supabase.storage
-      .from("public_files")
-      .upload("/blog_thumbnails/" + uploadingFile.name, uploadingFile, {
-        upsert: true,
-        duplex: "half",
-      });
-
-    if (!result.error) blogThumbnailsUploadResults.push(result.data.path);
-    else {
-      toast.error("Lỗi khi tải ảnh.");
+      if (!result.error) blogThumbnailsUploadResults.push(result.data.path);
+      else {
+        toast.error("Lỗi khi tải ảnh.");
+      }
     }
-  }
 
-  if (!blogThumbnailsUploadResults.length) throw new Error("Lỗi khi tải ảnh.");
+    if (!blogThumbnailsUploadResults.length)
+      throw new Error("Lỗi khi tải ảnh.");
+  }
 
   const editorContent = window.localStorage.getItem("content");
   const cleanedJsonString = editorContent?.replace(/\\/g, "");

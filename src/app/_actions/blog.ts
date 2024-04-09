@@ -3,9 +3,20 @@
 import createSupabaseServerClient from "@/supabase-query/server";
 import { BlogType, LogActorType } from "@utils/types";
 import { saveToLog } from "@app/_actions/log";
+import { checkRoleStaff } from "@app/_actions/user";
 
 export async function createBlog({ blog }: { blog: BlogType }) {
   try {
+    const isManagerAuthenticated = await checkRoleStaff({
+      role: "Quản lý",
+    });
+    const isSellerAuthenticated = await checkRoleStaff({
+      role: "Biên tập",
+    });
+
+    if (!isManagerAuthenticated && !isSellerAuthenticated)
+      throw new Error("Không có quyền tạo bài viết");
+
     const supabase = await createSupabaseServerClient();
 
     const result = await supabase.from("blog").insert(blog);
@@ -93,6 +104,16 @@ export async function deleteBlogById({
   actor: LogActorType;
 }) {
   try {
+    const isManagerAuthenticated = await checkRoleStaff({
+      role: "Quản lý",
+    });
+    const isSellerAuthenticated = await checkRoleStaff({
+      role: "Biên tập",
+    });
+
+    if (!isManagerAuthenticated && !isSellerAuthenticated)
+      throw new Error("Không có quyền xóa bài viết");
+
     const supabase = await createSupabaseServerClient();
 
     const result = await supabase
@@ -131,6 +152,18 @@ export async function updateBlog({
   actor: LogActorType;
 }) {
   try {
+    const isManagerAuthenticated = await checkRoleStaff({
+      role: "Quản lý",
+    });
+    const isWriterAuthenticated = await checkRoleStaff({
+      role: "Biên tập",
+    });
+
+    if (!isManagerAuthenticated && !isWriterAuthenticated)
+      throw new Error("Không có quyền cập nhật bài viết");
+
+    console.log({ isWriterAuthenticated, isManagerAuthenticated });
+
     const supabase = await createSupabaseServerClient();
 
     const result = await supabase
@@ -138,6 +171,8 @@ export async function updateBlog({
       .update(updatedBlog)
       .eq("id", updatedBlog.id)
       .eq("is_deleted", false);
+
+    console.log({ result });
 
     await saveToLog({
       logName: "Cập nhật bài viết " + updatedBlog.title,

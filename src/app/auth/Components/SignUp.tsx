@@ -114,36 +114,28 @@ export default function SignUp() {
           });
 
           const avatarUrl = uploadAvatarResult.data?.path;
+          if (!avatarUrl) throw new Error("Thêm ảnh thất bại.");
 
-          if (avatarUrl) {
-            await updateUserImage({
-              id: result.data?.user?.id,
-              table: "customer",
-              newImage: avatarUrl,
-            });
-          } else {
-            toast.error("Thêm ảnh thất bại.");
-          }
-        }
-
-        if (result.error) {
-          if (typeof result.error === "string") {
-            toast.error(result.error);
-          } else {
-            toast.error(result.error.message);
-          }
-        } else {
-          form.reset();
-
-          clearAll();
-          clearFiles();
-          setDate(undefined);
-
-          toast.success("Tạo tài khoản thành công. Vui lòng xác nhận email.");
+          await updateUserImage({
+            id: result.data?.user?.id,
+            table: "customer",
+            newImage: avatarUrl,
+          });
         }
       },
       {
         loading: "Đang tạo tài khoản...",
+        success: () => {
+          form.reset();
+          clearAll();
+          clearFiles();
+          setDate(undefined);
+
+          return "Tạo tài khoản thành công. Vui lòng xác nhận email.";
+        },
+        error: (error: any) => {
+          return error.message;
+        },
       }
     );
   }
