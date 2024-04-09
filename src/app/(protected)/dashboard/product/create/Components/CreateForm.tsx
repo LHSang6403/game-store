@@ -96,42 +96,43 @@ export default function CreateForm() {
   }
 
   return (
-    <Form {...form}>
-      <form
-        onSubmit={form.handleSubmit(onSubmit)}
-        className="grid grid-cols-2 gap-4"
-      >
-        <div className="h-fit min-h-[550px] w-full xl:col-span-2">
-          <ProductFormInputs form={form} />
-        </div>
-        <Card className="flex h-fit min-h-[550px] w-full flex-col xl:col-span-2">
-          <CardHeader className="pb-3">Hình ảnh sản phẩm</CardHeader>
-          <CardContent className="pb-0">
-            <DropAndDragZone className="mt-2 w-full rounded-lg border p-16 sm:p-6" />
-          </CardContent>
-        </Card>
-        <div className="col-span-2">
-          <ProductStorageCheckbox
-            onValuesChange={(values) => {
-              setProductStorages(values);
-            }}
-          />
-        </div>
-        <div className="col-span-2">
-          <div className="h-fit overflow-hidden rounded-md border">
-            <Editor editable={true} />
+    <div className="flex flex-col gap-4">
+      <Form {...form}>
+        <form className="flex w-full flex-col gap-4">
+          <div className="flex w-full flex-row gap-4 xl:flex-col">
+            <div className="h-fit min-h-[550px] w-1/2 xl:w-full">
+              <ProductFormInputs form={form} />
+            </div>
+            <Card className="flex h-fit min-h-[550px] w-1/2 flex-col xl:min-h-0 xl:w-full">
+              <CardHeader className="pb-3">Hình ảnh sản phẩm</CardHeader>
+              <CardContent className="pb-0">
+                <DropAndDragZone className="mt-2 w-full rounded-lg border p-16 sm:p-6" />
+              </CardContent>
+            </Card>
           </div>
+          <div className="">
+            <ProductStorageCheckbox
+              onValuesChange={(values) => {
+                setProductStorages(values);
+              }}
+            />
+          </div>
+        </form>
+      </Form>
+      <div>
+        <div className="h-fit overflow-hidden rounded-md border">
+          <Editor editable={true} />
         </div>
-        <div className="col-span-2 flex justify-center">
-          <Button
-            disabled={!form.formState.isValid || files.length === 0}
-            type="submit"
-            className="mt-1 w-fit bg-foreground px-7 text-background"
-          >
-            Tạo sản phẩm
-          </Button>
-        </div>
-      </form>
-    </Form>
+      </div>
+      <div className="flex justify-center">
+        <Button
+          onClick={form.handleSubmit(onSubmit)}
+          disabled={!form.formState.isValid || files.length === 0}
+          className="mt-1 w-fit bg-foreground px-7 text-background"
+        >
+          Tạo sản phẩm
+        </Button>
+      </div>
+    </div>
   );
 }

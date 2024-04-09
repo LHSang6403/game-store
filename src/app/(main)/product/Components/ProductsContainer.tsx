@@ -1,6 +1,6 @@
 "use client";
 
-import Product from "@components/Product/Product";
+import Product from "@/components/Items/Product";
 import PaginationButtons from "@app/(main)/product/Components/PaginationButtons";
 import type { ProductType } from "@utils/types/index";
 import useProductFilter from "@/zustand/useProductFilter";

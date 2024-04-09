@@ -73,74 +73,74 @@ export default function CreateForm() {
   }
 
   return (
-    <Form {...form}>
-      <form
-        onSubmit={form.handleSubmit(onSubmit)}
-        className="grid grid-cols-2 gap-4"
-      >
-        <Card className="h-fit min-h-[440px] xl:col-span-2">
-          <CardHeader className="pb-3">Thông tin bài viêt</CardHeader>
-          <CardContent className="flex flex-col gap-4">
-            <FormField
-              control={form.control}
-              name="title"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Tiêu đề</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder="Tiêu đề bài viết"
-                      {...field}
-                      type="text"
-                      onChange={field.onChange}
-                      className="border-[#E5E7EB]"
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="description"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Mô tả</FormLabel>
-                  <FormControl>
-                    <Textarea
-                      className="max-h-52 min-h-36 border-[#E5E7EB]"
-                      placeholder="Mô tả ngắn của bài viết"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </CardContent>
-        </Card>
-        <Card className="flex h-fit min-h-[440px] w-full flex-col xl:col-span-2">
-          <CardHeader className="pb-3">Ảnh xem trước</CardHeader>
-          <CardContent>
-            <DropAndDragZone className="mt-2 rounded-lg border p-16 sm:p-6" />
-          </CardContent>
-        </Card>
-        <div className="col-span-2">
-          <h2 className="title mb-1 ml-1 text-sm font-medium">Nội dung</h2>
-          <div className="mt-2 h-fit overflow-hidden rounded-md border">
-            <Editor editable={true} />
-          </div>
+    <div className="flex flex-col gap-4">
+      <Form {...form}>
+        <form className="flex w-full flex-row gap-4 xl:flex-col">
+          <Card className="h-fit min-h-[440px] w-1/2 xl:w-full">
+            <CardHeader className="pb-3">Thông tin bài viêt</CardHeader>
+            <CardContent className="flex flex-col gap-4">
+              <FormField
+                control={form.control}
+                name="title"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Tiêu đề</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="Tiêu đề bài viết"
+                        {...field}
+                        type="text"
+                        onChange={field.onChange}
+                        className="border-[#E5E7EB]"
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="description"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Mô tả</FormLabel>
+                    <FormControl>
+                      <Textarea
+                        className="max-h-52 min-h-36 border-[#E5E7EB]"
+                        placeholder="Mô tả ngắn của bài viết"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </CardContent>
+          </Card>
+          <Card className="flex h-fit min-h-[440px] w-1/2 flex-col xl:min-h-0 xl:w-full">
+            <CardHeader className="pb-3">Ảnh xem trước</CardHeader>
+            <CardContent>
+              <DropAndDragZone className="mt-2 rounded-lg border p-16 sm:p-6" />
+            </CardContent>
+          </Card>
+        </form>
+      </Form>
+      <div className="">
+        <h2 className="title mb-1 ml-1 text-sm font-medium">Nội dung</h2>
+        <div className="mt-2 h-fit overflow-hidden rounded-md border">
+          <Editor editable={true} />
         </div>
-        <div className="col-span-2 flex justify-center">
-          <Button
-            disabled={!form.formState.isValid || files.length === 0}
-            className="mt-1 w-fit bg-foreground px-7 text-background"
-          >
-            Tạo bài viết
-          </Button>
-        </div>
-      </form>
-    </Form>
+      </div>
+      <div className="flex justify-center">
+        <Button
+          onClick={form.handleSubmit(onSubmit)}
+          disabled={!form.formState.isValid || files.length === 0}
+          className="mt-1 w-fit bg-foreground px-7 text-background"
+        >
+          Tạo bài viết
+        </Button>
+      </div>
+    </div>
   );
 }
 

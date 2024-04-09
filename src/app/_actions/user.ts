@@ -14,6 +14,8 @@ import customerToStaff from "@utils/functions/customerToStaff";
 import staffToCustomer from "@utils/functions/staffToCustomer";
 import { saveToLog } from "@app/_actions/log";
 
+const OWNER_ID = "970f61f1-f480-4388-a100-521594fe7840";
+
 export async function readUserSession() {
   try {
     const supabase = await createSupabaseServerClient();
@@ -80,6 +82,9 @@ export async function updateStaffRole({
   actor: LogActorType;
 }) {
   try {
+    if (staff.id === OWNER_ID)
+      throw new Error("Không thể cập nhật quyền của chủ cửa hàng.");
+
     const isManagerAuthenticeated = await checkRoleStaff({ role: "Quản lý" });
     if (!isManagerAuthenticeated)
       throw new Error("Tài khoản không có quyền cập nhật.");
@@ -113,7 +118,7 @@ export async function updateStaffRole({
       status: updateResult.status,
       statusText: updateResult.statusText,
       data: updateResult.data,
-      error: updateResult.error,
+      error: null,
     };
   } catch (error: any) {
     return {
@@ -203,6 +208,11 @@ export async function updateStaffToCustomer({
   actor: LogActorType;
 }) {
   try {
+    if (staff.id === OWNER_ID)
+      throw new Error(
+        "Không thể cập nhật quyền của chủ cửa hàng thành khách hàng."
+      );
+
     const isManagerAuthenticated = await checkRoleStaff({ role: "Quản lý" });
     if (!isManagerAuthenticated)
       throw new Error("Tài khoản không có quyền cập nhật.");

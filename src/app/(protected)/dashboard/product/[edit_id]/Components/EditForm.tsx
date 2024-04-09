@@ -101,66 +101,65 @@ export default function EditForm({
   }
 
   return (
-    <Form {...form}>
-      <form
-        onSubmit={form.handleSubmit(onSubmit)}
-        className="grid grid-cols-2 gap-4"
-      >
-        <div className="h-fit min-h-[550px] w-full xl:col-span-2">
-          <CreateProductFormInputs form={form} />
-        </div>
-        <Card className="flex h-fit min-h-[550px] w-full flex-col xl:col-span-2">
-          <CardHeader className="pb-3">Hình ảnh sản phẩm</CardHeader>
-          <CardContent className="pb-0">
-            <div className="mt-1.5 grid w-fit grid-cols-6 gap-3 sm:grid-cols-4">
-              {updatedProductImages?.map((image: string, index: number) => (
-                <ImageFileItem
-                  key={index}
-                  image={
-                    process.env.NEXT_PUBLIC_SUPABASE_URL +
-                    "/storage/v1/object/public/public_files/" +
-                    image
-                  }
-                  name={image.split("/")[image.split("/").length - 1]}
-                  removeHandler={() => {
-                    setUpdatedProductImages((images) =>
-                      images.filter((img) => img !== image)
-                    );
-                  }}
-                />
-              ))}
-            </div>
-            <div className="mt-5 w-full xl:mt-4">
-              <h2 className="title mb-1 ml-1 text-sm font-medium">
-                Thêm hình sản phẩm
-              </h2>
-              <DropAndDragZone className="mt-1.5 rounded-lg border p-16 sm:p-6" />
-            </div>
-          </CardContent>
-        </Card>
-        <div className="col-span-2">
-          <ProductStorageCheckbox
-            defaultProductStorages={product.product_storages ?? []}
-            onValuesChange={(values) => {
-              setUpdatedProductStorages(values);
-            }}
-          />
-        </div>
-        <div className="col-span-2">
-          <div className="h-fit overflow-hidden rounded-md border">
-            <Editor editable={true} />
+    <div className="flex flex-col gap-4">
+      <Form {...form}>
+        <form className="grid grid-cols-2 gap-4">
+          <div className="h-fit min-h-[550px] w-full xl:col-span-2">
+            <CreateProductFormInputs form={form} />
           </div>
+          <Card className="flex h-fit min-h-[550px] w-full flex-col xl:col-span-2 xl:min-h-0">
+            <CardHeader className="pb-3">Hình ảnh sản phẩm</CardHeader>
+            <CardContent className="pb-0">
+              <div className="mt-1.5 grid w-fit grid-cols-6 gap-3 sm:grid-cols-4">
+                {updatedProductImages?.map((image: string, index: number) => (
+                  <ImageFileItem
+                    key={index}
+                    image={
+                      process.env.NEXT_PUBLIC_SUPABASE_URL +
+                      "/storage/v1/object/public/public_files/" +
+                      image
+                    }
+                    name={image.split("/")[image.split("/").length - 1]}
+                    removeHandler={() => {
+                      setUpdatedProductImages((images) =>
+                        images.filter((img) => img !== image)
+                      );
+                    }}
+                  />
+                ))}
+              </div>
+              <div className="mt-5 w-full xl:mt-4">
+                <h2 className="title mb-1 ml-1 text-sm font-medium">
+                  Thêm hình sản phẩm
+                </h2>
+                <DropAndDragZone className="mt-1.5 rounded-lg border p-16 sm:p-6" />
+              </div>
+            </CardContent>
+          </Card>
+          <div className="col-span-2">
+            <ProductStorageCheckbox
+              defaultProductStorages={product.product_storages ?? []}
+              onValuesChange={(values) => {
+                setUpdatedProductStorages(values);
+              }}
+            />
+          </div>
+        </form>
+      </Form>
+      <div>
+        <div className="h-fit overflow-hidden rounded-md border">
+          <Editor editable={true} />
         </div>
-        <div className="col-span-2 flex justify-center">
-          <Button
-            disabled={files.length === 0 || !form.formState.isValid}
-            type="submit"
-            className="mt-1 w-fit bg-foreground px-7 text-background"
-          >
-            Lưu thay đổi
-          </Button>
-        </div>
-      </form>
-    </Form>
+      </div>
+      <div className="flex justify-center">
+        <Button
+          onClick={form.handleSubmit(onSubmit)}
+          disabled={files.length === 0 || !form.formState.isValid}
+          className="mt-1 w-fit bg-foreground px-7 text-background"
+        >
+          Lưu thay đổi
+        </Button>
+      </div>
+    </div>
   );
 }

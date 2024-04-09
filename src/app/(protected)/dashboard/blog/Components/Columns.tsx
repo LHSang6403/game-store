@@ -29,6 +29,15 @@ export const columns: ColumnDef<BlogType>[] = [
   {
     accessorKey: "title",
     header: "Tiêu đề",
+    cell: ({ row }) => {
+      const data = row.original;
+
+      return (
+        <div className="line-clamp-2 max-w-60 overflow-ellipsis lg:line-clamp-3 lg:w-32">
+          {data.title}
+        </div>
+      );
+    },
   },
   {
     accessorKey: "description",

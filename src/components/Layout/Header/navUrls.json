@@ -15,6 +15,11 @@
     "permission": ""
   },
   {
+    "name": "Tin tức",
+    "url": "/blog",
+    "permission": ""
+  },
+  {
     "name": "Về Store",
     "url": "/about",
     "permission": ""

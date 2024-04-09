@@ -88,6 +88,7 @@ export default function DashboardSidebar() {
         {dashboardSidebarList.map((item, index) => {
           if (
             staffSession &&
+            "role" in staffSession &&
             (item.permissions.length === 0 ||
               item.permissions.includes(staffSession.role))
           )

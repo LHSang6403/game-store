@@ -10,14 +10,16 @@ export default function Header() {
   const path = usePathname();
 
   return (
-    <div className="fixed top-0 z-30 flex h-16 w-full flex-row items-center justify-around bg-background px-10 xl:static xl:justify-between sm:px-4">
+    <div className="fixed top-0 z-30 flex h-16 w-full flex-row items-center justify-around gap-4 bg-background px-10 xl:static xl:justify-between sm:px-4">
       <div className="mr-auto flex items-center">
         <PrimaryLogo />
       </div>
-      <nav className="flex w-full flex-row items-center justify-center gap-6 xl:hidden">
-        <div className={`w-28 ${path === "/product" ? "invisible" : ""}`}></div>
+      <nav className="flex w-full flex-row items-center justify-around gap-6 xl:hidden">
+        <div
+          className={`w-full ${path === "/product" ? "invisible" : ""}`}
+        ></div>
         <NavBar />
-        <div className={`w-44 ${path === "/product" ? "invisible" : ""}`}>
+        <div className={`w-full ${path === "/product" ? "invisible" : ""}`}>
           <SearchBar />
         </div>
       </nav>
