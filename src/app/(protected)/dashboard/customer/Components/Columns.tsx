@@ -115,7 +115,7 @@ export const columns: ColumnDef<CustomerType>[] = [
             if (!session.session)
               throw new Error("Không xác định phiên đăng nhập.");
 
-            await updateCustomerLevel({
+            const result = await updateCustomerLevel({
               customer: customer,
               newLevel: newLevel,
               actor: {
@@ -123,6 +123,8 @@ export const columns: ColumnDef<CustomerType>[] = [
                 actorName: session.session.name,
               },
             });
+
+            if (result.error) throw new Error(result.error);
           },
           {
             success: "Cập nhật thành công!",
@@ -143,7 +145,7 @@ export const columns: ColumnDef<CustomerType>[] = [
             if (!session.session)
               throw new Error("Không xác định phiên đăng nhập.");
 
-            await updateCustomerToStaff({
+            const result = await updateCustomerToStaff({
               customer: customer,
               role: staffRole,
               actor: {
@@ -151,6 +153,8 @@ export const columns: ColumnDef<CustomerType>[] = [
                 actorName: session.session.name,
               },
             });
+
+            if (result.error) throw new Error(result.error);
           },
           {
             success: "Cập nhật thành công!",

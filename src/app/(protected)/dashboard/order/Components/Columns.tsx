@@ -83,7 +83,7 @@ export const columns: ColumnDef<OrderType>[] = [
             if (!session.session)
               throw new Error("Không xác định phiên đăng nhập.");
 
-            await updateStateOrder({
+            const result = await updateStateOrder({
               order: data,
               state: newState,
               actor: {
@@ -91,6 +91,8 @@ export const columns: ColumnDef<OrderType>[] = [
                 actorName: session.session?.name,
               },
             });
+
+            if (result.error) throw new Error(result.error);
           },
           {
             loading: "Đang cập nhật đơn hàng...",

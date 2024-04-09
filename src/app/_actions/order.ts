@@ -82,6 +82,8 @@ export async function updateStateOrder({
       .update({ state: state })
       .eq("id", order.id);
 
+    if (result.error) throw new Error("Lỗi khi cập nhật trình trạng đơn hàng.");
+
     revalidatePath("/dashboard/order");
 
     await saveToLog({

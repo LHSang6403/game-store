@@ -97,6 +97,8 @@ export async function updateStaffRole({
       .update({ role: updatedRole })
       .eq("id", staff.id);
 
+    if (updateResult.error) throw new Error("Lỗi cập nhật dữ liệu.");
+
     const updateAdminResult = await supabaseAdmin.auth.admin.updateUserById(
       staff.id,
       {
@@ -162,7 +164,7 @@ export async function updateCustomerToStaff({
       .single();
 
     const customerData = customerResult.data;
-    if (!customerData) throw new Error("Lỗi phiên đăng nhập.");
+    if (!customerData) throw new Error("Lỗi truy xuất dữ liệu.");
 
     await supabaseAdmin.auth.admin.updateUserById(customer.id, {
       user_metadata: { role: role },
@@ -173,6 +175,8 @@ export async function updateCustomerToStaff({
     const result = await supabase
       .from("staff")
       .insert(customerToStaff(customerData, role));
+
+    if (result.error) throw new Error("Lỗi truy xuất dữ liệu.");
 
     revalidatePath("/dashboard/customer");
     revalidatePath("/dashboard/staff");
@@ -228,34 +232,37 @@ export async function updateStaffToCustomer({
 
     const staffData = staffResult.data;
 
-    if (staffData) {
-      await supabaseAdmin.auth.admin.updateUserById(staff.id, {
-        user_metadata: { role: "Khách hàng" },
-      });
+    if (!staffData) throw new Error("Lỗi truy vấn dữ liệu.");
 
-      await supabase.from("staff").delete().eq("id", staff.id);
+    await supabaseAdmin.auth.admin.updateUserById(staff.id, {
+      user_metadata: { role: "Khách hàng" },
+    });
 
-      const result = await supabase
-        .from("customer")
-        .insert(staffToCustomer(staffData));
+    await supabase.from("staff").delete().eq("id", staff.id);
 
-      revalidatePath("/dashboard/customer");
-      revalidatePath("/dashboard/staff");
+    const result = await supabase
+      .from("customer")
+      .insert(staffToCustomer(staffData));
 
-      await saveToLog({
-        logName: "Cập nhật nhân viên " + staff.name + " thành khách hàng",
-        logType: "Cập nhật",
-        logResult: !result.error ? "Thành công" : "Thất bại",
-        logActor: actor,
-      });
+    if (result.error)
+      throw new Error("Đã có lỗi xảy ra khi cập nhật thông tin.");
 
-      return {
-        status: result.status,
-        statusText: result.statusText,
-        data: result.data,
-        error: result.error,
-      };
-    } else throw new Error("Lỗi phiên đăng nhập");
+    revalidatePath("/dashboard/customer");
+    revalidatePath("/dashboard/staff");
+
+    await saveToLog({
+      logName: "Cập nhật nhân viên " + staff.name + " thành khách hàng",
+      logType: "Cập nhật",
+      logResult: !result.error ? "Thành công" : "Thất bại",
+      logActor: actor,
+    });
+
+    return {
+      status: result.status,
+      statusText: result.statusText,
+      data: result.data,
+      error: result.error,
+    };
   } catch (error: any) {
     return {
       status: 500,
@@ -290,6 +297,8 @@ export async function updateUserProfile({
       .from(role.toLowerCase())
       .update(updatedUser)
       .eq("id", updatedUser.id);
+
+    if (result.error) throw new Error("Lỗi cập nhật dữ liệu.");
 
     revalidatePath("/profile");
 
@@ -411,6 +420,8 @@ export async function updateCustomerLevel({
       .update({ level: newLevel })
       .eq("id", customer.id);
 
+    if (result.error) throw new Error("Lỗi cập nhật dữ liệu.");
+
     revalidatePath("/dashboard/customer");
 
     await saveToLog({
@@ -457,6 +468,8 @@ export async function updateUserImage({
       .from(table)
       .update({ image: newImage })
       .eq("id", id);
+
+    if (result.error) throw new Error("Lỗi cập nhật dữ liệu.");
 
     return {
       status: result.status,
