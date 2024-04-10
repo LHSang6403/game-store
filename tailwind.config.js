@@ -8,7 +8,6 @@ module.exports = {
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
     "./node_modules/@tremor/**/*.{js,ts,jsx,tsx}",
-    "./src/components/Editor/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
     screens: {
@@ -181,6 +180,7 @@ module.exports = {
     },
   ],
   plugins: [
+    require("@tailwindcss/forms/src/index"),
     require("tailwindcss-animate"),
     require("@headlessui/tailwindcss"),
     require("@tailwindcss/forms"),

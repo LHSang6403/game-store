@@ -7,7 +7,6 @@ import { toast } from "sonner";
 import { Form } from "@components/ui/form";
 import { Button } from "@components/ui/button";
 import { useRouter } from "next/navigation";
-import Editor from "@/components/Editor";
 import DropAndDragZone from "@components/File/DropAndDragZone";
 import ProductFormInputs from "@/app/(protected)/dashboard/product/create/Components/CreateProductFormInputs";
 import useFiles from "@/zustand/useFiles";
@@ -17,6 +16,9 @@ import { useState } from "react";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import ProductStorageCheckbox from "@/app/(protected)/dashboard/product/create/Components/ProductStorageCheckbox";
 import { createHandler } from "@/app/(protected)/dashboard/product/create/_actions/index";
+import { defaultValueEditor } from "@/utils/default-value-editor";
+import { JSONContent } from "novel";
+import Editor from "@/components/editor/advanced-editor";
 
 export const FormSchema = z.object({
   brand: z.string().min(2, { message: "Vui lòng nhập hiệu." }),
@@ -49,6 +51,9 @@ export default function CreateForm() {
   const { files } = useFiles();
   const { session } = useSession();
 
+  const [description, setDescription] =
+    useState<JSONContent>(defaultValueEditor);
+
   const initState = {
     brand: "",
     name: "",
@@ -75,6 +80,7 @@ export default function CreateForm() {
 
         const result = await createHandler({
           formData: data,
+          description: description,
           productImages: files,
           session: session,
           productStorages: productStorages,
@@ -123,7 +129,7 @@ export default function CreateForm() {
       </Form>
       <div>
         <div className="h-fit overflow-hidden rounded-md border">
-          <Editor editable={true} />
+          <Editor initialValue={description} onChange={setDescription} />
         </div>
       </div>
       <div className="flex justify-center">

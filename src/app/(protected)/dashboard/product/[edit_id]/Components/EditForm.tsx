@@ -7,7 +7,6 @@ import { toast } from "sonner";
 import { Form } from "@components/ui/form";
 import { Button } from "@components/ui/button";
 import { useRouter } from "next/navigation";
-import Editor from "@/components/Editor";
 import DropAndDragZone from "@/components/File/DropAndDragZone";
 import CreateProductFormInputs from "@/app/(protected)/dashboard/product/create/Components/CreateProductFormInputs";
 import useFiles from "@/zustand/useFiles";
@@ -21,6 +20,9 @@ import ImageFileItem from "@components/File/ImageFileItem";
 import ProductStorageCheckbox from "@app/(protected)/dashboard/product/create/Components/ProductStorageCheckbox";
 import { updateHandler } from "@app/(protected)/dashboard/product/[edit_id]/_actions/index";
 import { Card, CardHeader, CardContent } from "@components/ui/card";
+import { JSONContent } from "novel";
+import Editor from "@/components/editor/advanced-editor";
+import { parseStringToJSONContent } from "@/utils/functions/parseStringToJSONContent";
 
 export const FormSchema = z.object({
   brand: z.string().min(2, { message: "Vui lòng nhập hiệu." }),
@@ -49,6 +51,12 @@ export default function EditForm({
   const router = useRouter();
   const { files } = useFiles();
   const { session } = useSession();
+
+  const parsedContent: JSONContent = parseStringToJSONContent(
+    product.product_description.content
+  );
+
+  const [description, setDescription] = useState<JSONContent>(parsedContent);
 
   const [updatedProductImages, setUpdatedProductImages] = useState<string[]>(
     product?.product.images ?? []
@@ -80,6 +88,7 @@ export default function EditForm({
 
         const result = await updateHandler({
           formData: data,
+          description: description,
           session: session,
           originalProduct: product,
           updatedProductImages: updatedProductImages,
@@ -151,7 +160,7 @@ export default function EditForm({
       </Form>
       <div>
         <div className="h-fit overflow-hidden rounded-md border">
-          <Editor editable={true} />
+          <Editor initialValue={description} onChange={setDescription} />
         </div>
       </div>
       <div className="flex justify-center">

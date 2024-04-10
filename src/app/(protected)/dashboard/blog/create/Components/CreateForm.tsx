@@ -15,7 +15,7 @@ import {
 } from "@components/ui/form";
 import { Input } from "@components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import Editor from "@/components/Editor";
+import Editor from "@/components/editor/advanced-editor";
 import DropAndDragZone from "@components/File/DropAndDragZone";
 import { useRouter } from "next/navigation";
 import useFiles from "@/zustand/useFiles";
@@ -25,6 +25,9 @@ import { StaffType, BlogType } from "@/utils/types/index";
 import createSupabaseBrowserClient from "@/supabase-query/client";
 import { createBlog } from "@app/_actions/blog";
 import { Card, CardHeader, CardContent } from "@components/ui/card";
+import { defaultValueEditor } from "@/utils/default-value-editor";
+import { JSONContent } from "novel";
+import { useState } from "react";
 
 const FormSchema = z.object({
   title: z.string().min(2, { message: "Vui lòng nhập tiêu đề." }),
@@ -35,6 +38,8 @@ export default function CreateForm() {
   const router = useRouter();
   const { files } = useFiles();
   const { session } = useSession();
+
+  const [content, setContent] = useState<JSONContent>(defaultValueEditor);
 
   const initState = {
     title: "",
@@ -53,7 +58,12 @@ export default function CreateForm() {
         if (!session) throw new Error("Lỗi phiên đăng nhập.");
 
         const staffSession = session as StaffType;
-        const result = await createHandler(data, staffSession, files);
+        const result = await createHandler({
+          formData: data,
+          content: content,
+          session: staffSession,
+          thumbnails: files,
+        });
 
         if (result.createBlogResponse.error)
           throw new Error(result.createBlogResponse.error);
@@ -129,7 +139,7 @@ export default function CreateForm() {
       <div className="">
         <h2 className="title mb-1 ml-1 text-sm font-medium">Nội dung</h2>
         <div className="text-ssm mt-2 h-fit overflow-hidden rounded-md">
-          <Editor editable={true} />
+          <Editor initialValue={content} onChange={setContent} />
         </div>
       </div>
       <div className="flex justify-center">
@@ -145,11 +155,17 @@ export default function CreateForm() {
   );
 }
 
-async function createHandler(
-  data: z.infer<typeof FormSchema>,
-  session: StaffType,
-  thumbnails: File[]
-) {
+async function createHandler({
+  formData,
+  content,
+  session,
+  thumbnails,
+}: {
+  formData: z.infer<typeof FormSchema>;
+  content: JSONContent;
+  session: StaffType;
+  thumbnails: File[];
+}) {
   const supabase = createSupabaseBrowserClient();
   const blogThumbnailsUploadResults: string[] = [];
 
@@ -174,15 +190,12 @@ async function createHandler(
 
   if (!blogThumbnailsUploadResults.length) throw new Error("Lỗi khi tải ảnh.");
 
-  const editorContent = window.localStorage.getItem("content");
-  const cleanedJsonString = editorContent?.replace(/\\/g, "");
-
   const blog: BlogType = {
     id: uuidv4(),
     created_at: new Date().toISOString(),
-    title: data.title,
-    description: data.description,
-    content: JSON.parse(cleanedJsonString ?? "{}"),
+    title: formData.title,
+    description: formData.description,
+    content: JSON.stringify(content),
     thumbnails: blogThumbnailsUploadResults,
     writer: session.name,
     is_deleted: false,

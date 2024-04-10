@@ -3,7 +3,6 @@
 import { Dispatch, ReactNode, SetStateAction, createContext } from "react";
 import { ThemeProvider, useTheme } from "next-themes";
 import { Toaster } from "sonner";
-import { Analytics } from "@vercel/analytics/react";
 import { defaultFontMapper } from "@app/styles/fonts";
 import useLocalStorage from "@/hooks/useLocalStorage";
 import { cn } from "@/lib/utils";
@@ -66,7 +65,6 @@ export default function Providers({ children }: { children: ReactNode }) {
       >
         <ToasterProvider />
         <div className={cn(displayFont, defaultFont)}>{children}</div>
-        <Analytics />
       </AppContext.Provider>
     </ThemeProvider>
   );

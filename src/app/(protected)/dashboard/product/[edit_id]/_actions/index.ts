@@ -16,9 +16,11 @@ import {
 } from "@app/_actions/product_storage";
 import createSupabaseBrowserClient from "@/supabase-query/client";
 import { FormSchema } from "@app/(protected)/dashboard/product/[edit_id]/Components/EditForm";
+import { JSONContent } from "novel";
 
 export async function updateHandler({
   formData,
+  description,
   session,
   originalProduct,
   updatedProductImages,
@@ -26,6 +28,7 @@ export async function updateHandler({
   updatedProductStorages,
 }: {
   formData: z.infer<typeof FormSchema>;
+  description: JSONContent;
   session: CustomerType | StaffType;
   originalProduct: ProductWithDescriptionAndStorageType;
   updatedProductImages: string[];
@@ -84,15 +87,11 @@ export async function updateHandler({
   if (updatedProductResponse.error) throw new Error("Lỗi khi lưu sản phẩm.");
 
   // update product_description:
-  const editorContent = window.localStorage.getItem("content");
-  const cleanedJsonString = editorContent?.replace(/\\/g, "");
 
   const updatedProductDescription: ProductDescriptionType = {
     id: originalProduct.product_description.id,
     created_at: originalProduct.product_description.created_at,
-    content: JSON.parse(
-      cleanedJsonString ?? originalProduct.product_description.content
-    ),
+    content: JSON.stringify(description),
     writer: session?.name ?? "Không rõ",
   };
 

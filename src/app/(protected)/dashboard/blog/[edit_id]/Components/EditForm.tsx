@@ -16,7 +16,6 @@ import {
 } from "@components/ui/form";
 import { Input } from "@components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import Editor from "@/components/Editor";
 import DropAndDragZone from "@components/File/DropAndDragZone";
 import useFiles from "@/zustand/useFiles";
 import { useSession } from "@/zustand/useSession";
@@ -26,6 +25,9 @@ import { updateBlog } from "@app/_actions/blog";
 import ImageFileItem from "@components/File/ImageFileItem";
 import { useState } from "react";
 import { Card, CardContent, CardHeader } from "@components/ui/card";
+import { JSONContent } from "novel";
+import Editor from "@/components/editor/advanced-editor";
+import { parseStringToJSONContent } from "@/utils/functions/parseStringToJSONContent";
 
 const FormSchema = z.object({
   title: z.string().min(2, { message: "Vui lòng nhập tiêu đề." }),
@@ -36,6 +38,9 @@ export default function EditForm({ blog }: { blog: BlogType }) {
   const router = useRouter();
   const { files } = useFiles();
   const { session } = useSession();
+
+  const parsedContent: JSONContent = parseStringToJSONContent(blog.content);
+  const [content, setContent] = useState<JSONContent>(parsedContent);
 
   const [updatedBlogThumbnails, setUpdatedBlogThumbnails] = useState<string[]>(
     blog.thumbnails ?? []
@@ -60,7 +65,8 @@ export default function EditForm({ blog }: { blog: BlogType }) {
         const staffSession = session as StaffType;
         const result = await updateHandler({
           originalBlog: blog,
-          data: data,
+          formData: data,
+          content: content,
           session: staffSession,
           updatedThumbnails: updatedBlogThumbnails,
           addThumbnails: files,
@@ -75,7 +81,7 @@ export default function EditForm({ blog }: { blog: BlogType }) {
           form.reset();
           router.push("/dashboard/blog");
 
-          return "Chỉnh sủa bài viết thành công. Đang chuyển hướng...";
+          return "Chỉnh sửa bài viết thành công. Đang chuyển hướng...";
         },
         error: (error: any) => {
           return error.message;
@@ -165,7 +171,7 @@ export default function EditForm({ blog }: { blog: BlogType }) {
       <div>
         <h2 className="title mb-1 ml-1 text-sm font-medium">Nội dung</h2>
         <div className="mt-2 h-fit overflow-hidden rounded-md border">
-          <Editor editable={true} />
+          <Editor initialValue={content} onChange={setContent} />
         </div>
       </div>
       <div className="flex justify-center">
@@ -182,19 +188,22 @@ export default function EditForm({ blog }: { blog: BlogType }) {
 
 async function updateHandler({
   originalBlog,
-  data,
+  formData,
+  content,
   session,
   updatedThumbnails,
   addThumbnails,
 }: {
   originalBlog: BlogType;
-  data: z.infer<typeof FormSchema>;
+  formData: z.infer<typeof FormSchema>;
+  content: JSONContent;
   session: StaffType;
   updatedThumbnails: string[];
   addThumbnails: File[];
 }) {
-  if (updatedThumbnails.length === 0 && addThumbnails.length === 0)
+  if (updatedThumbnails.length === 0 && addThumbnails.length === 0) {
     throw new Error("Lỗi không có ảnh thumbnail.");
+  }
 
   const supabase = createSupabaseBrowserClient();
 
@@ -219,15 +228,12 @@ async function updateHandler({
       throw new Error("Lỗi khi tải ảnh.");
   }
 
-  const editorContent = window.localStorage.getItem("content");
-  const cleanedJsonString = editorContent?.replace(/\\/g, "");
-
   const updatedBlog: BlogType = {
     id: originalBlog.id,
     created_at: originalBlog.created_at,
-    title: data.title,
-    description: data.description,
-    content: JSON.parse(cleanedJsonString ?? "{}"),
+    title: formData.title,
+    description: formData.description,
+    content: JSON.stringify(content),
     thumbnails: [...updatedThumbnails, ...blogThumbnailsUploadResults],
     writer: originalBlog.writer,
     is_deleted: false,

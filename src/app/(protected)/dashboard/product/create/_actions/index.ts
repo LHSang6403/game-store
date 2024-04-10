@@ -11,14 +11,17 @@ import {
 import { CustomerType, StaffType } from "@/utils/types/index";
 import { createProductStorage } from "@/app/_actions/product_storage";
 import { FormSchema } from "@/app/(protected)/dashboard/product/create/Components/CreateForm";
+import { JSONContent } from "novel";
 
 export async function createHandler({
   formData,
+  description,
   productImages,
   session,
   productStorages,
 }: {
   formData: z.infer<typeof FormSchema>;
+  description: JSONContent;
   productImages: unknown[];
   session: CustomerType | StaffType;
   productStorages: ProductStorageType[];
@@ -26,13 +29,11 @@ export async function createHandler({
   if (productImages.length === 0) throw new Error("Lỗi không có ảnh sản phẩm.");
 
   // create description:
-  const editorContent = window.localStorage.getItem("content");
-  const cleanedJsonString = editorContent?.replace(/\\/g, "");
 
   const descriptionObject: ProductDescriptionType = {
     id: uuidv4(),
     created_at: new Date().toISOString(),
-    content: JSON.parse(cleanedJsonString ?? "{}"),
+    content: JSON.stringify(description),
     writer: session?.name ?? "Không rõ",
   };
 

@@ -1,19 +1,15 @@
 "use client";
 
-import Editor from "@/components/Editor";
-import { useEffect } from "react";
-import useLocalStorage from "@/hooks/useLocalStorage";
+import Editor from "@/components/editor/advanced-editor";
+import { JSONContent } from "novel";
+import { parseStringToJSONContent } from "@/utils/functions/parseStringToJSONContent";
 
 export default function BlogContent({ blogContent }: { blogContent: string }) {
-  const [content, setContent] = useLocalStorage("content", blogContent);
-
-  useEffect(() => {
-    setContent(blogContent);
-  }, []);
+  const content: JSONContent = parseStringToJSONContent(blogContent);
 
   return (
-    <div >
-      <Editor editable={false} />
+    <div>
+      <Editor initialValue={content} onChange={() => {}} />
     </div>
   );
 }
