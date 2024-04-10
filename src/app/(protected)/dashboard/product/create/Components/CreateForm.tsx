@@ -128,7 +128,7 @@ export default function CreateForm() {
         </form>
       </Form>
       <div>
-        <div className="h-fit overflow-hidden rounded-md border">
+        <div className="h-fit overflow-hidden rounded-lg border">
           <Editor initialValue={description} onChange={setDescription} />
         </div>
       </div>

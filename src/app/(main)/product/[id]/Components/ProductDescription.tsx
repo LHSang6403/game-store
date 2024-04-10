@@ -14,7 +14,7 @@ export default function ProductDescription({
 
   return (
     <div className="px-16 xl:px-6 sm:px-2">
-      <Editor initialValue={content} onChange={() => {}} />
+      <Editor initialValue={content} onChange={() => {}} isDisable={true} />
     </div>
   );
 }

@@ -170,7 +170,7 @@ export default function EditForm({ blog }: { blog: BlogType }) {
       </Form>
       <div>
         <h2 className="title mb-1 ml-1 text-sm font-medium">Nội dung</h2>
-        <div className="mt-2 h-fit overflow-hidden rounded-md border">
+        <div className="mt-2 h-fit overflow-hidden rounded-lg border">
           <Editor initialValue={content} onChange={setContent} />
         </div>
       </div>

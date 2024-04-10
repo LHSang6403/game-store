@@ -159,14 +159,17 @@ export default function EditForm({
         </form>
       </Form>
       <div>
-        <div className="h-fit overflow-hidden rounded-md border">
+        <div className="h-fit overflow-hidden rounded-lg border">
           <Editor initialValue={description} onChange={setDescription} />
         </div>
       </div>
       <div className="flex justify-center">
         <Button
           onClick={form.handleSubmit(onSubmit)}
-          disabled={files.length === 0 || !form.formState.isValid}
+          disabled={
+            (files.length === 0 && updatedProductImages.length === 0) ||
+            !form.formState.isValid
+          }
           className="mt-1 w-fit bg-foreground px-7 text-background"
         >
           Lưu thay đổi

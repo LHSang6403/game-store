@@ -29,9 +29,14 @@ const extensions = [...defaultExtensions, slashCommand];
 interface EditorProp {
   initialValue?: JSONContent;
   onChange: (value: JSONContent) => void;
+  isDisable?: boolean;
 }
 
-const TailwindAdvancedEditor = ({ initialValue, onChange }: EditorProp) => {
+const TailwindAdvancedEditor = ({
+  initialValue,
+  onChange,
+  isDisable,
+}: EditorProp) => {
   const [initialContent, setInitialContent] = useState<null | JSONContent>(
     initialValue || null
   );
@@ -64,14 +69,17 @@ const TailwindAdvancedEditor = ({ initialValue, onChange }: EditorProp) => {
 
   return (
     <div className="max-w-screen-lg relative w-full">
-      <div className="text-muted-foreground absolute right-5 top-5 z-10 mb-5 rounded-lg bg-accent px-2 py-1 text-sm">
-        {saveStatus}
-      </div>
+      {!isDisable && (
+        <div className="text-muted-foreground z-10 m-5 mb-0 ml-auto h-fit w-fit rounded-lg bg-accent px-2 py-1 text-sm">
+          {saveStatus}
+        </div>
+      )}
       <EditorRoot>
         <EditorContent
           initialContent={initialContent}
           extensions={extensions}
-          className="max-w-screen-lg border-muted relative min-h-[500px] w-full bg-background p-6 sm:mb-[calc(20vh)] sm:rounded-lg sm:border sm:p-2 sm:shadow-lg"
+          editable={!isDisable}
+          className="max-w-screen-lg border-muted relative min-h-[500px] w-full bg-background p-6 sm:p-2"
           editorProps={{
             handleDOMEvents: {
               keydown: (_view, event) => handleCommandNavigation(event),
@@ -89,7 +97,7 @@ const TailwindAdvancedEditor = ({ initialValue, onChange }: EditorProp) => {
             debouncedUpdates(editor);
             setSaveStatus("Chưa lưu");
           }}
-          slotAfter={<ImageResizer />}
+          slotAfter={!isDisable && <ImageResizer />}
         >
           <EditorCommand className="border-muted z-50 h-auto max-h-[330px] overflow-y-auto rounded-md border bg-background px-1 py-2 shadow-md transition-all">
             <EditorCommandEmpty className="text-muted-foreground px-2">
@@ -116,12 +124,10 @@ const TailwindAdvancedEditor = ({ initialValue, onChange }: EditorProp) => {
               ))}
             </EditorCommandList>
           </EditorCommand>
-
           <GenerativeMenuSwitch open={openAI} onOpenChange={setOpenAI}>
             <Separator orientation="vertical" />
             <NodeSelector open={openNode} onOpenChange={setOpenNode} />
             <Separator orientation="vertical" />
-
             <LinkSelector open={openLink} onOpenChange={setOpenLink} />
             <Separator orientation="vertical" />
             <TextButtons />

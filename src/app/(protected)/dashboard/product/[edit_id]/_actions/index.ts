@@ -17,6 +17,7 @@ import {
 import createSupabaseBrowserClient from "@/supabase-query/client";
 import { FormSchema } from "@app/(protected)/dashboard/product/[edit_id]/Components/EditForm";
 import { JSONContent } from "novel";
+import { Files } from "lucide-react";
 
 export async function updateHandler({
   formData,
@@ -42,24 +43,26 @@ export async function updateHandler({
   const supabase = createSupabaseBrowserClient();
   const newProductImagesUploadResults: string[] = [];
 
-  for (const file of newProductImages) {
-    const uploadingFile = file as File;
+  if (Files.length > 0) {
+    for (const file of newProductImages) {
+      const uploadingFile = file as File;
 
-    const result = await supabase.storage
-      .from("public_files")
-      .upload("/product_images/" + uploadingFile.name, uploadingFile, {
-        upsert: true,
-        duplex: "half",
-      });
+      const result = await supabase.storage
+        .from("public_files")
+        .upload("/product_images/" + uploadingFile.name, uploadingFile, {
+          upsert: true,
+          duplex: "half",
+        });
 
-    if (!result.error) newProductImagesUploadResults.push(result.data.path);
-    else {
-      toast.error("Lỗi khi lưu hình ảnh.");
+      if (!result.error) newProductImagesUploadResults.push(result.data.path);
+      else {
+        toast.error("Lỗi khi lưu hình ảnh.");
+      }
     }
-  }
 
-  if (!newProductImagesUploadResults.length)
-    throw new Error("Lỗi khi lưu hình ảnh.");
+    if (!newProductImagesUploadResults.length)
+      throw new Error("Lỗi khi lưu hình ảnh.");
+  }
 
   const updatedProduct: ProductType = {
     id: originalProduct.product.id,
@@ -87,7 +90,6 @@ export async function updateHandler({
   if (updatedProductResponse.error) throw new Error("Lỗi khi lưu sản phẩm.");
 
   // update product_description:
-
   const updatedProductDescription: ProductDescriptionType = {
     id: originalProduct.product_description.id,
     created_at: originalProduct.product_description.created_at,

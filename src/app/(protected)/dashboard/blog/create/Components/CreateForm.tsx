@@ -138,7 +138,7 @@ export default function CreateForm() {
       </Form>
       <div className="">
         <h2 className="title mb-1 ml-1 text-sm font-medium">Nội dung</h2>
-        <div className="text-ssm mt-2 h-fit overflow-hidden rounded-md">
+        <div className="text-ssm mt-2 h-fit overflow-hidden rounded-lg">
           <Editor initialValue={content} onChange={setContent} />
         </div>
       </div>
