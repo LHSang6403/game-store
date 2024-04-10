@@ -28,7 +28,6 @@ export async function GET(request: Request) {
     );
     const { error, data } = await supabase.auth.exchangeCodeForSession(code);
     if (!error) {
-      console.log("data", data);
       // store more data in customer table
 
       const customerObject = {

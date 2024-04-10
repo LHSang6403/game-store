@@ -20,7 +20,7 @@ export default async function BlogContainer() {
           <LargeBlog data={latestTwoBlogs[1]} />
         </div>
       )}
-      <div className="grid h-fit w-fit grid-cols-4 gap-4 xl:grid-cols-3 lg:grid-cols-2 sm:grid-cols-1">
+      <div className="grid h-fit w-fit grid-cols-4 gap-4 px-10 xl:grid-cols-3 xl:px-0 lg:grid-cols-2 sm:grid-cols-1">
         {othersBlogs &&
           othersBlogs?.map((blog, index) => <Blog key={index} data={blog} />)}
       </div>

@@ -165,8 +165,6 @@ export async function updateBlog({
     if (!isManagerAuthenticated && !isWriterAuthenticated)
       throw new Error("Không có quyền cập nhật bài viết");
 
-    console.log({ isWriterAuthenticated, isManagerAuthenticated });
-
     const supabase = await createSupabaseServerClient();
 
     const result = await supabase
@@ -174,8 +172,6 @@ export async function updateBlog({
       .update(updatedBlog)
       .eq("id", updatedBlog.id)
       .eq("is_deleted", false);
-
-    console.log({ result });
 
     await saveToLog({
       logName: "Cập nhật bài viết " + updatedBlog.title,

@@ -33,7 +33,7 @@ export async function updateHandler({
   updatedProductStorages: ProductStorageType[];
 }) {
   // update product images:
-  if (newProductImages.length === 0)
+  if (updatedProductImages.length === 0 && newProductImages.length === 0)
     throw new Error("Lỗi không có ảnh sản phẩm.");
 
   const supabase = createSupabaseBrowserClient();
@@ -64,10 +64,7 @@ export async function updateHandler({
     brand: formData.brand,
     name: formData.name,
     description: formData.description,
-    images:
-      newProductImagesUploadResults.length > 0
-        ? [...updatedProductImages, ...newProductImagesUploadResults]
-        : originalProduct.product.images,
+    images: [...updatedProductImages, ...newProductImagesUploadResults],
     price: parseInt(formData.price),
     rate: parseFloat(formData.rate),
     sold_quantity: originalProduct.product.sold_quantity,

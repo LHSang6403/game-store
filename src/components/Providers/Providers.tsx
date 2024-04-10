@@ -49,7 +49,6 @@ export default function Providers({ children }: { children: ReactNode }) {
         "detailData" in session.data &&
         session.data.detailData
       ) {
-        console.log("session.detailData: ", session.data.detailData);
         setSession(session.data.detailData);
       }
     };

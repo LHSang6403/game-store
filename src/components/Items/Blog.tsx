@@ -6,9 +6,9 @@ export default function Blog({ data }: { data: BlogType }) {
   return (
     <Link
       href={`/blog/${data.id}`}
-      className="h-full w-60 overflow-hidden text-foreground/90 hover:cursor-pointer sm:w-full"
+      className="h-full w-full overflow-hidden text-foreground/90 hover:cursor-pointer sm:w-full"
     >
-      <div className="h-36 w-full xl:h-44">
+      <div className="h-36 w-full xl:h-44 sm:h-32">
         <Image
           alt="A blog"
           src={

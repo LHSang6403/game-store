@@ -53,7 +53,7 @@ export default function Editor({ editable }: { editable: boolean }) {
           })
         );
         // complete(e.editor.storage.markdown.getMarkdown());
-        va.track("Autocomplete Shortcut Used");
+        va.track("Tự động toàn tất");
       } else {
         debouncedUpdates(e);
       }
@@ -71,9 +71,9 @@ export default function Editor({ editable }: { editable: boolean }) {
       });
     },
     onError: (err) => {
-      toast.error(err.message);
-      if (err.message === "You have reached your request limit for the day.") {
-        va.track("Rate Limit Reached");
+      toast.error("Đã có lỗi xảy ra khi viết bằng AI.");
+      if (err.message === "Bạn đã đạt giới hạn truy cập của hôm nay.") {
+        va.track("Giới hạn truy cập");
       }
     },
   });
@@ -106,7 +106,7 @@ export default function Editor({ editable }: { editable: boolean }) {
       e.preventDefault();
       e.stopPropagation();
       stop();
-      if (window.confirm("AI writing paused. Continue?")) {
+      if (window.confirm("AI dừng viết. Tiếp tục?")) {
         complete(editor?.getText() || "");
       }
     };
@@ -136,10 +136,10 @@ export default function Editor({ editable }: { editable: boolean }) {
       onClick={() => {
         editor?.chain().focus().run();
       }}
-      className="max-w-screen-lg relative h-full min-h-[500px] w-full border-stone-200 p-12 px-8 sm:px-1"
+      className="max-w-screen-lg relative h-full min-h-[500px] w-full border-stone-200 px-6 py-12 sm:px-1"
     >
       {editable && (
-        <div className="absolute right-5 top-5 mb-5 rounded-lg bg-stone-100 px-2 py-1 text-sm text-stone-400">
+        <div className="absolute right-5 top-5 mb-5 rounded-lg bg-stone-100 px-2 py-1 text-sm text-red-200 text-stone-400">
           {saveStatus}
         </div>
       )}

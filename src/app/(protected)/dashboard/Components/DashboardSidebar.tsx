@@ -36,13 +36,13 @@ export const dashboardSidebarList = [
     name: "Sản phẩm",
     link: "/dashboard/product",
     icon: <Gamepad2 className="h-4 w-4" />,
-    permissions: [],
+    permissions: ["Bán hàng", "Quản lý"],
   },
   {
     name: "Đơn hàng",
     link: "/dashboard/order",
     icon: <ListOrdered className="h-4 w-4" />,
-    permissions: [],
+    permissions: ["Bán hàng", "Quản lý"],
   },
   {
     name: "Nhân viên",
@@ -54,7 +54,7 @@ export const dashboardSidebarList = [
     name: "Khách hàng",
     link: "/dashboard/customer",
     icon: <UsersRound className="h-4 w-4" />,
-    permissions: [],
+    permissions: ["Bán hàng", "Quản lý"],
   },
   {
     name: "Bài viết",
@@ -72,7 +72,7 @@ export const dashboardSidebarList = [
     name: "Nhập kho",
     link: "/dashboard/insert",
     icon: <CopyPlus className="h-4 w-4" />,
-    permissions: ["Quản lý"],
+    permissions: ["Bán hàng", "Quản lý"],
   },
 ];
 

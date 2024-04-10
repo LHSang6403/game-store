@@ -4,7 +4,7 @@ import Image from "next/image";
 
 export default function BlogThumbnails({ thumbs }: { thumbs: string[] }) {
   return (
-    <div className="grid grid-cols-3 justify-center gap-4 xl:grid-cols-2">
+    <div className="flex flex-row justify-center gap-4 xl:grid-cols-2">
       {thumbs.map((thumb, index) => (
         <div key={index} className="max-w-[500px]">
           <Image

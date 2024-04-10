@@ -129,7 +129,6 @@ export async function processOrderGHN({
       error: null,
     };
   } catch (error: any) {
-    console.log(error.message);
     return {
       status: 500,
       statusText: error.message,

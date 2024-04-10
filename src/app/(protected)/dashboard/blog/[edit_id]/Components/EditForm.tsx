@@ -58,7 +58,13 @@ export default function EditForm({ blog }: { blog: BlogType }) {
         if (!session) throw new Error("Lỗi phiên đăng nhập.");
 
         const staffSession = session as StaffType;
-        const result = await updateHandler(blog, data, staffSession, files);
+        const result = await updateHandler({
+          originalBlog: blog,
+          data: data,
+          session: staffSession,
+          updatedThumbnails: updatedBlogThumbnails,
+          addThumbnails: files,
+        });
 
         if (result.updateBlogResponse.error)
           throw new Error(result.updateBlogResponse.error);
@@ -174,12 +180,22 @@ export default function EditForm({ blog }: { blog: BlogType }) {
   );
 }
 
-async function updateHandler(
-  originalBlog: BlogType,
-  data: z.infer<typeof FormSchema>,
-  session: StaffType,
-  addThumbnails: File[]
-) {
+async function updateHandler({
+  originalBlog,
+  data,
+  session,
+  updatedThumbnails,
+  addThumbnails,
+}: {
+  originalBlog: BlogType;
+  data: z.infer<typeof FormSchema>;
+  session: StaffType;
+  updatedThumbnails: string[];
+  addThumbnails: File[];
+}) {
+  if (updatedThumbnails.length === 0 && addThumbnails.length === 0)
+    throw new Error("Lỗi không có ảnh thumbnail.");
+
   const supabase = createSupabaseBrowserClient();
 
   const blogThumbnailsUploadResults: string[] = [];
@@ -192,8 +208,6 @@ async function updateHandler(
           upsert: true,
           duplex: "half",
         });
-
-      console.log("===", result);
 
       if (!result.error) blogThumbnailsUploadResults.push(result.data.path);
       else {
@@ -214,7 +228,7 @@ async function updateHandler(
     title: data.title,
     description: data.description,
     content: JSON.parse(cleanedJsonString ?? "{}"),
-    thumbnails: [...originalBlog.thumbnails, ...blogThumbnailsUploadResults],
+    thumbnails: [...updatedThumbnails, ...blogThumbnailsUploadResults],
     writer: originalBlog.writer,
     is_deleted: false,
   };

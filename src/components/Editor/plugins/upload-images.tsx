@@ -62,12 +62,12 @@ function findPlaceholder(state: EditorState, id: {}) {
 export function startImageUpload(file: File, view: EditorView, pos: number) {
   // check if the file is an image
   if (!file.type.includes("image/")) {
-    toast.error("File type not supported.");
+    toast.error("Loại file không hỗ trợ.");
     return;
 
     // check if the file size is less than 30MB
   } else if (file.size / 1024 / 1024 > 30) {
-    toast.error("File size too big (max 30MB).");
+    toast.error("Kích thước file quá lớn.");
     return;
   }
 
@@ -140,17 +140,15 @@ export const handleImageUpload = (file: File) => {
         } else if (res.status === 401) {
           resolve(file);
 
-          throw new Error(
-            "`BLOB_READ_WRITE_TOKEN` environment variable not found, reading image locally instead."
-          );
+          throw new Error("Đã có lỗi xảy ra, vui lòng thử lại.");
           // Unknown error
         } else {
-          throw new Error(`Error uploading image. Please try again.`);
+          throw new Error(`Đã có lỗi xảy ra, vui lòng thử lại.`);
         }
       }),
       {
-        loading: "Uploading image...",
-        success: "Image uploaded successfully.",
+        loading: "Đang tải ảnh lên...",
+        success: "Tải ảnh lên thành công!",
         error: (e) => e.message,
       }
     );
