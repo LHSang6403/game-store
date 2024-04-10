@@ -50,12 +50,13 @@ export default function CreateForm() {
   async function onSubmit(data: z.infer<typeof FormSchema>) {
     toast.promise(
       async () => {
-        if (session) {
-          const staffSession = session as StaffType;
-          await createHandler(data, staffSession, files);
-        } else {
-          throw new Error("Lỗi phiên đăng nhập.");
-        }
+        if (!session) throw new Error("Lỗi phiên đăng nhập.");
+
+        const staffSession = session as StaffType;
+        const result = await createHandler(data, staffSession, files);
+
+        if (result.createBlogResponse.error)
+          throw new Error(result.createBlogResponse.error);
       },
       {
         loading: "Đang tạo bài viết...",

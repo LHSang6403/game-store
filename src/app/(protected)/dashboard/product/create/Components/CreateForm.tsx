@@ -73,12 +73,14 @@ export default function CreateForm() {
       async () => {
         if (!session) throw new Error("Lỗi không tìm thấy phiên làm việc.");
 
-        await createHandler({
+        const result = await createHandler({
           formData: data,
           productImages: files,
           session: session,
           productStorages: productStorages,
         });
+
+        if (result.error) throw new Error(result.error);
       },
       {
         loading: "Đang tạo sản phẩm...",

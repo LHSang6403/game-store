@@ -107,6 +107,8 @@ export default function SignUp() {
           password: data.password,
         });
 
+        if (result.error) throw new Error("Tạo tài khoản thất bại.");
+
         if (result.data?.user?.id) {
           const uploadAvatarResult = await updaloadAvatar({
             userId: result.data?.user?.id,

@@ -33,15 +33,17 @@ export default function SelectionLists({
   async function handleSubmit() {
     toast.promise(
       async () => {
-        if (session) {
-          await updateProductStoragesQuantity({
-            addProductStorageList: insertedProductStorageData,
-            actor: {
-              actorId: session.id,
-              actorName: session.name,
-            },
-          });
-        } else throw new Error("Lỗi không xác định phiên đăng nhập.");
+        if (!session) throw new Error("Lỗi không xác định phiên đăng nhập.");
+
+        const result = await updateProductStoragesQuantity({
+          addProductStorageList: insertedProductStorageData,
+          actor: {
+            actorId: session.id,
+            actorName: session.name,
+          },
+        });
+
+        if (result.error) throw new Error(result.error);
       },
       {
         loading: "Đang cập nhật...",

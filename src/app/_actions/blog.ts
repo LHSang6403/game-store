@@ -22,7 +22,7 @@ export async function createBlog({ blog }: { blog: BlogType }) {
 
     const result = await supabase.from("blog").insert(blog);
 
-    revalidatePath("/dashboard/blog")
+    revalidatePath("/dashboard/blog");
 
     return {
       status: result.status,

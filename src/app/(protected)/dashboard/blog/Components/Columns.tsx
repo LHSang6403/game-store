@@ -93,13 +93,16 @@ export const columns: ColumnDef<BlogType>[] = [
           async () => {
             if (!session.session)
               throw new Error("Không thể xác định phiên đăng nhập.");
-            await deleteBlogById({
+
+            const result = await deleteBlogById({
               blog: blog,
               actor: {
                 actorId: session.session.id,
                 actorName: session.session.name,
               },
             });
+
+            if (result.error) throw new Error(result.error);
           },
           {
             success: "Xóa bài viết thành công",

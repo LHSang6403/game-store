@@ -128,4 +128,6 @@ export async function updateHandler({
       }
     }
   }
+
+  return { updatedProductResponse };
 }

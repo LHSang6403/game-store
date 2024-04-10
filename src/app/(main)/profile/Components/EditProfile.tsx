@@ -131,10 +131,12 @@ export default function EditProfile({
         updatedUser.province = data.province;
 
         if (session) {
-          await updateUserProfile({
+          const result = await updateUserProfile({
             updatedUser: updatedUser,
             actor: { actorId: session.id, actorName: session.name },
           });
+
+          if (result.error) throw new Error(result.error);
         }
       },
       {

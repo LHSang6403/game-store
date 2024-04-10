@@ -102,13 +102,15 @@ export const columns: ColumnDef<ProductType>[] = [
             if (!session.session)
               throw new Error("Không xác định phiên đăng nhập.");
 
-            await removeProductById({
+            const result = await removeProductById({
               product: product,
               actor: {
                 actorId: session.session.id,
                 actorName: session.session.name,
               },
             });
+
+            if (result.error) throw new Error(result.error);
           },
           {
             success: "Xóa thành công.",

@@ -55,12 +55,13 @@ export default function EditForm({ blog }: { blog: BlogType }) {
   async function onSubmit(data: z.infer<typeof FormSchema>) {
     toast.promise(
       async () => {
-        if (session) {
-          const staffSession = session as StaffType;
-          await updateHandler(blog, data, staffSession, files);
-        } else {
-          throw new Error("Lỗi phiên đăng nhập.");
-        }
+        if (!session) throw new Error("Lỗi phiên đăng nhập.");
+
+        const staffSession = session as StaffType;
+        const result = await updateHandler(blog, data, staffSession, files);
+
+        if (result.updateBlogResponse.error)
+          throw new Error(result.updateBlogResponse.error);
       },
       {
         loading: "Đang lưu chỉnh sửa...",

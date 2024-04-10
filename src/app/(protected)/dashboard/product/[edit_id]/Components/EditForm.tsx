@@ -78,7 +78,7 @@ export default function EditForm({
       async () => {
         if (!session) throw new Error("Lỗi không có phiên làm việc.");
 
-        await updateHandler({
+        const result = await updateHandler({
           formData: data,
           session: session,
           originalProduct: product,
@@ -86,6 +86,9 @@ export default function EditForm({
           newProductImages: files,
           updatedProductStorages: updatedProductStorages,
         });
+
+        if (result.updatedProductResponse.error)
+          throw new Error(result.updatedProductResponse.error);
       },
       {
         loading: "Đang chỉnh sửa...",

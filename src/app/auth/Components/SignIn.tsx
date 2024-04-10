@@ -47,22 +47,22 @@ export default function SignIn() {
 
         if (result.error) {
           if (typeof result.error === "string") {
-            toast.error(result.error);
+            throw new Error(result.error);
           } else {
-            toast.error(result.error.message);
+            throw new Error("Đăng nhập thất bại.");
           }
-        } else {
-          const session = await readUserSession();
+        }
 
-          if (
-            session.data &&
-            "detailData" in session.data &&
-            session.data.detailData
-          ) {
-            setSession(session.data.detailData);
-          } else {
-            throw new Error("Đăng nhập thất bại");
-          }
+        const session = await readUserSession();
+
+        if (
+          session.data &&
+          "detailData" in session.data &&
+          session.data.detailData
+        ) {
+          setSession(session.data.detailData);
+        } else {
+          throw new Error("Đăng nhập thất bại");
         }
       },
       {
