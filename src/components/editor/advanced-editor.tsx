@@ -71,7 +71,7 @@ const TailwindAdvancedEditor = ({ initialValue, onChange }: EditorProp) => {
         <EditorContent
           initialContent={initialContent}
           extensions={extensions}
-          className="max-w-screen-lg border-muted relative min-h-[500px] w-full bg-background sm:mb-[calc(20vh)] sm:rounded-lg sm:border sm:shadow-lg"
+          className="max-w-screen-lg border-muted relative min-h-[500px] w-full bg-background p-6 sm:mb-[calc(20vh)] sm:rounded-lg sm:border sm:p-2 sm:shadow-lg"
           editorProps={{
             handleDOMEvents: {
               keydown: (_view, event) => handleCommandNavigation(event),
