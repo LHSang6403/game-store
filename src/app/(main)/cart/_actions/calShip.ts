@@ -1,11 +1,11 @@
 import type { OrderType } from "@/utils/types";
 import type { ShipmentNameType } from "@/utils/types";
-import { calGHNFees } from "@/app/_actions/GHNShipment";
-import { calGHTKFees } from "@/app/_actions/GHTKShipment";
 import {
-  findGHNDistrictIDByNameExtension,
+  calGHNFees,
   findGHNWardIDByNameExtension,
-} from "@app/(main)/cart/_actions/processGHN";
+} from "@/app/_actions/GHNShipment";
+import { calGHTKFees } from "@/app/_actions/GHTKShipment";
+import { findGHNDistrictIDByNameExtension } from "@app/(main)/cart/_actions/processGHN";
 
 import districts from "@/static-data/GHN-api/districts.json";
 
@@ -19,22 +19,22 @@ export async function calShipmentFees({
   try {
     switch (formData.shipment as ShipmentNameType) {
       case "GHN":
-        const to_district_id = findGHNDistrictIDByNameExtension(
+        const to_district_id: number = findGHNDistrictIDByNameExtension(
           districts,
           formData?.district
         );
 
-        const to_ward_code = await findGHNWardIDByNameExtension(
+        const to_ward_code: number = await findGHNWardIDByNameExtension(
           to_district_id,
           formData?.ward
         );
 
-        const from_district_id = findGHNDistrictIDByNameExtension(
+        const from_district_id: number = findGHNDistrictIDByNameExtension(
           districts,
           order.pick_district
         );
 
-        const from_ward_code = await findGHNWardIDByNameExtension(
+        const from_ward_code: number = await findGHNWardIDByNameExtension(
           from_district_id,
           order.pick_ward
         );

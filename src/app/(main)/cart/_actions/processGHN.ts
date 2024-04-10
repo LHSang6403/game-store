@@ -1,6 +1,8 @@
 import { OrderType } from "@/utils/types";
-import { requestGHNOrder } from "@/app/_actions/GHNShipment";
-import axios from "axios";
+import {
+  requestGHNOrder,
+  findGHNWardIDByNameExtension,
+} from "@/app/_actions/GHNShipment";
 import removeLeadingZeroAfterSpace from "@utils/functions/removeLeadingZeroAfterSpace";
 
 import districts from "@/static-data/GHN-api/districts.json";
@@ -42,43 +44,6 @@ export function findGHNDistrictIDByNameExtension(jsonData: any, name: string) {
   return null;
 }
 
-export async function findGHNWardIDByNameExtension(
-  to_district_id: number,
-  name: string
-) {
-  try {
-    const wardsInDistrict = await axios.post(
-      "https://dev-online-gateway.ghn.vn/shiip/public-api/master-data/ward",
-      { district_id: to_district_id },
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Token:
-            process.env.GHN_API_TOKEN ?? "6877003a-dd62-11ee-a6e6-e60958111f48",
-        },
-      }
-    );
-
-    if (!wardsInDistrict.data.data) throw new Error("Lỗi xác định phường.");
-
-    const cleanName = removeLeadingZeroAfterSpace(name);
-
-    const wards = wardsInDistrict.data.data;
-    for (const item of wards) {
-      const ward = item.NameExtension.find((extension) => {
-        return extension.toString() === cleanName;
-      });
-      if (ward) {
-        return item.WardCode;
-      }
-    }
-
-    throw new Error("Không tìm thấy phường.");
-  } catch (error: any) {
-    return error;
-  }
-}
-
 export async function processOrderGHN({
   formData,
   order,
@@ -87,12 +52,12 @@ export async function processOrderGHN({
   order: OrderType;
 }) {
   try {
-    const to_district_id = findGHNDistrictIDByNameExtension(
+    const to_district_id: number = findGHNDistrictIDByNameExtension(
       districts,
       formData?.district
     );
 
-    const to_ward_code = await findGHNWardIDByNameExtension(
+    const to_ward_code: number = await findGHNWardIDByNameExtension(
       to_district_id,
       formData?.ward
     );

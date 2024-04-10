@@ -5,12 +5,46 @@ import { GHNDataType } from "@/app/(main)/cart/_actions/processGHN";
 import { revalidatePath } from "next/cache";
 import { updateStateOrder } from "@app/_actions/order";
 import { OrderType, LogActorType } from "@/utils/types";
+import removeLeadingZeroAfterSpace from "@utils/functions/removeLeadingZeroAfterSpace";
 
 const headers = {
   "Content-Type": "application/json",
   ShopId: process.env.GHN_ID,
   Token: process.env.GHN_API_TOKEN,
 };
+
+export async function findGHNWardIDByNameExtension(
+  to_district_id: number,
+  name: string
+) {
+  try {
+    const wardsInDistrict = await axios.post(
+      "https://dev-online-gateway.ghn.vn/shiip/public-api/master-data/ward",
+      { district_id: to_district_id },
+      {
+        headers,
+      }
+    );
+
+    if (!wardsInDistrict.data.data) throw new Error("Lỗi xác định phường.");
+
+    const cleanName = removeLeadingZeroAfterSpace(name);
+
+    const wards = wardsInDistrict.data.data;
+    for (const item of wards) {
+      const ward = item.NameExtension.find((extension) => {
+        return extension.toString() === cleanName;
+      });
+      if (ward) {
+        return item.WardCode;
+      }
+    }
+
+    throw new Error("Không tìm thấy phường.");
+  } catch (error: any) {
+    return error;
+  }
+}
 
 export async function requestGHNOrder(data: GHNDataType) {
   try {
