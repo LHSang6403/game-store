@@ -43,11 +43,11 @@ export default function ConfirmDialog({
           },
         });
 
-        if (response.error) {
-          toast.error(response.error.message);
-        } else {
-          onOpenChange(false);
+        if (!response.error) {
           toast.success("Đã tạo đơn hàng thành công.");
+          onOpenChange(false);
+        } else {
+          toast.error(response.error.message);
         }
       }
     },

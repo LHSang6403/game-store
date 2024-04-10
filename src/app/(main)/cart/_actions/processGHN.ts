@@ -1,6 +1,7 @@
 import { OrderType } from "@/utils/types";
 import { requestGHNOrder } from "@/app/_actions/GHNShipment";
 import axios from "axios";
+import removeLeadingZeroAfterSpace from "@utils/functions/removeLeadingZeroAfterSpace";
 
 import districts from "@/static-data/GHN-api/districts.json";
 
@@ -26,10 +27,12 @@ export interface GHNDataType {
 }
 
 export function findGHNDistrictIDByNameExtension(jsonData: any, name: string) {
+  const cleanName = removeLeadingZeroAfterSpace(name);
+
   for (const item of jsonData) {
     if (item && "NameExtension" in item) {
       const district = item.NameExtension.find((extension) => {
-        return extension.toString() === name;
+        return extension.toString() === cleanName;
       });
       if (district) {
         return item.DistrictID;
@@ -58,10 +61,12 @@ export async function findGHNWardIDByNameExtension(
 
     if (!wardsInDistrict.data.data) throw new Error("Lỗi xác định phường.");
 
+    const cleanName = removeLeadingZeroAfterSpace(name);
+
     const wards = wardsInDistrict.data.data;
     for (const item of wards) {
       const ward = item.NameExtension.find((extension) => {
-        return extension.toString() === name;
+        return extension.toString() === cleanName;
       });
       if (ward) {
         return item.WardCode;
