@@ -8,7 +8,7 @@ export default function BlogContent({ blogContent }: { blogContent: string }) {
   const content: JSONContent = parseStringToJSONContent(blogContent);
 
   return (
-    <div>
+    <div className="px-16 xl:px-6 sm:px-2">
       <Editor initialValue={content} onChange={() => {}} />
     </div>
   );
