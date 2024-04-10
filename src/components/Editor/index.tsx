@@ -18,17 +18,17 @@ export default function Editor({ editable }: { editable: boolean }) {
     "content",
     DEFAULT_EDITOR_CONTENT
   );
-  const [saveStatus, setSaveStatus] = useState("Saved");
+  const [saveStatus, setSaveStatus] = useState("Đã lưu");
 
   const [hydrated, setHydrated] = useState(false);
 
   const debouncedUpdates = useDebouncedCallback(async ({ editor }) => {
     const json = editor.getJSON();
-    setSaveStatus("Saving...");
+    setSaveStatus("Đang lưu...");
     setContent(json);
-    // Simulate a delay in saving.
+    // Simulate a delay in Đang lưu.
     setTimeout(() => {
-      setSaveStatus("Saved");
+      setSaveStatus("Đã lưu");
     }, 500);
   }, 750);
 
@@ -37,7 +37,7 @@ export default function Editor({ editable }: { editable: boolean }) {
     extensions: TiptapExtensions,
     editorProps: TiptapEditorProps,
     onUpdate: (e) => {
-      setSaveStatus("Unsaved");
+      setSaveStatus("Chưa lưu");
       const selection = e.editor.state.selection;
       const lastTwo = getPrevText(e.editor, {
         chars: 2,
@@ -138,9 +138,11 @@ export default function Editor({ editable }: { editable: boolean }) {
       }}
       className="max-w-screen-lg relative h-full min-h-[500px] w-full border-stone-200 p-12 px-8 sm:px-1"
     >
-      <div className="absolute right-5 top-5 mb-5 rounded-lg bg-stone-100 px-2 py-1 text-sm text-stone-400">
-        {saveStatus}
-      </div>
+      {editable && (
+        <div className="absolute right-5 top-5 mb-5 rounded-lg bg-stone-100 px-2 py-1 text-sm text-stone-400">
+          {saveStatus}
+        </div>
+      )}
       {editor && <EditorBubbleMenu editor={editor} />}
       <EditorContent editor={editor} />
     </div>
