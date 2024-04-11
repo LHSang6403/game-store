@@ -1,18 +1,29 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { Input } from "@/components/ui/input";
 import { useForm } from "react-hook-form";
 import { useQuery } from "@tanstack/react-query";
 import { readAllProductsWithNameAndId } from "@/app/_actions/product";
 import { useRouter } from "next/navigation";
+import { Gamepad2, Newspaper, ShoppingCart, Search } from "lucide-react";
+import { useState, useEffect } from "react";
+import {
+  CommandDialog,
+  CommandEmpty,
+  CommandGroup,
+  CommandItem,
+  CommandList,
+  CommandSeparator,
+} from "@/components/ui/command";
+import { Input } from "@/components/ui/input";
 
 export default function SearchBar() {
+  const [open, setOpen] = useState(false);
+
   const router = useRouter();
 
   const { data } = useQuery({
-    queryKey: ["search", "product"],
-    queryFn: async () => await readAllProductsWithNameAndId(),
+    queryKey: ["products", "all", "search"],
+    queryFn: () => readAllProductsWithNameAndId(),
     staleTime: 1000 * 60 * 60,
   });
 
@@ -23,10 +34,14 @@ export default function SearchBar() {
   const [searchText, setSearchText] = useState<string>("");
   const [matchingKeywords, setMatchingKeywords] = useState<string[]>([]);
 
-  const keywords: { name: string; id: string }[] = data?.data || [];
+  const keywords: { name: string; id: string }[] = data?.data ?? [];
   const keywordNames = keywords.map((keyword) => keyword.name);
 
   useEffect(() => {
+    console.log(findMatchingKeywords(searchText, keywordNames));
+    console.log(keywords);
+    console.log(searchText, keywordNames);
+
     setMatchingKeywords(findMatchingKeywords(searchText, keywordNames));
   }, [searchText]);
 
@@ -41,26 +56,65 @@ export default function SearchBar() {
   };
 
   return (
-    <div className="relative h-fit w-full max-w-52">
-      <form>
-        <Input
-          className="h-8"
-          type="text"
-          autoComplete="off"
-          placeholder="Tìm kiếm..."
-          {...register("search")}
-          onChange={(e) => setSearchText(e.target.value)}
-        />
-      </form>
-      <div className="absolute top-10 z-30">
-        {matchingKeywords?.length > 0 && (
-          <SelectOptions
-            options={matchingKeywords}
-            onClickHandler={handleKeywordClick}
+    <>
+      <Input
+        className="h-8 hover:cursor-pointer focus:border-[#E5E7EB] focus:outline-none focus:ring-0"
+        type="text"
+        autoComplete="off"
+        placeholder="Tìm kiếm..."
+        onClick={() => setOpen(true)}
+      />
+      <CommandDialog defaultOpen={false} open={open} onOpenChange={setOpen}>
+        <div className="flex flex-row items-center">
+          <Search className="ml-4 h-5 w-5" />
+          <Input
+            {...register("search")}
+            autoComplete="off"
+            onChange={(e) => setSearchText(e.target.value)}
+            className="border-none px-2 focus:outline-none focus:ring-0"
+            placeholder="Nhập tên sản phẩm..."
           />
-        )}
-      </div>
-    </div>
+        </div>
+        <CommandList>
+          <CommandEmpty>Không có kết quả</CommandEmpty>
+          <CommandGroup heading="Gợi ý">
+            {matchingKeywords?.length === 0 &&
+              keywords?.slice(0, 3).map((item, index) => (
+                <CommandItem
+                  key={index}
+                  onSelect={() => handleKeywordClick(item.name)}
+                >
+                  <Gamepad2 className="mr-2 h-4 w-4" />
+                  <span>{item.name}</span>
+                </CommandItem>
+              ))}
+            {matchingKeywords?.length > 0 &&
+              matchingKeywords.map((item, index) => (
+                <CommandItem
+                  key={index}
+                  onSelect={() => handleKeywordClick(item)}
+                >
+                  <Gamepad2 className="mr-2 h-4 w-4" />
+                  <span>{item}</span>
+                </CommandItem>
+              ))}
+          </CommandGroup>
+          <CommandSeparator />
+          {matchingKeywords?.length === 0 && (
+            <CommandGroup heading="Các trang">
+              <CommandItem onSelect={() => router.push("/cart")}>
+                <ShoppingCart className="mr-2 h-4 w-4" />
+                <span>Giỏ hàng</span>
+              </CommandItem>
+              <CommandItem onSelect={() => router.push("/blog")}>
+                <Newspaper className="mr-2 h-4 w-4" />
+                <span>Tin tức</span>
+              </CommandItem>
+            </CommandGroup>
+          )}
+        </CommandList>
+      </CommandDialog>
+    </>
   );
 }
 
@@ -75,28 +129,4 @@ function findMatchingKeywords(input: string, keywords: string[]) {
   );
 
   return matchingKeywords;
-}
-
-function SelectOptions({
-  options,
-  onClickHandler,
-}: {
-  options: string[];
-  onClickHandler: Function;
-}) {
-  return (
-    <div className="h-fit w-52 rounded-md border border-foreground/10 bg-background p-1">
-      {options.map((each: string, index: number) => (
-        <div
-          onClick={() => {
-            onClickHandler(each);
-          }}
-          className="hover:text-accent-foreground flex h-10 w-full cursor-pointer items-center rounded-sm px-3 hover:bg-accent"
-          key={index}
-        >
-          {each}
-        </div>
-      ))}
-    </div>
-  );
 }

@@ -13,7 +13,7 @@ export default function CategoryCard({ data }: { data: string }) {
         setCategories([data]);
       }}
       variant="secondary"
-      className="h-8 w-fit overflow-ellipsis hover:cursor-pointer hover:bg-foreground/10"
+      className="h-8 w-fit overflow-ellipsis whitespace-nowrap hover:cursor-pointer hover:bg-foreground/10 "
     >
       <div className="mb-1 mr-1 h-4 w-4">
         <Image

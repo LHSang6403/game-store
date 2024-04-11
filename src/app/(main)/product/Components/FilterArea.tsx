@@ -50,7 +50,7 @@ export default function FilterArea() {
     <Sheet>
       <SheetTrigger asChild>
         <Button
-          className="bg- fixed left-0 top-[50%] rotate-90 border-none sm:-left-6"
+          className="bg- fixed left-0 top-[50%] rotate-90 border-none sm:-left-8 sm:h-6"
           variant="outline"
         >
           Bộ lọc
