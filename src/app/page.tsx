@@ -14,7 +14,7 @@ export default async function Home() {
     <>
       <Header />
       <Template>
-        <main className="min-h-screen w-full pt-16 animate-in xl:pt-0">
+        <main className="min-h-screen w-full pt-16 animate-in xl:pt-0 sm:min-h-0">
           <section className="h-[90vh] w-full bg-background sm:h-fit">
             <HomeSlider />
           </section>

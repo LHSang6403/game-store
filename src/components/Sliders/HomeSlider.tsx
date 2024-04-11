@@ -18,13 +18,13 @@ export default async function HomeSlider() {
   });
 
   return (
-    <Carousel className="mx-auto max-w-[86vw] xl:max-w-[100vw]">
+    <Carousel className="mx-auto h-fit max-w-[86vw] xl:max-w-[100vw]">
       <CarouselPrevious className="xl:z-10 xl:ml-20 sm:ml-16" />
       <CarouselContent>
         {products?.data?.slice(0, 5).map((prod, index) => (
           <CarouselItem key={index}>
-            <Card className="h-full border-none sm:h-[600px]">
-              <CardContent className="relative mx-auto h-[84vh] w-[90%] overflow-hidden xl:w-full xl:p-0">
+            <Card className="h-full border-none sm:h-fit">
+              <CardContent className="relative mx-auto h-[84vh] w-[90%] overflow-hidden xl:w-full xl:p-0 sm:h-[70vh]">
                 <div className="absolute top-0 flex w-full flex-row justify-center gap-4 text-sm font-light text-foreground/80">
                   <Link
                     href="/product"
@@ -57,7 +57,7 @@ export default async function HomeSlider() {
                   width={960}
                   height={960}
                 />
-                <div className="absolute bottom-2 left-6 h-fit w-72 p-3 sm:bottom-40 sm:left-0 sm:w-full sm:px-3 ssm:bottom-20">
+                <div className="absolute bottom-2 left-6 h-fit w-72 p-3 sm:bottom-2 sm:left-0 sm:w-full sm:px-3">
                   <h1 className="text-3xl font-semibold">{prod.name}</h1>
                   <Link
                     href="/product"
@@ -66,8 +66,9 @@ export default async function HomeSlider() {
                     Chi tiết
                     <ArrowRight className="ml-0.5 inline" />
                   </Link>
-                  <p className="mt-2 line-clamp-4 overflow-hidden overflow-ellipsis font-light sm:pb-2">
-                    {prod.description}
+                  <p className="mt-2 line-clamp-4 overflow-hidden overflow-ellipsis font-light sm:pb-1">
+                    {prod.description} edfg gdfh gfdh gfdh gfh gfdh fdgh dhd gh
+                    dfgdfhgd ghfdh fgdh dfg h fh fdg gdh hgd hdgf hd h hg
                   </p>
                 </div>
               </CardContent>
