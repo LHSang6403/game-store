@@ -8,7 +8,7 @@ import { readProducts } from "@/app/_actions/product";
 import { ProductType } from "@utils/types/index";
 
 export default async function Page() {
-  const products = await readProducts({ limit: 50, offset: 0 });
+  const products = await readProducts({ limit: 100, offset: 0 });
 
   return (
     <section className="w-full overflow-auto">

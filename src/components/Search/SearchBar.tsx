@@ -2,7 +2,7 @@
 
 import { useForm } from "react-hook-form";
 import { useQuery } from "@tanstack/react-query";
-import { readAllProductsWithNameAndId } from "@/app/_actions/product";
+import { readProducts } from "@/app/_actions/product";
 import { useRouter } from "next/navigation";
 import { Gamepad2, Newspaper, ShoppingCart, Search } from "lucide-react";
 import { useState, useEffect } from "react";
@@ -23,7 +23,7 @@ export default function SearchBar() {
 
   const { data } = useQuery({
     queryKey: ["products", "all", "search"],
-    queryFn: () => readAllProductsWithNameAndId(),
+    queryFn: () => readProducts({ offset: 0, limit: 100 }),
     staleTime: 1000 * 60 * 60,
   });
 
@@ -37,11 +37,13 @@ export default function SearchBar() {
   const keywords: { name: string; id: string }[] = data?.data ?? [];
   const keywordNames = keywords.map((keyword) => keyword.name);
 
-  useEffect(() => {
-    console.log(findMatchingKeywords(searchText, keywordNames));
-    console.log(keywords);
-    console.log(searchText, keywordNames);
+  const sortedProduct = data?.data?.sort(
+    (a, b) =>
+      new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+  );
+  const latest3Prods = sortedProduct?.slice(0, 3);
 
+  useEffect(() => {
     setMatchingKeywords(findMatchingKeywords(searchText, keywordNames));
   }, [searchText]);
 
@@ -79,7 +81,7 @@ export default function SearchBar() {
           <CommandEmpty>Không có kết quả</CommandEmpty>
           <CommandGroup heading="Gợi ý">
             {matchingKeywords?.length === 0 &&
-              keywords?.slice(0, 3).map((item, index) => (
+              latest3Prods?.map((item, index) => (
                 <CommandItem
                   key={index}
                   onSelect={() => handleKeywordClick(item.name)}

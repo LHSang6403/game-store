@@ -265,31 +265,6 @@ export async function updateSoldQuantityByProductId(
   }
 }
 
-export async function readAllProductsWithNameAndId() {
-  try {
-    const supabase = await createSupabaseServerClient();
-
-    const result = await supabase
-      .from("product")
-      .select("id, name")
-      .eq("is_deleted", false);
-
-    return {
-      status: result.status,
-      statusText: result.statusText,
-      data: result.data as { id: string; name: string }[],
-      error: result.error,
-    };
-  } catch (error: any) {
-    return {
-      status: 500,
-      statusText: "Lỗi máy chủ",
-      data: null,
-      error: error,
-    };
-  }
-}
-
 export async function readAllCategories() {
   try {
     const supabase = await createSupabaseServerClient();

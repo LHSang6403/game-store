@@ -49,7 +49,7 @@ export default function DashboardLayout({
           <DashboardSidebar />
         </div>
         <TooltipProvider>
-          <div className="w-full p-4 pt-2 sm:p-2">{children}</div>
+          <div className="w-full px-4 pt-2 sm:p-2">{children}</div>
         </TooltipProvider>
       </div>
       <Footer />
