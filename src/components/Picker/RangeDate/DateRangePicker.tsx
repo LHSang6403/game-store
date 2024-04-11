@@ -59,10 +59,10 @@ interface Preset {
 const PRESETS: Preset[] = [
   { name: "thisMonth", label: "Tháng này" },
   { name: "lastMonth", label: "Tháng trước" },
-  { name: "6months", label: "6 tháng trước" },
+  { name: "6months", label: "6 tháng nay" },
   { name: "thisYear", label: "Năm nay" },
   { name: "lastYear", label: "Năm trước" },
-  { name: "lastTwoYears", label: "2 năm trước" },
+  { name: "lastTwoYears", label: "2 năm nay" },
 ];
 
 /** The DateRangePicker component allows a user to select a range of dates */
