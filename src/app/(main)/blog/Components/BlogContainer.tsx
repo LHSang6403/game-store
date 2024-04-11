@@ -13,14 +13,14 @@ export default async function BlogContainer() {
   const othersBlogs = sortedBlogs?.slice(2);
 
   return (
-    <div className="flex w-full flex-col items-center gap-4">
+    <div className="flex w-full flex-col items-center gap-4 sm:gap-2">
       {latestTwoBlogs && (
         <div className="flex flex-row gap-4 lg:flex-col">
           <LargeBlog data={latestTwoBlogs[0]} />
           <LargeBlog data={latestTwoBlogs[1]} />
         </div>
       )}
-      <div className="grid h-fit w-fit grid-cols-4 gap-4 px-10 xl:grid-cols-3 xl:px-0 lg:grid-cols-2 sm:grid-cols-1">
+      <div className="grid h-fit w-fit grid-cols-4 gap-4 px-10 xl:grid-cols-3 xl:px-0 lg:grid-cols-2 sm:grid-cols-1 sm:gap-2">
         {othersBlogs &&
           othersBlogs?.map((blog, index) => <Blog key={index} data={blog} />)}
       </div>
