@@ -87,11 +87,11 @@ export default function ProductImages({ images }: { images: string[] }) {
         {images.map((image, index) => (
           <SwiperSlide key={index}>
             <div
-              className={`m-1 w-32 rounded-lg border transition duration-300 ease-in-out hover:scale-[1.02] hover:cursor-pointer xl:w-[96%] ${
+              className={`${
                 activeIndex === index
                   ? "border-foreground opacity-100"
                   : "border-foreground/20 opacity-70"
-              }`}
+              } m-1 w-32 rounded-lg border transition duration-300 ease-in-out hover:scale-[1.02] hover:cursor-pointer xl:w-[96%]`}
             >
               <Image
                 src={
