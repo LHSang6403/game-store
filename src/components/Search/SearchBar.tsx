@@ -84,7 +84,10 @@ export default function SearchBar() {
               latest3Prods?.map((item, index) => (
                 <CommandItem
                   key={index}
-                  onSelect={() => handleKeywordClick(item.name)}
+                  onSelect={() => {
+                    setOpen(false);
+                    handleKeywordClick(item.name);
+                  }}
                 >
                   <Gamepad2 className="mr-2 h-4 w-4" />
                   <span>{item.name}</span>
@@ -94,7 +97,10 @@ export default function SearchBar() {
               matchingKeywords.map((item, index) => (
                 <CommandItem
                   key={index}
-                  onSelect={() => handleKeywordClick(item)}
+                  onSelect={() => {
+                    setOpen(false);
+                    handleKeywordClick(item);
+                  }}
                 >
                   <Gamepad2 className="mr-2 h-4 w-4" />
                   <span>{item}</span>
@@ -104,11 +110,21 @@ export default function SearchBar() {
           <CommandSeparator />
           {matchingKeywords?.length === 0 && (
             <CommandGroup heading="Các trang">
-              <CommandItem onSelect={() => router.push("/cart")}>
+              <CommandItem
+                onSelect={() => {
+                  setOpen(false);
+                  router.push("/cart");
+                }}
+              >
                 <ShoppingCart className="mr-2 h-4 w-4" />
                 <span>Giỏ hàng</span>
               </CommandItem>
-              <CommandItem onSelect={() => router.push("/blog")}>
+              <CommandItem
+                onSelect={() => {
+                  setOpen(false);
+                  router.push("/blog");
+                }}
+              >
                 <Newspaper className="mr-2 h-4 w-4" />
                 <span>Tin tức</span>
               </CommandItem>

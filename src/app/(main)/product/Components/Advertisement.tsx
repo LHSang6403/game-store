@@ -5,7 +5,7 @@ import { ChevronDoubleRightIcon } from "@heroicons/react/20/solid";
 export default function Advertisement() {
   return (
     <div className="relative max-h-[90vh] min-h-[70vh] w-full bg-foreground dark:bg-background xl:h-screen">
-      <h1 className="absolute left-28 top-16 max-w-80 text-5xl font-bold text-background/90 dark:text-foreground sm:left-8 sm:top-10 sm:w-60 sm:text-3xl">
+      <h1 className="absolute left-28 top-16 max-w-80 text-5xl font-bold text-background/90 dark:text-foreground xl:left-8 sm:top-10 sm:w-60 sm:text-3xl">
         Game Store Việt Nam: <span className="text-[#07BCDD]">Nit</span>
         <span className="text-[#FD5E4F]">endo</span>
       </h1>
@@ -29,7 +29,7 @@ export default function Advertisement() {
           quality={100}
         />
       </div>
-      <div className="absolute bottom-20 right-28 h-fit w-80 px-2 text-background/90 hover:text-background xl:bottom-32 lg:bottom-24 lg:right-2 sm:bottom-12 sm:right-0 sm:w-72">
+      <div className="absolute bottom-20 right-28 h-fit w-80 px-2 text-background/90 hover:text-background xl:bottom-32 xl:right-2 lg:bottom-24 sm:bottom-12 sm:right-0 sm:w-72">
         <h2 className="max-w-44 bg-[#07BCDD] px-2 py-1 text-2xl font-semibold">
           2024 Nitendo Switch OLED
         </h2>

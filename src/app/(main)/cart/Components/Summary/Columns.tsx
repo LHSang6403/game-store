@@ -15,7 +15,7 @@ export const columns: ColumnDef<ProductWithDescriptionAndStorageType>[] = [
       const data = row.original;
 
       return (
-        <div className="line-clamp-3 w-44 overflow-ellipsis sm:w-16">
+        <div className="line-clamp-3 w-full overflow-ellipsis">
           {data.product.name}
         </div>
       );
@@ -28,7 +28,9 @@ export const columns: ColumnDef<ProductWithDescriptionAndStorageType>[] = [
       const data = row.original;
 
       return (
-        <span className="">{formatCurrency(data?.product.price)} VNĐ</span>
+        <span className="w-full">
+          {formatCurrency(data?.product.price)} VNĐ
+        </span>
       );
     },
   },
@@ -39,13 +41,15 @@ export const columns: ColumnDef<ProductWithDescriptionAndStorageType>[] = [
       const { removeProduct } = useOrder();
 
       return (
-        <Button
-          onClick={() => removeProduct(data.product.id)}
-          variant="ghost"
-          className="h-fit"
-        >
-          <Trash2 className="h-4 w-4" />
-        </Button>
+        <div className="flex justify-end">
+          <Button
+            onClick={() => removeProduct(data.product.id)}
+            variant="ghost"
+            className="h-fit"
+          >
+            <Trash2 className="h-4 w-4" />
+          </Button>
+        </div>
       );
     },
   },

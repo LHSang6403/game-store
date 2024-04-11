@@ -10,7 +10,7 @@ export default function Header() {
   const path = usePathname();
 
   return (
-    <div className="fixed top-0 z-30 flex h-16 w-full flex-row items-center justify-around gap-4 bg-background px-10 xl:static xl:justify-between sm:px-4">
+    <div className="fixed top-0 z-30 flex h-16 w-full flex-row items-center justify-around gap-4 bg-background px-10 xl:static xl:justify-between xl:px-6 sm:px-4">
       <div className="mr-auto flex items-center">
         <PrimaryLogo />
       </div>

@@ -33,7 +33,7 @@ function ClientCard({
   data: { name: string; image: string; review: string; rating: number };
 }) {
   return (
-    <div className="group flex h-fit w-[500px] flex-row justify-center gap-4 rounded-lg hover:cursor-pointer sm:w-full">
+    <div className="group flex h-fit w-[500px] flex-row justify-center gap-4 rounded-lg hover:cursor-pointer xl:w-full">
       <div className="flex flex-col gap-1">
         <Image
           className="-brightness-105 mx-auto transition duration-300 ease-in-out group-hover:brightness-105"

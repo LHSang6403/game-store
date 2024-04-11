@@ -116,7 +116,7 @@ export default function SelectionLists({
       <Button
         disabled={insertedProductStorageData.length === 0}
         onClick={() => handleSubmit()}
-        className="ml-auto w-fit text-background sm:w-full"
+        className="ml-auto w-fit text-background lg:w-full"
       >
         Hoàn tất
       </Button>

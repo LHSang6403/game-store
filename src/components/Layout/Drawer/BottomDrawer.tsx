@@ -12,8 +12,14 @@ import {
 } from "@/components/ui/drawer";
 import navUrls from "../Header/navUrls.json";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { useSession } from "@/zustand/useSession";
+import React from "react";
 
 export default function BottomDrawer() {
+  const path = usePathname();
+  const { session } = useSession();
+
   return (
     <Drawer>
       <DrawerTrigger asChild>
@@ -21,27 +27,52 @@ export default function BottomDrawer() {
           className="h-full w-full border-foreground bg-foreground hover:bg-foreground"
           variant="outline"
         >
-          Navigation Drawer
+          Trang khác
         </Button>
       </DrawerTrigger>
       <DrawerContent>
         <div className="mx-auto w-full max-w-sm pb-6">
           <DrawerHeader>
-            <DrawerTitle>Navigate your app</DrawerTitle>
+            <DrawerTitle>Chuyển trang</DrawerTitle>
             <DrawerDescription>
-              Just a short description of a web application.
+              Khám phá các trang khác của Game Store.
             </DrawerDescription>
           </DrawerHeader>
-          <div className="mx-auto grid h-fit w-fit grid-cols-2 items-center justify-center gap-2 p-4">
-            {navUrls.map((navUrl, index: number) => (
-              <DrawerClose key={index} asChild>
-                <Link
-                  href={navUrl.url}
-                  className="mx1 hover:text-accent-foreground focus:text-accent-foreground flex h-10 w-[150px] items-center justify-center rounded-md border bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-accent focus:bg-accent focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[active]:bg-accent/50 data-[state=open]:bg-accent/50"
-                >
-                  {navUrl.name}
-                </Link>
-              </DrawerClose>
+          <div className="mx-auto grid h-fit w-fit grid-cols-2 items-center justify-center gap-2 p-4 sm:w-full">
+            {navUrls.map((navUrl, index) => (
+              <>
+                {navUrl.permission === "Staff" ? (
+                  <>
+                    {session && "role" in session && (
+                      <DrawerClose key={index} asChild>
+                        <Link
+                          href={navUrl.url}
+                          className={`${
+                            path === navUrl.url
+                              ? "bg-foreground text-background"
+                              : "bg-background text-foreground"
+                          } flex h-10 w-32 items-center justify-center rounded-md border px-4 py-2 text-sm font-medium transition-colors sm:w-full`}
+                        >
+                          <span>{navUrl.name}</span>
+                        </Link>
+                      </DrawerClose>
+                    )}
+                  </>
+                ) : (
+                  <DrawerClose key={index} asChild>
+                    <Link
+                      href={navUrl.url}
+                      className={`${
+                        path === navUrl.url
+                          ? "bg-foreground text-background"
+                          : "bg-background text-foreground"
+                      } flex h-10 w-32 items-center justify-center rounded-md border px-4 py-2 text-sm font-medium transition-colors sm:w-full`}
+                    >
+                      <span>{navUrl.name}</span>
+                    </Link>
+                  </DrawerClose>
+                )}
+              </>
             ))}
           </div>
         </div>

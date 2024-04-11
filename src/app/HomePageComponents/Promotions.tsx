@@ -22,7 +22,7 @@ export default function Promotions() {
   ];
 
   return (
-    <div className="flex h-fit w-full flex-row items-start justify-center gap-2 xl:flex-col xl:gap-6">
+    <div className="flex h-fit w-full flex-row items-center justify-center gap-2 xl:flex-col xl:gap-6">
       {promotions.map((each, index: number) => (
         <Promotion key={index} data={each} />
       ))}

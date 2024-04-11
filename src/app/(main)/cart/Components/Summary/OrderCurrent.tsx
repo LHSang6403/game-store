@@ -11,8 +11,8 @@ export default function OrderCurrent() {
   return (
     <>
       {order?.products ? (
-        <div className="mx-auto flex w-full flex-row justify-center gap-6 xl:flex-col xl:items-center sm:w-full">
-          <div className="flex w-1/2 flex-col gap-3 xl:w-full">
+        <div className="mx-auto flex w-full flex-row justify-center gap-4 xl:flex-col xl:items-center sm:w-full">
+          <div className="flex w-1/2 flex-col xl:w-full">
             <OrderSummary />
           </div>
           <div className="w-1/2 xl:w-full">
@@ -22,11 +22,8 @@ export default function OrderCurrent() {
       ) : (
         <div className="w-full text-center font-light">
           Chọn sản phẩm tại
-          <Link
-            className="hover:text-accent-foreground focus:text-accent-foreground h-9 w-fit rounded-md p-2 text-center text-sm font-medium transition-colors hover:bg-accent focus:bg-accent focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[active]:bg-accent/50 data-[state=open]:bg-accent/50"
-            href="/product"
-          >
-            Sản phẩm
+          <Link className="h-9 w-fit px-1 font-light underline" href="/product">
+            sản phẩm
           </Link>
         </div>
       )}

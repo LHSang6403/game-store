@@ -8,7 +8,7 @@ export default function Blog({ data }: { data: BlogType }) {
       href={`/blog/${data.id}`}
       className="h-full w-full overflow-hidden text-foreground/90 hover:cursor-pointer sm:w-full"
     >
-      <div className="h-36 w-full xl:h-44 sm:h-32">
+      <div className="h-36 w-full xl:max-h-52">
         <Image
           alt="A blog"
           src={
@@ -17,7 +17,7 @@ export default function Blog({ data }: { data: BlogType }) {
             data.thumbnails[0]
           }
           className="z-0 h-full w-full object-cover"
-          width={200}
+          width={400}
           height={200}
         />
       </div>

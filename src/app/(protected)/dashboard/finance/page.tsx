@@ -55,12 +55,12 @@ export default function Dashboard() {
   const totalOrderPrice = calculateTotalOrderPrice(orders);
 
   return (
-    <main className="flex w-full flex-col gap-4 pt-2 xl:col-span-3 sm:gap-2 sm:pt-0">
+    <main className="flex w-full flex-col gap-4 pb-4 pt-2 xl:col-span-3 sm:gap-2 sm:py-0">
       <div className="flex h-fit w-full flex-row items-center justify-between lg:flex-col lg:gap-2">
         <h1>
           Dữ liệu từ {formatVNDate(from)} đến {formatVNDate(to)}
         </h1>
-        <div className="w-fit">
+        <div className="lg:w-full">
           <DateRangePicker showCompare={false} />
         </div>
       </div>

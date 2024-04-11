@@ -140,7 +140,9 @@ export function DataTable<TData, TValue>({
       </div>
 
       {/* Table */}
-      <div className={`rounded-md ${isBorder ? "border" : "border-none"}`}>
+      <div
+        className={`w-full rounded-md ${isBorder ? "border" : "border-none"}`}
+      >
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
@@ -182,9 +184,9 @@ export function DataTable<TData, TValue>({
               <TableRow>
                 <TableCell
                   colSpan={columns.length}
-                  className="h-24 text-center"
+                  className="h-24 w-full text-center"
                 >
-                  No results.
+                  Không có dữ liệu
                 </TableCell>
               </TableRow>
             )}

@@ -20,7 +20,8 @@ import formatVNDate from "@utils/functions/formatVNDate";
 
 export const columns_headers = [
   { accessKey: "prod_names", name: "Sản phẩm" },
-  { accessKey: "created_at", name: " Vào lúc" },
+  { accessKey: "created_at", name: "Vào lúc" },
+  { accessKey: "shipment_name", name: "Giao hàng" },
   { accessKey: "state", name: "Tình trạng" },
   { accessKey: "actions", name: "Hành động" },
 ];
@@ -65,6 +66,15 @@ export const columns: ColumnDef<OrderType>[] = [
     },
   },
   {
+    accessorKey: "shipment_name",
+    header: "Giao hàng",
+    cell: ({ row }) => {
+      const data = row.original;
+
+      return <div className="w-28 text-left">{data.shipment_name}</div>;
+    },
+  },
+  {
     accessorKey: "state",
     header: "Tình trạng",
     cell: ({ row }) => {
@@ -75,7 +85,9 @@ export const columns: ColumnDef<OrderType>[] = [
   },
   {
     id: "actions",
-    header: "Hành động",
+    header: () => {
+      return <div className="ml-auto text-center">Hành động</div>;
+    },
     cell: ({ row }) => {
       const data = row.original;
       const session = useSession();

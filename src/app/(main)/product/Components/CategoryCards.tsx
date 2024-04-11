@@ -6,7 +6,7 @@ export default async function CategoryCards() {
 
   return (
     <ul
-      className="mx-auto flex h-fit max-w-[1000px] flex-row overflow-x-auto pb-2 
+      className="mx-auto flex h-fit max-w-[1000px] flex-row justify-center overflow-x-auto pb-2 
     xl:mx-auto xl:w-[80%] sm:w-full"
     >
       {categories?.data?.map((each, index: number) => (

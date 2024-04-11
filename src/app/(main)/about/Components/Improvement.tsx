@@ -11,9 +11,9 @@ export default function Improvement() {
       initial="initial"
       whileInView="animate"
       viewport={{ once: true }}
-      className="mx-20 flex flex-row gap-6 text-justify xl:mx-6 lg:flex-col sm:mx-2"
+      className="mx-20 flex flex-row gap-6 text-justify xl:mx-6 lg:flex-col sm:mx-0"
     >
-      <p className="w-1/2 lg:w-full">
+      <p className="w-1/2 lg:w-auto sm:mx-2">
         Tại Game Store, chúng tôi cam kết liên tục đổi mới và cải tiến. Chúng
         tôi tin rằng việc luôn đi đầu trong thế giới game đang thay đổi không
         ngừng này là điều cần thiết. Đó là lý do tại sao chúng tôi luôn tìm kiếm

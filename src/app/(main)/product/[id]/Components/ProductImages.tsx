@@ -82,7 +82,7 @@ export default function ProductImages({ images }: { images: string[] }) {
         watchSlidesProgress={true}
         modules={[FreeMode, Navigation, Thumbs]}
         className="thumbs flex h-fit w-[700px] flex-row items-center justify-center rounded-lg
-          xl:w-[90%] lg:mb-6 sm:w-full"
+          xl:w-[76%] lg:mb-6 lg:w-[84%] sm:w-[94%]"
       >
         {images.map((image, index) => (
           <SwiperSlide key={index}>

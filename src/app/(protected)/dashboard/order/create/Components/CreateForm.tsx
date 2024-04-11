@@ -240,7 +240,7 @@ export default function CreateForm({
 
   return (
     <>
-      <div className="h-fit w-full max-w-[1400px] gap-2 pb-4">
+      <div className="h-fit w-full max-w-[1400px] gap-2 pb-4 sm:pb-0">
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}

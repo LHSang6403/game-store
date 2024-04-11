@@ -43,7 +43,7 @@ export default function Timeline(): JSX.Element {
       initial="initial"
       whileInView="animate"
       viewport={{ once: true }}
-      className="mx-[16%] mt-10 h-fit w-auto"
+      className="mx-[12%] mt-10 h-fit w-auto"
     >
       <ul className="relative border-s border-background/75">
         {events.map((event, index) => (

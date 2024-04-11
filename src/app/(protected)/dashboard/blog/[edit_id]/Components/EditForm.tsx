@@ -177,7 +177,7 @@ export default function EditForm({ blog }: { blog: BlogType }) {
       <div className="flex justify-center">
         <Button
           onClick={form.handleSubmit(onSubmit)}
-          className="mt-1 w-fit bg-foreground px-7 text-background"
+          className="mt-1 w-fit bg-foreground px-7 text-background sm:w-full"
         >
           Lưu chỉnh sửa
         </Button>

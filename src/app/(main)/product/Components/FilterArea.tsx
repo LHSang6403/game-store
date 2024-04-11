@@ -134,7 +134,7 @@ export default function FilterArea() {
         </div>
         <SheetFooter className="mt-8">
           <SheetClose asChild>
-            <Button type="submit" className="text-background">
+            <Button type="submit" className="w-full text-background">
               Áp dụng
             </Button>
           </SheetClose>

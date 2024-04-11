@@ -34,7 +34,7 @@ export default function Dashboard() {
   );
 
   return (
-    <main className="flex w-full flex-col gap-4 pt-2 sm:gap-2 sm:pt-0">
+    <main className="flex w-full flex-col gap-4 pb-4 pt-2 sm:gap-2 sm:py-0">
       <div className="flex w-full flex-row gap-4 xl:flex-col sm:gap-2">
         <div className="flex w-1/2 flex-col gap-4 xl:w-full sm:gap-2">
           <div className="flex w-full flex-row gap-4 sm:flex-col sm:gap-2">

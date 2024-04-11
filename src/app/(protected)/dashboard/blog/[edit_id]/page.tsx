@@ -22,7 +22,7 @@ export default function page({ params }: { params: { edit_id: string } }) {
   }, [blog?.data?.content]);
 
   return (
-    <div className="flex min-h-[calc(100vh_-_6rem)] flex-col gap-2 pb-6">
+    <div className="flex min-h-[calc(100vh_-_6rem)] flex-col gap-2 pb-4 sm:pb-2">
       <h1 className="my-2 text-2xl font-medium">Chỉnh sửa bài viết</h1>
       <div className="h-fit w-full">
         {blog?.data && <EditForm blog={blog.data} />}

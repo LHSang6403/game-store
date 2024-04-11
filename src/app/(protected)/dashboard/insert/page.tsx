@@ -9,7 +9,7 @@ export default async function page() {
   const productStorages = await readAllProductStorages();
 
   return (
-    <section className="flex flex-col gap-4 lg:flex-col">
+    <section className="flex flex-col gap-4 lg:flex-col lg:pb-4 sm:pb-2">
       <div className="flex flex-col">
         <h1 className="mt-2 text-2xl font-medium">Nhập thêm sản phẩm</h1>
         <Link

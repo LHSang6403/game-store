@@ -28,7 +28,7 @@ export default function CollectionCards() {
   ];
 
   return (
-    <div className="z-10 grid h-full w-full grid-cols-2 bg-none xl:h-fit xl:py-10 sm:grid-cols-1">
+    <div className="z-10 grid h-full w-full grid-cols-2 bg-none xl:h-fit lg:grid-cols-1">
       <CollectionCard data={collectionCards[0]} />
       <DescriptionCard data={descriptionCards[0]} />
       <DescriptionCard data={descriptionCards[1]} />
@@ -39,7 +39,7 @@ export default function CollectionCards() {
 
 function CollectionCard({ data }: { data: { title: string; image: string } }) {
   return (
-    <div className="flex h-full w-full items-center justify-center overflow-hidden bg-none">
+    <div className="flex h-fit w-full items-center justify-center overflow-hidden bg-none">
       <Image
         alt="Phone"
         src={data.image}
@@ -57,7 +57,7 @@ function DescriptionCard({
   data: { title: string; description: string };
 }) {
   return (
-    <div className="mx-auto h-full w-[80%] overflow-hidden bg-none p-4 xl:h-fit xl:w-full sm:w-full">
+    <div className="mx-auto h-fit w-[90%] overflow-hidden bg-none p-4 pt-10 xl:h-fit xl:w-full lg:pt-6 sm:w-full">
       <div className="mt-4 flex flex-row gap-1 text-foreground/80 transition duration-300 ease-in-out hover:text-foreground">
         <Link
           href="/product"

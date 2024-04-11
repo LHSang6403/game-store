@@ -37,7 +37,7 @@ export default function About() {
       <h1 className="text-center text-3xl font-semibold">
         Hành trình của chúng tôi
       </h1>
-      <section className="h-fit bg-foreground py-6 sm:py-0">
+      <section className="h-fit rounded-2xl bg-foreground py-6 lg:rounded-lg sm:py-0">
         <Timeline />
       </section>
     </div>

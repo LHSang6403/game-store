@@ -15,7 +15,7 @@ export default async function OrderHistory() {
   );
 
   return (
-    <div className="mx-auto w-fit xl:w-auto">
+    <div className="mx-auto w-auto">
       {session.data && !history.error && "data" in history && (
         <>
           <h2 className="mb-1 text-center text-lg font-semibold">

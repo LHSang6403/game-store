@@ -8,7 +8,7 @@ export default function LargeBlog({ data }: { data: BlogType }) {
       href={`/blog/${data.id}`}
       className="h-full w-1/2 max-w-[800px] overflow-hidden text-foreground/90 hover:cursor-pointer xl:w-full"
     >
-      <div className="h-80 w-full xl:h-72 sm:h-36">
+      <div className="h-80 w-full xl:max-h-72 sm:max-h-52">
         <Image
           alt="A blog"
           src={

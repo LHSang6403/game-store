@@ -60,7 +60,7 @@ export default function RevenueBarChart() {
                   colors={["green"]}
                   valueFormatter={dataFormatter}
                   yAxisWidth={90}
-                  onValueChange={(v) => console.log(v)}
+                  onValueChange={() => {}}
                   noDataText="Không có đơn hàng"
                 />
               )}

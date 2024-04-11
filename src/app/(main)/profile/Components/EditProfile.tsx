@@ -177,7 +177,7 @@ export default function EditProfile({
                   <FormLabel>Tên người dùng</FormLabel>
                   <FormControl>
                     <Input
-                      placeholder="Your name"
+                      placeholder="Tên"
                       {...field}
                       type="text"
                       onChange={field.onChange}
@@ -196,7 +196,7 @@ export default function EditProfile({
                   <FormLabel>Số điện thoại</FormLabel>
                   <FormControl>
                     <Input
-                      placeholder="Your phone number"
+                      placeholder="Số điện thoại"
                       {...field}
                       type="text"
                       onChange={field.onChange}
@@ -266,7 +266,7 @@ export default function EditProfile({
                   <FormLabel>Địa chỉ nhà</FormLabel>
                   <FormControl>
                     <Input
-                      placeholder="Your address"
+                      placeholder="Địa chỉ"
                       {...field}
                       type="text"
                       onChange={field.onChange}

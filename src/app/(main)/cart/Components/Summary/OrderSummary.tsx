@@ -22,6 +22,7 @@ export default function OrderSummary() {
                 removeAll();
               }}
               variant="outline"
+              className="bg- sm:w-full"
             >
               Xóa tất cả
             </Button>

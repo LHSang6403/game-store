@@ -170,7 +170,7 @@ export default function EditForm({
             (files.length === 0 && updatedProductImages.length === 0) ||
             !form.formState.isValid
           }
-          className="mt-1 w-fit bg-foreground px-7 text-background"
+          className="mt-1 w-fit bg-foreground px-7 text-background sm:w-full"
         >
           Lưu thay đổi
         </Button>

@@ -136,7 +136,7 @@ export default function CreateForm() {
         <Button
           onClick={form.handleSubmit(onSubmit)}
           disabled={!form.formState.isValid || files.length === 0}
-          className="mt-1 w-fit bg-foreground px-7 text-background"
+          className="mt-1 w-fit bg-foreground px-7 text-background sm:w-full"
         >
           Tạo sản phẩm
         </Button>
