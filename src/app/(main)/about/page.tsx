@@ -3,12 +3,6 @@ import Image from "next/image";
 import Improvement from "./Components/Improvement";
 import TheStore from "./Components/TheStore";
 
-export const metadata = {
-  title: "About | Next.js Kit",
-  description: "The fastest way to build apps with Next.js and Supabase.",
-  keywords: "next.js, supabase, starter kit",
-};
-
 export default function About() {
   return (
     <div className="flex flex-col gap-10">

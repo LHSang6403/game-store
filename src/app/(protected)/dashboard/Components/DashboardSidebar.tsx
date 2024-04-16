@@ -84,7 +84,7 @@ export default function DashboardSidebar() {
 
   return (
     <div className="flex h-full w-60 flex-col justify-between gap-2 border-r px-4 pt-4 xl:w-full xl:border-none xl:px-0">
-      <ul className="flex flex-col gap-2 overflow-auto">
+      <nav className="flex flex-col gap-2 overflow-auto">
         {dashboardSidebarList.map((item, index) => {
           if (
             staffSession &&
@@ -114,7 +114,7 @@ export default function DashboardSidebar() {
               </Link>
             );
         })}
-      </ul>
+      </nav>
       {session && (
         <Button
           onClick={async () => {

@@ -68,7 +68,7 @@ export default function Dashboard() {
         <DataCard
           title="Tổng doanh thu"
           data={formatCurrency(totalOrderPrice).toString()}
-          previousData="Lợi nhuận 150.000.000"
+          previousData="Lợi nhuận chưa rõ"
           icon={<Banknote className="text-muted-foreground h-4 w-4" />}
           isLoading={isOrdersLoading}
         />

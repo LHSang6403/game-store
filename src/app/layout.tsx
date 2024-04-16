@@ -8,9 +8,10 @@ import ReactQueryProvider from "@components/Providers/ReactQueryProvider";
 import Providers from "@components/Providers/Providers";
 
 export const metadata = {
-  title: "Gaming Store",
-  description: "Buy the best gaming products at the best prices!",
-  keywords: "game, store, online, console, pc, playstation, xbox, nintendo",
+  title: "Game store",
+  description:
+    "Chúng tôi là cửa hàng trò chơi điện tử hàng đầu tại Việt Nam. Cung cấp sản phẩm chất lượng, giá cả phải chăng.",
+  keywords: "trò chơi điện tử, giải trí, trò chơi online, cửa hàng trò chơi",
 };
 
 const font = Roboto({
