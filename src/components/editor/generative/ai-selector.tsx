@@ -70,6 +70,7 @@ export function AISelector({ open, onOpenChange }: AISelectorProps) {
               value={inputValue}
               onValueChange={setInputValue}
               autoFocus
+              className="border-none focus:outline-none focus:ring-0"
               placeholder={
                 hasCompletion ? "Nói với AI tiếp theo là..." : "Viết bởi AI..."
               }

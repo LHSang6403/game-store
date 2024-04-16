@@ -9,14 +9,10 @@ const openai = new OpenAI({
 export const runtime = "edge";
 
 export async function POST(req: Request): Promise<Response> {
-  // Check if the OPENAI_API_KEY is set, if not return 400
   if (!process.env.OPENAI_API_KEY || process.env.OPENAI_API_KEY === "") {
-    return new Response(
-      "Missing OPENAI_API_KEY – make sure to add it to your .env file.",
-      {
-        status: 400,
-      }
-    );
+    return new Response("Thiếu thông tin tài khoản AI.", {
+      status: 400,
+    });
   }
 
   let { prompt } = await req.json();
@@ -27,11 +23,7 @@ export async function POST(req: Request): Promise<Response> {
       {
         role: "system",
         content:
-          "You are an AI writing assistant that continues existing text based on context from prior text. " +
-          "Give more weight/priority to the later characters than the beginning ones. " +
-          "Limit your response to no more than 200 characters, but make sure to construct complete sentences.",
-        // we're disabling markdown for now until we can figure out a way to stream markdown text with proper formatting: https://github.com/steven-tey/novel/discussions/7
-        // "Use Markdown formatting when appropriate.",
+          "Có, tôi là một trợ lý viết AI tiếp tục văn bản hiện tại dựa trên ngữ cảnh từ văn bản trước đó. Tôi sẽ tập trung nhiều hơn vào các ký tự sau trong một từ hơn là các ký tự đầu. Đáp án của tôi sẽ không quá 200 ký tự, nhưng chắc chắn là câu hoàn chỉnh.",
       },
       {
         role: "user",
@@ -46,9 +38,7 @@ export async function POST(req: Request): Promise<Response> {
     n: 1,
   });
 
-  // Convert the response into a friendly text-stream
   const stream = OpenAIStream(response);
 
-  // Respond with the stream
   return new StreamingTextResponse(stream);
 }
