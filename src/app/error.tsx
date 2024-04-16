@@ -12,9 +12,9 @@ function Error({ error, reset }: { error: Error; reset: () => void }) {
 
   return (
     <div className="flex h-screen w-screen items-center justify-center">
-      <div className="flex h-fit w-[700px] flex-col items-center justify-center rounded-xl bg-foreground/10 px-12 py-8 shadow sm:w-[90%]">
+      <div className="flex h-fit min-w-[500px] max-w-[700px] flex-col items-center justify-center rounded-xl bg-foreground/10 px-12 py-8 shadow sm:w-[90%]">
         <h1 className="mb-4 text-2xl font-bold text-primary">Game store</h1>
-        <p className="mb-4 h-fit text-center text-red-400">
+        <p className="mb-4 line-clamp-4 h-fit overflow-ellipsis text-center text-red-400">
           Lỗi: {error.message}
         </p>
         <div className="mt-2 flex flex-row gap-4">
