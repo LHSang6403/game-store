@@ -5,7 +5,7 @@ import AuthCardTabs from "@app/auth/Components/AuthCardTabs";
 export default function Login() {
   return (
     <Template>
-      <div className="flex min-h-screen w-screen flex-col items-center justify-center overflow-auto py-6 sm:pb-16 sm:pt-10">
+      <div className="flex min-h-screen w-screen flex-col items-center justify-center overflow-auto py-6 sm:h-auto sm:min-h-0 sm:pb-16">
         <h1 className="text-lg font-semibold">Xác thực tài khoản</h1>
         <div className="flex h-fit w-fit flex-col gap-2 bg-background sm:w-full sm:px-2">
           <span className="w-auto">
