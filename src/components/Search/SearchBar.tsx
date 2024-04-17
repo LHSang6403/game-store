@@ -60,7 +60,7 @@ export default function SearchBar() {
   return (
     <>
       <Input
-        className="h-8 hover:cursor-pointer focus:border-[#E5E7EB] focus:outline-none focus:ring-0 sm:h-9"
+        className="h-9 hover:cursor-pointer focus:border-[#E5E7EB] focus:outline-none focus:ring-0"
         type="text"
         autoComplete="off"
         placeholder="Tìm kiếm..."
