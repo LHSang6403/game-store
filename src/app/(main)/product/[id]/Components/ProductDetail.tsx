@@ -36,7 +36,7 @@ export default function ProductDetail({
 
   return (
     <div className="relative flex h-fit min-h-[90vh] flex-row pb-6 xl:flex-col">
-      <div className="to-hsl(222.2, 84%, 4%) absolute -z-10 ml-12 h-[75%] w-[60%] -skew-x-[20deg] transform rounded-2xl bg-gradient-to-r from-foreground/5 xl:ml-6 sm:ml-0"></div>
+      <div className="absolute -z-10 ml-12 h-full w-[60%] -skew-x-[20deg] transform rounded-2xl bg-gradient-to-r from-foreground/5 xl:ml-4 sm:ml-0"></div>
       <div className="h-fit w-3/5 pl-10 xl:w-full xl:p-0 sm:px-2">
         <ProductImages images={product.product.images} />
       </div>
