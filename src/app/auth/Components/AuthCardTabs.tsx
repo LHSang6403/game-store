@@ -37,7 +37,7 @@ export default function AuthCardTabs() {
               Tài khoản test: <br />
               lhsang6403@gmail.com (khách hàng), <br />
               gamestorevn2024@gmail.com (quản lí), <br />
-              and password: 123456
+              với mật khẩu: 123456
             </CardDescription>
           </CardHeader>
           <CardContent>
