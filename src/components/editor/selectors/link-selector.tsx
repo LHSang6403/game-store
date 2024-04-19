@@ -62,7 +62,7 @@ export const LinkSelector = ({ open, onOpenChange }: LinkSelectorProps) => {
               "text-blue-500": editor.isActive("link"),
             })}
           >
-            Link
+            Đường dẫn
           </p>
         </Button>
       </PopoverTrigger>
@@ -80,8 +80,8 @@ export const LinkSelector = ({ open, onOpenChange }: LinkSelectorProps) => {
           <input
             ref={inputRef}
             type="text"
-            placeholder="Paste a link"
-            className="flex-1 bg-background p-1 text-sm outline-none"
+            placeholder="Dán đường dẫn vào"
+            className="mr-1 flex-1 rounded bg-background p-1 text-sm outline-none"
             defaultValue={editor.getAttributes("link").href || ""}
           />
           {editor.getAttributes("link").href ? (
@@ -97,7 +97,7 @@ export const LinkSelector = ({ open, onOpenChange }: LinkSelectorProps) => {
               <Trash className="h-4 w-4" />
             </Button>
           ) : (
-            <Button size="icon" className="h-8">
+            <Button size="icon" className="h-8 text-background">
               <Check className="h-4 w-4" />
             </Button>
           )}

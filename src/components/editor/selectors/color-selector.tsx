@@ -15,79 +15,79 @@ export interface BubbleColorMenuItem {
 
 const TEXT_COLORS: BubbleColorMenuItem[] = [
   {
-    name: "Default",
+    name: "Mặc định",
     color: "var(--novel-black)",
   },
   {
-    name: "Purple",
+    name: "Màu tím",
     color: "#9333EA",
   },
   {
-    name: "Red",
+    name: "Màu đỏ",
     color: "#E00000",
   },
   {
-    name: "Yellow",
+    name: "Màu vàng",
     color: "#EAB308",
   },
   {
-    name: "Blue",
+    name: "Xanh dương",
     color: "#2563EB",
   },
   {
-    name: "Green",
+    name: "Xanh lá",
     color: "#008A00",
   },
   {
-    name: "Orange",
+    name: "Màu cam",
     color: "#FFA500",
   },
   {
-    name: "Pink",
+    name: "Màu hồng",
     color: "#BA4081",
   },
   {
-    name: "Gray",
+    name: "Màu xám",
     color: "#A8A29E",
   },
 ];
 
 const HIGHLIGHT_COLORS: BubbleColorMenuItem[] = [
   {
-    name: "Default",
-    color: "var(--novel-highlight-default)",
+    name: "Mặc định",
+    color: "var(--novel-black)",
   },
   {
-    name: "Purple",
-    color: "var(--novel-highlight-purple)",
+    name: "Màu tím",
+    color: "#9333EA",
   },
   {
-    name: "Red",
-    color: "var(--novel-highlight-red)",
+    name: "Màu đỏ",
+    color: "#E00000",
   },
   {
-    name: "Yellow",
-    color: "var(--novel-highlight-yellow)",
+    name: "Màu vàng",
+    color: "#EAB308",
   },
   {
-    name: "Blue",
-    color: "var(--novel-highlight-blue)",
+    name: "Xanh dương",
+    color: "#2563EB",
   },
   {
-    name: "Green",
-    color: "var(--novel-highlight-green)",
+    name: "Xanh lá",
+    color: "#008A00",
   },
   {
-    name: "Orange",
-    color: "var(--novel-highlight-orange)",
+    name: "Màu cam",
+    color: "#FFA500",
   },
   {
-    name: "Pink",
-    color: "var(--novel-highlight-pink)",
+    name: "Màu hồng",
+    color: "#BA4081",
   },
   {
-    name: "Gray",
-    color: "var(--novel-highlight-gray)",
+    name: "Màu xám",
+    color: "#A8A29E",
   },
 ];
 
@@ -101,11 +101,11 @@ export const ColorSelector = ({ open, onOpenChange }: ColorSelectorProps) => {
 
   if (!editor) return null;
   const activeColorItem = TEXT_COLORS.find(({ color }) =>
-    editor.isActive("textStyle", { color }),
+    editor.isActive("textStyle", { color })
   );
 
   const activeHighlightItem = HIGHLIGHT_COLORS.find(({ color }) =>
-    editor.isActive("highlight", { color }),
+    editor.isActive("highlight", { color })
   );
 
   return (
@@ -131,15 +131,15 @@ export const ColorSelector = ({ open, onOpenChange }: ColorSelectorProps) => {
         align="start"
       >
         <div className="flex flex-col">
-          <div className="my-1 px-2 text-sm font-semibold text-muted-foreground">
-            Color
+          <div className="text-muted-foreground my-1 px-2 text-sm font-semibold">
+            Màu sắc
           </div>
           {TEXT_COLORS.map(({ name, color }, index) => (
             <EditorBubbleItem
               key={index}
               onSelect={() => {
                 editor.commands.unsetColor();
-                name !== "Default" &&
+                name !== "Mặc định" &&
                   editor
                     .chain()
                     .focus()
@@ -161,8 +161,8 @@ export const ColorSelector = ({ open, onOpenChange }: ColorSelectorProps) => {
           ))}
         </div>
         <div>
-          <div className="my-1 px-2 text-sm font-semibold text-muted-foreground">
-            Background
+          <div className="text-muted-foreground my-1 px-2 text-sm font-semibold">
+            Màu nền
           </div>
           {HIGHLIGHT_COLORS.map(({ name, color }, index) => (
             <EditorBubbleItem

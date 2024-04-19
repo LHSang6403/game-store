@@ -17,8 +17,8 @@ import { uploadFn } from "./image-upload";
 
 export const suggestionItems = createSuggestionItems([
   {
-    title: "Send Feedback",
-    description: "Let us know how we can improve.",
+    title: "Phản hồi",
+    description: "Góp ý để cải thiện sản phẩm.",
     icon: <MessageSquarePlus size={18} />,
     command: ({ editor, range }) => {
       editor.chain().focus().deleteRange(range).run();
@@ -26,8 +26,8 @@ export const suggestionItems = createSuggestionItems([
     },
   },
   {
-    title: "Text",
-    description: "Just start typing with plain text.",
+    title: "Văn bản",
+    description: "Văn bản dang chữ thông dụng.",
     searchTerms: ["p", "paragraph"],
     icon: <Text size={18} />,
     command: ({ editor, range }) => {
@@ -40,8 +40,8 @@ export const suggestionItems = createSuggestionItems([
     },
   },
   {
-    title: "To-do List",
-    description: "Track tasks with a to-do list.",
+    title: "Danh sách ô",
+    description: "Danh sách ô cho các đầu công việc.",
     searchTerms: ["todo", "task", "list", "check", "checkbox"],
     icon: <CheckSquare size={18} />,
     command: ({ editor, range }) => {
@@ -49,8 +49,8 @@ export const suggestionItems = createSuggestionItems([
     },
   },
   {
-    title: "Heading 1",
-    description: "Big section heading.",
+    title: "Tiêu đề 1",
+    description: "Tiêu đề cỡ lớn.",
     searchTerms: ["title", "big", "large"],
     icon: <Heading1 size={18} />,
     command: ({ editor, range }) => {
@@ -63,8 +63,8 @@ export const suggestionItems = createSuggestionItems([
     },
   },
   {
-    title: "Heading 2",
-    description: "Medium section heading.",
+    title: "Tiêu đề 2",
+    description: "Tiêu đề cỡ vừa.",
     searchTerms: ["subtitle", "medium"],
     icon: <Heading2 size={18} />,
     command: ({ editor, range }) => {
@@ -77,8 +77,8 @@ export const suggestionItems = createSuggestionItems([
     },
   },
   {
-    title: "Heading 3",
-    description: "Small section heading.",
+    title: "Tiêu đề 3",
+    description: "Tiêu đề cỡ nhỏ.",
     searchTerms: ["subtitle", "small"],
     icon: <Heading3 size={18} />,
     command: ({ editor, range }) => {
@@ -91,8 +91,8 @@ export const suggestionItems = createSuggestionItems([
     },
   },
   {
-    title: "Bullet List",
-    description: "Create a simple bullet list.",
+    title: "Danh sách",
+    description: "Danh sách đơn giản",
     searchTerms: ["unordered", "point"],
     icon: <List size={18} />,
     command: ({ editor, range }) => {
@@ -100,8 +100,8 @@ export const suggestionItems = createSuggestionItems([
     },
   },
   {
-    title: "Numbered List",
-    description: "Create a list with numbering.",
+    title: "Danh sách thứ tự",
+    description: "Danh sách có thứ tự số đếm.",
     searchTerms: ["ordered"],
     icon: <ListOrdered size={18} />,
     command: ({ editor, range }) => {
@@ -109,8 +109,8 @@ export const suggestionItems = createSuggestionItems([
     },
   },
   {
-    title: "Quote",
-    description: "Capture a quote.",
+    title: "Câu nói",
+    description: "Trích dẫn câu nói.",
     searchTerms: ["blockquote"],
     icon: <TextQuote size={18} />,
     command: ({ editor, range }) =>
@@ -123,16 +123,16 @@ export const suggestionItems = createSuggestionItems([
         .run(),
   },
   {
-    title: "Code",
-    description: "Capture a code snippet.",
+    title: "Viết mã",
+    description: "Đoạn mã lập trình.",
     searchTerms: ["codeblock"],
     icon: <Code size={18} />,
     command: ({ editor, range }) =>
       editor.chain().focus().deleteRange(range).toggleCodeBlock().run(),
   },
   {
-    title: "Image",
-    description: "Upload an image from your computer.",
+    title: "Hình ảnh",
+    description: "Tải ảnh lên từ máy của bạn.",
     searchTerms: ["photo", "picture", "media"],
     icon: <ImageIcon size={18} />,
     command: ({ editor, range }) => {
