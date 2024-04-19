@@ -1,13 +1,13 @@
 "use client";
 
-import Image from "next/image";
 import { useCallback, useEffect, useState } from "react";
 import { useDropzone } from "react-dropzone";
-import { ArrowUpTrayIcon, XMarkIcon } from "@heroicons/react/24/solid";
+import { ArrowUpTrayIcon } from "@heroicons/react/24/solid";
 import { Button } from "@components/ui/button";
 import useFiles from "@/zustand/useFiles";
 import { FileWithPreview } from "@utils/types";
 import ImageFileItem from "@components/File/ImageFileItem";
+import { toast } from "sonner";
 
 interface RejectedFile {
   file: File;
@@ -23,12 +23,19 @@ const DropAndDragZone = ({
 }) => {
   const { saveFiles } = useFiles();
 
+  const maxFilesNumber = maxFiles ?? 10;
+
   const [files, setFiles] = useState<FileWithPreview[]>([]);
   const [rejected, setRejected] = useState<RejectedFile[]>([]);
 
   const onDrop = useCallback(
     (acceptedFiles: File[], fileRejections: RejectedFile[]) => {
       if (acceptedFiles?.length) {
+        if (files.length + acceptedFiles.length > maxFilesNumber) {
+          toast.error(`Chỉ được tải lên tối đa ${maxFilesNumber} file.`);
+          return;
+        }
+
         setFiles((previousFiles) =>
           previousFiles.concat(
             acceptedFiles.map((file) =>
@@ -45,14 +52,14 @@ const DropAndDragZone = ({
               file,
               errors: errors.map((error) => ({
                 code: error.code,
-                message: error.message,
+                message: "File quá lớn",
               })),
             }))
           )
         );
       }
     },
-    []
+    [files, maxFiles]
   );
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
@@ -60,7 +67,7 @@ const DropAndDragZone = ({
       "image/*": [],
     },
     maxSize: 5120 * 1000,
-    maxFiles: maxFiles ?? 4,
+    maxFiles: maxFilesNumber,
     onDrop,
   });
 
@@ -117,7 +124,7 @@ const DropAndDragZone = ({
         {/* Accepted files */}
         {files?.length > 0 && (
           <>
-            <h3 className="title mt-6 border-b text-sm">Accepted files</h3>
+            <h3 className="title mt-6 border-b text-sm">Thêm thành công</h3>
             <div className="mt-4 grid w-fit grid-cols-6 gap-3 sm:grid-cols-4">
               {files.map((file) => (
                 <ImageFileItem
@@ -134,7 +141,7 @@ const DropAndDragZone = ({
         {/* Rejected Files */}
         {rejected?.length > 0 && (
           <>
-            <h3 className="title mt-6 border-b text-sm">Rejected Files</h3>
+            <h3 className="title mt-6 border-b text-sm">Thêm thất bại</h3>
             <ul className="mt-3 flex flex-col">
               {rejected.map(({ file, errors }) => (
                 <li
@@ -156,7 +163,7 @@ const DropAndDragZone = ({
                     variant="outline"
                     onClick={() => removeRejected(file.name)}
                   >
-                    Remove
+                    Xóa
                   </Button>
                 </li>
               ))}
