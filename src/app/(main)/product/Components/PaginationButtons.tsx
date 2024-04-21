@@ -37,7 +37,6 @@ export default function PaginationButtons({
               className={`h-9 ${
                 index + 1 === currentPage ? "border font-bold" : ""
               }`}
-              href="#"
               onClick={() => handlePageChange(index + 1)}
             >
               {index + 1}
