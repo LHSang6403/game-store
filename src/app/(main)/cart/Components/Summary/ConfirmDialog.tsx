@@ -161,13 +161,13 @@ export default function ConfirmDialog({
             <span className="font-light">{formData.shipment}</span>
           </div>
           <div>
-            <Label>Phí giao hàng : </Label>
+            <Label>Phí giao hàng: </Label>
             <span className="font-light">
               {formatCurrency(order.shipping_fee ?? "0")} VNĐ
             </span>
           </div>
           <div className="mt-4 font-semibold">
-            <Label className="font-semibold">Total price: </Label>
+            <Label className="font-semibold">Tổng tiền: </Label>
             <span className="">
               {formatCurrency(order.total_price ?? "0")} VNĐ
             </span>

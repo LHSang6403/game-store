@@ -19,6 +19,7 @@ import { useQuery } from "@tanstack/react-query";
 import { readStorages } from "@app/_actions/storage";
 import { findAvailableStorage } from "@app/(main)/cart/_actions/findAvailbleStorage";
 import OrderFormInputs from "@app/(main)/cart/Components/Summary/OrderFormInputs";
+import { is } from "date-fns/locale";
 
 const FormSchema = z.object({
   name: z.string().min(1, { message: "Vui lòng nhập tên." }),
@@ -223,7 +224,9 @@ export default function OrderForm() {
           formData={form.getValues()}
           order={order}
           isOpen={isConfirmDialogOpen}
-          onOpenChange={() => setIsConfirmDialogOpen(false)}
+          onOpenChange={() => {
+            setIsConfirmDialogOpen(!isConfirmDialogOpen);
+          }}
         />
       )}
       <>
