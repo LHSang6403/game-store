@@ -34,7 +34,7 @@ export default function ConfirmDialog({
   const mutation = useMutation({
     mutationFn: async (orderData: OrderType) => {
       if (session.session) {
-        const response = await createOrder({
+        await createOrder({
           order: orderData,
           actor: {
             actorId: session.session.id,
@@ -42,13 +42,6 @@ export default function ConfirmDialog({
             actorName: session.session.name,
           },
         });
-
-        if (!response.error) {
-          toast.success("Đã tạo đơn hàng thành công.");
-          onOpenChange(false);
-        } else {
-          toast.error(response.error.message);
-        }
       }
     },
   });
@@ -105,6 +98,11 @@ export default function ConfirmDialog({
         mutation.mutate(order);
       },
       {
+        success: () => {
+          onOpenChange(false);
+
+          return "Đã tạo đơn hàng thành công.";
+        },
         loading: "Đang tạo đơn hàng...",
         error: (error: any) => {
           return "Đã có lỗi xảy ra: " + error.message;
