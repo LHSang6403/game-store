@@ -223,7 +223,7 @@ export default function OrderForm() {
           formData={form.getValues()}
           order={order}
           isOpen={isConfirmDialogOpen}
-          onOpenChange={() => setIsConfirmDialogOpen(!isConfirmDialogOpen)}
+          onOpenChange={() => setIsConfirmDialogOpen(false)}
         />
       )}
       <>
