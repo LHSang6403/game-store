@@ -22,18 +22,21 @@ export default function PaginationButtons({
     onPageChange(pageNumber);
   }
 
+  const isPreviousDisabled = currentPage === 1;
+  const isNextDisabled = currentPage === totalPages;
+
   return (
     <Pagination>
       <PaginationContent>
         <PaginationItem>
           <PaginationPrevious
             className={`h-9 ${
-              currentPage !== 1
+              !isPreviousDisabled
                 ? "hover:cursor-pointer"
                 : "hover:cursor-not-allowed"
             }`}
             onClick={() => {
-              if (currentPage !== 1) handlePageChange(currentPage - 1);
+              if (!isPreviousDisabled) handlePageChange(currentPage - 1);
             }}
           />
         </PaginationItem>
@@ -52,12 +55,12 @@ export default function PaginationButtons({
         <PaginationItem>
           <PaginationNext
             className={`mr-5 h-9 ${
-              currentPage !== totalPages
+              !isNextDisabled
                 ? "hover:cursor-pointer"
                 : "hover:cursor-not-allowed"
             }`}
             onClick={() => {
-              if (currentPage !== totalPages) handlePageChange(currentPage + 1);
+              if (!isNextDisabled) handlePageChange(currentPage + 1);
             }}
           />
         </PaginationItem>
