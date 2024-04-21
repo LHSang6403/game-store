@@ -28,7 +28,6 @@ export default function PaginationButtons({
         <PaginationItem>
           <PaginationPrevious
             className="h-9"
-            href="#"
             onClick={() => handlePageChange(currentPage - 1)}
           />
         </PaginationItem>
@@ -48,7 +47,6 @@ export default function PaginationButtons({
         <PaginationItem>
           <PaginationNext
             className="mr-5 h-9"
-            href="#"
             onClick={() => handlePageChange(currentPage + 1)}
           />
         </PaginationItem>
