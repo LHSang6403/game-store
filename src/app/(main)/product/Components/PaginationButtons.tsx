@@ -27,14 +27,14 @@ export default function PaginationButtons({
       <PaginationContent>
         <PaginationItem>
           <PaginationPrevious
-            className="h-9"
+            className="h-9 hover:cursor-pointer"
             onClick={() => handlePageChange(currentPage - 1)}
           />
         </PaginationItem>
         {[...Array(totalPages)].map((_, index) => (
           <PaginationItem key={index}>
             <PaginationLink
-              className={`h-9 ${
+              className={`h-9 hover:cursor-pointer ${
                 index + 1 === currentPage ? "border font-bold" : ""
               }`}
               onClick={() => handlePageChange(index + 1)}
@@ -45,7 +45,7 @@ export default function PaginationButtons({
         ))}
         <PaginationItem>
           <PaginationNext
-            className="mr-5 h-9"
+            className="mr-5 h-9 hover:cursor-pointer"
             onClick={() => handlePageChange(currentPage + 1)}
           />
         </PaginationItem>
