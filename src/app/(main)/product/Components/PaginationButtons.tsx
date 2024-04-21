@@ -27,8 +27,14 @@ export default function PaginationButtons({
       <PaginationContent>
         <PaginationItem>
           <PaginationPrevious
-            className="h-9 hover:cursor-pointer"
-            onClick={() => handlePageChange(currentPage - 1)}
+            className={`h-9 ${
+              currentPage !== 1
+                ? "hover:cursor-pointer"
+                : "hover:cursor-not-allowed"
+            }`}
+            onClick={() => {
+              if (currentPage !== 1) handlePageChange(currentPage - 1);
+            }}
           />
         </PaginationItem>
         {[...Array(totalPages)].map((_, index) => (
@@ -45,8 +51,14 @@ export default function PaginationButtons({
         ))}
         <PaginationItem>
           <PaginationNext
-            className="mr-5 h-9 hover:cursor-pointer"
-            onClick={() => handlePageChange(currentPage + 1)}
+            className={`mr-5 h-9 ${
+              currentPage !== totalPages
+                ? "hover:cursor-pointer"
+                : "hover:cursor-not-allowed"
+            }`}
+            onClick={() => {
+              if (currentPage !== totalPages) handlePageChange(currentPage + 1);
+            }}
           />
         </PaginationItem>
       </PaginationContent>
