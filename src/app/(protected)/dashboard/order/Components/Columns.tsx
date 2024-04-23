@@ -165,7 +165,7 @@ export const columns: ColumnDef<OrderType>[] = [
     cell: ({ row }) => {
       const data = row.original;
 
-      return <div className="w-24 text-left">{data.customer_name}</div>;
+      return <div className="text-left">{data.customer_name}</div>;
     },
   },
   {

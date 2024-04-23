@@ -1,7 +1,7 @@
 "use client";
 
 import RevenueBarChart from "@/app/(protected)/dashboard/Components/Charts/RevenueBarChart";
-import { Banknote, HandCoins } from "lucide-react";
+import { Banknote, Signal, Map, LocateFixed } from "lucide-react";
 import DataCard from "@/app/(protected)/dashboard/Components/DataCard";
 import { useQuery } from "@tanstack/react-query";
 import { readOrdersByDateRange } from "@app/_actions/order";
@@ -76,21 +76,21 @@ export default function Dashboard() {
           title="Tỉnh bán chạy nhất"
           data={maxOrdersCount.toString() + " đơn"}
           previousData={maxOrdersProvince}
-          icon={<HandCoins className="text-muted-foreground h-4 w-4" />}
+          icon={<Signal className="text-muted-foreground h-4 w-4" />}
           isLoading={isOrdersLoading}
         />
         <DataCard
           title="Hồ Chí Minh"
           data={hoChiMinhOrdersCount.toString() + " đơn"}
           previousData="Tổng đơn hàng tại khu vực Hồ Chí Minh"
-          icon={<HandCoins className="text-muted-foreground h-4 w-4" />}
+          icon={<Map className="text-muted-foreground h-4 w-4" />}
           isLoading={isOrdersLoading}
         />
         <DataCard
           title="Hà nội"
           data={haNoiOrdersCount.toString() + " đơn"}
           previousData="Tổng đơn hàng tại khu vực Hà Nội"
-          icon={<HandCoins className="text-muted-foreground h-4 w-4" />}
+          icon={<LocateFixed className="text-muted-foreground h-4 w-4" />}
           isLoading={isOrdersLoading}
         />
       </div>

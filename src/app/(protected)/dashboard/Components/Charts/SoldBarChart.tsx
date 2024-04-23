@@ -61,7 +61,7 @@ export default function RevenueBarChart() {
       className="col-span-2 row-span-2 h-full overflow-hidden xl:col-span-4"
       ref={cardRef}
     >
-      <CardHeader className="flex flex-col pb-0">
+      <CardHeader className="flex flex-col pb-3">
         <CardTitle className="mb-2 flex flex-row justify-between">
           <span>Bán chạy</span>
           <div className="sm:hidden">
@@ -87,7 +87,7 @@ export default function RevenueBarChart() {
           )}
         </div>
       </CardHeader>
-      <CardContent className="mt-2 block h-[212px] ">
+      <CardContent className="block h-[200px] pt-2">
         {isLoading ? (
           <DashboardLoading />
         ) : (

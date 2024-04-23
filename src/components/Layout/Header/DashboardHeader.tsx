@@ -41,7 +41,7 @@ export default function DashboardHeader() {
             <nav className="grid gap-3 text-lg font-medium">
               <Link
                 href="#"
-                className="flex items-center gap-2 text-lg font-semibold"
+                className="ml-4 flex items-center gap-2 text-lg font-semibold"
               >
                 <PrimaryLogo />
               </Link>
