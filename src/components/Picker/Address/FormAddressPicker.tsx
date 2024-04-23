@@ -28,6 +28,7 @@ export default function FormAddressPicker() {
   return (
     <div className="mt-2 flex flex-col gap-2">
       <Select
+        key="province-all"
         onValueChange={(value) => {
           const parsedValue = JSON.parse(value);
           setProvince(parsedValue.name, parsedValue.id);
@@ -36,13 +37,7 @@ export default function FormAddressPicker() {
         }}
       >
         <SelectTrigger className="w-full">
-          <SelectValue
-            placeholder={
-              addressValues.province !== ""
-                ? addressValues.province
-                : "Chọn tỉnh"
-            }
-          />
+          <SelectValue placeholder="Chọn tỉnh" />
         </SelectTrigger>
         <SelectContent>
           <SelectGroup>
@@ -59,6 +54,11 @@ export default function FormAddressPicker() {
         </SelectContent>
       </Select>
       <Select
+        key={
+          addressValues.provinceId !== ""
+            ? addressValues.provinceId
+            : "district"
+        }
         disabled={addressValues.provinceId === ""}
         onValueChange={(value) => {
           const parsedValue = JSON.parse(value);
@@ -67,13 +67,7 @@ export default function FormAddressPicker() {
         }}
       >
         <SelectTrigger className="w-full">
-          <SelectValue
-            placeholder={
-              addressValues.district !== ""
-                ? addressValues.district
-                : "Chọn quận"
-            }
-          />
+          <SelectValue placeholder="Chọn quận, huyện" />
         </SelectTrigger>
         <SelectContent>
           <SelectGroup>
@@ -90,6 +84,9 @@ export default function FormAddressPicker() {
         </SelectContent>
       </Select>
       <Select
+        key={
+          addressValues.districtId !== "" ? addressValues.districtId : "commune"
+        }
         disabled={addressValues.districtId === ""}
         onValueChange={(value) => {
           const parsedValue = JSON.parse(value);
@@ -97,13 +94,7 @@ export default function FormAddressPicker() {
         }}
       >
         <SelectTrigger className="w-full">
-          <SelectValue
-            placeholder={
-              addressValues.commune !== ""
-                ? addressValues.commune
-                : "Chọn phường"
-            }
-          />
+          <SelectValue placeholder="Chọn phường, xã" />
         </SelectTrigger>
         <SelectContent>
           <SelectGroup>
