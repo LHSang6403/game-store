@@ -95,7 +95,7 @@ export default function RevenueBarChart() {
             </div>
           </CardHeader>
           <CardContent className="block h-[200px] pt-2">
-            <div className="min-h-[100px] w-full overflow-hidden sm:px-6 sm:pb-6">
+            <div className="min-h-[100px] w-full overflow-hidden sm:px-4 sm:pb-4">
               {ordersResponse && (
                 <BarList data={chartData} className="mr-1.5 mt-3 w-auto" />
               )}
