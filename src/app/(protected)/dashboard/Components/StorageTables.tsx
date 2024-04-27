@@ -25,13 +25,13 @@ export default async function StorageTables() {
     <>
       {isLoading ? (
         <>
-          <Card>
+          <Card className="col-span-1 xl:col-span-2">
             <CardHeader className="flex h-[400px] flex-col gap-1">
               <DashboardLoading />
               <DashboardLoading />
             </CardHeader>
           </Card>
-          <Card>
+          <Card className="col-span-1 xl:col-span-2">
             <CardHeader className="flex h-[400px] flex-col gap-1">
               <DashboardLoading />
               <DashboardLoading />
