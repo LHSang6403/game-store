@@ -19,7 +19,11 @@ export default function DashboardLayout({
   const pathname = usePathname();
   const router = useRouter();
   const session = useSession();
-  const staffSession = session.session as StaffType;
+
+  const staffSession =
+    session.session && "role" in session.session
+      ? (session.session as StaffType)
+      : null;
 
   useEffect(() => {
     const authorize = () => {
@@ -29,8 +33,10 @@ export default function DashboardLayout({
       const currentPathPermissions = currentPath?.permissions ?? [];
 
       if (
-        currentPathPermissions.length > 0 &&
-        !currentPathPermissions.includes(staffSession.role)
+        !staffSession ||
+        (currentPathPermissions.length > 0 &&
+          staffSession &&
+          !currentPathPermissions.includes(staffSession.role))
       ) {
         return router.push("/dashboard");
       }

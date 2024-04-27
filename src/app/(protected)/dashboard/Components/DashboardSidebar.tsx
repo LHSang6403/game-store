@@ -78,9 +78,10 @@ export const dashboardSidebarList = [
 
 export default function DashboardSidebar() {
   const pathname = usePathname();
-  const { session, removeSession } = useSession();
+  const { session, removeSession, isStaff } = useSession();
 
-  const staffSession = session as StaffType;
+  const staffSession =
+    session && "role" in session ? (session as StaffType) : null;
 
   return (
     <div className="flex h-full w-60 flex-col justify-between gap-2 border-r px-4 pt-4 xl:w-full xl:border-none xl:px-0">
@@ -88,9 +89,9 @@ export default function DashboardSidebar() {
         {dashboardSidebarList.map((item, index) => {
           if (
             staffSession &&
-            "role" in staffSession &&
+            isStaff &&
             (item.permissions.length === 0 ||
-              item.permissions.includes(staffSession.role))
+              item.permissions.includes(staffSession?.role))
           )
             return (
               <Link
