@@ -32,25 +32,25 @@ export default function RevenueBarChart() {
 
   return (
     <Card className="col-span-2 h-fit">
-      <CardHeader className="pb-0">
-        <CardTitle className="mb-2">Doanh thu</CardTitle>
-        <div className="flex w-full flex-row items-center justify-between sm:flex-col sm:gap-2">
-          <CardDescription>
-            Doanh thu của hệ thống toàn quốc{" "}
-            <span className="hidden sm:block">
-              từ {formatVNDate(from)} đến {formatVNDate(to)}
-            </span>
-          </CardDescription>
+      {isLoading || !orderPricesByMonth ? (
+        <div className="flex h-[500px] w-full flex-col gap-2 p-6">
+          <DashboardLoading />
+          <DashboardLoading />
         </div>
-      </CardHeader>
-      <CardContent className="mt-2 h-fit">
-        <div>
-          {isLoading || !orderPricesByMonth ? (
-            <div className="flex h-[400px] w-full flex-col gap-2">
-              <DashboardLoading />
-              <DashboardLoading />
+      ) : (
+        <>
+          <CardHeader className="pb-0">
+            <CardTitle className="mb-2">Doanh thu</CardTitle>
+            <div className="flex w-full flex-row items-center justify-between sm:flex-col sm:gap-2">
+              <CardDescription>
+                Doanh thu của hệ thống toàn quốc{" "}
+                <span className="hidden sm:block">
+                  từ {formatVNDate(from)} đến {formatVNDate(to)}
+                </span>
+              </CardDescription>
             </div>
-          ) : (
+          </CardHeader>
+          <CardContent className="mt-2 h-fit">
             <div className="h-[400px] w-full overflow-hidden">
               {orderPricesByMonth && (
                 <BarChart
@@ -66,9 +66,9 @@ export default function RevenueBarChart() {
                 />
               )}
             </div>
-          )}
-        </div>
-      </CardContent>
+          </CardContent>
+        </>
+      )}
     </Card>
   );
 }
