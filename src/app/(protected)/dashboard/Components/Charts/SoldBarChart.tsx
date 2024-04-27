@@ -62,7 +62,7 @@ export default function RevenueBarChart() {
       ref={cardRef}
     >
       {isLoading ? (
-        <div className="flex h-full w-full flex-col gap-2 p-6">
+        <div className="flex h-full w-full flex-col gap-2 p-6 xl:h-[300px]">
           <DashboardLoading />
           <DashboardLoading />
         </div>
