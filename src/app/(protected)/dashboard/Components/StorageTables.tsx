@@ -23,7 +23,23 @@ export default async function StorageTables() {
 
   return (
     <>
-      {storages &&
+      {isLoading ? (
+        <>
+          <Card>
+            <CardHeader className="flex h-[400px] flex-col gap-1">
+              <DashboardLoading />
+              <DashboardLoading />
+            </CardHeader>
+          </Card>
+          <Card>
+            <CardHeader className="flex h-[400px] flex-col gap-1">
+              <DashboardLoading />
+              <DashboardLoading />
+            </CardHeader>
+          </Card>
+        </>
+      ) : (
+        storages &&
         storages?.data &&
         storages?.data?.length > 0 &&
         storages?.data.map((storage, index) => (
@@ -39,37 +55,28 @@ export default async function StorageTables() {
                 </CardDescription>
               </div>
             </CardHeader>
-            <CardContent className="mt-2 h-fit">
-              <div className="w-full">
-                {isLoading ? (
-                  <div className="h-[400px]">
-                    <DashboardLoading />
-                  </div>
-                ) : (
-                  <div className="min-h-[100px] w-full overflow-hidden">
-                    {storages &&
-                      storages?.data &&
-                      storages?.data?.length > 0 && (
-                        <DataTable
-                          columns={columns}
-                          data={
-                            storages.data[index]
-                              .product_storage as ProductStorageType[]
-                          }
-                          defaultPageSize={5}
-                          isPaginationEnabled={true}
-                          isCollumnVisibilityEnabled={false}
-                          isSearchEnabled={false}
-                          isBorder={false}
-                          isSeparator={false}
-                        />
-                      )}
-                  </div>
+            <CardContent className="mt-2 h-fit w-full">
+              <div className="min-h-[100px] w-full overflow-hidden">
+                {storages && storages?.data && storages?.data?.length > 0 && (
+                  <DataTable
+                    columns={columns}
+                    data={
+                      storages.data[index]
+                        .product_storage as ProductStorageType[]
+                    }
+                    defaultPageSize={5}
+                    isPaginationEnabled={true}
+                    isCollumnVisibilityEnabled={false}
+                    isSearchEnabled={false}
+                    isBorder={false}
+                    isSeparator={false}
+                  />
                 )}
               </div>
             </CardContent>
           </Card>
-        ))}
+        ))
+      )}
     </>
   );
 }

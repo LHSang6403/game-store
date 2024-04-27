@@ -17,7 +17,7 @@ export default function DataCard({
   return (
     <>
       {isLoading ? (
-        <Card className="h-32 w-full p-2">
+        <Card className="h-32 w-full p-6">
           <DashboardLoading />
         </Card>
       ) : (

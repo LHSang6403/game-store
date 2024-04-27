@@ -46,7 +46,8 @@ export default function RevenueBarChart() {
       <CardContent className="mt-2 h-fit">
         <div>
           {isLoading || !orderPricesByMonth ? (
-            <div className="h-[400px] w-full">
+            <div className="flex h-[400px] w-full flex-col gap-2">
+              <DashboardLoading />
               <DashboardLoading />
             </div>
           ) : (
