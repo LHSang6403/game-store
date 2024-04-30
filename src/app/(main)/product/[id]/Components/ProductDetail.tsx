@@ -40,7 +40,7 @@ export default function ProductDetail({
       <div className="h-fit w-3/5 pl-10 xl:w-full xl:p-0 sm:px-2">
         <ProductImages images={product.product.images} />
       </div>
-      <div className="flex w-2/5 flex-col gap-4 px-6 pt-28 xl:mx-auto xl:w-[80%] xl:pt-10 lg:w-[90%] lg:pt-0 sm:w-full">
+      <div className="flex w-2/5 flex-col gap-4 pr-10 pt-28 xl:w-full xl:px-12 xl:pt-10 lg:w-[90%] lg:pt-0 sm:w-full sm:px-4">
         <ProductActions product={product} />
       </div>
       <Decoration />

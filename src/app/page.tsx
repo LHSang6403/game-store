@@ -18,7 +18,7 @@ export default async function Home() {
           <section className="h-[90vh] w-full bg-background sm:h-fit">
             <HomeSlider />
           </section>
-          <section className="flex h-fit w-full flex-col gap-20 bg-foreground p-12 pb-20 text-background sm:gap-10 sm:px-5 sm:pb-16">
+          <section className="flex h-fit w-full flex-col gap-20 bg-foreground px-10 pb-20 pt-12 text-background sm:gap-10 sm:px-5 sm:pb-16">
             <div className="h-fit w-full">
               <h1 className="mb-10 text-center text-3xl font-medium">
                 Giá trị cốt lõi
@@ -47,7 +47,7 @@ export default async function Home() {
               Game Store Vietnam
             </h2>
           </section>
-          <section className="flex h-fit w-full flex-col gap-10 bg-foreground p-12 text-background sm:px-5">
+          <section className="flex h-fit w-full flex-col gap-10 bg-foreground px-10 py-12 text-background sm:px-5">
             <h1 className="text-center text-3xl font-medium">
               Sản phẩm nổi bật
             </h1>
@@ -61,7 +61,7 @@ export default async function Home() {
               </Link>
             </div>
           </section>
-          <section className="flex h-fit w-full flex-col gap-10 bg-background p-12 text-foreground sm:px-5">
+          <section className="flex h-fit w-full flex-col gap-10 bg-background px-10 py-12 text-foreground sm:px-5">
             <h1 className="text-center text-3xl font-medium">Khuyến mãi</h1>
             <Promotions />
             <div className="text-center xl:m-0">
