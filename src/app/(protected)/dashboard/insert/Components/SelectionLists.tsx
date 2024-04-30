@@ -12,7 +12,7 @@ import { Button } from "@/components/ui/button";
 import { updateProductStoragesQuantity } from "@app/_actions/product_storage";
 import { toast } from "sonner";
 import StorageItem from "@app/(protected)/dashboard/insert/Components/StorageItem";
-import { useSession } from "@/zustand/useSession";
+import { useSession, SessionState } from "@/zustand/useSession";
 
 export default function SelectionLists({
   storages,
@@ -21,7 +21,7 @@ export default function SelectionLists({
   storages: StorageType[];
   productStorages: ProductStorageType[];
 }) {
-  const { session } = useSession();
+  const { session } = useSession() as SessionState;
 
   const [selectedStorage, setSelectedStorage] =
     useState<string>("Kho Hồ Chí Minh");

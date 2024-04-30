@@ -13,12 +13,12 @@ import {
 import navUrls from "../Header/navUrls.json";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useSession } from "@/zustand/useSession";
+import { useSession, SessionState } from "@/zustand/useSession";
 import React from "react";
 
 export default function BottomDrawer() {
   const path = usePathname();
-  const { session } = useSession();
+  const { session } = useSession() as SessionState;
 
   return (
     <Drawer>

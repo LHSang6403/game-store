@@ -19,7 +19,7 @@ import Editor from "@/components/editor/advanced-editor";
 import DropAndDragZone from "@components/File/DropAndDragZone";
 import { useRouter } from "next/navigation";
 import useFiles from "@/zustand/useFiles";
-import { useSession } from "@/zustand/useSession";
+import { useSession, SessionState } from "@/zustand/useSession";
 import { v4 as uuidv4 } from "uuid";
 import { StaffType, BlogType } from "@/utils/types/index";
 import createSupabaseBrowserClient from "@/supabase-query/client";
@@ -37,7 +37,7 @@ const FormSchema = z.object({
 export default function CreateForm() {
   const router = useRouter();
   const { files } = useFiles();
-  const { session } = useSession();
+  const { session } = useSession() as SessionState;
 
   const [content, setContent] = useState<JSONContent>(defaultValueEditor);
 

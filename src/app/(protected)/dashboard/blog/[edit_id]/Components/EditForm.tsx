@@ -18,7 +18,7 @@ import { Input } from "@components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import DropAndDragZone from "@components/File/DropAndDragZone";
 import useFiles from "@/zustand/useFiles";
-import { useSession } from "@/zustand/useSession";
+import { useSession, SessionState } from "@/zustand/useSession";
 import { StaffType, BlogType } from "@/utils/types/index";
 import createSupabaseBrowserClient from "@/supabase-query/client";
 import { updateBlog } from "@app/_actions/blog";
@@ -37,7 +37,7 @@ const FormSchema = z.object({
 export default function EditForm({ blog }: { blog: BlogType }) {
   const router = useRouter();
   const { files } = useFiles();
-  const { session } = useSession();
+  const { session } = useSession() as SessionState;
 
   const parsedContent: JSONContent = parseStringToJSONContent(blog.content);
   const [content, setContent] = useState<JSONContent>(parsedContent);

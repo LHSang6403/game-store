@@ -4,7 +4,7 @@ import DashboardSidebar from "@app/(protected)/dashboard/Components/DashboardSid
 import Footer from "@/components/Layout/Footer/Footer";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import DashboardHeader from "@/components/Layout/Header/DashboardHeader";
-import { useSession } from "@/zustand/useSession";
+import { useSession, SessionState } from "@/zustand/useSession";
 import { useRouter } from "next/navigation";
 import { usePathname } from "next/navigation";
 import { dashboardSidebarList } from "@app/(protected)/dashboard/Components/DashboardSidebar";
@@ -18,7 +18,7 @@ export default function DashboardLayout({
 }): ReturnType<React.FC> {
   const pathname = usePathname();
   const router = useRouter();
-  const session = useSession();
+  const session = useSession() as SessionState;
 
   const staffSession =
     session.session && "role" in session.session

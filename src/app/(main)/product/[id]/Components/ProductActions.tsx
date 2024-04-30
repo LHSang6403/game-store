@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import formatCurrency from "@utils/functions/formatCurrency";
-import { useOrder } from "@/zustand/useOrder";
+import { useOrder, OrderState } from "@/zustand/useOrder";
 import { toast } from "sonner";
 import type {
   ProductStorageType,
@@ -13,7 +13,7 @@ export default function ProductActions({
 }: {
   product: ProductWithDescriptionAndStorageType;
 }) {
-  const { addProduct } = useOrder();
+  const { addProduct } = useOrder() as OrderState;
   const [isSoldOut, setIsSoldOut] = useState(false);
 
   const handleAddToCart = () => {

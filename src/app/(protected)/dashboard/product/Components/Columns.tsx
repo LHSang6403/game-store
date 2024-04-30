@@ -14,7 +14,7 @@ import type { ProductType } from "@utils/types";
 import formatCurrency from "@utils/functions/formatCurrency";
 import { removeProductById } from "@app/_actions/product";
 import { toast } from "sonner";
-import { useSession } from "@/zustand/useSession";
+import { useSession, SessionState } from "@/zustand/useSession";
 import { useRouter } from "next/navigation";
 import formatVNDate from "@/utils/functions/formatVNDate";
 
@@ -93,7 +93,7 @@ export const columns: ColumnDef<ProductType>[] = [
     },
     cell: ({ row }) => {
       const product = row.original;
-      const session = useSession();
+      const session = useSession() as SessionState;
       const router = useRouter();
 
       async function removeHandler() {

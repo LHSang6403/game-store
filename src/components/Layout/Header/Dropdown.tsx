@@ -13,14 +13,14 @@ import {
   DropdownMenuTrigger,
 } from "@components/ui/dropdown-menu";
 import { signOutHandler } from "@/app/auth/_actions/signOut";
-import { useSession } from "@/zustand/useSession";
+import { useSession, SessionState } from "@/zustand/useSession";
 import { toast } from "sonner";
 import Image from "next/image";
 import { useTheme } from "next-themes";
 import { SunIcon, MoonIcon } from "@heroicons/react/24/solid";
 
 export default function Dropdown() {
-  const { session, removeSession } = useSession();
+  const { session, removeSession } = useSession() as SessionState;
   const router = useRouter();
   const { resolvedTheme, setTheme } = useTheme();
 

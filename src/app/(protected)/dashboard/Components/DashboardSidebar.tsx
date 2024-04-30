@@ -4,7 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { signOutHandler } from "@/app/auth/_actions/signOut";
-import { useSession } from "@/zustand/useSession";
+import { useSession, SessionState } from "@/zustand/useSession";
 import { toast } from "sonner";
 import {
   Gamepad2,
@@ -78,7 +78,7 @@ export const dashboardSidebarList = [
 
 export default function DashboardSidebar() {
   const pathname = usePathname();
-  const { session, removeSession, isStaff } = useSession();
+  const { session, removeSession, isStaff } = useSession() as SessionState;
 
   const staffSession =
     session && "role" in session ? (session as StaffType) : null;

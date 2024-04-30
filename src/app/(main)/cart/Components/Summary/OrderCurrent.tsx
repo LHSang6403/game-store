@@ -1,12 +1,12 @@
 "use client";
 
-import { useOrder } from "@/zustand/useOrder";
+import { useOrder, OrderState } from "@/zustand/useOrder";
 import OrderSummary from "./OrderSummary";
 import OrderForm from "@app/(main)/cart/Components/Summary/OrderForm";
 import Link from "next/link";
 
 export default function OrderCurrent() {
-  const { order } = useOrder();
+  const { order } = useOrder() as OrderState;
 
   return (
     <>

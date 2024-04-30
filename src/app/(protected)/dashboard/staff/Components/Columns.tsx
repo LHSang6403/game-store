@@ -23,7 +23,7 @@ import type { StaffRole, StaffType } from "@utils/types";
 import { updateStaffRole } from "@/app/_actions/user";
 import { toast } from "sonner";
 import { updateStaffToCustomer } from "@/app/_actions/user";
-import { useSession } from "@/zustand/useSession";
+import { useSession, SessionState } from "@/zustand/useSession";
 import EditProfile from "@app/(main)/profile/Components/EditProfile";
 import formatVNDate from "@/utils/functions/formatVNDate";
 
@@ -84,7 +84,7 @@ export const columns: ColumnDef<StaffType>[] = [
     },
     cell: ({ row }) => {
       const data = row.original;
-      const session = useSession();
+      const session = useSession() as SessionState;
 
       const handleUpdateRole = async (newRole: StaffRole) => {
         toast.promise(
@@ -142,7 +142,7 @@ export const columns: ColumnDef<StaffType>[] = [
     },
     cell: ({ row }) => {
       const data = row.original;
-      const session = useSession();
+      const session = useSession() as SessionState;
 
       function updateStaffToCustomerHandler(staff: StaffType) {
         toast.promise(

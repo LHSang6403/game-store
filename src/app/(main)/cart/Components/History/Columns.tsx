@@ -15,7 +15,7 @@ import { cancelGHTKOrder } from "@/app/_actions/GHTKShipment";
 import { cancelGHNOrder } from "@/app/_actions/GHNShipment";
 import { toast } from "sonner";
 import { ApiErrorHandlerClient } from "@/utils/errorHandler/apiErrorHandler";
-import { useSession } from "@/zustand/useSession";
+import { useSession, SessionState } from "@/zustand/useSession";
 import formatVNDate from "@utils/functions/formatVNDate";
 
 export const columns_headers = [
@@ -90,14 +90,14 @@ export const columns: ColumnDef<OrderType>[] = [
     },
     cell: ({ row }) => {
       const data = row.original;
-      const session = useSession();
+      const session = useSession() as SessionState;
 
       async function cancelOrderHandler(data: OrderType) {
         toast.promise(
           async () => {
             switch (data.shipment_name) {
               case "GHN":
-                if (session.session) {
+                if (session?.session) {
                   const GHNResponse = await cancelGHNOrder({
                     order: data,
                     order_codes: [data.shipment_label_code!],

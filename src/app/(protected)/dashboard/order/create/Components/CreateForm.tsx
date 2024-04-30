@@ -6,7 +6,7 @@ import * as z from "zod";
 import { toast } from "sonner";
 import { Form, FormLabel } from "@components/ui/form";
 import { Button } from "@components/ui/button";
-import { useOrder } from "@/zustand/useOrder";
+import { useOrder, OrderState } from "@/zustand/useOrder";
 import type {
   CustomerType,
   ProductWithDescriptionAndStorageType,
@@ -59,7 +59,8 @@ export default function CreateForm({
   customers: CustomerType[];
   products: ProductWithDescriptionAndStorageType[];
 }) {
-  const { order, addProduct, removeAll, setPrices, setNewID } = useOrder();
+  const { order, addProduct, removeAll, setPrices, setNewID } =
+    useOrder() as OrderState;
   const [customerSelect, setCustomerSelect] = useState<CustomerType | null>(
     null
   );

@@ -27,7 +27,7 @@ import { PrintDialog } from "@app/(protected)/dashboard/order/Components/PrintDi
 import { useState } from "react";
 import { printGHNOrder } from "@/app/_actions/GHNShipment";
 import { ShipmentState } from "@utils/types/index";
-import { useSession } from "@/zustand/useSession";
+import { useSession, SessionState } from "@/zustand/useSession";
 import formatVNDate from "@/utils/functions/formatVNDate";
 
 export const columns_headers = [
@@ -75,7 +75,7 @@ export const columns: ColumnDef<OrderType>[] = [
     },
     cell: ({ row }) => {
       const data = row.original;
-      const session = useSession();
+      const session = useSession() as SessionState;
 
       function handleUpdateState(newState: ShipmentState) {
         toast.promise(

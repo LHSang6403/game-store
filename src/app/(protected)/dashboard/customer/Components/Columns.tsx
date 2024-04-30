@@ -14,7 +14,7 @@ import type { CustomerType, StaffRole } from "@utils/types";
 import { updateCustomerToStaff } from "@/app/_actions/user";
 import { toast } from "sonner";
 import { updateCustomerLevel } from "@app/_actions/user";
-import { useSession } from "@/zustand/useSession";
+import { useSession, SessionState } from "@/zustand/useSession";
 import EditProfile from "@/app/(main)/profile/Components/EditProfile";
 import formatVNDate from "@/utils/functions/formatVNDate";
 
@@ -104,7 +104,7 @@ export const columns: ColumnDef<CustomerType>[] = [
     },
     cell: ({ row }) => {
       const data = row.original;
-      const session = useSession();
+      const session = useSession() as SessionState;
 
       function updateCustomerLevelHandler(
         customer: CustomerType,

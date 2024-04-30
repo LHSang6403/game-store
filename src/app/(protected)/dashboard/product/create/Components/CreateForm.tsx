@@ -10,7 +10,7 @@ import { useRouter } from "next/navigation";
 import DropAndDragZone from "@components/File/DropAndDragZone";
 import ProductFormInputs from "@/app/(protected)/dashboard/product/create/Components/CreateProductFormInputs";
 import useFiles from "@/zustand/useFiles";
-import { useSession } from "@/zustand/useSession";
+import { useSession, SessionState } from "@/zustand/useSession";
 import { ProductStorageType } from "@/utils/types/index";
 import { useState } from "react";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
@@ -49,7 +49,7 @@ export const FormSchema = z.object({
 export default function CreateForm() {
   const router = useRouter();
   const { files } = useFiles();
-  const { session } = useSession();
+  const { session } = useSession() as SessionState;
 
   const [description, setDescription] =
     useState<JSONContent>(defaultValueEditor);

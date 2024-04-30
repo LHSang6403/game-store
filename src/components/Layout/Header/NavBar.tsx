@@ -12,11 +12,11 @@ import {
 import navUrls from "./navUrls.json";
 import { usePathname } from "next/navigation";
 import { motion } from "framer-motion";
-import { useSession } from "@/zustand/useSession";
+import { useSession, SessionState } from "@/zustand/useSession";
 
 export default function NavBar() {
   const path = usePathname();
-  const { session } = useSession();
+  const { session } = useSession() as SessionState;
 
   return (
     <NavigationMenu>

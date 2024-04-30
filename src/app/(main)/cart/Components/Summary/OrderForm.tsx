@@ -6,8 +6,8 @@ import * as z from "zod";
 import { toast } from "sonner";
 import { Form, FormLabel } from "@components/ui/form";
 import { Button } from "@components/ui/button";
-import { useSession } from "@/zustand/useSession";
-import { useOrder } from "@/zustand/useOrder";
+import { useSession, SessionState } from "@/zustand/useSession";
+import { useOrder, OrderState } from "@/zustand/useOrder";
 import type { CustomerType, StaffType } from "@utils/types";
 import ConfirmDialog from "@app/(main)/cart/Components/Summary//ConfirmDialog";
 import { useState, useEffect } from "react";
@@ -19,7 +19,6 @@ import { useQuery } from "@tanstack/react-query";
 import { readStorages } from "@app/_actions/storage";
 import { findAvailableStorage } from "@app/(main)/cart/_actions/findAvailbleStorage";
 import OrderFormInputs from "@app/(main)/cart/Components/Summary/OrderFormInputs";
-import { is } from "date-fns/locale";
 
 const FormSchema = z.object({
   name: z.string().min(1, { message: "Vui lòng nhập tên." }),
@@ -40,8 +39,8 @@ const FormSchema = z.object({
 });
 
 export default function OrderForm() {
-  const { order, setPrices, setNewID } = useOrder();
-  const { session } = useSession();
+  const { order, setPrices, setNewID } = useOrder() as OrderState;
+  const { session } = useSession() as SessionState;
   const customerSession = session as CustomerType;
   const { addressValues } = useAddressSelects();
 

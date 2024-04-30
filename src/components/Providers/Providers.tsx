@@ -7,7 +7,7 @@ import { defaultFontMapper } from "@app/styles/fonts";
 import useLocalStorage from "@/hooks/useLocalStorage";
 import { cn } from "@/lib/utils";
 import { readUserSession } from "@/app/_actions/user";
-import { useSession } from "@/zustand/useSession";
+import { useSession, SessionState } from "@/zustand/useSession";
 import { useEffect } from "react";
 
 export const AppContext = createContext<{
@@ -28,7 +28,7 @@ const ToasterProvider = () => {
 export default function Providers({ children }: { children: ReactNode }) {
   const [font, setFont] = useLocalStorage<string>("novel__font", "Default");
 
-  const { setSession } = useSession();
+  const { setSession } = useSession() as SessionState;
 
   const displayFontMapper: { [key: string]: string } = {
     Default: "",

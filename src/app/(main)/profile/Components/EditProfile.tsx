@@ -34,7 +34,7 @@ import {
 } from "@components/ui/popover";
 import { useState, useEffect } from "react";
 import useAddressSelects from "@/zustand/useAddressSelects";
-import { useSession } from "@/zustand/useSession";
+import { useSession, SessionState } from "@/zustand/useSession";
 import formatVNDate from "@/utils/functions/formatVNDate";
 
 import province from "@/static-data/provinces.json";
@@ -57,7 +57,7 @@ export default function EditProfile({
   profile: CustomerType | StaffType;
 }) {
   const [isOpen, setIsOpen] = useState(false);
-  const { session } = useSession();
+  const { session } = useSession() as SessionState;
 
   const form = useForm({
     resolver: zodResolver(FormSchema),

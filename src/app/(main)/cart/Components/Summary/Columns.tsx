@@ -5,7 +5,7 @@ import { ProductWithDescriptionAndStorageType } from "@utils/types";
 import formatCurrency from "@utils/functions/formatCurrency";
 import { Button } from "@components/ui/button";
 import { Trash2 } from "lucide-react";
-import { useOrder } from "@/zustand/useOrder";
+import { useOrder, OrderState } from "@/zustand/useOrder";
 
 export const columns: ColumnDef<ProductWithDescriptionAndStorageType>[] = [
   {
@@ -38,7 +38,7 @@ export const columns: ColumnDef<ProductWithDescriptionAndStorageType>[] = [
     id: "actions",
     cell: ({ row }) => {
       const data = row.original;
-      const { removeProduct } = useOrder();
+      const { removeProduct } = useOrder() as OrderState;
 
       return (
         <div className="flex justify-end">

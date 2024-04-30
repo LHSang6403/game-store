@@ -2,8 +2,9 @@ import { create } from "zustand";
 import type { ProductWithDescriptionAndStorageType } from "@utils/types/index";
 import { generate } from "randomstring";
 import { OrderType } from "@utils/types/index";
+import { persist } from "zustand/middleware";
 
-interface OrderState {
+export interface OrderState {
   order: OrderType | null;
   setNewID: () => void;
   setPrices: (shipping_fee: number, insurance_fee: number) => void;
@@ -12,76 +13,83 @@ interface OrderState {
   removeAll: () => void;
 }
 
-export const useOrder = create<OrderState>((set) => ({
-  order: null,
-  setNewID: () =>
-    set((state: OrderState) => {
-      if (state.order) {
-        return {
-          order: {
-            ...state.order,
-            id: generate(12),
-          },
-        };
-      } else {
-        return state;
-      }
+export const useOrder = create(
+  persist(
+    (set) => ({
+      order: null,
+      setNewID: () =>
+        set((state: OrderState) => {
+          if (state.order) {
+            return {
+              order: {
+                ...state.order,
+                id: generate(12),
+              },
+            };
+          } else {
+            return state;
+          }
+        }),
+      setPrices: (shipping_fee: number, insurance_fee: number) => {
+        set((state: OrderState) => {
+          if (state.order) {
+            return {
+              order: {
+                ...state.order,
+                shipping_fee: shipping_fee,
+                insurance_fee: insurance_fee, // currrently not used
+                total_price: state.order.price + shipping_fee,
+              },
+            };
+          } else {
+            return state;
+          }
+        });
+      },
+      addProduct: (prod: ProductWithDescriptionAndStorageType) =>
+        set((state: OrderState) => {
+          if (!state.order) {
+            return { order: createOrderFromProduct(prod) };
+          }
+
+          const updatedOrder = { ...state.order };
+          updatedOrder.products.push(prod);
+          updatedOrder.price += prod.product.price;
+
+          return {
+            order: updatedOrder,
+          };
+        }),
+      removeProduct: (id: string) =>
+        set((state: OrderState) => {
+          if (state.order) {
+            const updatedOrder = { ...state.order };
+
+            const index = updatedOrder.products.findIndex(
+              (prod) => prod.product.id === id
+            );
+
+            if (index !== -1) {
+              updatedOrder.price -= updatedOrder.products[index].product.price;
+              updatedOrder.products.splice(index, 1);
+            }
+
+            if (updatedOrder.products.length === 0) {
+              return { order: null };
+            }
+
+            return { order: updatedOrder };
+          } else {
+            return state;
+          }
+        }),
+      removeAll: () => set(() => ({ order: null })),
     }),
-  setPrices: (shipping_fee: number, insurance_fee: number) => {
-    set((state: OrderState) => {
-      if (state.order) {
-        return {
-          order: {
-            ...state.order,
-            shipping_fee: shipping_fee,
-            insurance_fee: insurance_fee, // currrently not used
-            total_price: state.order.price + shipping_fee,
-          },
-        };
-      } else {
-        return state;
-      }
-    });
-  },
-  addProduct: (prod: ProductWithDescriptionAndStorageType) =>
-    set((state: OrderState) => {
-      if (!state.order) {
-        return { order: createOrderFromProduct(prod) };
-      }
-
-      const updatedOrder = { ...state.order };
-      updatedOrder.products.push(prod);
-      updatedOrder.price += prod.product.price;
-
-      return {
-        order: updatedOrder,
-      };
-    }),
-  removeProduct: (id: string) =>
-    set((state: OrderState) => {
-      if (state.order) {
-        const updatedOrder = { ...state.order };
-
-        const index = updatedOrder.products.findIndex(
-          (prod) => prod.product.id === id
-        );
-
-        if (index !== -1) {
-          updatedOrder.price -= updatedOrder.products[index].product.price;
-          updatedOrder.products.splice(index, 1);
-        }
-
-        if (updatedOrder.products.length === 0) {
-          return { order: null };
-        }
-
-        return { order: updatedOrder };
-      } else {
-        return state;
-      }
-    }),
-  removeAll: () => set(() => ({ order: null })),
-}));
+    {
+      name: "order-storage",
+    }
+  )
+);
 
 function createOrderFromProduct(
   prod: ProductWithDescriptionAndStorageType

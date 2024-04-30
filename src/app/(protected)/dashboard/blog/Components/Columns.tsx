@@ -13,7 +13,7 @@ import {
 import { BlogType } from "@utils/types";
 import Link from "next/link";
 import { toast } from "sonner";
-import { useSession } from "@/zustand/useSession";
+import { useSession, SessionState } from "@/zustand/useSession";
 import { deleteBlogById } from "@app/_actions/blog";
 import formatVNDate from "@utils/functions/formatVNDate";
 
@@ -86,7 +86,7 @@ export const columns: ColumnDef<BlogType>[] = [
     },
     cell: ({ row }) => {
       const data = row.original;
-      const session = useSession();
+      const session = useSession() as SessionState;
 
       async function removeHandler(blog: BlogType) {
         toast.promise(

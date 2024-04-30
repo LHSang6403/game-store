@@ -10,7 +10,7 @@ import { useRouter } from "next/navigation";
 import DropAndDragZone from "@/components/File/DropAndDragZone";
 import CreateProductFormInputs from "@/app/(protected)/dashboard/product/create/Components/CreateProductFormInputs";
 import useFiles from "@/zustand/useFiles";
-import { useSession } from "@/zustand/useSession";
+import { useSession, SessionState } from "@/zustand/useSession";
 import {
   ProductWithDescriptionAndStorageType,
   ProductStorageType,
@@ -50,7 +50,7 @@ export default function EditForm({
 }) {
   const router = useRouter();
   const { files } = useFiles();
-  const { session } = useSession();
+  const { session } = useSession() as SessionState;
 
   const parsedContent: JSONContent = parseStringToJSONContent(
     product.product_description.content

@@ -17,7 +17,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { signInWithEmailAndPassword } from "@auth/_actions/signIn";
 import { readUserSession } from "@/app/_actions/user";
-import { useSession } from "@/zustand/useSession";
+import { useSession, SessionState } from "@/zustand/useSession";
 import GoogleOAuth from "@/app/OAuth/GoogleOAuth";
 
 const FormSchema = z.object({
@@ -29,7 +29,7 @@ const FormSchema = z.object({
 
 export default function SignIn() {
   const router = useRouter();
-  const { setSession } = useSession();
+  const { setSession } = useSession() as SessionState;
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),

@@ -2,13 +2,13 @@
 
 import formatCurrency from "@/utils/functions/formatCurrency";
 import { Button } from "@/components/ui/button";
-import { useOrder } from "@/zustand/useOrder";
+import { useOrder, OrderState } from "@/zustand/useOrder";
 import { DataTable } from "@components/Table/DataTable";
 import { columns } from "./Columns";
 import formatVNDate from "@/utils/functions/formatVNDate";
 
 export default function OrderSummary() {
-  const { order, removeAll } = useOrder();
+  const { order, removeAll } = useOrder() as OrderState;
   const products = order?.products;
 
   return (

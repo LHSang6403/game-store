@@ -16,7 +16,7 @@ import { useMutation } from "@tanstack/react-query";
 import formatCurrency from "@/utils/functions/formatCurrency";
 import { processOrderGHN } from "@/app/(main)/cart/_actions/processGHN";
 import { processOrderGHTK } from "@/app/(main)/cart/_actions/processGHTK";
-import { useSession } from "@/zustand/useSession";
+import { useSession, SessionState } from "@/zustand/useSession";
 
 export default function ConfirmDialog({
   formData,
@@ -29,7 +29,7 @@ export default function ConfirmDialog({
   isOpen: boolean;
   onOpenChange: Function;
 }) {
-  const session = useSession();
+  const session = useSession() as SessionState;
 
   const mutation = useMutation({
     mutationFn: async (orderData: OrderType) => {
