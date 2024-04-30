@@ -24,7 +24,9 @@ export default async function Product() {
           </div>
         </div>
         <CategoryCards />
-        <ProductsContainer products={products?.data as ProductType[]} />
+        {products.data && (
+          <ProductsContainer products={products.data as ProductType[]} />
+        )}
         <FilterArea />
       </div>
     </>
