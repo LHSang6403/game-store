@@ -176,7 +176,7 @@ export default function ConfirmDialog({
           onClick={handleBuy}
           className="w-full bg-foreground text-background"
         >
-          Mua hàng
+          Thanh toán
         </Button>
       </DialogContent>
     </Dialog>
