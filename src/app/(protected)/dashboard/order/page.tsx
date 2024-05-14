@@ -1,3 +1,5 @@
+"use client";
+
 import { readOrders } from "@app/_actions/order";
 import Link from "next/link";
 import { OrderType } from "@utils/types";
@@ -6,9 +8,19 @@ import {
   columns,
   columns_headers,
 } from "@app/(protected)/dashboard/order/Components/Columns";
+import { useQuery } from "@tanstack/react-query";
+import DashboardTableLoading from "@app/(protected)/dashboard/Components/DashboardTableLoading";
 
-export default async function page() {
-  const orders = await readOrders({ limit: 20, offset: 0 });
+export default function page() {
+  const {
+    data: orders,
+    isLoading,
+    isSuccess,
+  } = useQuery({
+    queryKey: ["orders", "all"],
+    queryFn: () => readOrders({ limit: 200, offset: 0 }),
+    staleTime: 15 * (60 * 1000),
+  });
 
   return (
     <section className="">
@@ -21,15 +33,21 @@ export default async function page() {
           Tạo đơn
         </Link>
       </div>
-      {orders.data && (
-        <DataTable
-          columns={columns}
-          data={orders.data as OrderType[]}
-          isPaginationEnabled={true}
-          searchAttribute="customer_name"
-          columns_headers={columns_headers}
-          searchPlaceholder="Tên khách hàng..."
-        />
+      {isLoading ? (
+        <DashboardTableLoading />
+      ) : (
+        <>
+          {isSuccess && orders.data && (
+            <DataTable
+              columns={columns}
+              data={orders.data as OrderType[]}
+              isPaginationEnabled={true}
+              searchAttribute="customer_name"
+              columns_headers={columns_headers}
+              searchPlaceholder="Tên khách hàng..."
+            />
+          )}
+        </>
       )}
     </section>
   );

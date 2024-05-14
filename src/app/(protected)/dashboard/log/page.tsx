@@ -1,3 +1,5 @@
+"use client";
+
 import { readLogs } from "@app/_actions/log";
 import { LogType } from "@utils/types";
 import { DataTable } from "@components/Table/DataTable";
@@ -5,22 +7,40 @@ import {
   columns,
   columns_headers,
 } from "@app/(protected)/dashboard/log/Components/Columns";
+import { useQuery } from "@tanstack/react-query";
+import DashboardTableLoading from "@app/(protected)/dashboard/Components/DashboardTableLoading";
 
-export default async function page() {
-  const logs = await readLogs();
+export default function page() {
+  const {
+    data: logs,
+    isLoading,
+    isSuccess,
+  } = useQuery({
+    queryKey: ["logs", "all"],
+    queryFn: () => readLogs(),
+    staleTime: 15 * (60 * 1000),
+  });
 
   return (
     <section className="">
       <h1 className="my-2 text-2xl font-medium">Tất cả lịch sử hoạt động</h1>
-      {logs.data && (
-        <DataTable
-          columns={columns}
-          data={logs.data as LogType[]}
-          isPaginationEnabled={true}
-          searchPlaceholder="Tên hoạt động..."
-          columns_headers={columns_headers}
-        />
-      )}
+      <div>
+        {isLoading ? (
+          <DashboardTableLoading />
+        ) : (
+          <>
+            {isSuccess && logs.data && (
+              <DataTable
+                columns={columns}
+                data={logs.data as LogType[]}
+                isPaginationEnabled={true}
+                searchPlaceholder="Tên hoạt động..."
+                columns_headers={columns_headers}
+              />
+            )}
+          </>
+        )}
+      </div>
     </section>
   );
 }

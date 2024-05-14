@@ -1,11 +1,23 @@
+"use client";
+
 import Link from "next/link";
 import { DataTable } from "@components/Table/DataTable";
 import { columns, columns_headers } from "./Components/Columns";
 import { readBlogs } from "@/app/_actions/blog";
 import type { BlogType } from "@utils/types/index";
+import { useQuery } from "@tanstack/react-query";
+import DashboardTableLoading from "@app/(protected)/dashboard/Components/DashboardTableLoading";
 
-export default async function page() {
-  const blogs = await readBlogs({ limit: 20, offset: 0 });
+export default function page() {
+  const {
+    data: blogs,
+    isLoading,
+    isSuccess,
+  } = useQuery({
+    queryKey: ["blogs", "all"],
+    queryFn: () => readBlogs({ limit: 200, offset: 0 }),
+    staleTime: 15 * (60 * 1000),
+  });
 
   return (
     <section className="">
@@ -18,15 +30,21 @@ export default async function page() {
           Tạo bài viết
         </Link>
       </div>
-      {blogs?.data && (
-        <DataTable
-          columns={columns}
-          data={blogs?.data as BlogType[]}
-          isPaginationEnabled={true}
-          searchAttribute="title"
-          searchPlaceholder="Tiêu đề..."
-          columns_headers={columns_headers}
-        />
+      {isLoading ? (
+        <DashboardTableLoading />
+      ) : (
+        <>
+          {isSuccess && blogs.data && (
+            <DataTable
+              columns={columns}
+              data={blogs?.data as BlogType[]}
+              isPaginationEnabled={true}
+              searchAttribute="title"
+              searchPlaceholder="Tiêu đề..."
+              columns_headers={columns_headers}
+            />
+          )}
+        </>
       )}
     </section>
   );

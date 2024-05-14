@@ -34,7 +34,7 @@ export const columns: ColumnDef<ProductType>[] = [
     cell: ({ row }) => {
       const data = row.original;
 
-      return <div className="max-w-32">{formatCurrency(data.brand)}</div>;
+      return <div className="max-w-32">{data.brand}</div>;
     },
   },
   {
@@ -45,7 +45,7 @@ export const columns: ColumnDef<ProductType>[] = [
 
       return (
         <div className="line-clamp-3 max-w-36 overflow-ellipsis sm:w-20">
-          {formatCurrency(data.name)}
+          {data.name}
         </div>
       );
     },

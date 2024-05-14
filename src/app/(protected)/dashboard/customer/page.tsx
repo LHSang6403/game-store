@@ -1,3 +1,5 @@
+"use client";
+
 import { readCustomers } from "@app/_actions/user";
 import Link from "next/link";
 import { CustomerType } from "@/utils/types";
@@ -6,9 +8,19 @@ import {
   columns,
   columns_headers,
 } from "@app/(protected)/dashboard/customer/Components/Columns";
+import { useQuery } from "@tanstack/react-query";
+import DashboardTableLoading from "@app/(protected)/dashboard/Components/DashboardTableLoading";
 
-export default async function page() {
-  const customers = await readCustomers({ limit: 40, offset: 0 });
+export default function page() {
+  const {
+    data: customers,
+    isLoading,
+    isSuccess,
+  } = useQuery({
+    queryKey: ["customers", "all"],
+    queryFn: () => readCustomers({ limit: 200, offset: 0 }),
+    staleTime: 15 * (60 * 1000),
+  });
 
   return (
     <section className="">
@@ -21,15 +33,23 @@ export default async function page() {
           Tạo tài khoản mới
         </Link>
       </div>
-      {customers?.data && (
-        <DataTable
-          columns={columns}
-          data={customers?.data as CustomerType[]}
-          isPaginationEnabled={true}
-          searchPlaceholder="Họ tên..."
-          columns_headers={columns_headers}
-        />
-      )}
+      <div>
+        {isLoading ? (
+          <DashboardTableLoading />
+        ) : (
+          <>
+            {isSuccess && customers.data && (
+              <DataTable
+                columns={columns}
+                data={customers?.data as CustomerType[]}
+                isPaginationEnabled={true}
+                searchPlaceholder="Họ tên..."
+                columns_headers={columns_headers}
+              />
+            )}
+          </>
+        )}
+      </div>
     </section>
   );
 }
