@@ -8,7 +8,7 @@ import { useQuery } from "@tanstack/react-query";
 import { readAllProductStorages } from "@/app/_actions/product_storage";
 import { readCustomers, readStaffs } from "@app/_actions/user";
 
-export default function Dashboard() {
+export default function page() {
   const { data: productStorages, isLoading: isProductStoragesLoading } =
     useQuery({
       queryKey: ["product-storages", "all"],
