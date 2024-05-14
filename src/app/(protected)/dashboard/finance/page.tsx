@@ -14,9 +14,9 @@ export default function Dashboard() {
   const { from, to } = useDatePicker();
 
   const { data: orders, isLoading: isOrdersLoading } = useQuery({
-    queryKey: ["orders", from, to],
+    queryKey: ["orders-range", from, to],
     queryFn: async () => readOrdersByDateRange({ from: from, to: to }),
-    staleTime: 1000 * 60 * 5,
+    staleTime: 15 * (60 * 1000),
   });
 
   const calculateTotalOrderPrice = (orders) => {

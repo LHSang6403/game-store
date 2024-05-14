@@ -1,6 +1,6 @@
 "use client";
 
-import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { usePathname } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { signOutHandler } from "@/app/auth/_actions/signOut";
@@ -77,8 +77,9 @@ export const dashboardSidebarList = [
 ];
 
 export default function DashboardSidebar() {
+  const router = useRouter();
   const pathname = usePathname();
-  const { session, removeSession, isStaff } = useSession() as SessionState;
+  const { session, isStaff } = useSession() as SessionState;
 
   const staffSession =
     session && "role" in session ? (session as StaffType) : null;
@@ -94,9 +95,9 @@ export default function DashboardSidebar() {
               item.permissions.includes(staffSession?.role))
           )
             return (
-              <Link
+              <button
                 key={index}
-                href={item.link}
+                onClick={() => router.push(item.link)}
                 className={`${
                   item.link === pathname.split("/").slice(0, 3).join("/")
                     ? "bg-accent shadow-sm"
@@ -112,26 +113,10 @@ export default function DashboardSidebar() {
               >
                 {item.icon}
                 <span className="mt-0.5">{item.name}</span>
-              </Link>
+              </button>
             );
         })}
       </nav>
-      {session && (
-        <Button
-          onClick={async () => {
-            const result = await signOutHandler();
-            if (!result.error) {
-              removeSession();
-              toast.success("Đăng xuất thành công.");
-            } else {
-              toast.error("Đã có lỗi xãy ra khi đăng xuất.");
-            }
-          }}
-          className="mb-4 mt-6 w-full text-background"
-        >
-          Đăng xuất
-        </Button>
-      )}
     </div>
   );
 }

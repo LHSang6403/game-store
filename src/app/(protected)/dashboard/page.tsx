@@ -11,21 +11,21 @@ import { readCustomers, readStaffs } from "@app/_actions/user";
 export default function Dashboard() {
   const { data: productStorages, isLoading: isProductStoragesLoading } =
     useQuery({
-      queryKey: ["product-storage", "all"],
+      queryKey: ["product-storages", "all"],
       queryFn: () => readAllProductStorages(),
-      staleTime: 1000 * 60 * 60,
+      staleTime: 15 * (60 * 1000),
     });
 
   const { data: customers, isLoading: isCustomersLoading } = useQuery({
-    queryKey: ["customer", "all"],
-    queryFn: () => readCustomers({ limit: 10000, offset: 0 }),
-    staleTime: 1000 * 60 * 60,
+    queryKey: ["customers", "all"],
+    queryFn: () => readCustomers({ limit: 200, offset: 0 }),
+    staleTime: 15 * (60 * 1000),
   });
 
   const { data: staffs, isLoading: isStaffsLoading } = useQuery({
-    queryKey: ["staff", "all"],
-    queryFn: () => readStaffs({ limit: 10000, offset: 0 }),
-    staleTime: 1000 * 60 * 60,
+    queryKey: ["staffs", "all"],
+    queryFn: () => readStaffs({ limit: 100, offset: 0 }),
+    staleTime: 15 * (60 * 1000),
   });
 
   const totalQuantity = productStorages?.data?.reduce(

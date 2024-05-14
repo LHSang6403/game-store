@@ -35,15 +35,13 @@ export default function SelectionLists({
       async () => {
         if (!session) throw new Error("Lỗi không xác định phiên đăng nhập.");
 
-        const result = await updateProductStoragesQuantity({
+        await updateProductStoragesQuantity({
           addProductStorageList: insertedProductStorageData,
           actor: {
             actorId: session.id,
             actorName: session.name,
           },
         });
-
-        if (result.error) throw new Error(result.error);
       },
       {
         loading: "Đang cập nhật...",
@@ -111,15 +109,15 @@ export default function SelectionLists({
                 ))}
             </CardContent>
           </Card>
+          <Button
+            disabled={insertedProductStorageData.length === 0}
+            onClick={() => handleSubmit()}
+            className="mt-2 w-full text-background lg:mt-4"
+          >
+            Hoàn tất
+          </Button>
         </div>
       </div>
-      <Button
-        disabled={insertedProductStorageData.length === 0}
-        onClick={() => handleSubmit()}
-        className="ml-auto w-fit text-background lg:w-full"
-      >
-        Hoàn tất
-      </Button>
     </>
   );
 }
