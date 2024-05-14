@@ -24,7 +24,7 @@ export default function RevenueBarChart() {
   const { data: ordersResponse, isLoading } = useQuery({
     queryKey: ["orders", from, to],
     queryFn: async () => readOrdersByDateRange({ from: from, to: to }),
-    staleTime: 1000 * 60 * 5,
+    staleTime: 60 * (60 * 1000),
   });
 
   const orders = ordersResponse?.data as OrderType[];

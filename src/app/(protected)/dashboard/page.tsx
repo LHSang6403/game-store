@@ -13,19 +13,19 @@ export default function Dashboard() {
     useQuery({
       queryKey: ["product-storages", "all"],
       queryFn: () => readAllProductStorages(),
-      staleTime: 15 * (60 * 1000),
+      staleTime: 60 * (60 * 1000),
     });
 
   const { data: customers, isLoading: isCustomersLoading } = useQuery({
     queryKey: ["customers", "all"],
     queryFn: () => readCustomers({ limit: 200, offset: 0 }),
-    staleTime: 15 * (60 * 1000),
+    staleTime: 60 * (60 * 1000),
   });
 
   const { data: staffs, isLoading: isStaffsLoading } = useQuery({
     queryKey: ["staffs", "all"],
     queryFn: () => readStaffs({ limit: 100, offset: 0 }),
-    staleTime: 15 * (60 * 1000),
+    staleTime: 60 * (60 * 1000),
   });
 
   const totalQuantity = productStorages?.data?.reduce(

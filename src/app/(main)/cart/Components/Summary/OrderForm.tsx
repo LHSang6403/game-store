@@ -50,7 +50,7 @@ export default function OrderForm() {
   const { data: storages } = useQuery({
     queryKey: ["storages", "all"],
     queryFn: () => readStorages(),
-    staleTime: 1000 * 60 * 60,
+    staleTime: 60 * (60 * 1000),
   });
 
   const [content, setContent] = useLocalStorage("storage", {

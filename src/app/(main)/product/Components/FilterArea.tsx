@@ -35,14 +35,14 @@ export default function FilterArea() {
   const { data: brandsData, isLoading: isBrandsDataLoading } = useQuery({
     queryKey: ["brands"],
     queryFn: async () => await readProductBrands(),
-    staleTime: 1000 * 60 * 60,
+    staleTime: 60 * (60 * 1000),
   });
 
   const { data: categoriesData, isLoading: isCategoriesDataLoading } = useQuery(
     {
       queryKey: ["categories"],
       queryFn: async () => await readAllCategories(),
-      staleTime: 1000 * 60 * 60,
+      staleTime: 60 * (60 * 1000),
     }
   );
 

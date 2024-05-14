@@ -24,7 +24,7 @@ export default function SearchBar() {
   const { data } = useQuery({
     queryKey: ["products", "all", "search"],
     queryFn: () => readProducts({ offset: 0, limit: 100 }),
-    staleTime: 1000 * 60 * 60,
+    staleTime: 60 * (60 * 1000),
   });
 
   const { register, setValue } = useForm({

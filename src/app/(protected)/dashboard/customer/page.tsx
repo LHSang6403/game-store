@@ -1,7 +1,6 @@
 "use client";
 
 import { readCustomers } from "@app/_actions/user";
-import Link from "next/link";
 import { CustomerType } from "@/utils/types";
 import { DataTable } from "@components/Table/DataTable";
 import {
@@ -10,8 +9,11 @@ import {
 } from "@app/(protected)/dashboard/customer/Components/Columns";
 import { useQuery } from "@tanstack/react-query";
 import DashboardTableLoading from "@app/(protected)/dashboard/Components/DashboardTableLoading";
+import { useRouter } from "next/navigation";
 
 export default function page() {
+  const router = useRouter();
+  
   const {
     data: customers,
     isLoading,
@@ -19,19 +21,19 @@ export default function page() {
   } = useQuery({
     queryKey: ["customers", "all"],
     queryFn: () => readCustomers({ limit: 200, offset: 0 }),
-    staleTime: 15 * (60 * 1000),
+    staleTime: 60 * (60 * 1000),
   });
 
   return (
     <section className="">
       <div className="flex flex-row items-center justify-between ">
         <h1 className="my-2 text-2xl font-medium">Tất cả khách hàng</h1>
-        <Link
+        <button
+          onClick={() => router.push("/dashboard/customer/create")}
           className="hover:text-accent-foreground focus:text-accent-foreground flex h-9 w-fit items-center rounded-md px-4 py-2 text-sm font-medium transition-colors hover:bg-accent focus:bg-accent focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[active]:bg-accent/50 data-[state=open]:bg-accent/50"
-          href="/dashboard/customer/create"
         >
           Tạo tài khoản mới
-        </Link>
+        </button>
       </div>
       <div>
         {isLoading ? (

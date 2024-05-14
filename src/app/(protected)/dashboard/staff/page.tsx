@@ -18,7 +18,7 @@ export default function page() {
   } = useQuery({
     queryKey: ["staffs", "all"],
     queryFn: () => readStaffs({ limit: 100, offset: 0 }),
-    staleTime: 15 * (60 * 1000),
+    staleTime: 60 * (60 * 1000),
   });
 
   return (

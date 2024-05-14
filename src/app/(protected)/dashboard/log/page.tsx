@@ -18,7 +18,7 @@ export default function page() {
   } = useQuery({
     queryKey: ["logs", "all"],
     queryFn: () => readLogs(),
-    staleTime: 15 * (60 * 1000),
+    staleTime: 60 * (60 * 1000),
   });
 
   return (

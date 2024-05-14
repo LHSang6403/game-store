@@ -34,7 +34,7 @@ export default function ProductStorageCheckbox({
   const { data: storages, isSuccess: isStorageSuccess } = useQuery({
     queryKey: ["storages", "all"],
     queryFn: () => readStorages(),
-    staleTime: 1000 * 60 * 60,
+    staleTime: 60 * (60 * 1000),
   });
 
   const [productStorages, setProductStorages] = useState<ProductStorageType[]>(
