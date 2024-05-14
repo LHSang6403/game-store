@@ -28,6 +28,7 @@ export default async function Page() {
             data={products.data as ProductType[]}
             isPaginationEnabled={true}
             columns_headers={columns_headers}
+            searchPlaceholder="Tên sản phẩm..."
           />
         )}
       </div>

@@ -26,6 +26,7 @@ export default async function page() {
           columns={columns}
           data={customers?.data as CustomerType[]}
           isPaginationEnabled={true}
+          searchPlaceholder="Họ tên..."
           columns_headers={columns_headers}
         />
       )}

@@ -17,6 +17,7 @@ export default async function page() {
           columns={columns}
           data={logs.data as LogType[]}
           isPaginationEnabled={true}
+          searchPlaceholder="Tên hoạt động..."
           columns_headers={columns_headers}
         />
       )}

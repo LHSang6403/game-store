@@ -24,6 +24,7 @@ export default async function page() {
           data={blogs?.data as BlogType[]}
           isPaginationEnabled={true}
           searchAttribute="title"
+          searchPlaceholder="Tiêu đề..."
           columns_headers={columns_headers}
         />
       )}

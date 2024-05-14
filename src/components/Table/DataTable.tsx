@@ -39,6 +39,7 @@ interface DataTableProps<TData, TValue> {
   isCollumnVisibilityEnabled?: boolean;
   isSearchEnabled?: boolean;
   searchAttribute?: string;
+  searchPlaceholder?: string;
   isBorder?: boolean;
   isSeparator?: boolean;
   defaultPageSize?: number;
@@ -55,6 +56,7 @@ export function DataTable<TData, TValue>({
   isCollumnVisibilityEnabled = true,
   isSearchEnabled = true,
   searchAttribute = "name",
+  searchPlaceholder = "Tìm kiếm...",
   isBorder = true,
   isSeparator = true,
   defaultPageSize = 10,
@@ -92,7 +94,7 @@ export function DataTable<TData, TValue>({
       <div className="mb-4 flex items-center justify-between gap-4 sm:mb-2 sm:gap-2">
         {isSearchEnabled && (
           <Input
-            placeholder="Tìm kiếm..."
+            placeholder={searchPlaceholder}
             value={
               (table.getColumn(searchAttribute)?.getFilterValue() as string) ??
               ""

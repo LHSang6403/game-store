@@ -17,6 +17,7 @@ export default async function page() {
           columns={columns}
           data={staffs.data as StaffType[]}
           isPaginationEnabled={true}
+          searchPlaceholder="Họ tên..."
           columns_headers={columns_headers}
         />
       )}

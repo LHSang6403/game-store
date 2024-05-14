@@ -28,6 +28,7 @@ export default async function page() {
           isPaginationEnabled={true}
           searchAttribute="customer_name"
           columns_headers={columns_headers}
+          searchPlaceholder="Tên khách hàng..."
         />
       )}
     </section>

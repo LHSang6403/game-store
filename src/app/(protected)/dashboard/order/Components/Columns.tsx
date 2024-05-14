@@ -60,6 +60,15 @@ export const columns: ColumnDef<OrderType>[] = [
     },
   },
   {
+    accessorKey: "customer_name",
+    header: "Khách hàng",
+    cell: ({ row }) => {
+      const data = row.original;
+
+      return <div className="text-left">{data.customer_name}</div>;
+    },
+  },
+  {
     accessorKey: "price",
     header: "Giá tiền",
     cell: ({ row }) => {
@@ -157,15 +166,6 @@ export const columns: ColumnDef<OrderType>[] = [
       const date = new Date(data.created_at);
 
       return <div className="w-32 text-center">{formatVNDate(date)}</div>;
-    },
-  },
-  {
-    accessorKey: "customer_name",
-    header: "Khách hàng",
-    cell: ({ row }) => {
-      const data = row.original;
-
-      return <div className="text-left">{data.customer_name}</div>;
     },
   },
   {
