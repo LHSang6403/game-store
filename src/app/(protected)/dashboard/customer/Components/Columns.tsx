@@ -36,7 +36,7 @@ export const columns: ColumnDef<CustomerType>[] = [
     accessorKey: "dob",
     header: ({ column }) => {
       return (
-        <div className="flex w-32 items-center justify-center border-none">
+        <div className="-ml-4 flex w-32 items-center justify-center border-none">
           <Button
             variant="outline"
             className="border-none"
@@ -53,9 +53,13 @@ export const columns: ColumnDef<CustomerType>[] = [
       const formatted = formatVNDate(date);
 
       return (
-        <div className="w-32 text-center">
-          {row.getValue("dob") ? formatted : "Không rõ"}
-        </div>
+        <>
+          {row.getValue("dob") ? (
+            <div className="w-32 text-left">{formatted}</div>
+          ) : (
+            <div className="">Không rõ</div>
+          )}
+        </>
       );
     },
   },
