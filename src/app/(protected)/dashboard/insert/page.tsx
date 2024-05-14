@@ -14,7 +14,7 @@ export default async function page() {
         <h1 className="mt-2 text-2xl font-medium">Nhập thêm sản phẩm</h1>
         <Link
           href="/dashboard/product/create"
-          className="flex w-fit flex-row items-center text-sm font-medium"
+          className="flex w-fit flex-row items-center text-sm font-medium text-foreground/90 hover:text-foreground"
         >
           Nhập mới sản phẩm
           <ChevronsRight className="h-4 w-4" />
