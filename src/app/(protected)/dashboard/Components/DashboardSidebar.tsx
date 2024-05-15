@@ -77,7 +77,6 @@ export default function DashboardSidebar() {
   const router = useRouter();
   const pathname = usePathname();
   const dashboardPath = pathname.split("/").slice(0, 3).join("/");
-  console.log(dashboardPath);
 
   const { session, isStaff } = useSession() as SessionState;
   const staffSession =
