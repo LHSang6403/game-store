@@ -2,10 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { usePathname } from "next/navigation";
-import { Button } from "@/components/ui/button";
-import { signOutHandler } from "@/app/auth/_actions/signOut";
 import { useSession, SessionState } from "@/zustand/useSession";
-import { toast } from "sonner";
 import {
   Gamepad2,
   ListOrdered,
@@ -102,13 +99,7 @@ export default function DashboardSidebar() {
                   item.link === pathname.split("/").slice(0, 3).join("/")
                     ? "bg-accent shadow-sm"
                     : "bg-background"
-                } hover:text-accent-foreground focus:text-accent-foreground mx-auto flex h-9 w-full
-            flex-row  items-center gap-2 
-            rounded-md px-4 py-2 text-sm font-medium 
-            transition-colors hover:bg-accent focus:bg-accent 
-            focus:outline-none disabled:pointer-events-none disabled:opacity-50 
-            data-[active]:bg-accent/50 data-[state=open]:bg-accent/50 
-            
+                } hover:text-accent-foreground focus:text-accent-foreground mx-auto flex h-9 w-full flex-row items-center gap-2 rounded-md px-4 py-2 text-sm font-medium transition-colors hover:bg-accent focus:bg-accent 
             `}
               >
                 {item.icon}
