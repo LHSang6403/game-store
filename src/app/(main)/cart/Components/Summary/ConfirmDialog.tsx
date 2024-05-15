@@ -17,6 +17,7 @@ import formatCurrency from "@/utils/functions/formatCurrency";
 import { processOrderGHN } from "@/app/(main)/cart/_actions/processGHN";
 import { processOrderGHTK } from "@/app/(main)/cart/_actions/processGHTK";
 import { useSession, SessionState } from "@/zustand/useSession";
+import { useOrder, OrderState } from "@/zustand/useOrder";
 
 export default function ConfirmDialog({
   formData,
@@ -30,6 +31,7 @@ export default function ConfirmDialog({
   onOpenChange: Function;
 }) {
   const session = useSession() as SessionState;
+  const { removeAll } = useOrder() as OrderState;
 
   const mutation = useMutation({
     mutationFn: async (orderData: OrderType) => {
@@ -100,6 +102,7 @@ export default function ConfirmDialog({
       {
         success: () => {
           onOpenChange(false);
+          removeAll();
 
           return "Đã tạo đơn hàng thành công.";
         },
