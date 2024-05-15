@@ -11,11 +11,11 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { BlogType } from "@utils/types";
-import Link from "next/link";
 import { toast } from "sonner";
 import { useSession, SessionState } from "@/zustand/useSession";
 import { deleteBlogById } from "@app/_actions/blog";
 import formatVNDate from "@utils/functions/formatVNDate";
+import { useRouter } from "next/navigation";
 
 export const columns_headers = [
   { accessKey: "title", name: "Tiêu đề" },
@@ -85,6 +85,7 @@ export const columns: ColumnDef<BlogType>[] = [
       return <div className="w-full text-center">Hành động</div>;
     },
     cell: ({ row }) => {
+      const router = useRouter();
       const data = row.original;
       const session = useSession() as SessionState;
 
@@ -129,10 +130,10 @@ export const columns: ColumnDef<BlogType>[] = [
               >
                 Sao chép ID bài viết
               </DropdownMenuItem>
-              <DropdownMenuItem>
-                <Link href={"/dashboard/blog/" + data.id}>
-                  Chỉnh sửa bài viết
-                </Link>
+              <DropdownMenuItem
+                onClick={() => router.push("/dashboard/blog/" + data.id)}
+              >
+                Chỉnh sửa bài viết
               </DropdownMenuItem>
               <DropdownMenuItem onClick={() => removeHandler(data)}>
                 Xóa bài viết
