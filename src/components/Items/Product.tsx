@@ -1,12 +1,16 @@
+"use client";
+
+import { useRouter } from "next/navigation";
 import Image from "next/image";
-import Link from "next/link";
 import formatCurrency from "@utils/functions/formatCurrency";
 import type { ProductType } from "@utils/types/index";
 
 export default function Product({ data }: { data: ProductType }) {
+  const router = useRouter();
+
   return (
-    <Link
-      href={`/product/${data.id}`}
+    <div
+      onClick={() => router.push(`/product/${data.id}`)}
       className="h-fit w-48 overflow-hidden bg-foreground/5 text-foreground/90 transition duration-300 ease-in-out hover:scale-[1.02] hover:bg-foreground/10 hover:text-foreground sm:w-full"
     >
       <div className="h-36 w-48 sm:h-28 sm:w-full">
@@ -48,6 +52,6 @@ export default function Product({ data }: { data: ProductType }) {
           <p className="text-md">{formatCurrency(data.price)}</p>
         </div>
       </div>
-    </Link>
+    </div>
   );
 }
