@@ -14,7 +14,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 
-export default async function StorageTables() {
+export default function StorageTables() {
   const { data: storages, isLoading } = useQuery({
     queryKey: ["storages", "product-storages", "all"],
     queryFn: async () => readAllStoragesAndProductStorages(),

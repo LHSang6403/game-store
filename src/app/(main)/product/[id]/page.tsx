@@ -5,7 +5,7 @@ import ProductDescription from "@app/(main)/product/[id]/Components/ProductDescr
 import useProductQuery from "@/hooks/useProductQuery";
 import Template from "@app/(protected)/template";
 
-export default async function Product({ params }: { params: { id: string } }) {
+export default function Product({ params }: { params: { id: string } }) {
   const {
     data: product,
     error,
