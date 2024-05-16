@@ -4,7 +4,7 @@ import ProductDetail from "@app/(main)/product/[id]/Components/ProductDetail";
 import ProductDescription from "@app/(main)/product/[id]/Components/ProductDescription";
 import useProductQuery from "@/hooks/useProductQuery";
 import Template from "@app/(protected)/template";
-import Loading from "@app/loading";
+import Loading from "@app/(main)/product/[id]/Components/ProductLoadingSkeleton";
 
 export default function page({ params }: { params: { id: string } }) {
   const {

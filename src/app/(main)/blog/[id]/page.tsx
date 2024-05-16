@@ -4,7 +4,7 @@ import { readBlogById } from "@app/_actions/blog";
 import { useQuery } from "@tanstack/react-query";
 import BlogContent from "@app/(main)/blog/[id]/Components/BlogContent";
 import BlogThumbnails from "@app/(main)/blog/[id]/Components/BlogThumbnails";
-import Loading from "@app/loading";
+import Loading from "@app/(main)/blog/[id]/Components/BlogLoadingSkeleton";
 
 export default function page({ params }: { params: { id: string } }) {
   const {
@@ -18,7 +18,7 @@ export default function page({ params }: { params: { id: string } }) {
   });
 
   return (
-    <div className="flex min-h-screen w-full flex-col items-center gap-4 rounded-3xl bg-gradient-to-t from-accent pt-4">
+    <div className="flex min-h-screen w-full flex-col items-center gap-4 rounded-3xl bg-gradient-to-t from-accent">
       {isLoading ? (
         <Loading />
       ) : (
