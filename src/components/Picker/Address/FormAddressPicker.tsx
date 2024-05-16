@@ -37,7 +37,7 @@ export default function FormAddressPicker() {
         }}
       >
         <SelectTrigger className="w-full">
-          <SelectValue placeholder={addressValues.province ?? "Chọn tỉnh"} />
+          <SelectValue placeholder={addressValues.province || "Chọn tỉnh"} />
         </SelectTrigger>
         <SelectContent>
           <SelectGroup>
@@ -68,7 +68,7 @@ export default function FormAddressPicker() {
       >
         <SelectTrigger className="w-full">
           <SelectValue
-            placeholder={addressValues.district ?? "Chọn quận, huyện"}
+            placeholder={addressValues.district || "Chọn quận, huyện"}
           />
         </SelectTrigger>
         <SelectContent>
@@ -97,7 +97,7 @@ export default function FormAddressPicker() {
       >
         <SelectTrigger className="w-full">
           <SelectValue
-            placeholder={addressValues.commune ?? "Chọn phường, xã"}
+            placeholder={addressValues.commune || "Chọn phường, xã"}
           />
         </SelectTrigger>
         <SelectContent>
