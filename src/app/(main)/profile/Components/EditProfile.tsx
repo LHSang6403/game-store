@@ -235,7 +235,10 @@ export default function EditProfile({
                       {
                         setDate(value);
                         if (value) {
-                          form.setValue("dob", value.toString());
+                          const dateObject = new Date(value.toString());
+                          const isoDateString = dateObject.toISOString();
+
+                          form.setValue("dob", isoDateString);
                         }
                       }
                     }}
