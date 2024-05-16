@@ -39,11 +39,11 @@ export function PrintDialog({
           <DialogTitle>Xem trước nhãn in</DialogTitle>
         </DialogHeader>
         {modifiedHtmlString === "" ? (
-          <>
+          <div className="flex flex-col gap-2">
             <Skeleton className="h-[80px] w-full rounded-xl bg-foreground/10 sm:h-[60px]" />
             <Skeleton className="h-[80px] w-full rounded-xl bg-foreground/10 sm:h-[60px]" />
             <Skeleton className="h-[80px] w-full rounded-xl bg-foreground/10 sm:h-[60px]" />
-          </>
+          </div>
         ) : (
           <div className="max-h-[550px] w-full overflow-auto !text-black">
             <div
