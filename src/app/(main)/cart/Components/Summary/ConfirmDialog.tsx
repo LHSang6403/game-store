@@ -71,7 +71,9 @@ export default function ConfirmDialog({
               order.shipment_name = "GHN";
               order.shipment_label_code = GHNResponse.data.order_code;
             } catch (error: any) {
-              throw new Error("Tạo đơn GHN thất bại. Vui lòng thử lại.");
+              throw new Error(
+                "Tạo đơn GHN thất bại, dịch vụ không hỗ trợ địa chỉ này. Vui lòng thử lại sau."
+              );
             }
 
             break;
@@ -86,14 +88,18 @@ export default function ConfirmDialog({
               order.shipment_name = "GHTK";
               order.shipment_label_code = GHTKResponse.data.label;
             } catch (error: any) {
-              throw new Error("Tạo đơn GHTK thất bại. Vui lòng thử lại.");
+              throw new Error(
+                "Tạo đơn GHTK thất bại, dịch vụ không hỗ trợ địa chỉ này. Vui lòng thử lại sau."
+              );
             }
 
             break;
         }
 
         if (!order.shipment_label_code) {
-          throw new Error("Không xác định mã đơn hàng.");
+          throw new Error(
+            "Dịch vụ tạm thời không hỗ trợ địa chỉ này. Vui lòng thử lại sau."
+          );
         }
 
         // save to DB after payment and shipment

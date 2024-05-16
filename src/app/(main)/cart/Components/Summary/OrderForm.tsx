@@ -128,7 +128,9 @@ export default function OrderForm() {
           });
 
           if (!calFees?.data?.service_fee)
-            throw new Error("Tính toán thất bại, vui lòng thử lại.");
+            throw new Error(
+              "Tính toán thất bại hoặc dịch vụ không hỗ trợ địa chỉ này, vui lòng thử lại sau."
+            );
 
           setPrices(
             calFees?.data?.service_fee,
