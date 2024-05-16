@@ -2,7 +2,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 export default function DashboardColumnsSkeleton() {
   return (
-    <div className="grid grid-cols-2 gap-4 overflow-hidden lg:grid-cols-1">
+    <div className="grid grid-cols-2 gap-3 overflow-hidden lg:grid-cols-1 sm:gap-2">
       <Skeleton className="h-20 w-full rounded-lg bg-foreground/10" />
       <Skeleton className="h-20 w-full rounded-lg bg-foreground/10" />
       <Skeleton className="h-20 w-full rounded-lg bg-foreground/10" />
