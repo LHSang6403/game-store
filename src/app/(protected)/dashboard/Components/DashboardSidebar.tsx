@@ -100,7 +100,7 @@ export default function DashboardSidebar() {
                   dashboardPath === item.link
                     ? "bg-accent shadow-sm"
                     : "bg-background"
-                } mx-auto flex h-9 w-full flex-row items-center gap-2 rounded-md px-4 py-2 text-sm font-medium hover:bg-accent
+                } mx-auto flex h-9 w-full flex-row items-center gap-2 rounded-md px-4 py-2 text-sm font-medium ring-0 hover:bg-accent
             `}
               >
                 {item.icon}
