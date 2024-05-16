@@ -73,14 +73,14 @@ function CustomCalendar({
             onChange?.(changeEvent);
           };
           return (
-            <div className="flex w-auto flex-row gap-1">
+            <div className="flex w-auto flex-row justify-center gap-1">
               <Select
                 value={value?.toString()}
                 onValueChange={(value) => {
                   handleChange(value);
                 }}
               >
-                <SelectTrigger className="pr-1.2 mt-2 h-8 focus:ring-0">
+                <SelectTrigger className="mt-2 h-8 w-36 text-left focus:ring-0">
                   <SelectValue>{selected?.props?.children}</SelectValue>
                 </SelectTrigger>
                 <SelectContent position="popper">
