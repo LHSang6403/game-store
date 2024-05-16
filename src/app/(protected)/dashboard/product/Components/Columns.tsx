@@ -19,8 +19,8 @@ import { useRouter } from "next/navigation";
 import formatVNDate from "@/utils/functions/formatVNDate";
 
 export const columns_headers = [
-  { accessKey: "brand", name: "Hãng sản xuất" },
   { accessKey: "name", name: "Tên sản phẩm" },
+  { accessKey: "brand", name: "Hãng sản xuất" },
   { accessKey: "price", name: "Giá" },
   { accessKey: "category", name: "Loại" },
   { accessKey: "created_at", name: "Ngày tạo" },
@@ -28,15 +28,6 @@ export const columns_headers = [
 ];
 
 export const columns: ColumnDef<ProductType>[] = [
-  {
-    accessorKey: "brand",
-    header: "Hãng sản xuất",
-    cell: ({ row }) => {
-      const data = row.original;
-
-      return <div className="max-w-32">{data.brand}</div>;
-    },
-  },
   {
     accessorKey: "name",
     header: "Tên sản phẩm",
@@ -48,6 +39,15 @@ export const columns: ColumnDef<ProductType>[] = [
           {data.name}
         </div>
       );
+    },
+  },
+  {
+    accessorKey: "brand",
+    header: "Hãng sản xuất",
+    cell: ({ row }) => {
+      const data = row.original;
+
+      return <div className="max-w-32">{data.brand}</div>;
     },
   },
   {
