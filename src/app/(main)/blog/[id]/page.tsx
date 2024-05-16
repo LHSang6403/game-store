@@ -16,7 +16,9 @@ export default async function page({ params }: { params: { id: string } }) {
       {blog?.data?.thumbnails && (
         <BlogThumbnails thumbs={blog?.data?.thumbnails} />
       )}
-      {blog?.data?.content && <BlogContent blogContent={blog?.data?.content} />}
+      {blog?.data && blog.data.content && (
+        <BlogContent blogContent={blog.data.content} />
+      )}
     </div>
   );
 }
