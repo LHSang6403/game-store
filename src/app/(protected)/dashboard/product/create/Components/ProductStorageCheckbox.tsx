@@ -84,7 +84,7 @@ export default function ProductStorageCheckbox({
 
   return (
     <Card>
-      <CardHeader className="pb-4">Kho lưu trữ sản phẩm</CardHeader>
+      <CardHeader className="pb-4 sm:px-2">Kho lưu trữ sản phẩm</CardHeader>
       <CardContent className="grid grid-cols-2 gap-4">
         {isStorageSuccess &&
           storages.data &&

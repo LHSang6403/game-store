@@ -248,7 +248,9 @@ export default function CreateForm({
             className="flex h-full w-full flex-row gap-4 lg:flex-col"
           >
             <Card className="h-fit w-1/2 lg:w-full">
-              <CardHeader className="pb-3">Thông tin đơn hàng</CardHeader>
+              <CardHeader className="pb-3 sm:px-2">
+                Thông tin đơn hàng
+              </CardHeader>
               <CardContent className="flex flex-col gap-3">
                 <div>
                   <FormLabel>Chọn tài khoản khách hàng</FormLabel>
@@ -294,7 +296,9 @@ export default function CreateForm({
               </CardContent>
             </Card>
             <Card className="h-fit w-1/2 lg:w-full">
-              <CardHeader className="pb-3">Danh sách sản phẩm</CardHeader>
+              <CardHeader className="pb-3 sm:px-2">
+                Danh sách sản phẩm
+              </CardHeader>
               <CardContent className="flex h-auto flex-col overflow-hidden">
                 <div className="my-1">
                   <Select

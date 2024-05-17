@@ -14,7 +14,7 @@ import { Textarea } from "@/components/ui/textarea";
 export default function CreateProductFormInputs({ form }: { form: any }) {
   return (
     <Card className="h-full">
-      <CardHeader className="pb-3">Thông tin sản phẩm</CardHeader>
+      <CardHeader className="pb-3 sm:px-2">Thông tin sản phẩm</CardHeader>
       <CardContent className="grid h-fit w-full grid-cols-2 gap-4 sm:flex sm:w-full sm:flex-col">
         <FormField
           control={form.control}

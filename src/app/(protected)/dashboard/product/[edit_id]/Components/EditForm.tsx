@@ -120,7 +120,7 @@ export default function EditForm({
             <CreateProductFormInputs form={form} />
           </div>
           <Card className="flex h-fit min-h-[550px] w-full flex-col xl:col-span-2 xl:min-h-0">
-            <CardHeader className="pb-3">Hình ảnh sản phẩm</CardHeader>
+            <CardHeader className="pb-3 sm:px-2">Hình ảnh sản phẩm</CardHeader>
             <CardContent className="pb-0">
               <div className="mt-1.5 grid w-fit grid-cols-6 gap-3 sm:grid-cols-4">
                 {updatedProductImages?.map((image: string, index: number) => (

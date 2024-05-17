@@ -112,7 +112,9 @@ export default function CreateForm() {
               <ProductFormInputs form={form} />
             </div>
             <Card className="flex h-fit min-h-[550px] w-1/2 flex-col xl:min-h-0 xl:w-full">
-              <CardHeader className="pb-3">Hình ảnh sản phẩm</CardHeader>
+              <CardHeader className="pb-3 sm:px-2">
+                Hình ảnh sản phẩm
+              </CardHeader>
               <CardContent className="pb-0">
                 <DropAndDragZone className="mt-2 w-full rounded-lg border p-16 sm:p-6" />
               </CardContent>

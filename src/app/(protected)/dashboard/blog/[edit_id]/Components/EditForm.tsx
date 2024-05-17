@@ -138,7 +138,7 @@ export default function EditForm({ blog }: { blog: BlogType }) {
             </CardContent>
           </Card>
           <Card className="h-fit min-h-[440px] w-1/2 xl:min-h-0 xl:w-full">
-            <CardHeader className="pb-3">Hình ảnh xem trước</CardHeader>
+            <CardHeader className="pb-3 sm:px-2">Hình ảnh xem trước</CardHeader>
             <CardContent className="flex flex-col gap-4 pb-0">
               <div className="grid w-fit grid-cols-6 gap-3 sm:grid-cols-4">
                 {updatedBlogThumbnails.map((image: string, index: number) => (
