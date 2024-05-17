@@ -88,7 +88,7 @@ export default function CreateForm() {
       <Form {...form}>
         <form className="flex w-full flex-row gap-4 xl:flex-col">
           <Card className="h-fit min-h-[440px] w-1/2 xl:w-full">
-            <CardHeader className="pb-3">Thông tin bài viêt</CardHeader>
+            <CardHeader className="pb-3 sm:px-2">Thông tin bài viêt</CardHeader>
             <CardContent className="flex flex-col gap-4">
               <FormField
                 control={form.control}

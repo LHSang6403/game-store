@@ -95,7 +95,7 @@ export default function EditForm({ blog }: { blog: BlogType }) {
       <Form {...form}>
         <form className="flex w-full flex-row gap-4 xl:flex-col">
           <Card className="h-fit min-h-[440px] w-1/2 xl:w-full">
-            <CardHeader className="pb-3">
+            <CardHeader className="pb-3 sm:px-2">
               Chỉnh sửa thông tin bài viết
             </CardHeader>
             <CardContent className="flex flex-col gap-4">
