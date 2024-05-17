@@ -31,7 +31,7 @@ export default function AuthCardTabs() {
       </TabsList>
       <TabsContent value="sign-in">
         <Card>
-          <CardHeader>
+          <CardHeader className="sm:px-2">
             <CardTitle>Đăng nhập</CardTitle>
             <CardDescription>
               Tài khoản test: <br />
@@ -47,7 +47,7 @@ export default function AuthCardTabs() {
       </TabsContent>
       <TabsContent value="sign-up">
         <Card>
-          <CardHeader>
+          <CardHeader className="sm:px-2">
             <CardTitle>Đăng ký</CardTitle>
           </CardHeader>
           <CardContent>
