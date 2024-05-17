@@ -93,7 +93,7 @@ export default function DashboardSidebar() {
               item.permissions.includes(staffSession?.role))
           )
             return (
-              <button
+              <div
                 key={index}
                 onClick={() => router.push(item.link)}
                 className={`${
@@ -105,7 +105,7 @@ export default function DashboardSidebar() {
               >
                 {item.icon}
                 <span className="mt-0.5">{item.name}</span>
-              </button>
+              </div>
             );
         })}
       </nav>
