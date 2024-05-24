@@ -57,7 +57,7 @@ export default function page() {
           </h1>
           <Link
             href="/product"
-            className="z-30 mt-6 h-fit rounded-full bg-foreground px-6 py-2 text-[15px] font-light text-background duration-200 ease-in-out hover:bg-foreground/90"
+            className="z-20 mt-6 h-fit rounded-full bg-foreground px-6 py-2 text-[15px] font-light text-background duration-200 ease-in-out hover:bg-foreground/90"
           >
             Khám phá sản phẩm
           </Link>
@@ -179,7 +179,98 @@ export default function page() {
             </p>
           </div>
         </div>
-        <div className="mt-12 flex flex-col items-center gap-4">
+      </div>
+      <div className="mt-12 flex h-auto w-full flex-col items-center pb-20">
+        <div className="relative w-full">
+          <div className="absolute left-1/2 top-0 h-fit w-full max-w-[1540px] -translate-x-1/2 overflow-hidden rounded-3xl">
+            <Image
+              src="/assets/images/home/black-blur-bg.png"
+              alt="Logo"
+              width={1540}
+              height={1540}
+            />
+          </div>
+          <div className="absolute left-0 right-0 top-32 h-fit w-full">
+            <h1 className="text-center text-6xl font-bold leading-[90px] text-background dark:text-white">
+              Phụ kiện
+              <br className="xl:hidden"></br>
+              <span className="appearance-none bg-gradient-to-r from-[#B153EA] to-[#FD9252] bg-clip-text text-transparent">
+                chính hãng
+              </span>
+            </h1>
+            <p className="mt-4 text-center font-light text-[#B5B3BA]">
+              Tại 2Win, chúng tôi cung cấp các phụ kiện chính hãng từ những
+              thương hiệu uy tín nhất.<br className="xl:hidden"></br> Từ tay
+              cầm, tai nghe, đế sạc, túi đựng máy chơi game đến các phụ kiện
+              khác, tất cả đều đảm bảo chất lượng và độ bền cao.
+            </p>
+          </div>
+        </div>
+        <div className="z-20 mt-96 grid h-full w-fit grid-cols-2">
+          <div className="flex w-full flex-col justify-center gap-4 pl-28">
+            <div>
+              <Image
+                src="/assets/images/home/paint.png"
+                alt="Logo"
+                width={50}
+                height={50}
+              />
+            </div>
+            <h2 className="text-4xl text-background dark:text-white">
+              <span className="appearance-none bg-gradient-to-r from-[#C997F7] to-[#85E2FE] bg-clip-text text-transparent">
+                Nitendo Switch
+              </span>
+              <br className="xl:hidden"></br> chính hãng
+            </h2>
+            <p className="text-sm text-[#B4B3BA]">
+              Với thiết kế linh hoạt, Nintendo Switch cho phép<br></br> bạn chơi
+              game ở ba chế độ khác nhau: chế độ TV<br></br> khi kết nối với
+              dock để chơi trên màn hình lớn, chế độ<br></br> tabletop với chân
+              đế tích hợp để chơi cùng bạn bè ở<br></br> bất kỳ đâu.
+            </p>
+          </div>
+          <div className="">
+            <Image
+              src="/assets/images/gamePlay/g7.png"
+              alt="Logo"
+              width={550}
+              height={550}
+            />
+          </div>
+          <div className="">
+            <Image
+              src="/assets/images/gamePlay/g16.png"
+              alt="Logo"
+              width={550}
+              height={550}
+            />
+          </div>
+          <div className="flex flex-col justify-center gap-4 pl-28">
+            <div>
+              <Image
+                src="/assets/images/home/flower.png"
+                alt="Logo"
+                width={50}
+                height={50}
+              />
+            </div>
+            <h2 className="text-4xl text-background dark:text-white">
+              <span className="appearance-none bg-gradient-to-r from-[#C12AD1] to-[#FDAEA1] bg-clip-text text-transparent">
+                XBox
+              </span>
+              <br className="xl:hidden"></br> chính hãng
+            </h2>
+            <p className="text-sm text-[#B4B3BA]">
+              Được trang bị bộ vi xử lý AMD Zen 2 và GPU RDNA 2,<br></br> Xbox
+              Series X hỗ trợ độ phân giải lên đến 4K và tốc độ<br></br> khung
+              hình 120fps, đảm bảo trải nghiệm chơi game<br></br> mượt mà và
+              chân thực. Với ổ cứng SSD 1TB NVMe.
+            </p>
+          </div>
+        </div>
+      </div>
+      <div className="mt-20 flex h-auto w-full flex-col items-center px-10">
+        <div className="mt-16 flex flex-col items-center gap-4">
           <div className="">
             <Link
               href="/product"
@@ -366,116 +457,27 @@ export default function page() {
             </p>
           </div>
         </div>
-      </div>
-      <div className="mt-32 flex h-auto w-full flex-col items-center pb-20">
-        <div className="relative w-full">
-          <div className="absolute left-1/2 top-0 h-fit w-full max-w-[1540px] -translate-x-1/2 overflow-hidden rounded-3xl">
-            <Image
-              src="/assets/images/home/black-blur-bg.png"
-              alt="Logo"
-              width={1540}
-              height={1540}
-            />
+        <div className="mt-24 flex w-full flex-col items-center">
+          <h1 className="text-center text-6xl font-bold leading-[90px] text-foreground">
+            <span className="appearance-none bg-gradient-to-r from-[#B153EA] to-[#FD9252] bg-clip-text text-transparent">
+              Thương hiệu
+            </span>{" "}
+            <br className="xl:hidden"></br>
+            nổi bật
+          </h1>
+          <p className="mt-4 text-center font-light">
+            Tại 2Win, chúng tôi cung cấp các phụ kiện chính hãng từ những thương
+            hiệu uy tín nhất.<br className="xl:hidden"></br> Từ tay cầm, tai
+            nghe, đế sạc, túi đựng máy chơi game đến các phụ kiện khác, tất cả
+            đều đảm bảo chất lượng và độ bền cao.
+          </p>
+          <div className="mt-16 grid grid-cols-6 gap-6 lg:grid-cols-3 sm:gap-4">
+            {logos.map((img, index) => (
+              <div key={index}>
+                <Image src={img.url} alt={img.name} width={220} height={150} />
+              </div>
+            ))}
           </div>
-          <div className="absolute left-0 right-0 top-32 h-fit w-full">
-            <h1 className="text-center text-6xl font-bold leading-[90px] text-background dark:text-white">
-              Phụ kiện
-              <br className="xl:hidden"></br>
-              <span className="appearance-none bg-gradient-to-r from-[#B153EA] to-[#FD9252] bg-clip-text text-transparent">
-                chính hãng
-              </span>
-            </h1>
-            <p className="mt-4 text-center font-light text-[#B5B3BA]">
-              Tại 2Win, chúng tôi cung cấp các phụ kiện chính hãng từ những
-              thương hiệu uy tín nhất.<br className="xl:hidden"></br> Từ tay
-              cầm, tai nghe, đế sạc, túi đựng máy chơi game đến các phụ kiện
-              khác, tất cả đều đảm bảo chất lượng và độ bền cao.
-            </p>
-          </div>
-        </div>
-        <div className="z-20 mt-96 grid h-full w-fit grid-cols-2">
-          <div className="flex w-full flex-col justify-center gap-4 pl-28">
-            <div>
-              <Image
-                src="/assets/images/home/paint.png"
-                alt="Logo"
-                width={50}
-                height={50}
-              />
-            </div>
-            <h2 className="text-4xl text-background dark:text-white">
-              <span className="appearance-none bg-gradient-to-r from-[#C997F7] to-[#85E2FE] bg-clip-text text-transparent">
-                Nitendo Switch
-              </span>
-              <br className="xl:hidden"></br> chính hãng
-            </h2>
-            <p className="text-sm text-[#B4B3BA]">
-              Với thiết kế linh hoạt, Nintendo Switch cho phép<br></br> bạn chơi
-              game ở ba chế độ khác nhau: chế độ TV<br></br> khi kết nối với
-              dock để chơi trên màn hình lớn, chế độ<br></br> tabletop với chân
-              đế tích hợp để chơi cùng bạn bè ở<br></br> bất kỳ đâu.
-            </p>
-          </div>
-          <div className="">
-            <Image
-              src="/assets/images/gamePlay/g7.png"
-              alt="Logo"
-              width={550}
-              height={550}
-            />
-          </div>
-          <div className="">
-            <Image
-              src="/assets/images/gamePlay/g16.png"
-              alt="Logo"
-              width={550}
-              height={550}
-            />
-          </div>
-          <div className="flex flex-col justify-center gap-4 pl-28">
-            <div>
-              <Image
-                src="/assets/images/home/flower.png"
-                alt="Logo"
-                width={50}
-                height={50}
-              />
-            </div>
-            <h2 className="text-4xl text-background dark:text-white">
-              <span className="appearance-none bg-gradient-to-r from-[#C12AD1] to-[#FDAEA1] bg-clip-text text-transparent">
-                XBox
-              </span>
-              <br className="xl:hidden"></br> chính hãng
-            </h2>
-            <p className="text-sm text-[#B4B3BA]">
-              Được trang bị bộ vi xử lý AMD Zen 2 và GPU RDNA 2,<br></br> Xbox
-              Series X hỗ trợ độ phân giải lên đến 4K và tốc độ<br></br> khung
-              hình 120fps, đảm bảo trải nghiệm chơi game<br></br> mượt mà và
-              chân thực. Với ổ cứng SSD 1TB NVMe.
-            </p>
-          </div>
-        </div>
-      </div>
-      <div className="mt-36 flex w-full flex-col items-center">
-        <h1 className="text-center text-6xl font-bold leading-[90px] text-foreground">
-          <span className="appearance-none bg-gradient-to-r from-[#B153EA] to-[#FD9252] bg-clip-text text-transparent">
-            Thương hiệu
-          </span>{" "}
-          <br className="xl:hidden"></br>
-          nổi bật
-        </h1>
-        <p className="mt-4 text-center font-light">
-          Tại 2Win, chúng tôi cung cấp các phụ kiện chính hãng từ những thương
-          hiệu uy tín nhất.<br className="xl:hidden"></br> Từ tay cầm, tai nghe,
-          đế sạc, túi đựng máy chơi game đến các phụ kiện khác, tất cả đều đảm
-          bảo chất lượng và độ bền cao.
-        </p>
-        <div className="mt-16 grid grid-cols-6 gap-6 px-4 lg:grid-cols-3 sm:gap-4">
-          {logos.map((img, index) => (
-            <div key={index}>
-              <Image src={img.url} alt={img.name} width={220} height={150} />
-            </div>
-          ))}
         </div>
       </div>
     </div>
