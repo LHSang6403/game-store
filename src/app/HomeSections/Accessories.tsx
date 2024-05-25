@@ -14,7 +14,7 @@ export default function Accessories() {
           />
         </div>
         <div className="absolute left-0 right-0 top-32 h-fit w-full xl:top-16">
-          <h1 className="text-center text-6xl font-bold leading-[90px] text-background dark:text-white xl:text-3xl">
+          <h1 className="text-center text-4xl font-bold text-background dark:text-white xl:text-3xl">
             Phụ kiện
             <br></br>
             <span className="appearance-none bg-gradient-to-r from-[#B153EA] to-[#FD9252] bg-clip-text text-transparent">

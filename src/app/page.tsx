@@ -17,7 +17,7 @@ export default function page() {
         <main className="flex h-auto min-h-screen w-full max-w-[1600px] flex-col items-center pb-20 pt-16 animate-in xl:pt-0 sm:min-h-0 sm:pb-10">
           <div className="flex h-auto w-full flex-col items-center px-10 xl:px-4 sm:px-2">
             <div className="relative w-full">
-              <div className="absolute left-0 right-0 top-12 -z-20 flex w-full justify-center">
+              <div className="absolute left-0 right-0 top-4 -z-20 flex w-full justify-center">
                 <Image
                   src="/assets/images/home/dot-bg.png"
                   alt="Logo"
@@ -45,7 +45,7 @@ export default function page() {
               </div>
             </div>
             <div className="mt-12 flex flex-col items-center gap-4">
-              <h1 className="text-center text-6xl font-bold leading-[90px] xl:text-3xl">
+              <h1 className="text-center text-4xl font-bold xl:text-3xl">
                 Thiết bị{" "}
                 <span className="appearance-none bg-gradient-to-r from-[#9733ED] via-[#F22B9C] to-[#FD7A36] bg-clip-text text-transparent">
                   chơi game

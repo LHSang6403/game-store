@@ -4,7 +4,7 @@ export default function MultiGames() {
   return (
     <>
       <div className="mt-20 flex flex-col items-center gap-4">
-        <h1 className="text-center text-6xl font-bold leading-[90px] xl:text-3xl">
+        <h1 className="text-center text-4xl font-bold xl:text-3xl">
           <span className="appearance-none bg-gradient-to-r from-[#FFB503] to-[#F83A79] bg-clip-text text-transparent">
             Các trò chơi
           </span>

@@ -11,7 +11,7 @@ export default function BestSeller() {
         >
           Khám phá ngay
         </Link>
-        <h1 className="text-6xl font-bold xl:text-3xl">
+        <h1 className="text-4xl font-bold xl:text-3xl">
           <span className="appearance-none bg-gradient-to-r from-[#02A9FF] to-[#8537F8] bg-clip-text text-transparent">
             Sản phẩm
           </span>{" "}

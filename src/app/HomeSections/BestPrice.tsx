@@ -13,7 +13,7 @@ export default function BestPrice() {
             Xem giá trên website
           </Link>
         </div>
-        <h1 className="text-center text-6xl font-bold leading-[90px] xl:text-3xl">
+        <h1 className="text-center text-4xl font-bold xl:text-3xl">
           <span className="appearance-none bg-gradient-to-r from-[#03A7FF] to-[#8439F8] bg-clip-text px-4 text-center text-transparent xl:px-2">
             Giá cả
           </span>

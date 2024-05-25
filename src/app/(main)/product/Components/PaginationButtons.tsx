@@ -30,7 +30,7 @@ export default function PaginationButtons({
       <PaginationContent>
         <PaginationItem>
           <PaginationPrevious
-            className={`h-9 ${
+            className={`hover:bg- h-9 ${
               !isPreviousDisabled
                 ? "hover:cursor-pointer"
                 : "hover:cursor-not-allowed"
@@ -43,8 +43,10 @@ export default function PaginationButtons({
         {[...Array(totalPages)].map((_, index) => (
           <PaginationItem key={index}>
             <PaginationLink
-              className={`h-9 hover:cursor-pointer ${
-                index + 1 === currentPage ? "border font-bold" : ""
+              className={`hover:bg- h-9 hover:cursor-pointer ${
+                index + 1 === currentPage
+                  ? "border border-[#9733ED] font-bold"
+                  : ""
               }`}
               onClick={() => handlePageChange(index + 1)}
             >
@@ -54,7 +56,7 @@ export default function PaginationButtons({
         ))}
         <PaginationItem>
           <PaginationNext
-            className={`mr-5 h-9 ${
+            className={`hover:bg- mr-5 h-9 ${
               !isNextDisabled
                 ? "hover:cursor-pointer"
                 : "hover:cursor-not-allowed"

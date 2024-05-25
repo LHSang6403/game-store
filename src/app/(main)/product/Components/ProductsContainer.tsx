@@ -59,7 +59,7 @@ export default function ProductsContainer({
           onClick={() => {
             removeAllFilters();
           }}
-          variant="outline"
+          variant="ghost"
         >
           Xóa bộ lọc
         </Button>

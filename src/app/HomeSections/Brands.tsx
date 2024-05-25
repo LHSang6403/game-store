@@ -13,7 +13,7 @@ export default function Brands() {
   return (
     <>
       <div className="mt-24 flex w-full flex-col items-center xl:mt-10">
-        <h1 className="text-center text-6xl font-bold leading-[90px] text-foreground xl:text-3xl">
+        <h1 className="text-center text-4xl font-bold text-foreground xl:text-3xl">
           <span className="appearance-none bg-gradient-to-r from-[#B153EA] to-[#FD9252] bg-clip-text text-transparent">
             Thương hiệu
           </span>{" "}
