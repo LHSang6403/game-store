@@ -20,11 +20,6 @@
     "permission": ""
   },
   {
-    "name": "Về Store",
-    "url": "/about",
-    "permission": ""
-  },
-  {
     "name": "Nội bộ",
     "url": "/dashboard",
     "permission": "Staff"
