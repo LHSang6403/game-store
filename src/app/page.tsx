@@ -217,7 +217,7 @@ export default function page() {
               <div className="flex w-full flex-col justify-center gap-4 pl-28 lg:col-span-2 lg:pl-6">
                 <div>
                   <Image
-                    src="/assets/images/home/paint.png"
+                    src="/assets/images/home/buttons.png"
                     alt="Logo"
                     width={50}
                     height={50}
@@ -225,7 +225,7 @@ export default function page() {
                   />
                 </div>
                 <h2 className="text-4xl text-background dark:text-white xl:text-3xl">
-                  <span className="appearance-none bg-gradient-to-r from-[#C997F7] to-[#85E2FE] bg-clip-text text-transparent">
+                  <span className="appearance-none bg-gradient-to-r from-[#027AFD] to-[#C533CE] bg-clip-text text-transparent">
                     Nitendo Switch
                   </span>
                   <br className="xl:hidden"></br> chính hãng
@@ -259,7 +259,7 @@ export default function page() {
               <div className="flex flex-col justify-center gap-4 pl-28 lg:col-span-2 lg:pl-6">
                 <div>
                   <Image
-                    src="/assets/images/home/flower.png"
+                    src="/assets/images/home/controller.png"
                     alt="Logo"
                     width={50}
                     height={50}
@@ -283,7 +283,7 @@ export default function page() {
               </div>
             </div>
           </div>
-          <div className="mt-20 flex h-auto w-full flex-col items-center px-10 xl:mt-10 xl:px-6 sm:px-4">
+          <div className="mt-28 flex h-auto w-full flex-col items-center px-10 xl:mt-10 xl:px-6 sm:px-4">
             <div className="mt-16 flex flex-col items-center gap-4">
               <div className="">
                 <Link
@@ -368,7 +368,7 @@ export default function page() {
                   />
                 </div>
               </div>
-              <div className="flex flex-col gap-3 sm:col-span-2 sm:w-full sm:flex-row sm:items-start sm:justify-center sm:gap-2">
+              <div className="flex flex-col gap-3 sm:hidden">
                 <div className="mt-10 h-fit w-fit overflow-hidden rounded-lg shadow-xl sm:mt-0">
                   <Image
                     src="/assets/images/fanpage/sp7.png"
