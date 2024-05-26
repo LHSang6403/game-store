@@ -5,7 +5,7 @@ export default async function CategoryCards() {
   const categories = await readAllCategories();
 
   return (
-    <ul className="mx-auto flex h-fit w-full max-w-[1000px] flex-row justify-center gap-2 overflow-x-auto pb-2 sm:justify-start">
+    <ul className="mx-auto flex h-fit w-full max-w-[1000px] flex-row justify-center gap-3 overflow-x-auto pb-2 sm:justify-start">
       {categories?.data?.map((each, index: number) => (
         <li key={index}>
           <CategoryCard data={each} />

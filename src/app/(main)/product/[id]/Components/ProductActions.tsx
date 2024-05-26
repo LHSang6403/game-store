@@ -34,7 +34,7 @@ export default function ProductActions({
   return (
     <>
       <div>
-        <div className="mb-1 flex flex-row items-center text-lg text-yellow-400">
+        <div className="flex flex-row items-center text-lg text-yellow-400">
           {Array.from({ length: 5 }).map((_, index: number) => (
             <svg
               key={index}
@@ -58,7 +58,6 @@ export default function ProductActions({
           {product.product.description}
         </div>
       </div>
-      <hr className="w-[60%] rounded border dark:opacity-20 sm:w-full"></hr>
       <div className="flex flex-col gap-1">
         <div className="text-sm font-medium text-foreground">
           Đã bán:{" "}
@@ -75,7 +74,7 @@ export default function ProductActions({
       ) : (
         <Button
           disabled={isSoldOut}
-          className="h-fit w-fit text-background sm:w-full"
+          className="h-fit w-fit bg-gradient-to-r from-[#9733ED] via-[#F22B9C] to-[#FD7A36] text-background sm:w-full"
           onClick={handleAddToCart}
         >
           Thêm vào giỏ hàng

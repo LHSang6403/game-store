@@ -33,7 +33,7 @@ export default function NavBar() {
                         {path.includes(navUrl.url) && (
                           <motion.span
                             layoutId="underline"
-                            className="absolute -bottom-1.5 left-0 block h-[4px] w-full bg-foreground"
+                            className="absolute -bottom-1.5 left-0 block h-[4px] w-full bg-gradient-to-r from-[#9733ED] via-[#F22B9C] to-[#FD7A36]"
                           />
                         )}
                       </NavigationMenuLink>
@@ -49,7 +49,7 @@ export default function NavBar() {
                     {path === navUrl.url && (
                       <motion.span
                         layoutId="underline"
-                        className="absolute -bottom-1.5 left-0 block h-[4px] w-full bg-foreground"
+                        className="absolute -bottom-1.5 left-0 block h-[4px] w-full bg-gradient-to-r from-[#9733ED] via-[#F22B9C] to-[#FD7A36]"
                       />
                     )}
                   </NavigationMenuLink>

@@ -27,9 +27,14 @@ export default function Dropdown() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button className="h-9 px-2" variant="outline">
-          Menu
-        </Button>
+        <div className="rounded-[9px] bg-gradient-to-r from-[#9733ED] via-[#F22B9C] to-[#FD7A36] p-[1.5px]">
+          <Button
+            className="h-9 border-none px-2 outline-none ring-0"
+            variant="outline"
+          >
+            <span>Menu</span>
+          </Button>
+        </div>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="mx-3 w-56 bg-background">
         <DropdownMenuLabel>Game Store</DropdownMenuLabel>

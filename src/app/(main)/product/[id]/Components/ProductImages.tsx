@@ -89,20 +89,22 @@ export default function ProductImages({ images }: { images: string[] }) {
             <div
               className={`${
                 activeIndex === index
-                  ? "border-foreground opacity-100"
-                  : "border-foreground/20 opacity-70"
-              } m-1 w-32 rounded-lg border transition duration-300 ease-in-out hover:scale-[1.02] hover:cursor-pointer xl:w-[96%]`}
+                  ? "bg-gradient-to-r from-[#9733ED] via-[#F22B9C] to-[#FD7A36] p-[1px] opacity-100"
+                  : "bg-gradient-to-r from-[#9633ed53] via-[#f22b9c48] to-[#fd7c3646] p-[1px] opacity-90"
+              } m-1 w-32 rounded-[12px] border transition duration-300 ease-in-out hover:scale-[1.02] hover:cursor-pointer xl:w-[96%]`}
             >
-              <Image
-                src={
-                  process.env.NEXT_PUBLIC_SUPABASE_URL +
-                  "/storage/v1/object/public/public_files/" +
-                  image
-                }
-                width={400}
-                height={400}
-                alt="Product Thumbnail"
-              />
+              <div className="rounded-[11px] bg-background">
+                <Image
+                  src={
+                    process.env.NEXT_PUBLIC_SUPABASE_URL +
+                    "/storage/v1/object/public/public_files/" +
+                    image
+                  }
+                  width={400}
+                  height={400}
+                  alt="Product Thumbnail"
+                />
+              </div>
             </div>
           </SwiperSlide>
         ))}

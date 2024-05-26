@@ -14,26 +14,16 @@ export default async function Product() {
 
   return (
     <>
-      <div className="h-fit w-full py-10">
+      <div className="h-fit w-full pt-10">
         <div className="relative w-full">
-          <div className="absolute right-0 top-28 -z-20 w-fit">
+          <div className="absolute -top-4 left-0 right-0 -z-20 flex w-full justify-center">
             <Image
               src="/assets/images/product/circle-bg.png"
               alt="Circle"
-              width={1000}
+              width={1300}
               height={1000}
               quality={100}
-              className="w-[800px] opacity-30 lg:w-full"
-            />
-          </div>
-          <div className="absolute left-0 top-0 -z-20 w-fit">
-            <Image
-              src="/assets/images/product/corner-bg.png"
-              alt="Corner"
-              width={1000}
-              height={1000}
-              quality={100}
-              className="w-[800px] opacity-30 lg:w-full"
+              className="opacity-30"
             />
           </div>
         </div>
@@ -62,11 +52,11 @@ export default async function Product() {
             className="w-full opacity-30"
           />
         </div>
-        <div className="flex w-full items-center justify-between px-16 xl:px-10 sm:flex-col sm:gap-4 sm:px-0">
+        <div className="flex w-full flex-col items-center justify-between gap-6">
           <h1 className="z-20 bg-gradient-to-r from-[#6f18f3] to-[#51c5fe] bg-clip-text text-2xl font-medium text-transparent">
             Các sản phẩm
           </h1>
-          <div className="w-64 sm:w-full">
+          <div className="w-[500px] rounded-[9px] bg-gradient-to-r from-[#9733ED] via-[#F22B9C] to-[#FD7A36] p-[1.5px] sm:w-full">
             <SearchBar />
           </div>
         </div>

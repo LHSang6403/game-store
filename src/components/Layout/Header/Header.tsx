@@ -14,15 +14,19 @@ export default function Header() {
       <div className="mr- flex items-center">
         <PrimaryLogo />
       </div>
-      <nav className="flex w-full max-w-[1300px] flex-row items-center justify-around gap-6 xl:hidden">
+      <div className="flex w-full max-w-[1300px] flex-row items-center justify-around gap-6 xl:hidden">
         <div
           className={`w-full ${path === "/product" ? "invisible" : ""}`}
         ></div>
         <NavBar />
-        <div className={`w-full ${path === "/product" ? "invisible" : ""}`}>
+        <div
+          className={`w-full rounded-[9px] bg-gradient-to-r from-[#9733ED] via-[#F22B9C] to-[#FD7A36] p-[1.5px] ${
+            path === "/product" ? "invisible" : ""
+          }`}
+        >
           <SearchBar />
         </div>
-      </nav>
+      </div>
       <Dropdown />
     </div>
   );

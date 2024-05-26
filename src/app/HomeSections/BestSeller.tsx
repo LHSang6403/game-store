@@ -39,7 +39,7 @@ export default function BestSeller() {
           <h2 className="text-3xl font-semibold">
             Sony <br></br>
             <span className="group flex flex-row hover:cursor-pointer">
-              <span className="hover bg-gradient-to-r from-[#02A9FF] to-[#8538F8] bg-clip-text text-transparent group-hover:from-[#02abffee] group-hover:to-[#8538f8ee]">
+              <span className="hover bg-gradient-to-r from-[#02A9FF] to-[#8538F8] bg-clip-text text-transparent">
                 Play Station 5
               </span>
               <svg

@@ -5,6 +5,7 @@ import ProductDescription from "@app/(main)/product/[id]/Components/ProductDescr
 import useProductQuery from "@/hooks/useProductQuery";
 import Template from "@app/(protected)/template";
 import Loading from "@app/(main)/product/[id]/Components/ProductLoadingSkeleton";
+import Image from "next/image";
 
 export default function page({ params }: { params: { id: string } }) {
   const {
@@ -26,9 +27,21 @@ export default function page({ params }: { params: { id: string } }) {
         <>
           {isSuccess && product && (
             <Template>
-              <div className="flex h-fit min-h-screen w-full flex-col gap-10 pb-10">
+              <div className="flex h-fit min-h-screen w-full flex-col items-center gap-10 pb-10">
+                <div className="relative">
+                  <div className="absolute left-0 right-0 top-0 -z-20">
+                    <Image
+                      src="/assets/images/product/blue-bg.png"
+                      alt="Background"
+                      width={1440}
+                      height={1440}
+                      quality={100}
+                      className="w-full rotate-[180deg] opacity-30"
+                    />
+                  </div>
+                </div>
                 <ProductDetail product={product} />
-                <h2 className="text-center text-2xl font-medium">
+                <h2 className="bg-gradient-to-r from-[#02A9FF] to-[#8538F8] bg-clip-text text-center text-2xl font-medium text-transparent">
                   Mô tả chi tiết
                 </h2>
                 {product.product_description.content && (
