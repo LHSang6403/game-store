@@ -45,7 +45,7 @@ export default function PaginationButtons({
             <PaginationLink
               className={`hover:bg- h-9 hover:cursor-pointer ${
                 index + 1 === currentPage
-                  ? "border border-[#9733ED] font-bold"
+                  ? "border border-cpurple font-bold"
                   : ""
               }`}
               onClick={() => handlePageChange(index + 1)}

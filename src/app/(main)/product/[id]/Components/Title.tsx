@@ -13,7 +13,7 @@ export default function Title({
       <h2 className="line-clamp-1 max-w-[650px] overflow-ellipsis text-center text-2xl font-medium text-foreground/90 sm:max-w-full">
         {brand}
       </h2>
-      <h1 className="line-clamp-1 max-w-[650px] overflow-ellipsis bg-gradient-to-r from-[#9733ED] via-[#F22B9C] to-[#FD7A36] bg-clip-text text-center text-3xl font-semibold text-transparent sm:line-clamp-2 sm:max-w-full">
+      <h1 className="line-clamp-1 max-w-[650px] overflow-ellipsis bg-gradient-to-r from-cpurple via-cpink to-corange bg-clip-text text-center text-3xl font-semibold text-transparent sm:line-clamp-2 sm:max-w-full">
         {name}
       </h1>
     </div>

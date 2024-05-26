@@ -18,7 +18,7 @@ export default async function OrderHistory() {
     <div className="mx-auto w-auto">
       {session.data && "data" in history && (
         <div className="flex flex-col items-center">
-          <span className="mb-1 bg-gradient-to-r from-[#9733ED] via-[#F22B9C] to-[#FD7A36] bg-clip-text text-lg font-semibold text-transparent">
+          <span className="mb-1 bg-gradient-to-r from-cpurple via-cpink to-corange bg-clip-text text-lg font-semibold text-transparent">
             Lịch sử mua hàng
           </span>
           <div>

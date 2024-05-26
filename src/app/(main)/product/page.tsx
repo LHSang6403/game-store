@@ -29,7 +29,7 @@ export default async function Product() {
         </div>
         <div className="flex flex-col items-center gap-4">
           <h1 className="text-center text-4xl font-bold xl:text-3xl">
-            <span className="bg-gradient-to-r from-[#51c5fe] to-[#6f18f3] bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-cblue to-cpurple bg-clip-text text-transparent">
               Khuyến mãi
             </span>{" "}
             <br className="xl:hidden"></br> tốt nhất
@@ -53,10 +53,10 @@ export default async function Product() {
           />
         </div>
         <div className="flex w-full flex-col items-center justify-between gap-6">
-          <h1 className="z-20 bg-gradient-to-r from-[#6f18f3] to-[#51c5fe] bg-clip-text text-2xl font-medium text-transparent">
+          <h1 className="z-20 bg-gradient-to-r from-cpurple to-cblue bg-clip-text text-2xl font-medium text-transparent">
             Các sản phẩm
           </h1>
-          <div className="w-[500px] rounded-[9px] bg-gradient-to-r from-[#9733ED] via-[#F22B9C] to-[#FD7A36] p-[1.5px] sm:w-full">
+          <div className="w-[500px] rounded-[9px] bg-gradient-to-r from-cpurple via-cpink to-corange p-[1.5px] sm:w-full">
             <SearchBar />
           </div>
         </div>

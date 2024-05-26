@@ -140,7 +140,7 @@ export default function page() {
                   <Button
                     disabled={!form.formState.isValid}
                     type="submit"
-                    className="mt-1 w-full bg-gradient-to-r from-[#9733ED] via-[#F22B9C] to-[#FD7A36] text-background"
+                    className="mt-1 w-full bg-gradient-to-r from-cpurple via-cpink to-corange text-background"
                   >
                     Cập nhật
                   </Button>

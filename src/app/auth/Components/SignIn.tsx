@@ -137,7 +137,7 @@ export default function SignIn() {
             <Button
               type="submit"
               disabled={!form.formState.isValid}
-              className="mt-1 w-full bg-gradient-to-r from-[#9733ED] via-[#F22B9C] to-[#FD7A36] text-background"
+              className="mt-1 w-full bg-gradient-to-r from-cpurple via-cpink to-corange text-background"
             >
               Đăng nhập
             </Button>

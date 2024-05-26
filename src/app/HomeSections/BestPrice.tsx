@@ -8,17 +8,17 @@ export default function BestPrice() {
         <div className="">
           <Link
             href="/product"
-            className="mb-2 h-fit rounded-full border border-[#E9DFFF] bg-white px-4 py-1 text-[15px] font-light text-[#7F4AFD]"
+            className="mb-2 h-fit rounded-full border border-[#E9DFFF] bg-white px-4 py-1 text-[15px] font-light text-cpurple"
           >
             Xem giá trên website
           </Link>
         </div>
         <h1 className="text-center text-4xl font-bold xl:text-3xl">
-          <span className="appearance-none bg-gradient-to-r from-[#03A7FF] to-[#8439F8] bg-clip-text px-4 text-center text-transparent xl:px-2">
+          <span className="appearance-none bg-gradient-to-r from-cblue to-cpurple bg-clip-text px-2 text-center text-transparent xl:px-2">
             Giá cả
           </span>
           sản phẩm<br></br>
-          <span className="appearance-none bg-gradient-to-r from-[#03A7FF] to-[#8439F8] bg-clip-text px-4 text-center text-transparent">
+          <span className="appearance-none bg-gradient-to-r from-cblue to-cpurple bg-clip-text px-2 text-center text-transparent">
             tốt nhất
           </span>
         </h1>
@@ -33,7 +33,7 @@ export default function BestPrice() {
         <div className="mt-8 flex w-36 flex-col justify-center gap-3 sm:mt-4">
           <Link
             href="https://www.facebook.com/profile.php?id=100054800213938"
-            className="flex h-fit w-full items-center justify-center rounded-full bg-gradient-to-r from-[#707FFB] to-[#8537F8] p-[1px]"
+            className="flex h-fit w-full items-center justify-center rounded-full bg-gradient-to-r from-cblue to-cpurple p-[1px]"
           >
             <span className="flex h-fit w-full items-center justify-center rounded-full border bg-white py-0.5 text-[15px] text-background dark:text-white">
               Facebook
@@ -41,7 +41,7 @@ export default function BestPrice() {
           </Link>
           <Link
             href="https://shopee.vn/bepgaming"
-            className="mb-2 flex h-fit w-full items-center justify-center rounded-full border border-[#E9DFFF] bg-gradient-to-r from-[#707FFB] to-[#8537F8] bg-clip-text py-1 text-[15px] text-black text-transparent dark:text-white"
+            className="mb-2 flex h-fit w-full items-center justify-center rounded-full border border-[#E9DFFF] bg-gradient-to-r from-cblue to-cpurple bg-clip-text py-1 text-[15px] text-black text-transparent dark:text-white"
           >
             Shopee
           </Link>

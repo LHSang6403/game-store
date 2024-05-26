@@ -14,7 +14,7 @@ export default function Brands() {
     <>
       <div className="mt-24 flex w-full flex-col items-center xl:mt-10">
         <h1 className="text-center text-4xl font-bold text-foreground xl:text-3xl">
-          <span className="appearance-none bg-gradient-to-r from-[#B153EA] to-[#FD9252] bg-clip-text text-transparent">
+          <span className="appearance-none bg-gradient-to-r from-cpurple to-corange bg-clip-text text-transparent">
             Thương hiệu
           </span>{" "}
           <br className="xl:hidden"></br>
@@ -28,7 +28,10 @@ export default function Brands() {
         </p>
         <div className="mt-16 grid grid-cols-6 gap-6 lg:grid-cols-3 sm:mt-10 sm:gap-4">
           {logos.map((img, index) => (
-            <div key={index}>
+            <div
+              className="transition duration-300 hover:scale-[1.02]"
+              key={index}
+            >
               <Image src={img.url} alt={img.name} width={220} height={150} />
             </div>
           ))}

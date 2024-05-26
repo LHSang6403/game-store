@@ -47,11 +47,11 @@ export default function page() {
             <div className="mt-12 flex flex-col items-center gap-4">
               <h1 className="text-center text-4xl font-bold xl:text-3xl">
                 Thiết bị{" "}
-                <span className="bg-gradient-to-r from-[#9733ED] via-[#F22B9C] to-[#FD7A36] bg-clip-text text-transparent">
+                <span className="bg-gradient-to-r from-cpurple via-cpink to-corange bg-clip-text text-transparent">
                   chơi game
                 </span>{" "}
                 <br className=""></br>
-                <span className="appearance-none bg-gradient-to-r from-[#9733ED] via-[#F22B9C] to-[#FD7A36] bg-clip-text text-transparent">
+                <span className="appearance-none bg-gradient-to-r from-cpurple via-cpink to-corange bg-clip-text text-transparent">
                   chất lượng,{" "}
                 </span>
                 giá tốt nhất

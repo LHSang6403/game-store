@@ -322,7 +322,7 @@ export default function SignUp() {
           <Button
             disabled={!form.formState.isValid}
             type="submit"
-            className="w-36 bg-gradient-to-r from-[#9733ED] via-[#F22B9C] to-[#FD7A36] text-background sm:w-full"
+            className="w-36 bg-gradient-to-r from-cpurple via-cpink to-corange text-background sm:w-full"
           >
             Tạo tài khoản
           </Button>

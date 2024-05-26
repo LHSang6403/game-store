@@ -7,12 +7,12 @@ export default function BestSeller() {
       <div className="flex w-full flex-col items-start gap-4 px-36 xl:px-4 sm:px-2">
         <Link
           href="/product"
-          className="mb-2 h-fit rounded-full border border-[#E9DFFF] bg-white px-4 py-0.5 text-[15px] font-light text-[#7F4AFD] hover:cursor-pointer"
+          className="mb-2 h-fit rounded-full border border-[#E9DFFF] bg-white px-4 py-0.5 text-[15px] font-light text-cpurple hover:cursor-pointer"
         >
           Khám phá ngay
         </Link>
         <h1 className="text-4xl font-bold xl:text-3xl">
-          <span className="appearance-none bg-gradient-to-r from-[#02A9FF] to-[#8537F8] bg-clip-text text-transparent">
+          <span className="appearance-none bg-gradient-to-r from-cblue to-cpurple bg-clip-text text-transparent">
             Sản phẩm
           </span>{" "}
           <br className="xl:hidden"></br> bán chạy
@@ -39,7 +39,7 @@ export default function BestSeller() {
           <h2 className="text-3xl font-semibold">
             Sony <br></br>
             <span className="group flex flex-row hover:cursor-pointer">
-              <span className="hover bg-gradient-to-r from-[#02A9FF] to-[#8538F8] bg-clip-text text-transparent">
+              <span className="hover bg-gradient-to-r from-cblue to-cpurple bg-clip-text text-transparent">
                 Play Station 5
               </span>
               <svg
@@ -52,7 +52,7 @@ export default function BestSeller() {
                 stroke-width="2"
                 stroke-linecap="round"
                 stroke-linejoin="round"
-                className="lucide lucide-chevron-right ml-1 text-[#8538F8] group-hover:text-[#8538f8ee]"
+                className="lucide lucide-chevron-right ml-1 text-cpurple"
               >
                 <path d="m9 18 6-6-6-6" />
               </svg>
@@ -80,7 +80,7 @@ export default function BestSeller() {
           <h2 className="text-3xl font-semibold">
             Sony <br></br>
             <span className="group flex flex-row hover:cursor-pointer">
-              <span className="hover bg-gradient-to-r from-[#02A9FF] to-[#8538F8] bg-clip-text text-transparent group-hover:from-[#02abffee] group-hover:to-[#8538f8ee]">
+              <span className="hover bg-gradient-to-r from-cblue to-cpurple bg-clip-text text-transparent">
                 Play Station 4
               </span>
               <svg
@@ -93,7 +93,7 @@ export default function BestSeller() {
                 stroke-width="2"
                 stroke-linecap="round"
                 stroke-linejoin="round"
-                className="lucide lucide-chevron-right ml-1 text-[#8538F8] group-hover:text-[#8538f8ee]"
+                className="lucide lucide-chevron-right ml-1 text-cpurple"
               >
                 <path d="m9 18 6-6-6-6" />
               </svg>

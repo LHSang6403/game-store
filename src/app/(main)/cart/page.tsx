@@ -5,7 +5,7 @@ export default function Page() {
   return (
     <div className="flex min-h-screen w-full flex-col items-center gap-4 px-10 pb-10 xl:px-6 sm:px-4">
       <h1 className="mt-6">
-        <span className="bg-gradient-to-r from-[#02A9FF] to-[#8538F8] bg-clip-text text-center text-3xl font-semibold text-transparent">
+        <span className="bg-gradient-to-r from-cblue to-cpurple bg-clip-text text-center text-3xl font-semibold text-transparent">
           Sản phẩm đã chọn
         </span>
       </h1>

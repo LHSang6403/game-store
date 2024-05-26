@@ -17,7 +17,7 @@ export default function Accessories() {
           <h1 className="text-center text-4xl font-bold text-background dark:text-white xl:text-3xl">
             Phụ kiện
             <br></br>
-            <span className="appearance-none bg-gradient-to-r from-[#B153EA] to-[#FD9252] bg-clip-text text-transparent">
+            <span className="appearance-none bg-gradient-to-r from-cpurple to-corange bg-clip-text text-transparent">
               chính hãng
             </span>
           </h1>
@@ -42,7 +42,7 @@ export default function Accessories() {
             />
           </div>
           <h2 className="text-4xl text-background dark:text-white xl:text-3xl">
-            <span className="appearance-none bg-gradient-to-r from-[#027AFD] to-[#C533CE] bg-clip-text text-transparent">
+            <span className="appearance-none bg-gradient-to-r from-cblue to-cpurple bg-clip-text text-transparent">
               Nitendo Switch
             </span>
             <br className="xl:hidden"></br> chính hãng
@@ -83,7 +83,7 @@ export default function Accessories() {
             />
           </div>
           <h2 className="text-4xl text-background dark:text-white xl:text-3xl">
-            <span className="appearance-none bg-gradient-to-r from-[#C12AD1] to-[#FDAEA1] bg-clip-text text-transparent">
+            <span className="appearance-none bg-gradient-to-r from-cpurple to-corange bg-clip-text text-transparent">
               XBox
             </span>
             <br className="xl:hidden"></br> chính hãng

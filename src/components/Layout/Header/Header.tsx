@@ -20,7 +20,7 @@ export default function Header() {
         ></div>
         <NavBar />
         <div
-          className={`w-full rounded-[9px] bg-gradient-to-r from-[#9733ED] via-[#F22B9C] to-[#FD7A36] p-[1.5px] ${
+          className={`w-full rounded-[9px] bg-gradient-to-r from-cpurple via-cpink to-corange p-[1.5px] ${
             path === "/product" ? "invisible" : ""
           }`}
         >

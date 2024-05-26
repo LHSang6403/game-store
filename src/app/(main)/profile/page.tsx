@@ -10,7 +10,7 @@ export default async function page() {
   if (!session.data || session.error)
     return (
       <div className="mt-10 flex flex-col items-center">
-        <span className="bg-gradient-to-r from-[#9733ED] via-[#F22B9C] to-[#FD7A36] bg-clip-text text-xl font-medium text-transparent">
+        <span className="bg-gradient-to-r from-cpurple via-cpink to-corange bg-clip-text text-xl font-medium text-transparent">
           Bạn chưa đăng nhập.
         </span>
         <Link
@@ -37,12 +37,12 @@ export default async function page() {
   return (
     <div className="flex flex-col items-center gap-8 px-10 pb-10 xl:px-6 sm:px-4">
       <h1 className="mt-6">
-        <span className="bg-gradient-to-r from-[#9733ED] via-[#F22B9C] to-[#FD7A36] bg-clip-text text-center text-3xl font-semibold text-transparent">
+        <span className="bg-gradient-to-r from-cpurple via-cpink to-corange bg-clip-text text-center text-3xl font-semibold text-transparent">
           Thông tin tài khoản
         </span>
       </h1>
       <div className="flex w-full flex-col items-center gap-2">
-        <div className="h-fit w-fit rounded-full bg-gradient-to-r from-[#02A9FF] to-[#8538F8] p-0.5">
+        <div className="h-fit w-fit rounded-full bg-gradient-to-r from-cblue to-cpurple p-0.5">
           <div className="flex h-28 w-28 justify-center overflow-hidden rounded-full">
             <Image
               src={

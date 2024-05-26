@@ -43,7 +43,7 @@ export default function Footer() {
       </p>
       <div className="flex w-full flex-row justify-between">
         <div className="flex w-fit flex-col items-start gap-2 pt-4">
-          <h3 className="bg-gradient-to-r from-[#6f18f3] to-[#51c5fe] bg-clip-text text-lg text-transparent">
+          <h3 className="bg-gradient-to-r from-cpurple to-cblue bg-clip-text text-lg text-transparent">
             Thông tin
           </h3>
           <p>
@@ -54,7 +54,7 @@ export default function Footer() {
           <p>Email: 2wingames.store@gmail.com</p>
         </div>
         <div className="flex w-fit flex-col items-start gap-2 pt-6">
-          <h3 className="bg-gradient-to-r from-[#6f18f3] to-[#51c5fe] bg-clip-text text-lg text-transparent">
+          <h3 className="bg-gradient-to-r from-cpurple to-cblue bg-clip-text text-lg text-transparent">
             Mạng xã hội
           </h3>
           <div className="flex flex-row gap-2">

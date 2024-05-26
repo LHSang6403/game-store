@@ -60,7 +60,7 @@ export default function ProductsContainer({
             removeAllFilters();
           }}
           variant="ghost"
-          className="hover:bg- border border-[#9733ED]"
+          className="hover:bg- border border-cpurple"
         >
           Xóa bộ lọc
         </Button>

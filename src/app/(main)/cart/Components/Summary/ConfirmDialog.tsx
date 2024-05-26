@@ -183,7 +183,7 @@ export default function ConfirmDialog({
         <Button
           type="submit"
           onClick={handleBuy}
-          className="w-full bg-gradient-to-r from-[#9733ED] via-[#F22B9C] to-[#FD7A36] text-background"
+          className="w-full bg-gradient-to-r from-cpurple via-cpink to-corange text-background"
         >
           Đặt mua
         </Button>

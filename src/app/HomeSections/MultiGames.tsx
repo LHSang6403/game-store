@@ -5,7 +5,7 @@ export default function MultiGames() {
     <>
       <div className="mt-20 flex flex-col items-center gap-4">
         <h1 className="text-center text-4xl font-bold xl:text-3xl">
-          <span className="appearance-none bg-gradient-to-r from-[#FFB503] to-[#F83A79] bg-clip-text text-transparent">
+          <span className="appearance-none bg-gradient-to-r from-cyelow to-cpink bg-clip-text text-transparent">
             Các trò chơi
           </span>
           <br></br>
@@ -31,7 +31,7 @@ export default function MultiGames() {
           </div>
           <h2 className="text-4xl font-semibold">
             Đĩa game<br></br>
-            <span className="appearance-none bg-gradient-to-r from-[#8D1BA6] to-[#F83A79] bg-clip-text text-transparent">
+            <span className="appearance-none bg-gradient-to-r from-cpurple to-cpink bg-clip-text text-transparent">
               phong phú
             </span>
           </h2>
@@ -75,7 +75,7 @@ export default function MultiGames() {
           </div>
           <h2 className="text-4xl font-semibold">
             Đã dạng<br></br>{" "}
-            <span className="appearance-none bg-gradient-to-r from-[#0379FB] to-[#8D1BA6] bg-clip-text text-transparent">
+            <span className="appearance-none bg-gradient-to-r from-cblue to-cpurple bg-clip-text text-transparent">
               các thể loại
             </span>
           </h2>
