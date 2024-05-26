@@ -26,7 +26,7 @@ export async function signInWithGoogle() {
 export default function GoogleOAuth() {
   return (
     <Button
-      className="flex w-full flex-row items-center justify-center gap-1.5 bg-background text-foreground hover:text-accent"
+      className="flex w-full flex-row items-center justify-center gap-1.5 bg-background text-foreground hover:border hover:bg-background"
       onClick={signInWithGoogle}
     >
       <svg

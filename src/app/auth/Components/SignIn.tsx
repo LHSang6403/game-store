@@ -130,14 +130,14 @@ export default function SignIn() {
               onClick={() => {
                 router.push("/auth/forget-password");
               }}
-              className="mt-1 w-full bg-background text-foreground hover:text-accent"
+              className="mt-1 w-full bg-background text-foreground hover:border hover:bg-background"
             >
               Quên mật khẩu
             </Button>
             <Button
               type="submit"
               disabled={!form.formState.isValid}
-              className="mt-1 w-full bg-foreground text-background"
+              className="mt-1 w-full bg-gradient-to-r from-[#9733ED] via-[#F22B9C] to-[#FD7A36] text-background"
             >
               Đăng nhập
             </Button>

@@ -16,20 +16,22 @@ export default async function OrderHistory() {
 
   return (
     <div className="mx-auto w-auto">
-      {session.data && !history.error && "data" in history && (
-        <>
-          <h2 className="mb-1 text-center text-lg font-semibold">
+      {session.data && "data" in history && (
+        <div className="flex flex-col items-center">
+          <span className="mb-1 bg-gradient-to-r from-[#9733ED] via-[#F22B9C] to-[#FD7A36] bg-clip-text text-lg font-semibold text-transparent">
             Lịch sử mua hàng
-          </h2>
-          <DataTable
-            columns={columns}
-            data={history.data as OrderType[]}
-            isPaginationEnabled={true}
-            isCollumnVisibilityEnabled={true}
-            isSearchEnabled={false}
-            columns_headers={columns_headers}
-          />
-        </>
+          </span>
+          <div>
+            <DataTable
+              columns={columns}
+              data={history.data as OrderType[]}
+              isPaginationEnabled={true}
+              isCollumnVisibilityEnabled={true}
+              isSearchEnabled={false}
+              columns_headers={columns_headers}
+            />
+          </div>
+        </div>
       )}
     </div>
   );

@@ -10,9 +10,11 @@ export default async function page() {
   if (!session.data || session.error)
     return (
       <div className="mt-10 flex flex-col items-center">
-        <span className="text-xl font-medium">Bạn chưa đăng nhập.</span>
+        <span className="bg-gradient-to-r from-[#9733ED] via-[#F22B9C] to-[#FD7A36] bg-clip-text text-xl font-medium text-transparent">
+          Bạn chưa đăng nhập.
+        </span>
         <Link
-          className="text-base text-foreground/80 hover:text-foreground"
+          className="text-sm text-foreground/80 hover:text-foreground"
           href="/auth"
         >
           Đăng nhập ngay
@@ -33,23 +35,26 @@ export default async function page() {
   const address = session.data?.detailData?.address;
 
   return (
-    <div className="flex flex-col gap-8 px-10 pb-10 xl:px-6 sm:px-4">
-      <h1 className="text-center text-3xl font-semibold">
-        Thông tin tài khoản
+    <div className="flex flex-col items-center gap-8 px-10 pb-10 xl:px-6 sm:px-4">
+      <h1 className="mt-6">
+        <span className="bg-gradient-to-r from-[#9733ED] via-[#F22B9C] to-[#FD7A36] bg-clip-text text-center text-3xl font-semibold text-transparent">
+          Thông tin tài khoản
+        </span>
       </h1>
       <div className="flex w-full flex-col items-center gap-2">
-        <div className="flex h-32 w-32 justify-center rounded-full border p-0.5">
-          <Image
-            src={
-              process.env.NEXT_PUBLIC_SUPABASE_URL +
-              "/storage/v1/object/public/public_files/" +
-              (session.data?.detailData?.image ?? "")
-            }
-            alt="profile"
-            width={150}
-            height={150}
-            className="rounded-full"
-          />
+        <div className="h-fit w-fit rounded-full bg-gradient-to-r from-[#02A9FF] to-[#8538F8] p-0.5">
+          <div className="flex h-28 w-28 justify-center overflow-hidden rounded-full">
+            <Image
+              src={
+                process.env.NEXT_PUBLIC_SUPABASE_URL +
+                "/storage/v1/object/public/public_files/" +
+                (session.data?.detailData?.image ?? "")
+              }
+              alt="profile"
+              width={150}
+              height={150}
+            />
+          </div>
         </div>
         <EditProfile profile={session.data.detailData} />
         <div className="w-fit rounded-md">

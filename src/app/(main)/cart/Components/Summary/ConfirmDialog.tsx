@@ -110,7 +110,7 @@ export default function ConfirmDialog({
           onOpenChange(false);
           removeAll();
 
-          return "Đã tạo đơn hàng thành công.";
+          return "Đặt hàng thành công. Shipper sẽ sớm liên hệ bạn.";
         },
         loading: "Đang tạo đơn hàng...",
         error: (error: any) => {
@@ -183,9 +183,9 @@ export default function ConfirmDialog({
         <Button
           type="submit"
           onClick={handleBuy}
-          className="w-full bg-foreground text-background"
+          className="w-full bg-gradient-to-r from-[#9733ED] via-[#F22B9C] to-[#FD7A36] text-background"
         >
-          Thanh toán
+          Đặt mua
         </Button>
       </DialogContent>
     </Dialog>

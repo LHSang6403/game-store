@@ -4,7 +4,6 @@ import { ProductDescriptionType } from "@/utils/types";
 import Editor from "@/components/editor/advanced-editor";
 import { JSONContent } from "novel";
 import { parseStringToJSONContent } from "@/utils/functions/parseStringToJSONContent";
-import Image from "next/image";
 
 export default function ProductDescription({
   description,

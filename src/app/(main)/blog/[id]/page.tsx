@@ -30,10 +30,10 @@ export default function page({ params }: { params: { id: string } }) {
         <>
           {isSuccess && blog.data && (
             <>
-              <h1 className="max-w-[900px] px-8 text-center text-4xl font-bold xl:px-6 sm:px-2">
+              <h1 className="mt-6 max-w-[900px] bg-gradient-to-r from-[#9733ED] via-[#F22B9C] to-[#FD7A36] bg-clip-text px-8 text-center text-3xl font-bold text-transparent xl:px-6 sm:px-2">
                 {blog.data.title}
               </h1>
-              <p className="max-w-[1000px] p-8 xl:p-6 sm:p-2">
+              <p className="-mt-2 max-w-[1000px] p-6 sm:p-2">
                 {blog.data.description}
               </p>
               {blog.data.thumbnails && (

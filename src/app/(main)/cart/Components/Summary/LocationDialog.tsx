@@ -55,7 +55,7 @@ export default function LocationDialog({
                   name: "Miền Trung & Nam",
                 })
               }
-              className="w-1/2 text-background sm:w-full"
+              className="w-1/2 bg-gradient-to-r from-[#9733ED] via-[#F22B9C] to-[#FD7A36] text-background sm:w-full"
             >
               Miền Trung và Nam
             </Button>

@@ -6,9 +6,9 @@ export default function LargeBlog({ data }: { data: BlogType }) {
   return (
     <Link
       href={`/blog/${data.id}`}
-      className="h-full w-1/2 max-w-[800px] overflow-hidden text-foreground/90 hover:cursor-pointer xl:w-full"
+      className="h-full w-1/2 max-w-[800px] overflow-hidden text-foreground/90 hover:cursor-pointer xl:w-full xl:max-w-full"
     >
-      <div className="h-80 w-full xl:max-h-72 sm:max-h-52">
+      <div className="h-56 w-full overflow-hidden rounded-lg shadow-xl xl:h-auto xl:max-h-80 sm:max-h-52">
         <Image
           alt="A blog"
           src={
@@ -22,10 +22,10 @@ export default function LargeBlog({ data }: { data: BlogType }) {
         />
       </div>
       <div className="h-fit w-full p-1">
-        <h2 className="line-clamp-2 h-fit overflow-ellipsis text-lg font-semibold leading-6">
+        <h2 className="mt-1 line-clamp-2 h-fit overflow-ellipsis font-semibold leading-6">
           {data.title}
         </h2>
-        <p className="line-clamp-3 h-fit overflow-ellipsis text-sm font-extralight">
+        <p className="mt-1 line-clamp-3 h-fit overflow-ellipsis text-sm font-extralight">
           {data.description}
         </p>
       </div>
