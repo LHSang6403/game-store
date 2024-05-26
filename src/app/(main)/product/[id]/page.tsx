@@ -28,6 +28,7 @@ export default function page({ params }: { params: { id: string } }) {
           {isSuccess && product && (
             <Template>
               <div className="flex h-fit min-h-screen w-full flex-col items-center gap-10 pb-10">
+                <ProductDetail product={product} />
                 <div className="relative">
                   <div className="absolute left-0 right-0 top-0 -z-20">
                     <Image
@@ -40,8 +41,7 @@ export default function page({ params }: { params: { id: string } }) {
                     />
                   </div>
                 </div>
-                <ProductDetail product={product} />
-                <h2 className="bg-gradient-to-r from-[#02A9FF] to-[#8538F8] bg-clip-text text-center text-2xl font-medium text-transparent">
+                <h2 className="bg-gradient-to-r from-[#02A9FF] to-[#8538F8] bg-clip-text text-center text-3xl font-medium text-transparent">
                   Mô tả chi tiết
                 </h2>
                 {product.product_description.content && (

@@ -34,7 +34,7 @@ export default function ProductDetail({
   }, []);
 
   return (
-    <div className="relative flex h-fit min-h-[90vh] flex-row pb-6 xl:flex-col">
+    <div className="relative z-10 flex h-fit min-h-[90vh] w-full flex-row pb-6 xl:flex-col">
       <div className="h-fit w-3/5 pl-10 xl:w-full xl:p-0 sm:px-2">
         <ProductImages images={product.product.images} />
       </div>
