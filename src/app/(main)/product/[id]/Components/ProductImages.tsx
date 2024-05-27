@@ -90,7 +90,7 @@ export default function ProductImages({ images }: { images: string[] }) {
               className={`${
                 activeIndex === index
                   ? "bg-gradient-to-r from-cpurple via-cpink to-corange p-[1px] opacity-100"
-                  : "bg-gradient-to-r from-[#9633ed84] via-[#f22b9c88] to-[#fd7c3681] p-[1px] opacity-90"
+                  : "bg-gradient-to-r from-[#9633ed84] via-[#f22b9c88] to-[#fd7c3681] p-[1px] opacity-70"
               } m-1 w-32 rounded-[12px] transition duration-300 ease-in-out hover:scale-[1.02] hover:cursor-pointer xl:w-[96%]`}
             >
               <div className="rounded-[11px] bg-background">
