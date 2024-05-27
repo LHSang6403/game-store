@@ -49,7 +49,7 @@ export default function StorageTables() {
           >
             <CardHeader className="flex flex-row items-center pb-0">
               <div className="grid gap-2">
-                <CardTitle>{storage.name}</CardTitle>
+                <CardTitle className="font-semibold">{storage.name}</CardTitle>
                 <CardDescription>
                   Hệ thống kho của chi nhánh {storage.province}
                 </CardDescription>

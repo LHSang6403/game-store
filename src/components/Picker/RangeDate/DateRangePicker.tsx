@@ -324,7 +324,11 @@ export const DateRangePicker: FC<DateRangePickerProps> & {
       }}
     >
       <PopoverTrigger asChild>
-        <Button size={"lg"} variant="outline" className="h-9 w-full border">
+        <Button
+          size={"lg"}
+          variant="outline"
+          className="h-9 w-full border font-normal"
+        >
           <div className="-ml-5 text-left">
             <div>
               <div>{`${formatVNDate(range.from)}${

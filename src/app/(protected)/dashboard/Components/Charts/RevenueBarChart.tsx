@@ -40,7 +40,7 @@ export default function RevenueBarChart() {
       ) : (
         <>
           <CardHeader className="pb-0">
-            <CardTitle className="mb-2">Doanh thu</CardTitle>
+            <CardTitle className="mb-2 font-semibold">Doanh thu</CardTitle>
             <div className="flex w-full flex-row items-center justify-between sm:flex-col sm:gap-2">
               <CardDescription>
                 Doanh thu của hệ thống toàn quốc{" "}

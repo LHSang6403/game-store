@@ -70,7 +70,7 @@ export default function RevenueBarChart() {
         <>
           <CardHeader className="flex flex-col pb-3">
             <CardTitle className="mb-2 flex flex-row justify-between">
-              <span>Bán chạy</span>
+              <span className="font-semibold">Bán chạy</span>
               <div className="sm:hidden">
                 <DateRangePicker showCompare={false} />
               </div>
