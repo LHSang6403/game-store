@@ -1,11 +1,13 @@
 import Link from "next/link";
 import Template from "@app/(main)/template";
 import AuthCardTabs from "@app/auth/Components/AuthCardTabs";
+import PrimaryLogo from "@components/PrimaryLogo";
 
 export default function Login() {
   return (
     <Template>
       <div className="flex min-h-screen w-screen flex-col items-center justify-center overflow-auto py-6 sm:h-auto sm:min-h-0 sm:pb-16">
+        <PrimaryLogo />
         <h1 className="bg-gradient-to-r from-cblue to-cpurple bg-clip-text text-lg font-semibold text-transparent">
           Xác thực tài khoản
         </h1>

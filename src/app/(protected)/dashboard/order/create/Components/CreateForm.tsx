@@ -10,9 +10,10 @@ import { useOrder, OrderState } from "@/zustand/useOrder";
 import type {
   CustomerType,
   ProductWithDescriptionAndStorageType,
+  ProductWithQuantity,
   StorageType,
 } from "@utils/types";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import useAddressSelects from "@/zustand/useAddressSelects";
 import { calShipmentFees } from "@/app/(main)/cart/_actions/calShip";
 import {
@@ -68,9 +69,27 @@ export default function CreateForm({
   const [selectedStorage, setSelectedStorage] =
     useState<string>("Kho Hồ Chí Minh");
 
-  const orderProducts = order?.products;
   const { addressValues, setProvince, setDistrict, setCommune, clearAll } =
     useAddressSelects();
+
+  const orderProducts = order?.products;
+  let productsWithQuantities: ProductWithQuantity[] = [];
+  productsWithQuantities = useMemo(() => {
+    const productQuantities: ProductWithQuantity[] = [];
+    orderProducts?.forEach((product: ProductWithDescriptionAndStorageType) => {
+      const existingProduct = productQuantities.find(
+        (p) => p.product.product.id === product.product.id
+      );
+
+      if (existingProduct) {
+        existingProduct.quantity += 1;
+      } else {
+        productQuantities.push({ product: product, quantity: 1 });
+      }
+    });
+
+    return productQuantities;
+  }, [orderProducts, orderProducts?.length]);
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
@@ -322,7 +341,7 @@ export default function CreateForm({
                     </SelectContent>
                   </Select>
                 </div>
-                <div className="mt-3 flex h-[540px] flex-col gap-3 overflow-auto pr-2">
+                <div className="mt-3 flex h-[540px] w-full flex-col gap-3 overflow-auto pr-2">
                   {products
                     .filter((product) =>
                       product.product_storages.some(
@@ -331,7 +350,7 @@ export default function CreateForm({
                       )
                     )
                     .map((prod, index) => (
-                      <div key={index}>
+                      <div className="w-full" key={index}>
                         <ProductCard
                           prod={prod}
                           onAdd={() => {
@@ -347,7 +366,7 @@ export default function CreateForm({
                       <DataTable
                         key={JSON.stringify(orderProducts)}
                         columns={columns}
-                        data={orderProducts}
+                        data={productsWithQuantities}
                         isPaginationEnabled={false}
                         isCollumnVisibilityEnabled={false}
                         isSearchEnabled={false}

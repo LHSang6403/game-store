@@ -14,7 +14,7 @@ export default function page() {
     <>
       <Header />
       <Template>
-        <main className="flex h-auto min-h-screen w-full max-w-[1600px] flex-col items-center pb-20 pt-16 animate-in xl:pt-0 sm:min-h-0 sm:pb-10">
+        <main className="mx-auto flex h-auto min-h-screen w-full max-w-[1600px] flex-col items-center pb-20 pt-16 animate-in xl:pt-0 sm:min-h-0 sm:pb-10">
           <div className="flex h-auto w-full flex-col items-center px-10 xl:px-4 sm:px-2">
             <div className="relative w-full">
               <div className="absolute left-0 right-0 top-4 -z-20 flex w-full justify-center">

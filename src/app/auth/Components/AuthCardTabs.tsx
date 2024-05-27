@@ -32,7 +32,11 @@ export default function AuthCardTabs() {
       <TabsContent value="sign-in">
         <Card>
           <CardHeader className="sm:px-2">
-            <CardTitle>Đăng nhập</CardTitle>
+            <CardTitle>
+              <span className="bg-gradient-to-r from-cblue to-cpurple bg-clip-text text-transparent">
+                Đăng nhập
+              </span>
+            </CardTitle>
             <CardDescription>
               Tài khoản test: <br />
               lhsang6403@gmail.com (khách hàng), <br />
@@ -48,7 +52,11 @@ export default function AuthCardTabs() {
       <TabsContent value="sign-up">
         <Card>
           <CardHeader className="sm:px-2">
-            <CardTitle>Đăng ký</CardTitle>
+            <CardTitle>
+              <span className="bg-gradient-to-r from-cblue to-cpurple bg-clip-text text-transparent">
+                Đăng ký
+              </span>
+            </CardTitle>
           </CardHeader>
           <CardContent>
             <SignUp />

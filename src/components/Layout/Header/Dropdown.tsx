@@ -37,10 +37,17 @@ export default function Dropdown() {
         </div>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="mx-3 w-56 bg-background">
-        <DropdownMenuLabel>Game Store</DropdownMenuLabel>
+        <DropdownMenuLabel>
+          <span className="bg-gradient-to-r from-cblue to-cpurple bg-clip-text text-transparent">
+            2Win Games
+          </span>
+        </DropdownMenuLabel>
         <DropdownMenuGroup>
           {session !== null && (
-            <DropdownMenuItem className="focus:bg-background">
+            <DropdownMenuItem
+              onClick={() => router.push("/profile")}
+              className="focus:bg-background"
+            >
               <div className="-ml-0.5 mr-1.5 flex h-5 w-5 justify-center rounded-full border p-[1px]">
                 <Image
                   src={
@@ -57,11 +64,6 @@ export default function Dropdown() {
               {session.name}
             </DropdownMenuItem>
           )}
-          <DropdownMenuSeparator />
-          <DropdownMenuItem onClick={() => router.push("/profile")}>
-            <UserRoundCog className="mr-2 h-4 w-4" />
-            Chi tiết
-          </DropdownMenuItem>
           <DropdownMenuItem>
             <div
               aria-label="Toggle Dark Mode"

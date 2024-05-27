@@ -14,12 +14,14 @@ import { Plus, Minus } from "lucide-react";
 export const columns: ColumnDef<ProductWithQuantity>[] = [
   {
     accessorKey: "name",
-    header: "Tên",
+    header: () => {
+      return <div className="w-32 text-left">Tên</div>;
+    },
     cell: ({ row }) => {
       const data = row.original;
 
       return (
-        <div className="line-clamp-3 w-full overflow-ellipsis">
+        <div className="line-clamp-3 w-auto overflow-ellipsis">
           {data.product.product.name}
         </div>
       );
