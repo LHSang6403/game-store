@@ -33,7 +33,7 @@ export default function DashboardHeader() {
       <div className="hidden xl:block">
         <Sheet>
           <SheetTrigger asChild>
-            <div className="rounded-[9px] bg-gradient-to-r from-cpurple via-cpink to-corange p-[1.5px]">
+            <div className="rounded-[9px] bg-gradient-to-r from-cpurple via-cpink to-corange p-[1.5px] sm:rounded-[7px]">
               <Button
                 variant="outline"
                 size="icon"
