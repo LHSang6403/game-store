@@ -33,15 +33,21 @@ export default function DashboardHeader() {
       <div className="hidden xl:block">
         <Sheet>
           <SheetTrigger asChild>
-            <Button variant="outline" size="icon" className="h-9 shrink-0">
-              <Menu className="h-5 w-5" />
-            </Button>
+            <div className="rounded-[9px] bg-gradient-to-r from-cpurple via-cpink to-corange p-[1.5px]">
+              <Button
+                variant="outline"
+                size="icon"
+                className="h-9 border-none px-2 outline-none ring-0"
+              >
+                <Menu className="h-5 w-5" />
+              </Button>
+            </div>
           </SheetTrigger>
           <SheetContent side="left" className="w-56 px-3">
             <nav className="grid gap-3 text-lg font-medium">
               <Link
                 href="#"
-                className="ml-4 flex items-center gap-2 text-lg font-semibold"
+                className="flex items-center gap-2 text-lg font-semibold"
               >
                 <PrimaryLogo />
               </Link>
