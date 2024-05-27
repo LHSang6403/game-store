@@ -58,7 +58,10 @@ export default function Footer() {
             Mạng xã hội
           </h3>
           <div className="flex flex-row gap-2">
-            <Link href="https://www.facebook.com/profile.php?id=100054800213938">
+            <Link
+              className="hover:cursor-pointer"
+              href="https://www.facebook.com/profile.php?id=100054800213938"
+            >
               <Image
                 alt="Facebook"
                 src="/assets/images/fb.png"
@@ -66,7 +69,10 @@ export default function Footer() {
                 height={40}
               />
             </Link>
-            <Link href="https://shopee.vn/bepgaming">
+            <Link
+              className="hover:cursor-pointer"
+              href="https://shopee.vn/bepgaming"
+            >
               <Image
                 alt="Shopee"
                 src="/assets/images/shopee.png"
