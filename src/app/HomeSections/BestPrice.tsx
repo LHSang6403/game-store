@@ -14,11 +14,11 @@ export default function BestPrice() {
           </Link>
         </div>
         <h1 className="text-center text-4xl font-bold xl:text-3xl">
-          <span className="appearance-none bg-gradient-to-r from-cblue to-cpurple bg-clip-text px-2 text-center text-transparent xl:px-2">
+          <span className="appearance-none bg-gradient-to-r from-cblue to-cpurple bg-clip-text text-center text-transparent xl:px-2">
             Giá cả
-          </span>
+          </span>{" "}
           sản phẩm<br></br>
-          <span className="appearance-none bg-gradient-to-r from-cblue to-cpurple bg-clip-text px-2 text-center text-transparent">
+          <span className="appearance-none bg-gradient-to-r from-cblue to-cpurple bg-clip-text text-center text-transparent">
             tốt nhất
           </span>
         </h1>

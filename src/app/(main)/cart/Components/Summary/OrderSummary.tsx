@@ -14,9 +14,11 @@ export default function OrderSummary() {
   return (
     <>
       {order && (
-        <div className="flex h-fit w-full flex-col gap-1">
+        <div className="flex h-fit w-full flex-col gap-1 text-sm">
           <div className="flex w-full flex-row items-center justify-between sm:flex-col-reverse sm:items-start sm:justify-start sm:gap-2">
-            <h2 className="text-lg font-semibold">Tóm tắt đơn hàng</h2>
+            <h2 className="text-lg font-semibold sm:mt-2 sm:text-base">
+              Tóm tắt đơn hàng
+            </h2>
             <Button
               onClick={() => {
                 removeAll();
@@ -28,14 +30,14 @@ export default function OrderSummary() {
             </Button>
           </div>
           <p>
-            <span className="font-semibold">Vào lúc:</span>{" "}
+            <span className="">Vào lúc:</span>{" "}
             {formatVNDate(new Date(order.created_at))}
           </p>
           <p>
-            <span className="font-semibold">Tình trạng:</span> {order.state}
+            <span className="">Tình trạng:</span> {order.state}
           </p>
-          <p>
-            <span className="font-semibold">Giá trước phí:</span>{" "}
+          <p className="sm:mb-2">
+            <span className="">Giá trước phí:</span>{" "}
             {formatCurrency(order.price)} VNĐ
           </p>
         </div>

@@ -27,7 +27,7 @@ export default function Dropdown() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <div className="rounded-[9px] bg-gradient-to-r from-cpurple via-cpink to-corange p-[1.5px]">
+        <div className="rounded-[9px] bg-gradient-to-r from-cpurple via-cpink to-corange p-[1.5px] sm:rounded-[7px]">
           <Button
             className="h-9 border-none px-2 outline-none ring-0"
             variant="outline"

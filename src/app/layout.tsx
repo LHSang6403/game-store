@@ -1,4 +1,4 @@
-import { Roboto } from "next/font/google";
+import { Source_Code_Pro } from "next/font/google";
 
 import "@app/styles/globals.css";
 import "@app/styles/prosemirror.css";
@@ -14,8 +14,8 @@ export const metadata = {
   keywords: "trò chơi điện tử, giải trí, trò chơi online, cửa hàng trò chơi",
 };
 
-const font = Roboto({
-  weight: "400",
+const font = Source_Code_Pro({
+  weight: "500",
   subsets: ["latin"],
   display: "swap",
 });

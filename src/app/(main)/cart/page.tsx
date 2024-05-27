@@ -10,7 +10,7 @@ export default function Page() {
         </span>
       </h1>
       <OrderCurrent />
-      <hr className="mx-auto my-4 w-[70%] rounded-full xl:w-[90%]"></hr>
+      <hr className="mx-auto my-4 w-[70%] rounded-full xl:w-[90%] sm:w-full"></hr>
       <div className="xl:w-full">
         <OrderHistory />
       </div>

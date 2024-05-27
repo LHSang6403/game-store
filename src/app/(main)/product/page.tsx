@@ -34,7 +34,7 @@ export default async function Product() {
             </span>{" "}
             <br className="xl:hidden"></br> tốt nhất
           </h1>
-          <p className="max-w-[700px] text-center font-light lg:max-w-full sm:text-sm">
+          <p className="max-w-[700px] text-center text-sm font-light lg:mx-4 lg:max-w-full">
             2Win luôn có những chương trình khuyến mãi hấp dẫn để mang đến cho
             khách hàng trải nghiệm mua sắm tuyệt vời nhất. Vui lòng chọn sản
             phẩm hoặc liên hệ ngay với chúng tôi để có giá tốt nhất.
@@ -56,7 +56,7 @@ export default async function Product() {
           <h1 className="z-20 bg-gradient-to-r from-cpurple to-cblue bg-clip-text text-2xl font-medium text-transparent">
             Các sản phẩm
           </h1>
-          <div className="w-[500px] rounded-[9px] bg-gradient-to-r from-cpurple via-cpink to-corange p-[1.5px] sm:w-full">
+          <div className="w-[500px] rounded-[9px] bg-gradient-to-r from-cpurple via-cpink to-corange p-[1.5px] sm:w-full sm:rounded-[7px]">
             <SearchBar />
           </div>
         </div>

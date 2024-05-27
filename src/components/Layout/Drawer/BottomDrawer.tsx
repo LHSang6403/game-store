@@ -35,7 +35,7 @@ export default function BottomDrawer() {
           <DrawerHeader>
             <DrawerTitle>Chuyển trang</DrawerTitle>
             <DrawerDescription>
-              Khám phá các trang khác của Game Store.
+              Khám phá các trang khác của 2Win.
             </DrawerDescription>
           </DrawerHeader>
           <div className="mx-auto grid h-fit w-fit grid-cols-2 items-center justify-center gap-2 p-4 sm:w-full">
@@ -49,7 +49,7 @@ export default function BottomDrawer() {
                           href={navUrl.url}
                           className={`${
                             path === navUrl.url
-                              ? "bg-foreground text-background"
+                              ? "bg-gradient-to-r from-cpurple via-cpink to-corange text-background"
                               : "bg-background text-foreground"
                           } flex h-10 w-32 items-center justify-center rounded-md border px-4 py-2 text-sm font-medium transition-colors sm:w-full`}
                         >
@@ -64,7 +64,7 @@ export default function BottomDrawer() {
                       href={navUrl.url}
                       className={`${
                         path === navUrl.url
-                          ? "bg-foreground text-background"
+                          ? "bg-gradient-to-r from-cpurple via-cpink to-corange text-background"
                           : "bg-background text-foreground"
                       } flex h-10 w-32 items-center justify-center rounded-md border px-4 py-2 text-sm font-medium transition-colors sm:w-full`}
                     >

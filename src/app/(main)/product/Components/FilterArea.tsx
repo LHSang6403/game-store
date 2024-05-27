@@ -50,7 +50,7 @@ export default function FilterArea() {
     <Sheet>
       <SheetTrigger asChild>
         <Button
-          className="bg- fixed left-0 top-[50%] rotate-90 border-none sm:-left-8 sm:h-6"
+          className="bg- fixed left-0 top-[50%] z-30 rotate-90 border-none sm:-left-8 sm:h-6"
           variant="outline"
         >
           Bộ lọc
@@ -59,7 +59,9 @@ export default function FilterArea() {
       </SheetTrigger>
       <SheetContent side="left" className="w-80">
         <SheetHeader>
-          <SheetTitle>Bộ lọc sản phẩm</SheetTitle>
+          <SheetTitle className="bg-gradient-to-r from-cblue to-cpurple bg-clip-text text-transparent">
+            Bộ lọc sản phẩm
+          </SheetTitle>
           <SheetDescription>
             Chọn các đặc điểm sản phẩm để xem tiện lợi hơn.
           </SheetDescription>
@@ -76,7 +78,7 @@ export default function FilterArea() {
               }}
               defaultValue={brands[0] ?? "All"}
             >
-              <SelectTrigger className="h-9 w-[60%]">
+              <SelectTrigger className="h-9 w-full">
                 <SelectValue placeholder="Chọn" />
               </SelectTrigger>
               <SelectContent>
@@ -101,7 +103,7 @@ export default function FilterArea() {
               }}
               defaultValue={categories[0] ?? "All"}
             >
-              <SelectTrigger className="h-9 w-[60%]">
+              <SelectTrigger className="h-9 w-full">
                 <SelectValue placeholder="Chọn" />
               </SelectTrigger>
               <SelectContent>
@@ -134,7 +136,10 @@ export default function FilterArea() {
         </div>
         <SheetFooter className="mt-8">
           <SheetClose asChild>
-            <Button type="submit" className="w-full text-background">
+            <Button
+              type="submit"
+              className="w-full bg-gradient-to-r from-cpurple via-cpink to-corange text-background"
+            >
               Áp dụng
             </Button>
           </SheetClose>

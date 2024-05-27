@@ -12,7 +12,7 @@ export default function Footer() {
             src="/assets/images/corner-bg.png"
             width={400}
             height={400}
-            className="opacity-50"
+            className="opacity-30"
           />
         </div>
         <div className="absolute -right-10 top-16 -z-10">
@@ -21,7 +21,7 @@ export default function Footer() {
             src="/assets/images/corner-bg.png"
             width={350}
             height={350}
-            className="rotate-[180deg] opacity-50"
+            className="rotate-[180deg] opacity-30"
           />
         </div>
       </div>
@@ -41,8 +41,8 @@ export default function Footer() {
         Hãy đến và khám phá cửa hàng của chúng tôi ngay hôm nay để trải nghiệm
         sự khác biệt và thỏa mãn niềm đam mê chơi game của bạn!
       </p>
-      <div className="flex w-full flex-row justify-between">
-        <div className="flex w-fit flex-col items-start gap-2 pt-4">
+      <div className="flex w-full flex-row justify-between lg:flex-col lg:gap-4">
+        <div className="flex w-fit flex-col items-start gap-2 text-left">
           <h3 className="bg-gradient-to-r from-cpurple to-cblue bg-clip-text text-lg text-transparent">
             Thông tin
           </h3>
@@ -53,7 +53,7 @@ export default function Footer() {
           <p>Số điện thoại: 097 692 3428</p>
           <p>Email: 2wingames.store@gmail.com</p>
         </div>
-        <div className="flex w-fit flex-col items-start gap-2 pt-6">
+        <div className="flex w-fit flex-col items-start gap-2">
           <h3 className="bg-gradient-to-r from-cpurple to-cblue bg-clip-text text-lg text-transparent">
             Mạng xã hội
           </h3>

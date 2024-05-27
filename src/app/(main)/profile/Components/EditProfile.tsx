@@ -282,7 +282,7 @@ export default function EditProfile({
             />
             <Button
               type="submit"
-              className="mx-auto mt-2 w-fit bg-foreground px-7 text-background"
+              className="mx-auto mb-2 mt-4 w-full bg-foreground bg-gradient-to-r from-cpurple via-cpink to-corange px-7 text-background"
             >
               Lưu thay đổi
             </Button>

@@ -4,7 +4,7 @@ import Image from "next/image";
 export default function BestSeller() {
   return (
     <>
-      <div className="flex w-full flex-col items-start gap-4 px-36 xl:px-4 sm:px-2">
+      <div className="mt-10 flex w-full flex-col items-start gap-4 px-36 xl:px-4 sm:px-2">
         <Link
           href="/product"
           className="mb-2 h-fit rounded-full border border-[#E9DFFF] bg-white px-4 py-0.5 text-[15px] font-light text-cpurple hover:cursor-pointer"
@@ -26,7 +26,7 @@ export default function BestSeller() {
           bạn!
         </p>
       </div>
-      <div className="my-10 flex w-full flex-row px-36 xl:px-4 lg:flex-col sm:px-2">
+      <div className="my-10 flex w-full flex-row gap-4 px-36 xl:px-4 lg:flex-col sm:px-2">
         <div className="w-1/2 lg:w-full">
           <div className="-mb-1 -ml-12">
             <Image
@@ -38,7 +38,7 @@ export default function BestSeller() {
           </div>
           <h2 className="text-3xl font-semibold">
             Sony <br></br>
-            <span className="group flex flex-row hover:cursor-pointer">
+            <Link href="#" className="flex flex-row hover:cursor-pointer">
               <span className="hover bg-gradient-to-r from-cblue to-cpurple bg-clip-text text-transparent">
                 Play Station 5
               </span>
@@ -56,7 +56,7 @@ export default function BestSeller() {
               >
                 <path d="m9 18 6-6-6-6" />
               </svg>
-            </span>
+            </Link>
           </h2>
           <p className="mt-4 max-w-[450px] text-sm">
             PlayStation 5 (PS5) là đỉnh cao của công nghệ chơi game, mang đến
@@ -79,7 +79,7 @@ export default function BestSeller() {
           </div>
           <h2 className="text-3xl font-semibold">
             Sony <br></br>
-            <span className="group flex flex-row hover:cursor-pointer">
+            <Link href="#" className="flex flex-row hover:cursor-pointer">
               <span className="hover bg-gradient-to-r from-cblue to-cpurple bg-clip-text text-transparent">
                 Play Station 4
               </span>
@@ -97,7 +97,7 @@ export default function BestSeller() {
               >
                 <path d="m9 18 6-6-6-6" />
               </svg>
-            </span>
+            </Link>
           </h2>
           <p className="mt-4 max-w-[450px] text-sm">
             PlayStation 4 Slim (PS4 Slim) là phiên bản tinh gọn của dòng PS4,

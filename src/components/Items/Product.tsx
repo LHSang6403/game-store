@@ -11,9 +11,9 @@ export default function Product({ data }: { data: ProductType }) {
   return (
     <div
       onClick={() => router.push(`/product/${data.id}`)}
-      className="z-10 h-full w-48 overflow-hidden rounded-[12px] rounded-br-[28px] rounded-tl-[28px] border border-accent bg-background from-[#9633ed51] via-[#f22b9c4c] to-[#fd7c3654] text-foreground/90 transition duration-300 ease-in-out hover:scale-[1.02] hover:cursor-pointer hover:border-none hover:bg-background/80 hover:bg-gradient-to-r hover:text-foreground hover:shadow-xl sm:w-full"
+      className="z-10 h-full w-48 overflow-hidden rounded-[12px] rounded-br-[28px] rounded-tl-[28px] border border-accent bg-background from-[#9633ed51] via-[#f22b9c4c] to-[#fd7c3654] text-foreground/90 transition duration-300 ease-in-out hover:scale-[1.02] hover:cursor-pointer hover:border-none hover:bg-background/80 hover:bg-gradient-to-r hover:text-foreground hover:shadow-xl sm:h-fit sm:w-full"
     >
-      <div className="h-36 w-48 sm:h-28 sm:w-full">
+      <div className="h-36 w-48 sm:h-fit sm:w-full">
         <Image
           alt={data.name}
           src={

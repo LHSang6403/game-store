@@ -36,16 +36,12 @@ export default function MultiGames() {
             </span>
           </h2>
           <p className="text-sm font-light">
-            Đĩa chơi game là phụ kiện không thể thiếu
-            <br className="lg:hidden"></br> cho bất kỳ game thủ nào, mang lại sự
-            tiện lợi<br></br> và linh hoạt trong việc truy cập và tận hưởng
-            <br className="lg:hidden"></br> các tựa game yêu thích. Với các đĩa
-            chơi game như PlayStation Network Card, Xbox Live Gift Card,
-            <br className="lg:hidden"></br> bạn có thể dễ dàng nạp tiền vào tài
-            khoản game
-            <br className="lg:hidden"></br> của mình để mua trò chơi, nội dung
-            tải về (DLC),
-            <br className="lg:hidden"></br> và các dịch vụ trực tuyến khác.
+            Đĩa chơi game là phụ kiện không thể thiếu cho bất kỳ game thủ nào,
+            mang lại sự tiện lợi và linh hoạt trong việc truy cập và tận hưởng
+            các tựa game yêu thích. Với các đĩa chơi game như PlayStation
+            Network Card, Xbox Live Gift Card, bạn có thể dễ dàng nạp tiền vào
+            tài khoản game của mình để mua trò chơi, nội dung tải về (DLC), và
+            các dịch vụ trực tuyến khác.
           </p>
         </div>
         <div className="h-fit w-fit overflow-hidden rounded-xl shadow-xl">
@@ -80,16 +76,11 @@ export default function MultiGames() {
             </span>
           </h2>
           <p className="text-sm font-light">
-            Ngoài việc cung cấp nhiều lựa chọn về mệnh giá,
-            <br className="lg:hidden"></br> thẻ chơi game còn mang lại nhiều ưu
-            đãi<br className="lg:hidden"></br> và khuyến mãi hấp dẫn từ các nhà
-            phát hành.<br className="lg:hidden"></br> Sử dụng thẻ chơi game, bạn
-            có thể hưởng lợi
-            <br className="lg:hidden"></br> từ các đợt giảm giá, sự kiện đặc
-            biệt và các gói
-            <br className="lg:hidden"></br> nội dung độc quyền, giúp tối ưu hóa
-            trải nghiệm
-            <br className="lg:hidden"></br> chơi game của mình.
+            Ngoài việc cung cấp nhiều lựa chọn về mệnh giá, thẻ chơi game còn
+            mang lại nhiều ưu đãi và khuyến mãi hấp dẫn từ các nhà phát hành. Sử
+            dụng thẻ chơi game, bạn có thể hưởng lợi từ các đợt giảm giá, sự
+            kiện đặc biệt và các gói nội dung độc quyền, giúp tối ưu hóa trải
+            nghiệm chơi game của mình.
           </p>
         </div>
       </div>

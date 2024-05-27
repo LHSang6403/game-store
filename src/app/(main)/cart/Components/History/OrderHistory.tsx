@@ -15,13 +15,13 @@ export default async function OrderHistory() {
   );
 
   return (
-    <div className="mx-auto w-auto">
+    <div className="mx-auto w-full">
       {session.data && "data" in history && (
-        <div className="flex flex-col items-center">
+        <div className="flex w-full flex-col items-center">
           <span className="mb-1 bg-gradient-to-r from-cpurple via-cpink to-corange bg-clip-text text-lg font-semibold text-transparent">
             Lịch sử mua hàng
           </span>
-          <div>
+          <div className="mt-4 w-full">
             <DataTable
               columns={columns}
               data={history.data as OrderType[]}

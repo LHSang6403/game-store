@@ -35,14 +35,6 @@ export default function page() {
                   className="-ml-4 opacity-90"
                 />
               </div>
-              <div className="absolute right-10 top-96 -z-10 flex justify-end pt-80 xl:hidden">
-                <p className="mt-20 text-left font-medium">
-                  2Win - Chúng tôi là một cộng đồng của những người đam mê game,
-                  <br></br> nơi mà mọi game thủ đều có thể tìm thấy những sản
-                  phẩm chất<br></br> lượng nhất và những trải nghiệm tuyệt vời
-                  nhất.
-                </p>
-              </div>
             </div>
             <div className="mt-12 flex flex-col items-center gap-4">
               <h1 className="text-center text-4xl font-bold xl:text-3xl">
@@ -75,7 +67,7 @@ export default function page() {
             <BestSeller />
           </div>
           <Accessories />
-          <div className="mt-28 flex h-auto w-full flex-col items-center px-10 xl:mt-10 xl:px-6 sm:px-4">
+          <div className="mt-6 flex h-auto w-full flex-col items-center px-10 xl:px-6 sm:px-4">
             <BestPrice />
             <MultiGames />
             <Brands />

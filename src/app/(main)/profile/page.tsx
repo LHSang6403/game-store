@@ -93,7 +93,7 @@ export default async function page() {
           )}
         </div>
       </div>
-      <div className="mt-2">
+      <div className="mt-2 w-full">
         <OrderHistory />
       </div>
     </div>
