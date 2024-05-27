@@ -23,7 +23,7 @@ export default function BestPrice() {
           </span>
         </h1>
         <p className="text-center font-light sm:text-sm">
-          Tại Gaming Paradise, chúng tôi cam kết mang đến cho khách hàng những
+          Tại 2Win, chúng tôi cam kết mang đến cho khách hàng những
           sản phẩm chơi game<br className="xl:hidden"></br> với giá thành hợp lý
           nhất. Với các chương trình khuyến mãi thường xuyên và chính sách giá
           cạnh tranh,

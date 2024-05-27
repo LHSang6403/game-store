@@ -6,9 +6,9 @@ export default function LargeBlog({ data }: { data: BlogType }) {
   return (
     <Link
       href={`/blog/${data.id}`}
-      className="h-full w-1/2 max-w-[800px] overflow-hidden text-foreground/90 hover:cursor-pointer xl:w-full xl:max-w-full"
+      className="h-full w-1/2 max-w-[800px] overflow-hidden rounded-lg from-[#9633ed51] via-[#f22b9c4c] to-[#fd7c3654] text-foreground/90 transition duration-300 hover:scale-[1.02] hover:cursor-pointer hover:cursor-pointer hover:bg-gradient-to-r hover:shadow-xl xl:w-full xl:max-w-full"
     >
-      <div className="h-56 w-full overflow-hidden rounded-lg shadow-xl xl:h-auto xl:max-h-80 sm:max-h-52">
+      <div className="h-56 w-full overflow-hidden rounded-lg xl:h-auto xl:max-h-80 sm:max-h-52">
         <Image
           alt="A blog"
           src={
@@ -21,11 +21,11 @@ export default function LargeBlog({ data }: { data: BlogType }) {
           height={200}
         />
       </div>
-      <div className="h-fit w-full p-1">
-        <h2 className="mt-1 line-clamp-2 h-fit overflow-ellipsis font-semibold leading-6">
+      <div className="h-fit w-full p-1.5">
+        <h2 className="line-clamp-2 h-fit overflow-ellipsis font-medium leading-6">
           {data.title}
         </h2>
-        <p className="mt-1 line-clamp-3 h-fit overflow-ellipsis text-sm font-extralight">
+        <p className="mt-0.5 line-clamp-3 h-fit overflow-ellipsis text-sm font-light">
           {data.description}
         </p>
       </div>

@@ -34,7 +34,7 @@ export default async function Product() {
             </span>{" "}
             <br className="xl:hidden"></br> tốt nhất
           </h1>
-          <p className="max-w-[700px] text-center text-sm font-light lg:mx-4 lg:max-w-full">
+          <p className="max-w-[700px] text-center font-light lg:mx-4 lg:max-w-full sm:text-sm">
             2Win luôn có những chương trình khuyến mãi hấp dẫn để mang đến cho
             khách hàng trải nghiệm mua sắm tuyệt vời nhất. Vui lòng chọn sản
             phẩm hoặc liên hệ ngay với chúng tôi để có giá tốt nhất.

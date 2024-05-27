@@ -34,7 +34,7 @@ export default function MultiGames() {
               phong phú
             </span>
           </h2>
-          <p className="text-sm font-light">
+          <p className="text-sm">
             Đĩa chơi game là phụ kiện không thể thiếu cho bất kỳ game thủ nào,
             mang lại sự tiện lợi và linh hoạt trong việc truy cập và tận hưởng
             các tựa game yêu thích. Với các đĩa chơi game như PlayStation
@@ -74,7 +74,7 @@ export default function MultiGames() {
               các thể loại
             </span>
           </h2>
-          <p className="text-sm font-light">
+          <p className="text-sm">
             Ngoài việc cung cấp nhiều lựa chọn về mệnh giá, thẻ chơi game còn
             mang lại nhiều ưu đãi và khuyến mãi hấp dẫn từ các nhà phát hành. Sử
             dụng thẻ chơi game, bạn có thể hưởng lợi từ các đợt giảm giá, sự

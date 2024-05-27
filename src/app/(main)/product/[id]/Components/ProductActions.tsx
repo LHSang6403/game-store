@@ -54,7 +54,7 @@ export default function ProductActions({
         <div className="text-xl font-semibold">
           {formatCurrency(product.product.price)} VNĐ
         </div>
-        <div className="line-clamp-3 w-full overflow-ellipsis font-light">
+        <div className="mt-2 line-clamp-3 w-full overflow-ellipsis text-sm font-light">
           {product.product.description}
         </div>
       </div>
@@ -64,11 +64,11 @@ export default function ProductActions({
           <span className="font-light">{product.product.sold_quantity}</span>
         </div>
         {!isSoldOut && (
-          <span className="text-sm font-light text-foreground">Còn hàng</span>
+          <span className="text-sm font-medium text-foreground">Còn hàng</span>
         )}
       </div>
       {isSoldOut ? (
-        <div className="text-sm font-light text-foreground">
+        <div className="text-sm font-medium text-foreground">
           Sản phẩm này hiện đang hết hàng.
         </div>
       ) : (

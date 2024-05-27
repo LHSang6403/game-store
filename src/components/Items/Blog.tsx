@@ -4,9 +4,12 @@ import { BlogType } from "@utils/types/index";
 
 export default function Blog({ data }: { data: BlogType }) {
   return (
-    <Link href={`/blog/${data.id}`}>
-      <div className="flex h-full w-full flex-col overflow-hidden text-foreground/90 hover:cursor-pointer">
-        <div className="h-36 w-full overflow-hidden rounded-lg shadow-xl xl:h-auto xl:max-h-52 sm:max-h-44">
+    <Link
+      className="rounded-lg from-[#9633ed51] via-[#f22b9c4c] to-[#fd7c3654] transition duration-300 hover:scale-[1.02] hover:cursor-pointer hover:bg-gradient-to-r hover:shadow-xl"
+      href={`/blog/${data.id}`}
+    >
+      <div className="flex h-full w-full flex-col overflow-hidden text-foreground/90 ">
+        <div className="h-36 w-full overflow-hidden rounded-lg xl:h-auto xl:max-h-52 sm:max-h-44">
           <Image
             alt="A blog"
             src={
@@ -19,11 +22,11 @@ export default function Blog({ data }: { data: BlogType }) {
             height={200}
           />
         </div>
-        <div className="h-fit w-full p-1">
-          <h2 className="mt-1 line-clamp-1 h-fit overflow-ellipsis font-semibold leading-6">
+        <div className="h-fit w-full p-1.5">
+          <h2 className="line-clamp-1 h-fit overflow-ellipsis font-medium leading-6">
             {data.title}
           </h2>
-          <p className="mt-1 line-clamp-3 h-fit overflow-ellipsis text-sm font-light">
+          <p className="mt-0.5 line-clamp-3 h-fit overflow-ellipsis text-sm font-light">
             {data.description}
           </p>
         </div>

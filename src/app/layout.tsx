@@ -1,4 +1,4 @@
-import { Source_Code_Pro } from "next/font/google";
+import { Work_Sans } from "next/font/google";
 
 import "@app/styles/globals.css";
 import "@app/styles/prosemirror.css";
@@ -8,14 +8,14 @@ import ReactQueryProvider from "@components/Providers/ReactQueryProvider";
 import Providers from "@components/Providers/Providers";
 
 export const metadata = {
-  title: "Game store",
+  title: "2Win - Cửa hàng trò chơi điện tử hàng đầu tại Việt Nam",
   description:
     "Chúng tôi là cửa hàng trò chơi điện tử hàng đầu tại Việt Nam. Cung cấp sản phẩm chất lượng, giá cả phải chăng.",
   keywords: "trò chơi điện tử, giải trí, trò chơi online, cửa hàng trò chơi",
 };
 
-const font = Source_Code_Pro({
-  weight: "500",
+const font = Work_Sans({
+  // weight: "400",
   subsets: ["latin"],
   display: "swap",
 });
