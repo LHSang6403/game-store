@@ -8,7 +8,7 @@ export default function Page() {
           Tin tức
         </span>
       </h1>
-      <div className="">
+      <div className="w-full">
         <BlogContainer />
       </div>
     </div>

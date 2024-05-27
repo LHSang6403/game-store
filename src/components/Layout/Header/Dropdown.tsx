@@ -91,9 +91,9 @@ export default function Dropdown() {
             onClick={async () => {
               const result = await signOutHandler();
               if (!result.error) {
-                removeSession();
                 toast.success("Đăng xuất thành công.");
                 router.push("/auth");
+                removeSession();
               } else {
                 toast.error("Đã có lỗi xãy ra khi đăng xuất.");
               }

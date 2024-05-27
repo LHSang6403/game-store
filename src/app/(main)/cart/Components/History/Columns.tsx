@@ -1,7 +1,11 @@
 "use client";
 
 import { ColumnDef } from "@tanstack/react-table";
-import { OrderType } from "@utils/types";
+import {
+  OrderType,
+  ProductWithDescriptionAndStorageType,
+  ProductWithQuantity,
+} from "@utils/types";
 import { Button } from "@/components/ui/button";
 import { MoreHorizontal, ArrowUpDown } from "lucide-react";
 import {
@@ -17,6 +21,7 @@ import { toast } from "sonner";
 import { ApiErrorHandlerClient } from "@/utils/errorHandler/apiErrorHandler";
 import { useSession, SessionState } from "@/zustand/useSession";
 import formatVNDate from "@utils/functions/formatVNDate";
+import { useMemo } from "react";
 
 export const columns_headers = [
   { accessKey: "prod_names", name: "Sản phẩm" },
@@ -33,12 +38,32 @@ export const columns: ColumnDef<OrderType>[] = [
     cell: ({ row }) => {
       const data = row.original;
 
+      const products = data.products;
+      let productsWithQuantities: ProductWithQuantity[] = [];
+
+      productsWithQuantities = useMemo(() => {
+        const productQuantities: ProductWithQuantity[] = [];
+        products?.forEach((product: ProductWithDescriptionAndStorageType) => {
+          const existingProduct = productQuantities.find(
+            (p) => p.product.product.id === product.product.id
+          );
+
+          if (existingProduct) {
+            existingProduct.quantity += 1;
+          } else {
+            productQuantities.push({ product: product, quantity: 1 });
+          }
+        });
+
+        return productQuantities;
+      }, [products, products?.length]);
+
       return (
         <div className="line-clamp-5 w-80 overflow-ellipsis sm:w-36">
-          {data.products.map((prod, index) => (
+          {productsWithQuantities.map((prod, index) => (
             <span key={index}>
-              {prod.product.name}
-              {index !== data.products.length - 1 && ", "}
+              {prod.product.product.name} (x{prod.quantity})
+              {index !== productsWithQuantities.length - 1 && ", "}
             </span>
           ))}
         </div>

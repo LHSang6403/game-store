@@ -15,7 +15,7 @@ export default async function OrderHistory() {
   );
 
   return (
-    <div className="mx-auto w-full">
+    <div className="w-full">
       {session.data && "data" in history && (
         <div className="flex w-full flex-col items-center">
           <span className="mb-1 bg-gradient-to-r from-cpurple via-cpink to-corange bg-clip-text text-lg font-semibold text-transparent">

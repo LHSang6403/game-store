@@ -18,6 +18,11 @@ import { processOrderGHN } from "@/app/(main)/cart/_actions/processGHN";
 import { processOrderGHTK } from "@/app/(main)/cart/_actions/processGHTK";
 import { useSession, SessionState } from "@/zustand/useSession";
 import { useOrder, OrderState } from "@/zustand/useOrder";
+import {
+  ProductWithQuantity,
+  ProductWithDescriptionAndStorageType,
+} from "@/utils/types";
+import { useMemo } from "react";
 
 export default function ConfirmDialog({
   formData,
@@ -32,6 +37,25 @@ export default function ConfirmDialog({
 }) {
   const session = useSession() as SessionState;
   const { removeAll } = useOrder() as OrderState;
+  const products = order?.products;
+
+  let productsWithQuantities: ProductWithQuantity[] = [];
+  productsWithQuantities = useMemo(() => {
+    const productQuantities: ProductWithQuantity[] = [];
+    products?.forEach((product: ProductWithDescriptionAndStorageType) => {
+      const existingProduct = productQuantities.find(
+        (p) => p.product.product.id === product.product.id
+      );
+
+      if (existingProduct) {
+        existingProduct.quantity += 1;
+      } else {
+        productQuantities.push({ product: product, quantity: 1 });
+      }
+    });
+
+    return productQuantities;
+  }, [products, products?.length]);
 
   const mutation = useMutation({
     mutationFn: async (orderData: OrderType) => {
@@ -142,12 +166,12 @@ export default function ConfirmDialog({
             <Label htmlFor="name" className="text-right">
               Sản phẩm:{" "}
             </Label>
-            {order.products.map((prod, index) => (
+            {productsWithQuantities.map((prod, index) => (
               <>
                 <span key={index} className="font-light">
-                  {prod.product.name}
+                  {prod.product.product.name} (x{prod.quantity})
                 </span>
-                {index !== order.products.length - 1 && <span>, </span>}
+                {index !== productsWithQuantities.length - 1 && <span>, </span>}
               </>
             ))}
           </div>

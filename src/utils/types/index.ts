@@ -59,6 +59,11 @@ export interface ProductWithDescriptionAndStorageType {
   storages: StorageType[];
 }
 
+export interface ProductWithQuantity {
+  product: ProductWithDescriptionAndStorageType;
+  quantity: number;
+}
+
 export type ShipmentNameType = "" | "GHTK" | "GHN" | null;
 
 export type ShipmentState =

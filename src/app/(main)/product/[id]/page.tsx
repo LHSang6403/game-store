@@ -6,8 +6,12 @@ import useProductQuery from "@/hooks/useProductQuery";
 import Template from "@app/(protected)/template";
 import Loading from "@app/(main)/product/[id]/Components/ProductLoadingSkeleton";
 import Image from "next/image";
+import ClientBack from "@/components/ClientBack";
+import { useRouter } from "next/navigation";
 
 export default function page({ params }: { params: { id: string } }) {
+  const router = useRouter();
+
   const {
     data: product,
     error,
@@ -29,6 +33,9 @@ export default function page({ params }: { params: { id: string } }) {
             <Template>
               <div className="flex h-fit min-h-screen w-full flex-col items-center gap-10 pb-10">
                 <div className="relative w-full">
+                  <div className="absolute left-10 top-2 z-40 h-fit w-fit xl:left-6 sm:left-3">
+                    <ClientBack />
+                  </div>
                   <div className="absolute left-0 right-0 top-0 z-0 w-full">
                     <Image
                       src="/assets/images/product/blue-bg.png"

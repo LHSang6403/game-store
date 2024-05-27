@@ -14,12 +14,12 @@ export default function MainLayout({
   children: React.ReactNode;
 }): ReturnType<React.FC> {
   return (
-    <>
+    <div className="w-full">
       <Header />
-      <div className="flex h-fit min-h-screen w-full flex-col gap-4 pt-16 xl:pt-0">
+      <div className="flex h-fit min-h-screen w-full flex-col items-center gap-4 pt-16 xl:pt-0">
         {children}
       </div>
       <Footer />
-    </>
+    </div>
   );
 }

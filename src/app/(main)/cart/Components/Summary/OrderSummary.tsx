@@ -6,10 +6,33 @@ import { useOrder, OrderState } from "@/zustand/useOrder";
 import { DataTable } from "@components/Table/DataTable";
 import { columns } from "./Columns";
 import formatVNDate from "@/utils/functions/formatVNDate";
+import {
+  ProductWithQuantity,
+  ProductWithDescriptionAndStorageType,
+} from "@/utils/types";
+import { useMemo } from "react";
 
 export default function OrderSummary() {
   const { order, removeAll } = useOrder() as OrderState;
   const products = order?.products;
+
+  let productsWithQuantities: ProductWithQuantity[] = [];
+  productsWithQuantities = useMemo(() => {
+    const productQuantities: ProductWithQuantity[] = [];
+    products?.forEach((product: ProductWithDescriptionAndStorageType) => {
+      const existingProduct = productQuantities.find(
+        (p) => p.product.product.id === product.product.id
+      );
+
+      if (existingProduct) {
+        existingProduct.quantity += 1;
+      } else {
+        productQuantities.push({ product: product, quantity: 1 });
+      }
+    });
+
+    return productQuantities;
+  }, [products, products?.length]);
 
   return (
     <>
@@ -29,24 +52,19 @@ export default function OrderSummary() {
               Xóa tất cả
             </Button>
           </div>
-          <p>
-            <span className="">Vào lúc:</span>{" "}
-            {formatVNDate(new Date(order.created_at))}
-          </p>
-          <p>
-            <span className="">Tình trạng:</span> {order.state}
-          </p>
+          <p>Vào lúc: {formatVNDate(new Date(order.created_at))}</p>
+          <p>Tình trạng: {order.state}</p>
           <p className="sm:mb-2">
-            <span className="">Giá trước phí:</span>{" "}
-            {formatCurrency(order.price)} VNĐ
+            Giá trước phí: {formatCurrency(order.price)} VNĐ
           </p>
+          <p className="sm:mb-2">Lưu ý: Hiện tại 2Win chỉ hỗ trợ ship COD</p>
         </div>
       )}
       {products && (
         <DataTable
           key={JSON.stringify(products)}
           columns={columns}
-          data={products}
+          data={productsWithQuantities}
           isPaginationEnabled={false}
           isCollumnVisibilityEnabled={false}
           isSearchEnabled={false}

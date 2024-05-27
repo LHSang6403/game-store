@@ -19,12 +19,16 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@components/ui/select";
-import type { OrderType } from "@utils/types";
+import type {
+  OrderType,
+  ProductWithDescriptionAndStorageType,
+  ProductWithQuantity,
+} from "@utils/types";
 import formatCurrency from "@utils/functions/formatCurrency";
 import { toast } from "sonner";
 import { updateStateOrder } from "@app/_actions/order";
 import { PrintDialog } from "@app/(protected)/dashboard/order/Components/PrintDialog";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { printGHNOrder } from "@/app/_actions/GHNShipment";
 import { ShipmentState } from "@utils/types/index";
 import { useSession, SessionState } from "@/zustand/useSession";
@@ -47,11 +51,31 @@ export const columns: ColumnDef<OrderType>[] = [
     cell: ({ row }) => {
       const data = row.original;
 
+      const products = data.products;
+      let productsWithQuantities: ProductWithQuantity[] = [];
+
+      productsWithQuantities = useMemo(() => {
+        const productQuantities: ProductWithQuantity[] = [];
+        products?.forEach((product: ProductWithDescriptionAndStorageType) => {
+          const existingProduct = productQuantities.find(
+            (p) => p.product.product.id === product.product.id
+          );
+
+          if (existingProduct) {
+            existingProduct.quantity += 1;
+          } else {
+            productQuantities.push({ product: product, quantity: 1 });
+          }
+        });
+
+        return productQuantities;
+      }, [products, products?.length]);
+
       return (
         <div className="line-clamp-5 w-48 overflow-ellipsis sm:w-36">
-          {data?.products?.map((prod, index) => (
+          {productsWithQuantities.map((prod, index) => (
             <span key={index}>
-              {prod.product.name}
+              {prod.product.product.name} (x{prod.quantity})
               {index !== data.products.length - 1 && ", "}
             </span>
           ))}

@@ -10,6 +10,7 @@ export interface OrderState {
   setPrices: (shipping_fee: number, insurance_fee: number) => void;
   addProduct: (prod: ProductWithDescriptionAndStorageType) => void;
   removeProduct: (id: string) => void;
+  removeAllById: (id: string) => void;
   removeAll: () => void;
 }
 
@@ -73,6 +74,36 @@ export const useOrder = create(
               updatedOrder.price -= updatedOrder.products[index].product.price;
               updatedOrder.products.splice(index, 1);
             }
+
+            if (updatedOrder.products.length === 0) {
+              return { order: null };
+            }
+
+            return { order: updatedOrder };
+          } else {
+            return state;
+          }
+        }),
+      removeAllById: (id: string) =>
+        set((state: OrderState) => {
+          if (state.order) {
+            const updatedOrder = { ...state.order };
+
+            const productsToRemove = updatedOrder.products.filter(
+              (prod) => prod.product.id === id
+            );
+
+            const newProducts = updatedOrder.products.filter(
+              (prod) => prod.product.id !== id
+            );
+
+            const priceToRemove = productsToRemove.reduce(
+              (total, prod) => total + prod.product.price,
+              0
+            );
+
+            updatedOrder.products = newProducts;
+            updatedOrder.price -= priceToRemove;
 
             if (updatedOrder.products.length === 0) {
               return { order: null };
