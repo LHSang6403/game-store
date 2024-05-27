@@ -2,9 +2,10 @@ import Header from "@/components/Layout/Header/Header";
 import Footer from "@/components/Layout/Footer/Footer";
 
 export const metadata = {
-  title: "Game Store",
-  description: "High-end gaming products in Vietnam.",
-  keywords: "game, store, online, console, pc, playstation, xbox, nintendo",
+  title: "2Win - Cửa hàng trò chơi điện tử hàng đầu tại Việt Nam",
+  description:
+    "Chúng tôi là cửa hàng trò chơi điện tử hàng đầu tại Việt Nam. Cung cấp sản phẩm chất lượng, giá cả phải chăng.",
+  keywords: "trò chơi điện tử, giải trí, trò chơi online, cửa hàng trò chơi",
 };
 
 export default function MainLayout({
