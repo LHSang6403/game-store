@@ -52,10 +52,10 @@ export default function DashboardHeader() {
       </div>
       <div className="flex w-full flex-row items-center justify-end gap-4 lg:gap-4 md:gap-2">
         {pathShowResetRangeTime.includes(pathname) && (
-          <div className="sm:hidden">
+          <div className="rounded-[9px] bg-gradient-to-r from-cpurple via-cpink to-corange p-[1.5px] sm:hidden">
             <Button
               variant="outline"
-              className="h-9"
+              className="h-9 border-none px-2 outline-none ring-0"
               onClick={() => {
                 const from = new Date();
                 const to = new Date();
