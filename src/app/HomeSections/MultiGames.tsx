@@ -13,10 +13,9 @@ export default function MultiGames() {
         </h1>
         <p className="text-center font-light sm:text-sm">
           Dù bạn yêu thích thể loại hành động, phiêu lưu, chiến thuật hay thể
-          thao, chúng tôi đều có những tựa game phù hợp với bạn.
-          <br className="xl:hidden"></br> Các trò chơi nhập vai sẽ đưa bạn vào
-          những câu chuyện sâu sắc và kỳ ảo, trong khi các game chiến thuật đòi
-          hỏi sự tư duy và tính toán cẩn thận.
+          thao, chúng tôi đều có những tựa game phù hợp với bạn. Các trò chơi
+          nhập vai sẽ đưa bạn vào những câu chuyện sâu sắc và kỳ ảo, trong khi
+          các game chiến thuật đòi hỏi sự tư duy và tính toán cẩn thận.
         </p>
       </div>
       <div className="mt-20 grid h-full grid-cols-2 items-center gap-10 xl:mt-10 lg:grid-cols-1">
