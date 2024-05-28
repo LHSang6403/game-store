@@ -40,7 +40,7 @@ export const columns: ColumnDef<BlogType>[] = [
         <div className="line-clamp-3 flex justify-center overflow-ellipsis">
           <div className="h-fit w-fit overflow-hidden rounded">
             <Image
-              alt={data.name}
+              alt={data.title}
               src={
                 process.env.NEXT_PUBLIC_SUPABASE_URL +
                 "/storage/v1/object/public/public_files/" +
