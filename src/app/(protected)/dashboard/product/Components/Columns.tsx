@@ -17,8 +17,10 @@ import { toast } from "sonner";
 import { useSession, SessionState } from "@/zustand/useSession";
 import { useRouter } from "next/navigation";
 import formatVNDate from "@/utils/functions/formatVNDate";
+import Image from "next/image";
 
 export const columns_headers = [
+  { accessKey: "image", name: "Hình ảnh" },
   { accessKey: "name", name: "Tên sản phẩm" },
   { accessKey: "brand", name: "Hãng sản xuất" },
   { accessKey: "price", name: "Giá" },
@@ -28,6 +30,32 @@ export const columns_headers = [
 ];
 
 export const columns: ColumnDef<ProductType>[] = [
+  {
+    accessorKey: "image",
+    header: () => {
+      return <div className="text-center">Hình ảnh</div>;
+    },
+    cell: ({ row }) => {
+      const data = row.original;
+
+      return (
+        <div className="line-clamp-3 flex justify-center overflow-ellipsis">
+          <div className="h-fit w-fit overflow-hidden rounded">
+            <Image
+              alt={data.name}
+              src={
+                process.env.NEXT_PUBLIC_SUPABASE_URL +
+                "/storage/v1/object/public/public_files/" +
+                data.images[0]
+              }
+              width={60}
+              height={60}
+            />
+          </div>
+        </div>
+      );
+    },
+  },
   {
     accessorKey: "name",
     header: "Tên sản phẩm",
@@ -43,7 +71,7 @@ export const columns: ColumnDef<ProductType>[] = [
   },
   {
     accessorKey: "brand",
-    header: "Hãng sản xuất",
+    header: "Hãng",
     cell: ({ row }) => {
       const data = row.original;
 
@@ -56,7 +84,7 @@ export const columns: ColumnDef<ProductType>[] = [
     cell: ({ row }) => {
       const data = row.original;
 
-      return <div className="">{formatCurrency(data.price)} VNĐ</div>;
+      return <div className="">{formatCurrency(data.price)}</div>;
     },
   },
   {

@@ -30,7 +30,6 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { DataTablePagination } from "./Pagination";
-import { FormItem } from "../ui/form";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -117,7 +116,7 @@ export function DataTable<TData, TValue>({
         {isCollumnVisibilityEnabled && (
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="outline" className="ml-auto">
+              <Button variant="outline" className="ml-auto outline-none ring-0">
                 Chọn cột
               </Button>
             </DropdownMenuTrigger>

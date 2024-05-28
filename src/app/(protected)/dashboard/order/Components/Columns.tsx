@@ -138,6 +138,7 @@ export const columns: ColumnDef<OrderType>[] = [
       }
       return (
         <Select
+          disabled={data.state !== "Đang chờ"}
           defaultValue={data.state ?? "Không rõ"}
           onValueChange={(value: ShipmentState) => {
             handleUpdateState(value);
@@ -199,6 +200,8 @@ export const columns: ColumnDef<OrderType>[] = [
     },
     cell: ({ row }) => {
       const data = row.original;
+      const session = useSession() as SessionState;
+
       const [isPrintOpen, setIsPrintOpen] = useState(false);
       const [printResult, setPrintResult] = useState("");
 
@@ -217,6 +220,33 @@ export const columns: ColumnDef<OrderType>[] = [
         setPrintResult(print.data);
       };
 
+      function handleCancelOrder() {
+        toast.promise(
+          async () => {
+            if (!session.session)
+              throw new Error("Không xác định phiên đăng nhập.");
+
+            const result = await updateStateOrder({
+              order: data,
+              state: "Đã hủy",
+              actor: {
+                actorId: session.session?.id,
+                actorName: session.session?.name,
+              },
+            });
+
+            if (result.error) throw new Error(result.error);
+          },
+          {
+            loading: "Đang cập nhật đơn hàng...",
+            success: "Cập nhật đơn hàng thành công!",
+            error: (error: any) => {
+              return error.message;
+            },
+          }
+        );
+      }
+
       return (
         <div className="flex w-full items-center justify-center">
           <DropdownMenu>
@@ -231,6 +261,14 @@ export const columns: ColumnDef<OrderType>[] = [
                 onClick={() => navigator.clipboard.writeText(data.id)}
               >
                 Sao chép ID đơn hàng
+              </DropdownMenuItem>
+              <DropdownMenuItem
+                disabled={data.state !== "Đang chờ"}
+                onClick={() => {
+                  handleCancelOrder();
+                }}
+              >
+                Hủy đơn
               </DropdownMenuItem>
               <DropdownMenuItem
                 disabled={data.shipment_name == "GHTK"} // because do not have api for this

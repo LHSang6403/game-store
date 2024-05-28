@@ -16,10 +16,12 @@ import { useSession, SessionState } from "@/zustand/useSession";
 import { deleteBlogById } from "@app/_actions/blog";
 import formatVNDate from "@utils/functions/formatVNDate";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 export const columns_headers = [
+  { accessKey: "image", name: "Hình ảnh" },
   { accessKey: "title", name: "Tiêu đề" },
-  { accessKey: "description", name: "Mô tả" },
+  // { accessKey: "description", name: "Mô tả" },
   { accessKey: "created_at", name: "Ngày tạo" },
   { accessKey: "writer", name: "Tác giả" },
   { accessKey: "actions", name: "Hành động" },
@@ -27,31 +29,57 @@ export const columns_headers = [
 
 export const columns: ColumnDef<BlogType>[] = [
   {
+    accessorKey: "image",
+    header: () => {
+      return <div className="text-center">Hình ảnh</div>;
+    },
+    cell: ({ row }) => {
+      const data = row.original;
+
+      return (
+        <div className="line-clamp-3 flex justify-center overflow-ellipsis">
+          <div className="h-fit w-fit overflow-hidden rounded">
+            <Image
+              alt={data.name}
+              src={
+                process.env.NEXT_PUBLIC_SUPABASE_URL +
+                "/storage/v1/object/public/public_files/" +
+                data.thumbnails[0]
+              }
+              width={60}
+              height={60}
+            />
+          </div>
+        </div>
+      );
+    },
+  },
+  {
     accessorKey: "title",
     header: "Tiêu đề",
     cell: ({ row }) => {
       const data = row.original;
 
       return (
-        <div className="line-clamp-2 max-w-60 overflow-ellipsis lg:line-clamp-3 lg:w-32">
+        <div className="line-clamp-2 max-w-72 overflow-ellipsis lg:line-clamp-3 lg:w-32">
           {data.title}
         </div>
       );
     },
   },
-  {
-    accessorKey: "description",
-    header: "Mô tả",
-    cell: ({ row }) => {
-      const data = row.original;
+  // {
+  //   accessorKey: "description",
+  //   header: "Mô tả",
+  //   cell: ({ row }) => {
+  //     const data = row.original;
 
-      return (
-        <div className="line-clamp-2 max-w-52 overflow-ellipsis lg:line-clamp-3 lg:w-32">
-          {data.description}
-        </div>
-      );
-    },
-  },
+  //     return (
+  //       <div className="line-clamp-2 max-w-52 overflow-ellipsis lg:line-clamp-3 lg:w-32">
+  //         {data.description}
+  //       </div>
+  //     );
+  //   },
+  // },
   {
     accessorKey: "created_at",
     header: ({ column }) => {

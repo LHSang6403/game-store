@@ -101,6 +101,7 @@ export interface OrderType {
 }
 
 export interface BlogType {
+  name: any;
   id: string;
   created_at: string;
   title: string;
