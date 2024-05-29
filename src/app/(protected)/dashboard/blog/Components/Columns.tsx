@@ -19,6 +19,7 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 
 export const columns_headers = [
+  { accessKey: "index", name: "STT" },
   { accessKey: "image", name: "Hình ảnh" },
   { accessKey: "title", name: "Tiêu đề" },
   // { accessKey: "description", name: "Mô tả" },
@@ -28,6 +29,17 @@ export const columns_headers = [
 ];
 
 export const columns: ColumnDef<BlogType>[] = [
+  {
+    accessorKey: "index",
+    header: () => {
+      return <div>STT</div>;
+    },
+    cell: ({ row }) => {
+      const data = row.index + 1;
+
+      return <div className="text-center">{data}</div>;
+    },
+  },
   {
     accessorKey: "image",
     header: () => {

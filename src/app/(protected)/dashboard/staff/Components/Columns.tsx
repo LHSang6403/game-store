@@ -28,6 +28,7 @@ import EditProfile from "@app/(main)/profile/Components/EditProfile";
 import formatVNDate from "@/utils/functions/formatVNDate";
 
 export const columns_headers = [
+  { accessKey: "index", name: "STT" },
   { accessKey: "name", name: "Họ tên" },
   { accessKey: "dob", name: "Ngày sinh" },
   { accessKey: "phone", name: "SĐT" },
@@ -36,6 +37,17 @@ export const columns_headers = [
 ];
 
 export const columns: ColumnDef<StaffType>[] = [
+  {
+    accessorKey: "index",
+    header: () => {
+      return <div>STT</div>;
+    },
+    cell: ({ row }) => {
+      const data = row.index + 1;
+
+      return <div className="text-center">{data}</div>;
+    },
+  },
   {
     accessorKey: "name",
     header: "Họ tên",

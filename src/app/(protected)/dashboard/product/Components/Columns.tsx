@@ -20,6 +20,7 @@ import formatVNDate from "@/utils/functions/formatVNDate";
 import Image from "next/image";
 
 export const columns_headers = [
+  { accessKey: "index", name: "STT" },
   { accessKey: "image", name: "Hình ảnh" },
   { accessKey: "name", name: "Tên sản phẩm" },
   { accessKey: "brand", name: "Hãng sản xuất" },
@@ -30,6 +31,17 @@ export const columns_headers = [
 ];
 
 export const columns: ColumnDef<ProductType>[] = [
+  {
+    accessorKey: "index",
+    header: () => {
+      return <div>STT</div>;
+    },
+    cell: ({ row }) => {
+      const data = row.index + 1;
+
+      return <div className="text-center">{data}</div>;
+    },
+  },
   {
     accessorKey: "image",
     header: () => {

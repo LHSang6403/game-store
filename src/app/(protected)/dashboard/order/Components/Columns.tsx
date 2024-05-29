@@ -35,6 +35,7 @@ import { useSession, SessionState } from "@/zustand/useSession";
 import formatVNDate from "@/utils/functions/formatVNDate";
 
 export const columns_headers = [
+  { accessKey: "index", name: "STT" },
   { accessKey: "products", name: "Sản phẩm" },
   { accessKey: "price", name: "Giá tiền" },
   { accessKey: "state", name: "Tình trạng" },
@@ -45,6 +46,17 @@ export const columns_headers = [
 ];
 
 export const columns: ColumnDef<OrderType>[] = [
+  {
+    accessorKey: "index",
+    header: () => {
+      return <div>STT</div>;
+    },
+    cell: ({ row }) => {
+      const data = row.index + 1;
+
+      return <div className="text-center">{data}</div>;
+    },
+  },
   {
     accessorKey: "products",
     header: "Sản phẩm",
@@ -72,7 +84,7 @@ export const columns: ColumnDef<OrderType>[] = [
       }, [products, products?.length]);
 
       return (
-        <div className="line-clamp-5 w-48 overflow-ellipsis sm:w-36">
+        <div className="line-clamp-5 overflow-ellipsis sm:w-36">
           {productsWithQuantities.map((prod, index) => (
             <span key={index}>
               {prod.product.product.name} (x{prod.quantity})

@@ -14,6 +14,7 @@ import { LogType } from "@/utils/types";
 import formatVNDate from "@/utils/functions/formatVNDate";
 
 export const columns_headers = [
+  { accessKey: "index", name: "STT" },
   { accessKey: "name", name: "Tên" },
   { accessKey: "created_at", name: "Ngày tạo" },
   { accessKey: "actor_name", name: "Thực hiện bởi" },
@@ -22,6 +23,17 @@ export const columns_headers = [
 ];
 
 export const columns: ColumnDef<LogType>[] = [
+  {
+    accessorKey: "index",
+    header: () => {
+      return <div>STT</div>;
+    },
+    cell: ({ row }) => {
+      const data = row.index + 1;
+
+      return <div className="text-center">{data}</div>;
+    },
+  },
   {
     accessorKey: "name",
     header: "Tên",

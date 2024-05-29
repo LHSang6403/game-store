@@ -61,12 +61,12 @@ export function DataTable<TData, TValue>({
   defaultPageSize = 10,
   columns_headers,
 }: DataTableProps<TData, TValue>) {
-  const [sorting, setSorting] = useState<SortingState>([
-    {
-      id: "created_at",
-      desc: true,
-    },
-  ]);
+  // const [sorting, setSorting] = useState<SortingState>([
+  //   {
+  //     id: "created_at",
+  //     desc: true,
+  //   },
+  // ]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
 
@@ -79,11 +79,11 @@ export function DataTable<TData, TValue>({
       },
     },
     state: {
-      sorting,
+      // sorting,
       columnFilters,
       columnVisibility,
     },
-    onSortingChange: setSorting,
+    // onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,
     onColumnVisibilityChange: setColumnVisibility,
     getCoreRowModel: getCoreRowModel(),
