@@ -20,30 +20,33 @@ export default function DashboardLayout({
   const router = useRouter();
   const session = useSession() as SessionState;
 
-  const staffSession =
-    session.session && "role" in session.session
-      ? (session.session as StaffType)
-      : null;
-
   useEffect(() => {
-    const authorize = () => {
+    const authorize = (staffSession: StaffType | null) => {
       const currentPath = dashboardSidebarList.find(
         (dashboardSidebarItem) => dashboardSidebarItem.link === pathname
       );
       const currentPathPermissions = currentPath?.permissions ?? [];
 
       if (
-        !staffSession ||
-        (currentPathPermissions.length > 0 &&
-          staffSession &&
-          !currentPathPermissions.includes(staffSession.role))
+        currentPathPermissions.length > 0 &&
+        staffSession &&
+        !currentPathPermissions.includes(staffSession.role)
       ) {
         return router.push("/dashboard");
       }
     };
 
-    authorize();
-  }, []);
+    if (session.session && !session.isAdmin && !session.isStaff) {
+      return router.push("/");
+    }
+
+    const staffSession =
+      session.isAdmin || session.isStaff
+        ? (session.session as StaffType)
+        : null;
+
+    authorize(staffSession);
+  }, [session.session]);
 
   return (
     <div className="flex w-full flex-col pt-16 sm:pt-0">
