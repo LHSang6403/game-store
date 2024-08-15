@@ -51,9 +51,10 @@ export default function ProductImages({ images }: { images: string[] }) {
                   image
                 }
                 alt="Product"
-                width={800}
-                height={800}
+                className="object-fit !relative max-h-[800px] max-w-[800px]"
+                priority
                 quality={100}
+                fill
               />
             </div>
           </SwiperSlide>

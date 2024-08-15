@@ -21,9 +21,10 @@ export default function Product({ data }: { data: ProductType }) {
             "/storage/v1/object/public/public_files/" +
             data.images[0]
           }
-          className="!w-full"
-          width={200}
-          height={200}
+          className="object-fit !relative h-[100%] max-w-[100%]"
+          priority
+          quality={100}
+          fill
         />
       </div>
       <div className="h-fit w-full px-4 pb-3 pt-1">
