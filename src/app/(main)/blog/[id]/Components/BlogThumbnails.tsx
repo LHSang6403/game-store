@@ -4,11 +4,11 @@ import Image from "next/image";
 
 export default function BlogThumbnails({ thumbs }: { thumbs: string[] }) {
   return (
-    <div className="flex flex-row justify-center gap-4 xl:px-6 sm:flex-col sm:px-2">
+    <div className="flex w-full flex-row justify-center gap-4 xl:px-6 sm:flex-col sm:px-2">
       {thumbs.slice(0, 2).map((thumb, index) => (
         <div
           key={index}
-          className="max-w-[500px] overflow-hidden rounded-lg shadow-xl"
+          className="max-w-[500px] overflow-hidden rounded-lg shadow-xl md:max-w-full"
         >
           <Image
             src={
