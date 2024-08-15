@@ -5,7 +5,7 @@ import { useQuery } from "@tanstack/react-query";
 import { readProducts } from "@/app/_actions/product";
 import { useRouter } from "next/navigation";
 import { Gamepad2, Newspaper, ShoppingCart, Search } from "lucide-react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import {
   CommandDialog,
   CommandEmpty,
@@ -20,6 +20,8 @@ import { ProductType } from "@/utils/types";
 
 export default function SearchBar() {
   const [open, setOpen] = useState(false);
+  const [searchText, setSearchText] = useState<string>("");
+  const [matchingKeywords, setMatchingKeywords] = useState<ProductType[]>([]);
 
   const router = useRouter();
 
@@ -33,21 +35,33 @@ export default function SearchBar() {
     defaultValues: { search: "" },
   });
 
-  const [searchText, setSearchText] = useState<string>("");
-  const [matchingKeywords, setMatchingKeywords] = useState<ProductType[]>([]);
-
   const products: ProductType[] = data?.data ?? [];
-  const keywordNames = products.map((product) => product.name);
 
-  const sortedProduct = data?.data?.sort(
-    (a, b) =>
-      new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
-  );
-  const latest3Prods = sortedProduct?.slice(0, 3);
+  const latest3Prods = useMemo(() => {
+    return products
+      .sort(
+        (a, b) =>
+          new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+      )
+      .slice(0, 3);
+  }, [products]);
 
   useEffect(() => {
-    setMatchingKeywords(findMatchingKeywords(searchText, products));
-  }, [searchText, products]);
+    if (searchText.trim() === "") {
+      setMatchingKeywords([]);
+      return;
+    }
+
+    const newMatchingKeywords = products.filter((product) =>
+      product.name.toLowerCase().includes(searchText.toLowerCase())
+    );
+
+    if (
+      JSON.stringify(newMatchingKeywords) !== JSON.stringify(matchingKeywords)
+    ) {
+      setMatchingKeywords(newMatchingKeywords);
+    }
+  }, [searchText]);
 
   const handleKeywordClick = (keyword: string) => {
     setValue("search", keyword);
@@ -83,7 +97,7 @@ export default function SearchBar() {
           <CommandEmpty>Không có kết quả</CommandEmpty>
           <CommandGroup heading="Gợi ý">
             {matchingKeywords.length === 0 &&
-              latest3Prods?.map((item, index) => (
+              latest3Prods.map((item, index) => (
                 <CommandItem
                   key={index}
                   onSelect={() => {
@@ -156,20 +170,4 @@ export default function SearchBar() {
       </CommandDialog>
     </>
   );
-}
-
-function findMatchingKeywords(
-  input: string,
-  products: ProductType[]
-): ProductType[] {
-  if (!input.trim()) {
-    return [];
-  }
-
-  const inputLowerCase = input.toLowerCase();
-  const matchingKeywords = products.filter((product) =>
-    product.name.toLowerCase().includes(inputLowerCase)
-  );
-
-  return matchingKeywords;
 }
