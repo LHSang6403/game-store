@@ -16,9 +16,10 @@ export default function LargeBlog({ data }: { data: BlogType }) {
             "/storage/v1/object/public/public_files/" +
             data.thumbnails[0]
           }
-          className="z-0 h-full w-full object-cover"
-          width={200}
-          height={200}
+          className="object-fit !relative h-[100%] max-w-[100%]"
+          priority
+          quality={100}
+          fill
         />
       </div>
       <div className="h-fit w-full p-1.5">

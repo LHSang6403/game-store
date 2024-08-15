@@ -17,9 +17,10 @@ export default function Blog({ data }: { data: BlogType }) {
               "/storage/v1/object/public/public_files/" +
               data.thumbnails[0]
             }
-            className="z-0 h-full w-full object-cover"
-            width={400}
-            height={200}
+            className="object-fit !relative h-[100%] max-w-[100%]"
+            priority
+            quality={100}
+            fill
           />
         </div>
         <div className="h-fit w-full p-1.5">
