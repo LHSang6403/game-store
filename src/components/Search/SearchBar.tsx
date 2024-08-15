@@ -15,6 +15,8 @@ import {
   CommandSeparator,
 } from "@/components/ui/command";
 import { Input } from "@/components/ui/input";
+import Image from "next/image";
+import { ProductType } from "@/utils/types";
 
 export default function SearchBar() {
   const [open, setOpen] = useState(false);
@@ -32,10 +34,10 @@ export default function SearchBar() {
   });
 
   const [searchText, setSearchText] = useState<string>("");
-  const [matchingKeywords, setMatchingKeywords] = useState<string[]>([]);
+  const [matchingKeywords, setMatchingKeywords] = useState<ProductType[]>([]);
 
-  const keywords: { name: string; id: string }[] = data?.data ?? [];
-  const keywordNames = keywords.map((keyword) => keyword.name);
+  const products: ProductType[] = data?.data ?? [];
+  const keywordNames = products.map((product) => product.name);
 
   const sortedProduct = data?.data?.sort(
     (a, b) =>
@@ -44,14 +46,14 @@ export default function SearchBar() {
   const latest3Prods = sortedProduct?.slice(0, 3);
 
   useEffect(() => {
-    setMatchingKeywords(findMatchingKeywords(searchText, keywordNames));
-  }, [searchText]);
+    setMatchingKeywords(findMatchingKeywords(searchText, products));
+  }, [searchText, products]);
 
   const handleKeywordClick = (keyword: string) => {
     setValue("search", keyword);
     setMatchingKeywords([]);
 
-    const selectedKeyword = keywords.find((kw) => kw.name === keyword);
+    const selectedKeyword = products.find((prod) => prod.name === keyword);
     if (selectedKeyword) {
       router.push(`/product/${selectedKeyword.id}`);
     }
@@ -80,7 +82,7 @@ export default function SearchBar() {
         <CommandList>
           <CommandEmpty>Không có kết quả</CommandEmpty>
           <CommandGroup heading="Gợi ý">
-            {matchingKeywords?.length === 0 &&
+            {matchingKeywords.length === 0 &&
               latest3Prods?.map((item, index) => (
                 <CommandItem
                   key={index}
@@ -89,26 +91,46 @@ export default function SearchBar() {
                     handleKeywordClick(item.name);
                   }}
                 >
-                  <Gamepad2 className="mr-2 h-4 w-4" />
+                  <Image
+                    className="mr-2"
+                    src={
+                      process.env.NEXT_PUBLIC_SUPABASE_URL +
+                      "/storage/v1/object/public/public_files/" +
+                      item.images[0]
+                    }
+                    alt="Icon"
+                    width={40}
+                    height={40}
+                  />
                   <span>{item.name}</span>
                 </CommandItem>
               ))}
-            {matchingKeywords?.length > 0 &&
+            {matchingKeywords.length > 0 &&
               matchingKeywords.map((item, index) => (
                 <CommandItem
                   key={index}
                   onSelect={() => {
                     setOpen(false);
-                    handleKeywordClick(item);
+                    handleKeywordClick(item.name);
                   }}
                 >
-                  <Gamepad2 className="mr-2 h-4 w-4" />
-                  <span>{item}</span>
+                  <Image
+                    className="mr-2"
+                    src={
+                      process.env.NEXT_PUBLIC_SUPABASE_URL +
+                      "/storage/v1/object/public/public_files/" +
+                      item.images[0]
+                    }
+                    alt="Icon"
+                    width={40}
+                    height={40}
+                  />
+                  <span>{item.name}</span>
                 </CommandItem>
               ))}
           </CommandGroup>
           <CommandSeparator />
-          {matchingKeywords?.length === 0 && (
+          {matchingKeywords.length === 0 && (
             <CommandGroup heading="Các trang">
               <CommandItem
                 onSelect={() => {
@@ -136,14 +158,17 @@ export default function SearchBar() {
   );
 }
 
-function findMatchingKeywords(input: string, keywords: string[]) {
+function findMatchingKeywords(
+  input: string,
+  products: ProductType[]
+): ProductType[] {
   if (!input.trim()) {
     return [];
   }
 
   const inputLowerCase = input.toLowerCase();
-  const matchingKeywords = keywords.filter((keyword) =>
-    keyword.toLowerCase().includes(inputLowerCase)
+  const matchingKeywords = products.filter((product) =>
+    product.name.toLowerCase().includes(inputLowerCase)
   );
 
   return matchingKeywords;
