@@ -17,8 +17,10 @@ export default function BlogThumbnails({ thumbs }: { thumbs: string[] }) {
               thumb
             }
             alt="Blog Thumbnail"
-            width={500}
-            height={500}
+            className="object-fit !relative h-[100%] max-w-[100%]"
+            priority
+            quality={100}
+            fill
           />
         </div>
       ))}
