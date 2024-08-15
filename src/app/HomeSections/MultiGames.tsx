@@ -47,16 +47,20 @@ export default function MultiGames() {
           <Image
             src="/assets/images/home/game-disk.jpg"
             alt="Logo"
-            width={500}
-            height={500}
+            className="object-fit !relative h-[100%] max-w-[500px]"
+            priority
+            quality={100}
+            fill
           />
         </div>
         <div className="h-fit w-fit overflow-hidden rounded-xl shadow-xl">
           <Image
             src="/assets/images/home/game-disk-2.jpg"
             alt="Logo"
-            width={500}
-            height={500}
+            className="object-fit !relative h-[100%] max-w-[500px]"
+            priority
+            quality={100}
+            fill
           />
         </div>
         <div className="flex h-full max-w-[500px] flex-col items-start justify-center gap-6 pl-10 lg:max-w-full lg:pl-0">

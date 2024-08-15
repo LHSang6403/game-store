@@ -23,10 +23,10 @@ export default function BestPrice() {
           </span>
         </h1>
         <p className="text-center font-light sm:text-sm">
-          Tại 2Win, chúng tôi cam kết mang đến cho khách hàng những
-          sản phẩm chơi game<br className="xl:hidden"></br> với giá thành hợp lý
-          nhất. Với các chương trình khuyến mãi thường xuyên và chính sách giá
-          cạnh tranh,
+          Tại 2Win, chúng tôi cam kết mang đến cho khách hàng những sản phẩm
+          chơi game<br className="xl:hidden"></br> với giá thành hợp lý nhất.
+          Với các chương trình khuyến mãi thường xuyên và chính sách giá cạnh
+          tranh,
           <br className="xl:hidden"></br> bạn luôn có thể yên tâm mua sắm mà
           không lo về giá cả.
         </p>
@@ -49,22 +49,24 @@ export default function BestPrice() {
       </div>
       <div className="mt-16 grid grid-cols-3 gap-3 bg-white xl:mt-10 sm:grid-cols-2 sm:gap-2">
         <div className="flex flex-col items-end gap-3 sm:gap-2">
-          <div className="mt-28 h-fit overflow-hidden rounded-lg rounded-tl-[40px] shadow-xl xl:mt-10">
+          <div className="mt-28 h-fit overflow-hidden rounded-lg rounded-tl-[40px] shadow-xl xl:mt-10 md:w-full md:max-w-[150px]">
             <Image
               src="/assets/images/fanpage/sp1.png"
               alt="Product 1"
-              width={300}
-              height={500}
-              className="duration-300 ease-in-out hover:scale-[1.025]"
+              className="object-fit !relative h-[100%] max-w-[300px] duration-300 ease-in-out hover:scale-[1.025]"
+              priority
+              quality={100}
+              fill
             />
           </div>
-          <div className="h-fit w-fit overflow-hidden rounded-lg shadow-xl">
+          <div className="h-fit w-fit overflow-hidden rounded-lg shadow-xl md:w-full">
             <Image
               src="/assets/images/fanpage/sp8.png"
               alt="Product 8"
-              width={200}
-              height={200}
-              className="duration-300 ease-in-out hover:scale-[1.025]"
+              className="object-fit !relative h-[100%] max-w-[200px] duration-300 ease-in-out hover:scale-[1.025] md:max-w-[250px]"
+              priority
+              quality={100}
+              fill
             />
           </div>
         </div>
@@ -73,18 +75,20 @@ export default function BestPrice() {
             <Image
               src="/assets/images/fanpage/sp5.jpg"
               alt="Product 5"
-              width={400}
-              height={400}
-              className="duration-300 ease-in-out hover:scale-[1.025]"
+              className="object-fit !relative h-[100%] max-w-[400px] duration-300 ease-in-out hover:scale-[1.025]"
+              priority
+              quality={100}
+              fill
             />
           </div>
           <div className="w-fit overflow-hidden rounded-lg rounded-br-[40px] shadow-xl">
             <Image
               src="/assets/images/fanpage/sp3.png"
               alt="Product 3"
-              width={400}
-              height={500}
-              className="duration-300 ease-in-out hover:scale-[1.025]"
+              className="object-fit !relative h-[100%] max-w-[400px] duration-300 ease-in-out hover:scale-[1.025]"
+              priority
+              quality={100}
+              fill
             />
           </div>
         </div>
@@ -93,18 +97,20 @@ export default function BestPrice() {
             <Image
               src="/assets/images/fanpage/sp7.png"
               alt="Product 7"
-              width={200}
-              height={200}
-              className="duration-300 ease-in-out hover:scale-[1.025]"
+              className="object-fit !relative h-[100%] max-w-[200px] duration-300 ease-in-out hover:scale-[1.025]"
+              priority
+              quality={100}
+              fill
             />
           </div>
           <div className="h-fit w-fit overflow-hidden rounded-lg rounded-br-[40px] shadow-xl sm:-mt-12">
             <Image
               src="/assets/images/fanpage/sp6.jpg"
               alt="Product 6"
-              width={300}
-              height={500}
-              className="duration-300 ease-in-out hover:scale-[1.025]"
+              className="object-fit !relative h-[100%] max-w-[300px] duration-300 ease-in-out hover:scale-[1.025]"
+              priority
+              quality={100}
+              fill
             />
           </div>
         </div>

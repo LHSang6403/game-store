@@ -32,8 +32,10 @@ export default function BestSeller() {
             <Image
               src="/assets/images/gamePlay/g9.png"
               alt="Play Station 5"
-              width={350}
-              height={350}
+              className="object-fit !relative h-[100%] max-w-[350px]"
+              priority
+              quality={100}
+              fill
             />
           </div>
           <h2 className="text-3xl font-semibold">
@@ -73,8 +75,10 @@ export default function BestSeller() {
             <Image
               src="/assets/images/gamePlay/g12.png"
               alt="Play Station 4"
-              width={350}
-              height={350}
+              className="object-fit !relative h-[100%] max-w-[350px]"
+              priority
+              quality={100}
+              fill
             />
           </div>
           <h2 className="text-3xl font-semibold">

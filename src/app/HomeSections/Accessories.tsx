@@ -8,9 +8,10 @@ export default function Accessories() {
           <Image
             src="/assets/images/home/black-blur-bg.png"
             alt="Decoration"
-            width={1540}
-            height={1540}
-            className="h-full"
+            className="object-fit !relative h-[100%] max-w-[1540px]"
+            priority
+            quality={100}
+            fill
           />
         </div>
         <div className="mt-32 h-fit w-full xl:mt-10">
@@ -60,6 +61,7 @@ export default function Accessories() {
               width={550}
               height={550}
               className="lg:w-64"
+              priority
             />
           </div>
           <div className="">
@@ -69,6 +71,7 @@ export default function Accessories() {
               width={550}
               height={550}
               className="lg:w-64"
+              priority
             />
           </div>
           <div className="flex flex-col justify-center gap-4 pl-28 xl:px-6 lg:col-span-2">
@@ -79,6 +82,7 @@ export default function Accessories() {
                 width={50}
                 height={50}
                 className="lg:w-6"
+                priority
               />
             </div>
             <h2 className="text-4xl text-background dark:text-white xl:text-3xl">

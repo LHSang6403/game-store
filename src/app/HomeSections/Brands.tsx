@@ -26,13 +26,20 @@ export default function Brands() {
           đế sạc, túi đựng máy chơi game đến các phụ kiện khác, tất cả đều đảm
           bảo chất lượng và độ bền cao.
         </p>
-        <div className="mt-16 grid grid-cols-6 gap-6 lg:grid-cols-3 sm:mt-10 sm:gap-4">
+        <div className="mt-16 grid w-full grid-cols-6 gap-6 lg:grid-cols-3 sm:mt-10 sm:gap-4">
           {logos.map((img, index) => (
             <div
               className="transition duration-300 hover:scale-[1.02]"
               key={index}
             >
-              <Image src={img.url} alt={img.name} width={220} height={150} />
+              <Image
+                src={img.url}
+                alt={img.name}
+                className="object-fit !relative h-[100%] max-w-[220px]"
+                priority
+                quality={100}
+                fill
+              />
             </div>
           ))}
         </div>

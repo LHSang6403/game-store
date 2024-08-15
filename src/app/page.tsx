@@ -21,18 +21,20 @@ export default function page() {
                 <Image
                   src="/assets/images/home/dot-bg.png"
                   alt="Logo"
-                  width={900}
-                  height={900}
-                  className="opacity-50"
+                  className="object-fit !relative h-[100%] max-w-[900px] opacity-50"
+                  priority
+                  quality={100}
+                  fill
                 />
               </div>
               <div className="absolute left-64 top-12 -z-10 flex h-fit w-fit justify-start pt-24 xl:left-24 lg:left-16 sm:left-8">
                 <Image
                   src="/assets/images/home/blue-blur-bg.png"
                   alt="Logo"
-                  width={1000}
-                  height={1000}
-                  className="-ml-4 opacity-90"
+                  className="object-fit !relative -ml-4 h-[100%] max-h-[1000px] max-w-[1000px] opacity-90"
+                  priority
+                  quality={100}
+                  fill
                 />
               </div>
             </div>
@@ -55,13 +57,14 @@ export default function page() {
                 Khám phá sản phẩm
               </Link>
             </div>
-            <div className="z-10 -mt-8 xl:mt-0">
+            <div className="z-10 -mt-8 flex w-full justify-center xl:mt-0">
               <Image
                 src="/assets/images/gamePlay/g10.png"
                 alt="Play Station"
-                width={900}
-                height={900}
+                className="object-fit !relative h-[100%] max-w-[900px]"
+                priority
                 quality={100}
+                fill
               />
             </div>
             <BestSeller />
