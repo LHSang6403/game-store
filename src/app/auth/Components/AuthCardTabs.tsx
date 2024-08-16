@@ -1,10 +1,4 @@
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import SignIn from "@/app/auth/Components/SignIn";
 import SignUp from "@/app/auth/Components/SignUp";
@@ -37,12 +31,6 @@ export default function AuthCardTabs() {
                 Đăng nhập
               </span>
             </CardTitle>
-            <CardDescription>
-              Tài khoản test: <br />
-              lhsang6403@gmail.com (khách hàng), <br />
-              gamestorevn2024@gmail.com (quản lí), <br />
-              với mật khẩu: 123456
-            </CardDescription>
           </CardHeader>
           <CardContent>
             <SignIn />
