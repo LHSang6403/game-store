@@ -5,15 +5,22 @@ import { Badge } from "@/components/ui/badge";
 import useProductFilter from "@/zustand/useProductFilter";
 
 export default function CategoryCard({ data }: { data: string }) {
-  const { setCategories } = useProductFilter();
+  const { categories, setCategories } = useProductFilter();
+
+  const handleCategoryClick = () => {
+    if (categories.includes(data)) {
+      setCategories(categories.filter((category) => category !== data));
+    } else {
+      setCategories([...categories, data]);
+    }
+  };
 
   return (
     <Badge
-      onClick={() => {
-        setCategories([data]);
-      }}
+      onClick={handleCategoryClick}
       variant="secondary"
-      className="h-8 w-fit overflow-ellipsis whitespace-nowrap from-[#9633ed51] via-[#f22b9c4c] to-[#fd7c3654] transition duration-300 ease-in-out hover:scale-[1.01] hover:cursor-pointer hover:bg-gradient-to-r"
+      className={`h-8 w-fit overflow-ellipsis whitespace-nowrap from-[#9633ed51] via-[#f22b9c4c] to-[#fd7c3654] transition duration-300 ease-in-out hover:scale-[1.01] hover:cursor-pointer hover:bg-gradient-to-r
+         ${categories.includes(data) ? "bg-gradient-to-r" : ""}`}
     >
       <div className="mb-1 mr-1 h-4 w-4">
         <Image

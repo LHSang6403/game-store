@@ -5,7 +5,7 @@ import PaginationButtons from "@app/(main)/product/Components/PaginationButtons"
 import type { ProductType } from "@utils/types/index";
 import useProductFilter from "@/zustand/useProductFilter";
 import { Button } from "@components/ui/button";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { MAX_PRICE } from "@/zustand/useProductFilter";
 
 export default function ProductsContainer({
@@ -14,23 +14,7 @@ export default function ProductsContainer({
   products: ProductType[];
 }) {
   const { brands, categories, endPrice, removeAllFilters } = useProductFilter();
-
-  // Filter products based on the selected brands, categories, and highest price
-  const filteredProducts = products.filter((product) => {
-    const isBrandMatch =
-      brands?.length === 0 ||
-      brands?.includes("All") ||
-      brands?.includes(product.brand);
-
-    const isCategoryMatch =
-      categories?.length === 0 ||
-      categories?.includes("All") ||
-      categories?.includes(product.category);
-
-    const isPriceMatch = endPrice === 0 || product.price <= endPrice;
-
-    return isBrandMatch && isCategoryMatch && isPriceMatch;
-  });
+  const [filteredProducts, setFilteredProducts] = useState<ProductType[]>([]);
 
   // Pagination
   const itemsPerPage = 8;
@@ -40,6 +24,28 @@ export default function ProductsContainer({
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = Math.min(startIndex + itemsPerPage - 1, totalItems - 1);
   const currentItems = filteredProducts.slice(startIndex, endIndex + 1);
+
+  // Filter products whenever categories, brands, or endPrice changes
+  useEffect(() => {
+    const filtered = products.filter((product) => {
+      const isBrandMatch =
+        brands?.length === 0 ||
+        brands?.includes("All") ||
+        brands?.includes(product.brand);
+
+      const isCategoryMatch =
+        categories?.length === 0 ||
+        categories?.includes("All") ||
+        categories?.includes(product.category);
+
+      const isPriceMatch = endPrice === 0 || product.price <= endPrice;
+
+      return isBrandMatch && isCategoryMatch && isPriceMatch;
+    });
+
+    setFilteredProducts(filtered);
+    setCurrentPage(1);
+  }, [brands, categories, endPrice, products]);
 
   function onPageChange(pageNumber: number) {
     setCurrentPage(pageNumber);
