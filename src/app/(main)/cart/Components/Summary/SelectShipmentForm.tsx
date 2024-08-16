@@ -24,7 +24,9 @@ export default function SelectShipmentForm({
         <SelectGroup>
           <SelectLabel>Dịch vụ</SelectLabel>
           <SelectItem value="GHTK">GH Tiết kiệm</SelectItem>
-          <SelectItem value="GHN">GH Nhanh</SelectItem>
+          <SelectItem disabled value="GHN">
+            GH Nhanh
+          </SelectItem>
         </SelectGroup>
       </SelectContent>
     </Select>
