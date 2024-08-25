@@ -16,7 +16,7 @@ export default async function Product() {
     <>
       <div className="h-fit w-full pt-10">
         <div className="relative w-full">
-          <div className="absolute -top-4 left-0 right-0 -z-20 flex w-full justify-center">
+          {/* <div className="absolute -top-4 left-0 right-0 -z-20 flex w-full justify-center">
             <Image
               src="/assets/images/product/circle-bg.png"
               alt="Circle"
@@ -25,7 +25,7 @@ export default async function Product() {
               quality={100}
               className="opacity-30"
             />
-          </div>
+          </div> */}
         </div>
         <div className="flex flex-col items-center gap-4">
           <h1 className="text-center text-4xl font-bold xl:text-3xl">

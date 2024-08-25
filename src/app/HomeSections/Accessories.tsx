@@ -22,7 +22,7 @@ export default function Accessories() {
               chính hãng
             </span>
           </h1>
-          <p className="mt-4 px-4 text-center font-light text-[#B5B3BA] sm:text-sm">
+          <p className="mt-4 px-4 text-center font-light text-[#FFFFFF] sm:text-sm">
             Tại 2Win, chúng tôi cung cấp các phụ kiện chính hãng từ những thương
             hiệu uy tín nhất.
             <br className="xl:hidden"></br> Từ tay cầm, tai nghe, đế sạc, túi
@@ -47,7 +47,7 @@ export default function Accessories() {
               </span>
               <br className="xl:hidden"></br> chính hãng
             </h2>
-            <p className="text-sm text-[#B4B3BA] lg:pr-4">
+            <p className="text-sm text-[#FFFFFF] lg:pr-4">
               Với thiết kế linh hoạt, Nintendo Switch cho phép bạn chơi game ở
               ba chế độ khác nhau: chế độ TV khi kết nối với dock để chơi trên
               màn hình lớn, chế độ tabletop với chân đế tích hợp để chơi cùng
@@ -91,7 +91,7 @@ export default function Accessories() {
               </span>
               <br className="xl:hidden"></br> chính hãng
             </h2>
-            <p className="pr-4 text-sm text-[#B4B3BA]">
+            <p className="pr-4 text-sm text-[#FFFFFF]">
               Được trang bị bộ vi xử lý AMD Zen 2 và RDNA 2, Xbox Series X hỗ
               trợ độ phân giải lên đến 4K và tốc độ khung hình 120fps, đảm bảo
               trải nghiệm chơi game mượt mà và chân thực. Với ổ cứng SSD 1TB

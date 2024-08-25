@@ -15,7 +15,7 @@ export default function Footer() {
             className="opacity-30"
           />
         </div>
-        <div className="absolute -right-10 top-16 -z-10">
+        {/* <div className="absolute -right-10 top-16 -z-10">
           <Image
             alt="Facebook"
             src="/assets/images/corner-bg.png"
@@ -23,7 +23,7 @@ export default function Footer() {
             height={350}
             className="rotate-[180deg] opacity-30"
           />
-        </div>
+        </div> */}
       </div>
       <div className="flex items-center justify-center">
         <PrimaryLogo />
