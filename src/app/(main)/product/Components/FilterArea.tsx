@@ -111,8 +111,8 @@ export default function FilterArea() {
                   <SelectLabel>Các loại</SelectLabel>
                   <SelectItem value="All">Tất cả</SelectItem>
                   {categoriesData?.data?.map((each, index: number) => (
-                    <SelectItem key={index} value={each}>
-                      {each}
+                    <SelectItem key={index} value={each.category}>
+                      {each.category}
                     </SelectItem>
                   ))}
                 </SelectGroup>
