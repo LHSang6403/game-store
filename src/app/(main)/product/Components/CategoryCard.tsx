@@ -4,14 +4,20 @@ import Image from "next/image";
 import { Badge } from "@/components/ui/badge";
 import useProductFilter from "@/zustand/useProductFilter";
 
-export default function CategoryCard({ data }: { data: string }) {
+export default function CategoryCard({
+  category,
+  category_img,
+}: {
+  category: string;
+  category_img: string;
+}) {
   const { categories, setCategories } = useProductFilter();
 
   const handleCategoryClick = () => {
-    if (categories.includes(data)) {
-      setCategories(categories.filter((category) => category !== data));
+    if (categories.includes(category)) {
+      setCategories(categories.filter((category) => category !== category));
     } else {
-      setCategories([...categories, data]);
+      setCategories([...categories, category]);
     }
   };
 
@@ -19,18 +25,20 @@ export default function CategoryCard({ data }: { data: string }) {
     <Badge
       onClick={handleCategoryClick}
       variant="secondary"
-      className={`h-8 w-fit overflow-ellipsis whitespace-nowrap from-[#9633ed51] via-[#f22b9c4c] to-[#fd7c3654] transition duration-300 ease-in-out hover:scale-[1.01] hover:cursor-pointer hover:bg-gradient-to-r
-         ${categories.includes(data) ? "bg-gradient-to-r" : ""}`}
+      className={`flex h-fit w-fit flex-col items-center gap-4 overflow-ellipsis whitespace-nowrap rounded-xl from-[#9633ed51] via-[#f22b9c4c] to-[#fd7c3654] px-5 pb-3 pt-2 transition duration-300 ease-in-out hover:scale-[1.01] hover:cursor-pointer hover:bg-gradient-to-r sm:w-full
+         ${categories.includes(category) ? "bg-gradient-to-r" : ""}`}
     >
-      <div className="mb-1 mr-1 h-4 w-4">
+      <div className="h-20">
         <Image
           alt="Category"
-          src="/assets/images/gameIcon/i1.png"
-          width={20}
-          height={20}
+          src={category_img}
+          className="object-fit !relative h-[100%] max-w-[100%]"
+          priority
+          quality={100}
+          fill
         />
       </div>
-      {data}
+      <span className="">{category}</span>
     </Badge>
   );
 }

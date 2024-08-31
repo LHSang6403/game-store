@@ -5,12 +5,20 @@ import FilterArea from "@app/(main)/product/Components/FilterArea";
 import { readProducts } from "@/app/_actions/product";
 import { ProductType } from "@utils/types/index";
 import Image from "next/image";
+import FilterAreaV2 from "./Components/FilterArea-v2";
+import { Label } from "@radix-ui/react-label";
 
 export default async function Product() {
   const products = await readProducts({
     limit: 60,
     offset: 0,
   });
+
+  // Filter the top 4 products with the highest sold_quantity
+  const bestSellingProducts = products.data
+    ?.slice()
+    .sort((a: ProductType, b: ProductType) => b.sold_quantity - a.sold_quantity)
+    .slice(0, 4);
 
   return (
     <>
@@ -41,7 +49,7 @@ export default async function Product() {
           </p>
         </div>
       </div>
-      <div className="relative flex h-fit w-full flex-col gap-8 p-10 xl:p-4">
+      <div className="relative mx-auto flex h-fit w-fit flex-col gap-8 p-10 xl:p-4">
         <div className="absolute bottom-0 left-0 right-0 -z-20">
           <Image
             src="/assets/images/product/blue-bg.png"
@@ -61,10 +69,17 @@ export default async function Product() {
           </div>
         </div>
         <CategoryCards />
+        <FilterAreaV2 />
+        {bestSellingProducts && (
+          <ProductsContainer
+            products={bestSellingProducts as ProductType[]}
+            isBestSeller={true}
+          />
+        )}
+        <h2 className="text-left text-xl font-medium">Tất cả sản phẩm</h2>
         {products.data && (
           <ProductsContainer products={products.data as ProductType[]} />
         )}
-        <FilterArea />
       </div>
     </>
   );

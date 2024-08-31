@@ -27,7 +27,7 @@ export default function PaginationButtons({
 
   return (
     <Pagination>
-      <PaginationContent>
+      <PaginationContent className="flex flex-wrap justify-center">
         <PaginationItem>
           <PaginationPrevious
             className={`hover:bg- h-9 ${

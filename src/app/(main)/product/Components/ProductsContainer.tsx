@@ -10,8 +10,10 @@ import { MAX_PRICE } from "@/zustand/useProductFilter";
 
 export default function ProductsContainer({
   products,
+  isBestSeller,
 }: {
   products: ProductType[];
+  isBestSeller?: boolean;
 }) {
   const { brands, categories, endPrice, removeAllFilters } = useProductFilter();
   const [filteredProducts, setFilteredProducts] = useState<ProductType[]>([]);
@@ -51,31 +53,44 @@ export default function ProductsContainer({
     setCurrentPage(pageNumber);
   }
 
+  const isHide =
+    (brands?.length > 0 || categories?.length > 0 || endPrice < MAX_PRICE) &&
+    isBestSeller;
+
   return (
-    <div className="flex h-fit w-full flex-col items-center justify-center gap-6">
-      <div className="grid h-fit w-fit grid-cols-4 justify-items-center gap-5 xl:grid-cols-3 lg:grid-cols-2 sm:gap-2">
-        {currentItems.map((each: ProductType, index: number) => (
-          <Product key={index} data={each} />
-        ))}
-      </div>
-      {(brands?.length > 0 ||
-        categories?.length > 0 ||
-        endPrice < MAX_PRICE) && (
-        <Button
-          onClick={() => {
-            removeAllFilters();
-          }}
-          variant="ghost"
-          className="hover:bg- border border-cpurple"
-        >
-          Xóa bộ lọc
-        </Button>
+    <>
+      {isBestSeller && !isHide && (
+        <h2 className="text-left text-xl font-medium">Sản phẩm bán chạy</h2>
       )}
-      <PaginationButtons
-        totalPages={totalPages}
-        currentPage={currentPage}
-        onPageChange={onPageChange}
-      />
-    </div>
+      {!isHide && (
+        <div className="flex h-fit w-full flex-col items-center justify-center gap-6">
+          <div className="grid h-fit w-fit grid-cols-4 justify-items-center gap-5 xl:grid-cols-3 lg:grid-cols-2 sm:gap-2">
+            {currentItems.map((each: ProductType, index: number) => (
+              <Product key={index} data={each} />
+            ))}
+          </div>
+          {(brands?.length > 0 ||
+            categories?.length > 0 ||
+            endPrice < MAX_PRICE) && (
+            <Button
+              onClick={() => {
+                removeAllFilters();
+              }}
+              variant="ghost"
+              className="hover:bg- border border-cpurple"
+            >
+              Xóa bộ lọc
+            </Button>
+          )}
+          {!isBestSeller && (
+            <PaginationButtons
+              totalPages={totalPages}
+              currentPage={currentPage}
+              onPageChange={onPageChange}
+            />
+          )}
+        </div>
+      )}
+    </>
   );
 }

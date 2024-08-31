@@ -43,6 +43,7 @@ export interface ProductType {
   description_id: string;
   category: string;
   is_deleted: boolean;
+  category_img?: string;
 }
 
 export interface ProductDescriptionType {

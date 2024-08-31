@@ -271,12 +271,20 @@ export async function readAllCategories() {
 
     const result = await supabase
       .from("product")
-      .select("category")
+      .select("category, category_img")
       .eq("is_deleted", false);
 
     const uniqueCategories = Array.from(
-      new Set(result?.data?.map((item: { category: string }) => item.category))
-    );
+      new Set(
+        result.data?.map(
+          (item: { category: string; category_img: string }) =>
+            `${item.category}-${item.category_img}`
+        )
+      )
+    ).map((pair) => {
+      const [category, category_img] = pair.split("-");
+      return { category, category_img };
+    });
 
     return {
       status: result.status,
