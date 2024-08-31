@@ -15,10 +15,19 @@ import formatCurrency from "@/utils/functions/formatCurrency";
 import { useQuery } from "@tanstack/react-query";
 import { readProductBrands, readAllCategories } from "@/app/_actions/product";
 import useProductFilter from "@/zustand/useProductFilter";
+import { MAX_PRICE } from "@/zustand/useProductFilter";
+import { Button } from "@/components/ui/button";
 
 export default function FilterAreaV2() {
-  const { brands, categories, endPrice, setPrice, setBrands, setCategories } =
-    useProductFilter();
+  const {
+    brands,
+    categories,
+    endPrice,
+    setPrice,
+    setBrands,
+    setCategories,
+    removeAllFilters,
+  } = useProductFilter();
 
   const { data: brandsData, isLoading: isBrandsDataLoading } = useQuery({
     queryKey: ["brands"],
@@ -98,11 +107,25 @@ export default function FilterAreaV2() {
           min={100000}
           max={50000000}
           step={1}
+          value={[endPrice]}
           onValueChange={(values) => {
             setPrice(0, values[0]);
           }}
         />
       </div>
+      {(brands?.length > 0 ||
+        categories?.length > 0 ||
+        endPrice < MAX_PRICE) && (
+        <Button
+          onClick={() => {
+            removeAllFilters();
+          }}
+          variant="ghost"
+          className="hover:bg- mt-4 border border-cpurple"
+        >
+          Xóa bộ lọc
+        </Button>
+      )}
     </div>
   );
 }
