@@ -32,7 +32,7 @@ export default function CategoryCard({
         <Image
           alt="Category"
           src={category_img}
-          className="object-fit !relative h-[100%] max-w-[100%] sm:object-cover"
+          className="object-fit !relative h-[100%] max-w-[100%] sm:w-fit"
           priority
           quality={100}
           fill
