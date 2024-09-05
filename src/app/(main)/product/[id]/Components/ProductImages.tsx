@@ -51,7 +51,7 @@ export default function ProductImages({ images }: { images: string[] }) {
                   image
                 }
                 alt="Product"
-                className="object-fit !relative max-h-[800px] max-w-[800px]"
+                className="object-fit !relative max-h-[700px] max-w-[700px]"
                 priority
                 quality={100}
                 fill
