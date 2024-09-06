@@ -108,10 +108,10 @@ export default function CreateForm() {
       <Form {...form}>
         <form className="flex w-full flex-col gap-4">
           <div className="flex w-full flex-row gap-4 xl:flex-col">
-            <div className="h-fit min-h-[550px] w-1/2 xl:w-full">
+            <div className="h-fit w-1/2 xl:w-full">
               <ProductFormInputs form={form} />
             </div>
-            <Card className="flex h-fit min-h-[550px] w-1/2 flex-col xl:min-h-0 xl:w-full">
+            <Card className="flex h-auto w-1/2 flex-col xl:w-full">
               <CardHeader className="pb-3 sm:px-2">
                 Hình ảnh sản phẩm
               </CardHeader>

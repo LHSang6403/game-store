@@ -116,10 +116,10 @@ export default function EditForm({
     <div className="flex flex-col gap-4">
       <Form {...form}>
         <form className="grid grid-cols-2 gap-4">
-          <div className="h-fit min-h-[550px] w-full xl:col-span-2">
+          <div className="h-fit w-full xl:col-span-2">
             <CreateProductFormInputs form={form} />
           </div>
-          <Card className="flex h-fit min-h-[550px] w-full flex-col xl:col-span-2 xl:min-h-0">
+          <Card className="flex h-auto w-full flex-col xl:col-span-2">
             <CardHeader className="pb-3 sm:px-2">Hình ảnh sản phẩm</CardHeader>
             <CardContent className="pb-0">
               <div className="mt-1.5 grid w-fit grid-cols-6 gap-3 sm:grid-cols-4">
