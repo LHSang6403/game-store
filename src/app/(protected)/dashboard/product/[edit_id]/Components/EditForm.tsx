@@ -23,6 +23,8 @@ import { Card, CardHeader, CardContent } from "@components/ui/card";
 import { JSONContent } from "novel";
 import Editor from "@/components/editor/advanced-editor";
 import { parseStringToJSONContent } from "@/utils/functions/parseStringToJSONContent";
+import { useQuery } from "@tanstack/react-query";
+import { readAllCategories } from "@/app/_actions/product";
 
 export const FormSchema = z.object({
   brand: z.string().min(2, { message: "Vui lòng nhập hiệu." }),
@@ -40,7 +42,7 @@ export const FormSchema = z.object({
         message: "Vui lòng nhập số từ 0 đến 5.",
       }
     ),
-  category: z.string().min(2, { message: "Vui lòng nhập loại." }),
+  category_id: z.string().min(1, { message: "Vui lòng nhập loại." }),
 });
 
 export default function EditForm({
@@ -68,7 +70,7 @@ export default function EditForm({
     description: product?.product.description ?? "",
     price: product?.product.price.toString() ?? "1000000",
     rate: product?.product.rate.toString() ?? "4",
-    category: product?.product.category ?? "",
+    category_id: product?.product.category_id.toString() ?? "",
   };
 
   const form = useForm<z.infer<typeof FormSchema>>({
@@ -80,6 +82,12 @@ export default function EditForm({
   const [updatedProductStorages, setUpdatedProductStorages] = useState<
     ProductStorageType[]
   >([]);
+
+  const { data: categories } = useQuery({
+    queryKey: ["categories"],
+    queryFn: async () => await readAllCategories(),
+    staleTime: 60 * (60 * 1000),
+  });
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {
     toast.promise(
@@ -117,7 +125,10 @@ export default function EditForm({
       <Form {...form}>
         <form className="grid grid-cols-2 gap-4">
           <div className="h-fit w-full xl:col-span-2">
-            <CreateProductFormInputs form={form} />
+            <CreateProductFormInputs
+              categories={categories?.data ?? []}
+              form={form}
+            />
           </div>
           <Card className="flex h-auto w-full flex-col xl:col-span-2">
             <CardHeader className="pb-3 sm:px-2">Hình ảnh sản phẩm</CardHeader>

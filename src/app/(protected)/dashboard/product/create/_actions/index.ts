@@ -76,7 +76,7 @@ export async function createHandler({
     rate: parseFloat(formData.rate),
     sold_quantity: 0,
     description_id: descriptionObject.id,
-    category: formData.category,
+    category_id: Number(formData.category_id),
     is_deleted: false,
   };
 

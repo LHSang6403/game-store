@@ -35,14 +35,6 @@ export default function FilterAreaV2() {
     staleTime: 60 * (60 * 1000),
   });
 
-  const { data: categoriesData, isLoading: isCategoriesDataLoading } = useQuery(
-    {
-      queryKey: ["categories"],
-      queryFn: async () => await readAllCategories(),
-      staleTime: 60 * (60 * 1000),
-    }
-  );
-
   return (
     <div className="flex w-full flex-row justify-start gap-10 md:flex-col">
       <div className="flex w-52 flex-col gap-2 md:w-full">

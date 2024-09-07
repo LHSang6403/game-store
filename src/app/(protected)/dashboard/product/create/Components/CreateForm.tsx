@@ -19,6 +19,8 @@ import { createHandler } from "@/app/(protected)/dashboard/product/create/_actio
 import { defaultValueEditor } from "@/utils/default-value-editor";
 import { JSONContent } from "novel";
 import Editor from "@/components/editor/advanced-editor";
+import { readAllCategories } from "@/app/_actions/product";
+import { useQuery } from "@tanstack/react-query";
 
 export const FormSchema = z.object({
   brand: z.string().min(2, { message: "Vui lòng nhập hiệu." }),
@@ -43,7 +45,7 @@ export const FormSchema = z.object({
         message: "Vui lòng nhập số từ 0 đến 5.",
       }
     ),
-  category: z.string().min(2, { message: "Vui lòng nhập loại." }),
+  category_id: z.string().min(1, { message: "Vui lòng chọn loại." }),
 });
 
 export default function CreateForm() {
@@ -60,7 +62,7 @@ export default function CreateForm() {
     description: "",
     price: "",
     rate: "",
-    category: "",
+    category_id: "",
   };
 
   const form = useForm<z.infer<typeof FormSchema>>({
@@ -72,6 +74,12 @@ export default function CreateForm() {
   const [productStorages, setProductStorages] = useState<ProductStorageType[]>(
     []
   );
+
+  const { data: categories } = useQuery({
+    queryKey: ["categories"],
+    queryFn: async () => await readAllCategories(),
+    staleTime: 60 * (60 * 1000),
+  });
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {
     toast.promise(
@@ -109,7 +117,10 @@ export default function CreateForm() {
         <form className="flex w-full flex-col gap-4">
           <div className="flex w-full flex-row gap-4 xl:flex-col">
             <div className="h-fit w-1/2 xl:w-full">
-              <ProductFormInputs form={form} />
+              <ProductFormInputs
+                categories={categories?.data ?? []}
+                form={form}
+              />
             </div>
             <Card className="flex h-auto w-1/2 flex-col xl:w-full">
               <CardHeader className="pb-3 sm:px-2">
