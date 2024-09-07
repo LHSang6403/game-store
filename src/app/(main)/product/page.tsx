@@ -1,7 +1,6 @@
 import SearchBar from "@components/Search/SearchBar";
 import CategoryCards from "@app/(main)/product/Components/CategoryCards";
 import ProductsContainer from "@app/(main)/product/Components/ProductsContainer";
-import FilterArea from "@app/(main)/product/Components/FilterArea";
 import { readProducts } from "@/app/_actions/product";
 import { ProductType } from "@utils/types/index";
 import Image from "next/image";
