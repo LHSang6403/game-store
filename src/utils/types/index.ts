@@ -41,9 +41,8 @@ export interface ProductType {
   rate: number;
   sold_quantity: number;
   description_id: string;
-  category: string;
+  category_id: number;
   is_deleted: boolean;
-  category_img?: string;
 }
 
 export interface ProductDescriptionType {
@@ -63,6 +62,14 @@ export interface ProductWithDescriptionAndStorageType {
 export interface ProductWithQuantity {
   product: ProductWithDescriptionAndStorageType;
   quantity: number;
+}
+
+export interface CategoryType {
+  id: number;
+  created_at: string;
+  name: string;
+  image: string;
+  is_deleted: boolean;
 }
 
 export type ShipmentNameType = "" | "GHTK" | "GHN" | null;

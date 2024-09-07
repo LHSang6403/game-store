@@ -6,7 +6,6 @@ import { readProducts } from "@/app/_actions/product";
 import { ProductType } from "@utils/types/index";
 import Image from "next/image";
 import FilterAreaV2 from "./Components/FilterArea-v2";
-import { Label } from "@radix-ui/react-label";
 
 export default async function Product() {
   const products = await readProducts({

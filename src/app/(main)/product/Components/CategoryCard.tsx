@@ -3,21 +3,16 @@
 import Image from "next/image";
 import { Badge } from "@/components/ui/badge";
 import useProductFilter from "@/zustand/useProductFilter";
+import { CategoryType } from "@/utils/types";
 
-export default function CategoryCard({
-  category,
-  category_img,
-}: {
-  category: string;
-  category_img: string;
-}) {
+export default function CategoryCard({ category }: { category: CategoryType }) {
   const { categories, setCategories } = useProductFilter();
 
   const handleCategoryClick = () => {
-    if (categories.includes(category)) {
-      setCategories(categories.filter((category) => category !== category));
+    if (categories.includes(category.id)) {
+      setCategories(categories.filter((cate) => cate !== category.id));
     } else {
-      setCategories([...categories, category]);
+      setCategories([...categories, category.id]);
     }
   };
 
@@ -26,19 +21,19 @@ export default function CategoryCard({
       onClick={handleCategoryClick}
       variant="secondary"
       className={`flex h-fit w-fit flex-col items-center gap-4 overflow-ellipsis whitespace-nowrap rounded-xl from-[#9633ed51] via-[#f22b9c4c] to-[#fd7c3654] px-5 pb-3 pt-2 transition duration-300 ease-in-out hover:scale-[1.01] hover:cursor-pointer hover:bg-gradient-to-r sm:w-full
-         ${categories.includes(category) ? "bg-gradient-to-r" : ""}`}
+         ${categories.includes(category.id) ? "bg-gradient-to-r" : ""}`}
     >
       <div className="h-20 sm:h-auto">
         <Image
           alt="Category"
-          src={category_img}
+          src={category.image}
           className="object-fit !relative h-[100%] max-w-[100%]"
           priority
           quality={100}
           fill
         />
       </div>
-      <span className="">{category}</span>
+      <span className="">{category.name}</span>
     </Badge>
   );
 }

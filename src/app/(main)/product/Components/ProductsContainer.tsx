@@ -36,9 +36,7 @@ export default function ProductsContainer({
         brands?.includes(product.brand);
 
       const isCategoryMatch =
-        categories?.length === 0 ||
-        categories?.includes("All") ||
-        categories?.includes(product.category);
+        categories?.length === 0 || categories?.includes(product.category_id);
 
       const isPriceMatch = endPrice === 0 || product.price <= endPrice;
 

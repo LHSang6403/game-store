@@ -2,6 +2,7 @@
 
 import createSupabaseServerClient from "@/supabase-query/server";
 import type {
+  CategoryType,
   ProductDescriptionType,
   ProductStorageType,
   ProductType,
@@ -270,26 +271,14 @@ export async function readAllCategories() {
     const supabase = await createSupabaseServerClient();
 
     const result = await supabase
-      .from("product")
-      .select("category, category_img")
+      .from("category")
+      .select("*")
       .eq("is_deleted", false);
-
-    const uniqueCategories = Array.from(
-      new Set(
-        result.data?.map(
-          (item: { category: string; category_img: string }) =>
-            `${item.category}-${item.category_img}`
-        )
-      )
-    ).map((pair) => {
-      const [category, category_img] = pair.split("-");
-      return { category, category_img };
-    });
 
     return {
       status: result.status,
       statusText: result.statusText,
-      data: uniqueCategories,
+      data: result.data as CategoryType[],
       error: result.error,
     };
   } catch (error: any) {
