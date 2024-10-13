@@ -27,7 +27,7 @@ import { createBlog } from "@app/_actions/blog";
 import { Card, CardHeader, CardContent } from "@components/ui/card";
 import { defaultValueEditor } from "@/utils/default-value-editor";
 import { JSONContent } from "novel";
-import { useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 
 const FormSchema = z.object({
   title: z.string().min(2, { message: "Vui lòng nhập tiêu đề." }),
@@ -41,10 +41,13 @@ export default function CreateForm() {
 
   const [content, setContent] = useState<JSONContent>(defaultValueEditor);
 
-  const initState = {
-    title: "",
-    description: "",
-  };
+  const initState = useMemo(
+    () => ({
+      title: "",
+      description: "",
+    }),
+    []
+  );
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
@@ -52,36 +55,43 @@ export default function CreateForm() {
     mode: "onChange",
   });
 
-  async function onSubmit(data: z.infer<typeof FormSchema>) {
-    toast.promise(
-      async () => {
-        if (!session) throw new Error("Lỗi phiên đăng nhập.");
+  const handleContentChange = useCallback((newContent: JSONContent) => {
+    setContent(newContent);
+  }, []);
 
-        const staffSession = session as StaffType;
-        const result = await createHandler({
-          formData: data,
-          content: content,
-          session: staffSession,
-          thumbnails: files,
-        });
+  const onSubmit = useCallback(
+    async (data: z.infer<typeof FormSchema>) => {
+      toast.promise(
+        async () => {
+          if (!session) throw new Error("Lỗi phiên đăng nhập.");
 
-        if (result.createBlogResponse.error)
-          throw new Error(result.createBlogResponse.error);
-      },
-      {
-        loading: "Đang tạo bài viết...",
-        success: () => {
-          form.reset();
-          router.push("/dashboard/blog");
+          const staffSession = session as StaffType;
+          const result = await createHandler({
+            formData: data,
+            content: content,
+            session: staffSession,
+            thumbnails: files,
+          });
 
-          return "Tạo bài viết thành công. Đang chuyển hướng...";
+          if (result.createBlogResponse.error)
+            throw new Error(result.createBlogResponse.error);
         },
-        error: (error: any) => {
-          return error.message;
-        },
-      }
-    );
-  }
+        {
+          loading: "Đang tạo bài viết...",
+          success: () => {
+            form.reset();
+            router.push("/dashboard/blog");
+
+            return "Tạo bài viết thành công. Đang chuyển hướng...";
+          },
+          error: (error: any) => {
+            return error.message;
+          },
+        }
+      );
+    },
+    [content, files, form, router, session]
+  );
 
   return (
     <div className="flex flex-col gap-4">
@@ -139,7 +149,7 @@ export default function CreateForm() {
       <div className="">
         <h2 className="title mb-1 ml-1 text-sm font-medium">Nội dung</h2>
         <div className="mt-2 h-fit overflow-hidden rounded-lg border">
-          <Editor initialValue={content} onChange={setContent} />
+          <Editor initialValue={content} onChange={handleContentChange} />
         </div>
       </div>
       <div className="flex justify-center">

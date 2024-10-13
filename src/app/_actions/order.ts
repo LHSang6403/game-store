@@ -5,9 +5,17 @@ import type { OrderType, LogActorType } from "@utils/types/index";
 import { updateStorageQuantityByProductId } from "@/app/_actions/product_storage";
 import { updateSoldQuantityByProductId } from "@/app/_actions/product";
 import { revalidatePath } from "next/cache";
-import { ShipmentState } from "@utils/types/index";
+import { ShipmentState, StaffRole } from "@utils/types/index";
 import { saveToLog } from "@app/_actions/log";
 import { checkRoleAuthenticated, checkRoleStaff } from "@app/_actions/user";
+import { buildResponse } from "@/utils/functions/buildResponse";
+import { Log } from "@/utils/types/log";
+import { ApiStatus, ApiStatusNumber } from "@/utils/types/apiStatus";
+import {
+  ERROR_WHEN_UPDATE,
+  NO_PERMISSION_TO_READ,
+  UNAUTHENTICATED_USER,
+} from "@/utils/constant/auth";
 
 export async function createOrder({
   order,
@@ -18,8 +26,7 @@ export async function createOrder({
 }) {
   try {
     const isAuthenticated = await checkRoleAuthenticated();
-    if (!isAuthenticated)
-      throw new Error("Không xác định tài khoản đăng nhập.");
+    if (!isAuthenticated) throw new Error(UNAUTHENTICATED_USER);
 
     const supabase = await createSupabaseServerClient();
 
@@ -37,27 +44,27 @@ export async function createOrder({
 
     await saveToLog({
       logName: "Tạo đơn " + order.address,
-      logType: "Tạo mới",
-      logResult: !result.error ? "Thành công" : "Thất bại",
+      logType: Log.Create,
+      logResult: !result.error ? Log.Create : Log.Fail,
       logActor: actor,
     });
 
     revalidatePath("/cart");
     revalidatePath("/dashboard/order");
 
-    return {
+    return buildResponse({
       status: result.status,
       statusText: result.statusText,
       data: result.data,
       error: null,
-    };
+    });
   } catch (error: any) {
-    return {
-      status: 500,
-      statusText: "Lỗi máy chủ",
+    return buildResponse({
+      status: ApiStatusNumber.InternalServerError,
+      statusText: ApiStatus.InternalServerError,
       data: null,
       error: error.message,
-    };
+    });
   }
 }
 
@@ -72,8 +79,7 @@ export async function updateStateOrder({
 }) {
   try {
     const isAuthenticated = await checkRoleAuthenticated();
-    if (!isAuthenticated)
-      throw new Error("Không xác định tài khoản đăng nhập.");
+    if (!isAuthenticated) throw new Error(UNAUTHENTICATED_USER);
 
     const supabase = await createSupabaseServerClient();
 
@@ -82,30 +88,30 @@ export async function updateStateOrder({
       .update({ state: state })
       .eq("id", order.id);
 
-    if (result.error) throw new Error("Lỗi khi cập nhật trình trạng đơn hàng.");
+    if (result.error) throw new Error(ERROR_WHEN_UPDATE);
 
     revalidatePath("/dashboard/order");
 
     await saveToLog({
       logName: "Cập nhật đơn " + order.address + " thành " + state,
-      logType: "Cập nhật",
-      logResult: !result.error ? "Thành công" : "Thất bại",
+      logType: Log.Update,
+      logResult: !result.error ? Log.Success : Log.Fail,
       logActor: actor,
     });
 
-    return {
+    return buildResponse({
       status: result.status,
       statusText: result.statusText,
       data: result.data,
       error: result.error,
-    };
+    });
   } catch (error: any) {
-    return {
-      status: 500,
-      statusText: "Lỗi máy chủ",
+    return buildResponse({
+      status: ApiStatusNumber.InternalServerError,
+      statusText: ApiStatus.InternalServerError,
       data: null,
       error: error.message,
-    };
+    });
   }
 }
 
@@ -118,19 +124,19 @@ export async function readOrdersByCustomerId(customerId: string) {
       .select("*")
       .eq("customer_id", customerId);
 
-    return {
+    return buildResponse({
       status: result.status,
       statusText: result.statusText,
       data: result.data as OrderType[],
       error: result.error,
-    };
+    });
   } catch (error: any) {
-    return {
-      status: 500,
-      statusText: "Lỗi máy chủ",
+    return buildResponse({
+      status: ApiStatusNumber.InternalServerError,
+      statusText: ApiStatus.InternalServerError,
       data: null,
       error: "No data.",
-    };
+    });
   }
 }
 
@@ -149,19 +155,19 @@ export async function readOrders({
       .select("*")
       .range(offset, limit);
 
-    return {
+    return buildResponse({
       status: result.status,
       statusText: result.statusText,
       data: result.data as OrderType[],
       error: result.error,
-    };
+    });
   } catch (error: any) {
-    return {
-      status: 500,
-      statusText: "Lỗi máy chủ",
+    return buildResponse({
+      status: ApiStatusNumber.InternalServerError,
+      statusText: ApiStatus.InternalServerError,
       data: null,
       error: error.message,
-    };
+    });
   }
 }
 
@@ -173,12 +179,14 @@ export async function readOrdersByDateRange({
   to: Date;
 }) {
   try {
-    const isManagerAuthenticated = await checkRoleStaff({ role: "Quản lý" });
+    const isManagerAuthenticated = await checkRoleStaff({
+      role: StaffRole.Manager,
+    });
     const isSellerAuthenticated = await checkRoleStaff({
-      role: "Bán hàng",
+      role: StaffRole.Seller,
     });
     const isWriterAuthenticated = await checkRoleStaff({
-      role: "Biên tập",
+      role: StaffRole.Writer,
     });
 
     if (
@@ -186,7 +194,7 @@ export async function readOrdersByDateRange({
       !isSellerAuthenticated &&
       !isWriterAuthenticated
     ) {
-      throw new Error("Không có quyền truy cập.");
+      throw new Error(NO_PERMISSION_TO_READ);
     }
 
     const supabase = await createSupabaseServerClient();
@@ -197,19 +205,19 @@ export async function readOrdersByDateRange({
       .gte("created_at", from.toISOString())
       .lte("created_at", to.toISOString());
 
-    return {
+    return buildResponse({
       status: result.status,
       statusText: result.statusText,
       data: result.data as OrderType[],
       error: result.error,
-    };
+    });
   } catch (error: any) {
-    return {
-      status: 500,
-      statusText: "Lỗi máy chủ",
+    return buildResponse({
+      status: ApiStatusNumber.InternalServerError,
+      statusText: ApiStatus.InternalServerError,
       data: null,
       error: error.message,
-    };
+    });
   }
 }
 
@@ -221,8 +229,10 @@ export async function readOrdersNumbersByDateRange({
   to: Date;
 }) {
   try {
-    const isManagerAuthenticated = await checkRoleStaff({ role: "Quản lý" });
-    if (!isManagerAuthenticated) throw new Error("Không có quyền truy cập.");
+    const isManagerAuthenticated = await checkRoleStaff({
+      role: StaffRole.Manager,
+    });
+    if (!isManagerAuthenticated) throw new Error(NO_PERMISSION_TO_READ);
 
     const supabase = await createSupabaseServerClient();
 
@@ -259,18 +269,18 @@ export async function readOrdersNumbersByDateRange({
       });
     }
 
-    return {
+    return buildResponse({
       status: result.status,
       statusText: result.statusText,
       data: orderPricesByMonth,
       error: result.error,
-    };
+    });
   } catch (error: any) {
-    return {
-      status: 500,
-      statusText: "Lỗi máy chủ",
+    return buildResponse({
+      status: ApiStatusNumber.InternalServerError,
+      statusText: ApiStatus.InternalServerError,
       data: null,
       error: error.message,
-    };
+    });
   }
 }

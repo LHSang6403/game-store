@@ -5,7 +5,7 @@ import { useQuery } from "@tanstack/react-query";
 import { readProducts } from "@/app/_actions/product";
 import { useRouter } from "next/navigation";
 import { Gamepad2, Newspaper, ShoppingCart, Search } from "lucide-react";
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, useCallback } from "react";
 import {
   CommandDialog,
   CommandEmpty,
@@ -35,7 +35,7 @@ export default function SearchBar() {
     defaultValues: { search: "" },
   });
 
-  const products: ProductType[] = data?.data ?? [];
+  const products: ProductType[] = useMemo(() => data?.data ?? [], [data]);
 
   const latest3Prods = useMemo(() => {
     return products
@@ -45,6 +45,19 @@ export default function SearchBar() {
       )
       .slice(0, 3);
   }, [products]);
+
+  const handleKeywordClick = useCallback(
+    (keyword: string) => {
+      setValue("search", keyword);
+      setMatchingKeywords([]);
+
+      const selectedKeyword = products.find((prod) => prod.name === keyword);
+      if (selectedKeyword) {
+        router.push(`/product/${selectedKeyword.id}`);
+      }
+    },
+    [products, router, setValue]
+  );
 
   useEffect(() => {
     if (searchText.trim() === "") {
@@ -62,16 +75,6 @@ export default function SearchBar() {
       setMatchingKeywords(newMatchingKeywords);
     }
   }, [searchText]);
-
-  const handleKeywordClick = (keyword: string) => {
-    setValue("search", keyword);
-    setMatchingKeywords([]);
-
-    const selectedKeyword = products.find((prod) => prod.name === keyword);
-    if (selectedKeyword) {
-      router.push(`/product/${selectedKeyword.id}`);
-    }
-  };
 
   return (
     <>

@@ -11,8 +11,17 @@ import type {
 } from "@utils/types/index";
 import { revalidatePath } from "next/cache";
 import { saveToLog } from "@app/_actions/log";
-import { LogActorType } from "@utils/types/index";
+import { LogActorType, StaffRole } from "@utils/types/index";
 import { checkRoleAuthenticated, checkRoleStaff } from "@app/_actions/user";
+import { buildResponse } from "@utils/functions/buildResponse";
+import { Log } from "@/utils/types/log";
+import { ApiStatus, ApiStatusNumber } from "@/utils/types/apiStatus";
+import {
+  NO_PERMISSION_TO_CREATE,
+  NO_PERMISSION_TO_DELETE,
+  NO_PERMISSION_TO_UPDATE,
+  UNAUTHENTICATED_USER,
+} from "@/utils/constant/auth";
 
 export async function createProduct({
   product,
@@ -22,38 +31,42 @@ export async function createProduct({
   actor: LogActorType;
 }) {
   try {
-    const isManagerAuthenticated = await checkRoleStaff({ role: "Quản lý" });
-    const isSellerAuthenticated = await checkRoleStaff({ role: "Bán hàng" });
+    const isManagerAuthenticated = await checkRoleStaff({
+      role: StaffRole.Manager,
+    });
+    const isSellerAuthenticated = await checkRoleStaff({
+      role: StaffRole.Seller,
+    });
 
     if (!isManagerAuthenticated && !isSellerAuthenticated)
-      throw new Error("Không có quyền tạo sản phẩm");
+      throw new Error(NO_PERMISSION_TO_CREATE);
 
     const supabase = await createSupabaseServerClient();
     const result = await supabase.from("product").insert(product);
 
     await saveToLog({
       logName: "Tạo sản phẩm" + product.name,
-      logType: "Tạo mới",
-      logResult: !result.error ? "Thành công" : "Thất bại",
+      logType: Log.Create,
+      logResult: !result.error ? Log.Success : Log.Fail,
       logActor: actor,
     });
 
     revalidatePath("/dashboard/product");
     revalidatePath("/product");
 
-    return {
+    return buildResponse({
       status: result.status,
       statusText: result.statusText,
       data: result.data,
       error: result.error,
-    };
+    });
   } catch (error: any) {
-    return {
-      status: 500,
-      statusText: "Lỗi máy chủ",
+    return buildResponse({
+      status: ApiStatusNumber.InternalServerError,
+      statusText: ApiStatus.InternalServerError,
       data: null,
-      error: error,
-    };
+      error,
+    });
   }
 }
 
@@ -73,19 +86,19 @@ export async function readProducts({
       .range(offset, limit)
       .eq("is_deleted", false);
 
-    return {
+    return buildResponse({
       status: result.status,
       statusText: result.statusText,
       data: result.data as ProductType[],
       error: result.error,
-    };
+    });
   } catch (error: any) {
-    return {
-      status: 500,
-      statusText: "Lỗi máy chủ",
+    return buildResponse({
+      status: ApiStatusNumber.InternalServerError,
+      statusText: ApiStatus.InternalServerError,
       data: null,
-      error: error,
-    };
+      error,
+    });
   }
 }
 
@@ -148,19 +161,19 @@ export async function readProductsWithDetail() {
       }
     );
 
-    return {
-      status: 200,
-      statusText: "OK",
+    return buildResponse({
+      status: ApiStatusNumber.Success,
+      statusText: ApiStatus.Success,
       data: productDetails,
       error: null,
-    };
+    });
   } catch (error: any) {
-    return {
-      status: 500,
-      statusText: "Lỗi máy chủ",
+    return buildResponse({
+      status: ApiStatusNumber.InternalServerError,
+      statusText: ApiStatus.InternalServerError,
       data: null,
       error,
-    };
+    });
   }
 }
 
@@ -210,19 +223,19 @@ export async function readProductDetailById(id: string) {
       }
     }
 
-    return {
+    return buildResponse<ProductWithDescriptionAndStorageType>({
       status: productResult.status,
       statusText: productResult.statusText,
-      data: resultData as ProductWithDescriptionAndStorageType,
+      data: resultData,
       error: productResult.error,
-    };
+    });
   } catch (error: any) {
-    return {
-      status: 500,
-      statusText: "Lỗi máy chủ",
+    return buildResponse<null>({
+      status: ApiStatusNumber.InternalServerError,
+      statusText: ApiStatus.InternalServerError,
       data: null,
       error: error,
-    };
+    });
   }
 }
 
@@ -232,7 +245,7 @@ export async function updateSoldQuantityByProductId(
 ) {
   try {
     const isAuthenticated = await checkRoleAuthenticated();
-    if (!isAuthenticated) throw new Error("Chưa có thông tin đăng nhập");
+    if (!isAuthenticated) throw new Error(UNAUTHENTICATED_USER);
 
     const supabase = await createSupabaseServerClient();
 
@@ -250,19 +263,19 @@ export async function updateSoldQuantityByProductId(
       .update({ sold_quantity: newSoldQuantity })
       .eq("id", id);
 
-    return {
+    return buildResponse({
       status: updateResult.status,
       statusText: updateResult.statusText,
       data: updateResult.data,
       error: updateResult.error,
-    };
+    });
   } catch (error: any) {
-    return {
-      status: 500,
-      statusText: "Lỗi máy chủ",
+    return buildResponse({
+      status: ApiStatusNumber.InternalServerError,
+      statusText: ApiStatus.InternalServerError,
       data: null,
       error: error,
-    };
+    });
   }
 }
 
@@ -275,19 +288,19 @@ export async function readAllCategories() {
       .select("*")
       .eq("is_deleted", false);
 
-    return {
+    return buildResponse<CategoryType[]>({
       status: result.status,
       statusText: result.statusText,
       data: result.data as CategoryType[],
       error: result.error,
-    };
+    });
   } catch (error: any) {
-    return {
-      status: 500,
-      statusText: "Lỗi máy chủ",
+    return buildResponse<null>({
+      status: ApiStatusNumber.InternalServerError,
+      statusText: ApiStatus.InternalServerError,
       data: null,
       error: error?.message,
-    };
+    });
   }
 }
 
@@ -304,19 +317,19 @@ export async function readProductBrands() {
       new Set(result?.data?.map((item: { brand: string }) => item.brand))
     );
 
-    return {
+    return buildResponse<string[]>({
       status: result.status,
       statusText: result.statusText,
       data: uniqueBrands,
       error: result.error,
-    };
+    });
   } catch (error: any) {
-    return {
-      status: 500,
-      statusText: "Lỗi máy chủ",
+    return buildResponse<null>({
+      status: ApiStatusNumber.InternalServerError,
+      statusText: ApiStatus.InternalServerError,
       data: null,
       error: error,
-    };
+    });
   }
 }
 
@@ -328,8 +341,10 @@ export async function removeProductById({
   actor: LogActorType;
 }) {
   try {
-    const isManagerAuthenticated = await checkRoleStaff({ role: "Quản lý" });
-    if (!isManagerAuthenticated) throw new Error("Không có quyền xóa sản phẩm");
+    const isManagerAuthenticated = await checkRoleStaff({
+      role: StaffRole.Manager,
+    });
+    if (!isManagerAuthenticated) throw new Error(NO_PERMISSION_TO_DELETE);
 
     const supabase = await createSupabaseServerClient();
 
@@ -340,24 +355,24 @@ export async function removeProductById({
 
     await saveToLog({
       logName: "Xóa sản phẩm" + product.name,
-      logType: "Xóa",
-      logResult: !removeResult.error ? "Thành công" : "Thất bại",
+      logType: Log.Delete,
+      logResult: !removeResult.error ? Log.Success : Log.Fail,
       logActor: actor,
     });
 
-    return {
+    return buildResponse({
       status: removeResult.status,
       statusText: removeResult.statusText,
       data: removeResult.data,
       error: removeResult.error,
-    };
+    });
   } catch (error: any) {
-    return {
-      status: 500,
-      statusText: "Lỗi máy chủ",
+    return buildResponse({
+      status: ApiStatusNumber.InternalServerError,
+      statusText: ApiStatus.InternalServerError,
       data: null,
       error: error,
-    };
+    });
   }
 }
 
@@ -370,14 +385,14 @@ export async function updateProduct({
 }) {
   try {
     const isManagerAuthenticated = await checkRoleStaff({
-      role: "Quản lý",
+      role: StaffRole.Manager,
     });
     const isSellerAuthenticated = await checkRoleStaff({
-      role: "Bán hàng",
+      role: StaffRole.Seller,
     });
 
     if (!isManagerAuthenticated && !isSellerAuthenticated)
-      throw new Error("Không có quyền cập nhật sản phẩm");
+      throw new Error(NO_PERMISSION_TO_UPDATE);
 
     const supabase = await createSupabaseServerClient();
 
@@ -389,23 +404,23 @@ export async function updateProduct({
 
     await saveToLog({
       logName: "Cập nhật sản phẩm " + updatedProduct.name,
-      logType: "Cập nhật",
-      logResult: !result.error ? "Thành công" : "Thất bại",
+      logType: Log.Update,
+      logResult: !result.error ? Log.Success : Log.Fail,
       logActor: actor,
     });
 
-    return {
+    return buildResponse({
       status: result.status,
       statusText: result.statusText,
       data: result.data,
       error: result.error,
-    };
+    });
   } catch (error: any) {
-    return {
-      status: 500,
-      statusText: "Lỗi máy chủ",
+    return buildResponse({
+      status: ApiStatusNumber.InternalServerError,
+      statusText: ApiStatus.InternalServerError,
       data: null,
       error: error,
-    };
+    });
   }
 }

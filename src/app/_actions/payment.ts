@@ -1,5 +1,6 @@
 "use server";
 
+import { ApiStatus, ApiStatusNumber } from "@/utils/types/apiStatus";
 import * as crypto from "crypto";
 
 export default async function generatePaymentUrl(
@@ -67,8 +68,8 @@ export default async function generatePaymentUrl(
     return result;
   } catch (error: any) {
     return {
-      status: 500,
-      statusText: "Lỗi máy chủ",
+      status: ApiStatusNumber.InternalServerError,
+      statusText: ApiStatus.InternalServerError,
       data: null,
       error: error.message,
     };

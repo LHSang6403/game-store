@@ -13,6 +13,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { useMemo, useCallback } from "react";
 
 export default function StorageTables() {
   const { data: storages, isLoading } = useQuery({
@@ -20,6 +21,46 @@ export default function StorageTables() {
     queryFn: async () => readAllStoragesAndProductStorages(),
     staleTime: 1000 * 60 * 60,
   });
+
+  const memoizedStorages = useMemo(
+    () => storages?.data || [],
+    [storages?.data]
+  );
+
+  const renderStorageCard = useCallback(
+    (storage, index) => (
+      <Card
+        key={index}
+        className="col-span-1 flex h-fit w-full flex-col xl:col-span-2"
+      >
+        <CardHeader className="flex flex-row items-center pb-0">
+          <div className="grid gap-2">
+            <CardTitle className="font-semibold">{storage.name}</CardTitle>
+            <CardDescription>
+              Hệ thống kho của chi nhánh {storage.province}
+            </CardDescription>
+          </div>
+        </CardHeader>
+        <CardContent className="mt-2 h-fit w-full">
+          <div className="min-h-[100px] w-full overflow-hidden">
+            {storage.product_storage?.length > 0 && (
+              <DataTable
+                columns={columns}
+                data={storage.product_storage as ProductStorageType[]}
+                defaultPageSize={5}
+                isPaginationEnabled={true}
+                isCollumnVisibilityEnabled={false}
+                isSearchEnabled={false}
+                isBorder={false}
+                isSeparator={false}
+              />
+            )}
+          </div>
+        </CardContent>
+      </Card>
+    ),
+    []
+  );
 
   return (
     <>
@@ -39,43 +80,10 @@ export default function StorageTables() {
           </Card>
         </>
       ) : (
-        storages &&
-        storages?.data &&
-        storages?.data?.length > 0 &&
-        storages?.data.map((storage, index) => (
-          <Card
-            key={index}
-            className="col-span-1 flex h-fit w-full flex-col xl:col-span-2"
-          >
-            <CardHeader className="flex flex-row items-center pb-0">
-              <div className="grid gap-2">
-                <CardTitle className="font-semibold">{storage.name}</CardTitle>
-                <CardDescription>
-                  Hệ thống kho của chi nhánh {storage.province}
-                </CardDescription>
-              </div>
-            </CardHeader>
-            <CardContent className="mt-2 h-fit w-full">
-              <div className="min-h-[100px] w-full overflow-hidden">
-                {storages && storages?.data && storages?.data?.length > 0 && (
-                  <DataTable
-                    columns={columns}
-                    data={
-                      storages.data[index]
-                        .product_storage as ProductStorageType[]
-                    }
-                    defaultPageSize={5}
-                    isPaginationEnabled={true}
-                    isCollumnVisibilityEnabled={false}
-                    isSearchEnabled={false}
-                    isBorder={false}
-                    isSeparator={false}
-                  />
-                )}
-              </div>
-            </CardContent>
-          </Card>
-        ))
+        memoizedStorages.length > 0 &&
+        memoizedStorages.map((storage, index) =>
+          renderStorageCard(storage, index)
+        )
       )}
     </>
   );

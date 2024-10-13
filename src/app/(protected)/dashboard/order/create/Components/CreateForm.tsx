@@ -13,7 +13,7 @@ import type {
   ProductWithQuantity,
   StorageType,
 } from "@utils/types";
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, useCallback } from "react";
 import useAddressSelects from "@/zustand/useAddressSelects";
 import { calShipmentFees } from "@/app/(main)/cart/_actions/calShip";
 import {
@@ -73,8 +73,7 @@ export default function CreateForm({
     useAddressSelects();
 
   const orderProducts = order?.products;
-  let productsWithQuantities: ProductWithQuantity[] = [];
-  productsWithQuantities = useMemo(() => {
+  const productsWithQuantities = useMemo(() => {
     const productQuantities: ProductWithQuantity[] = [];
     orderProducts?.forEach((product: ProductWithDescriptionAndStorageType) => {
       const existingProduct = productQuantities.find(
@@ -115,148 +114,120 @@ export default function CreateForm({
     form.trigger("ward");
   }, [addressValues]);
 
-  async function onSubmit(data: z.infer<typeof FormSchema>) {
-    toast.promise(
-      async () => {
-        if (!customerSelect) {
-          // create new default anonymous customer
-          // in case of staff create order by phone call...
-          // this ID is a default row in customer table for creating order by staff
-
-          const dummyCustomer: CustomerType = {
-            id: "1f8c6d32-0cff-4916-9104-ce60f171d12c",
-            created_at: "",
-            dob: "",
-            email: "",
-            name: data.name,
-            phone: data.phone,
-            address: data.address,
-            ward: data.ward,
-            district: data.district,
-            province: data.province,
-            level: 0,
-            image: "",
-          };
-
-          setCustomerSelect(dummyCustomer);
-        }
-
-        // calculate, open confirm dialog, and create order
-        if (order && customerSelect) {
-          // set enough info to useOrder's state
-          order.address = form.getValues().address;
-          order.ward = form.getValues().ward;
-          order.district = form.getValues().district;
-          order.province = form.getValues().province;
-
-          // auto decide base on id province!!!!
-          const suitablePickStorage = storages.find(
-            (storage) => storage.name === selectedStorage
-          );
-
-          if (!suitablePickStorage)
-            throw new Error("Không tìm thấy kho phù hợp.");
-
-          order.pick_address = suitablePickStorage.address;
-          order.pick_ward = suitablePickStorage.ward;
-          order.pick_district = suitablePickStorage.district;
-          order.pick_province = suitablePickStorage.province;
-          order.pick_storage_id = suitablePickStorage.id;
-
-          order.customer_id = customerSelect.id;
-          order.customer_name = form.getValues().name;
-          order.customer_phone = form.getValues().phone;
-
-          const calFees = await calShipmentFees({
-            formData: data,
-            order: order,
-          });
-
-          if (calFees?.data?.service_fee) {
-            setPrices(calFees?.data?.service_fee, calFees?.data?.insurance_fee);
-            order.customer_id = customerSelect.id;
-            order.customer_name = customerSelect.name;
-            setNewID();
-
-            setIsDialogOpen(true);
-          }
-        }
-      },
-      {
-        loading: "Đang tính toán...",
-        error: () => {
-          return "Tính toán không thành công, vui long thử lại.";
-        },
-      }
+  const filteredProducts = useMemo(() => {
+    return products.filter((product) =>
+      product.product_storages.some(
+        (product_storage) => product_storage.storage_name === selectedStorage
+      )
     );
-  }
+  }, [products, selectedStorage]);
 
-  function onSelectCustomerChange(value: string) {
-    if (value !== "new" && value) {
-      form.setValue(
-        "name",
-        customers.find((customer) => customer.id === value)?.name ?? ""
-      );
-      form.setValue(
-        "address",
-        customers.find((customer) => customer.id === value)?.address ?? ""
-      );
-      form.setValue(
-        "ward",
-        customers.find((customer) => customer.id === value)?.ward ?? ""
-      );
-      form.setValue(
-        "district",
-        customers.find((customer) => customer.id === value)?.district ?? ""
-      );
-      form.setValue(
-        "province",
-        customers.find((customer) => customer.id === value)?.province ?? ""
-      );
-      form.setValue(
-        "phone",
-        customers.find((customer) => customer.id === value)?.phone ?? ""
-      );
+  const onSelectCustomerChange = useCallback(
+    (value: string) => {
+      if (value !== "new" && value) {
+        const selectedCustomer = customers.find(
+          (customer) => customer.id === value
+        );
+        if (selectedCustomer) {
+          form.setValue("name", selectedCustomer.name ?? "");
+          form.setValue("address", selectedCustomer.address ?? "");
+          form.setValue("ward", selectedCustomer.ward ?? "");
+          form.setValue("district", selectedCustomer.district ?? "");
+          form.setValue("province", selectedCustomer.province ?? "");
+          form.setValue("phone", selectedCustomer.phone ?? "");
 
-      const provinceId =
-        province.find(
-          (province) =>
-            province.name ===
-            customers.find((customer) => customer.id === value)?.province
-        )?.idProvince ?? "";
+          const provinceId =
+            province.find((prov) => prov.name === selectedCustomer.province)
+              ?.idProvince ?? "";
+          setProvince(selectedCustomer.province ?? "", provinceId);
 
-      setProvince(
-        customers.find((customer) => customer.id === value)?.province ?? "",
-        provinceId
+          const districtId =
+            district.find((dist) => dist.name === selectedCustomer.district)
+              ?.idDistrict ?? "";
+          setDistrict(selectedCustomer.district ?? "", districtId);
+
+          const communeId =
+            communes.find((commune) => commune.name === selectedCustomer.ward)
+              ?.idCommune ?? "";
+          setCommune(selectedCustomer.ward ?? "", communeId);
+
+          form.trigger("name");
+        }
+      }
+    },
+    [customers, form, setCommune, setDistrict, setProvince]
+  );
+
+  const onSubmit = useCallback(
+    async (data: z.infer<typeof FormSchema>) => {
+      toast.promise(
+        async () => {
+          if (!customerSelect) {
+            const dummyCustomer: CustomerType = {
+              id: "1f8c6d32-0cff-4916-9104-ce60f171d12c",
+              created_at: "",
+              dob: "",
+              email: "",
+              name: data.name,
+              phone: data.phone,
+              address: data.address,
+              ward: data.ward,
+              district: data.district,
+              province: data.province,
+              level: 0,
+              image: "",
+            };
+            setCustomerSelect(dummyCustomer);
+          }
+
+          if (order && customerSelect) {
+            const suitablePickStorage = storages.find(
+              (storage) => storage.name === selectedStorage
+            );
+            if (!suitablePickStorage)
+              throw new Error("Không tìm thấy kho phù hợp.");
+
+            order.pick_address = suitablePickStorage.address;
+            order.pick_ward = suitablePickStorage.ward;
+            order.pick_district = suitablePickStorage.district;
+            order.pick_province = suitablePickStorage.province;
+            order.pick_storage_id = suitablePickStorage.id;
+            order.customer_id = customerSelect.id;
+            order.customer_name = form.getValues().name;
+            order.customer_phone = form.getValues().phone;
+
+            const calFees = await calShipmentFees({
+              formData: data,
+              order: order,
+            });
+
+            if (calFees?.data?.service_fee) {
+              setPrices(
+                calFees?.data?.service_fee,
+                calFees?.data?.insurance_fee
+              );
+              setNewID();
+              setIsDialogOpen(true);
+            }
+          }
+        },
+        {
+          loading: "Đang tính toán...",
+          error: "Tính toán không thành công, vui lòng thử lại.",
+        }
       );
-
-      const districtId =
-        district.find(
-          (district) =>
-            district.name ===
-            customers.find((customer) => customer.id === value)?.district
-        )?.idDistrict ?? "";
-
-      setDistrict(
-        customers.find((customer) => customer.id === value)?.district ?? "",
-        districtId
-      );
-
-      const communeId =
-        communes.find(
-          (commune) =>
-            commune.name ===
-            customers.find((customer) => customer.id === value)?.ward
-        )?.idCommune ?? "";
-
-      setCommune(
-        customers.find((customer) => customer.id === value)?.ward ?? "",
-        communeId
-      );
-
-      form.trigger("name");
-    }
-  }
+    },
+    [
+      customerSelect,
+      form,
+      order,
+      setIsDialogOpen,
+      setNewID,
+      setPrices,
+      storages,
+      selectedStorage,
+    ]
+  );
 
   return (
     <>
@@ -342,23 +313,16 @@ export default function CreateForm({
                   </Select>
                 </div>
                 <div className="mt-3 flex h-[540px] w-full flex-col gap-3 overflow-auto pr-2">
-                  {products
-                    .filter((product) =>
-                      product.product_storages.some(
-                        (product_storage) =>
-                          product_storage.storage_name === selectedStorage
-                      )
-                    )
-                    .map((prod, index) => (
-                      <div className="w-full" key={index}>
-                        <ProductCard
-                          prod={prod}
-                          onAdd={() => {
-                            addProduct(prod);
-                          }}
-                        />
-                      </div>
-                    ))}
+                  {filteredProducts.map((prod, index) => (
+                    <div className="w-full" key={index}>
+                      <ProductCard
+                        prod={prod}
+                        onAdd={() => {
+                          addProduct(prod);
+                        }}
+                      />
+                    </div>
+                  ))}
                 </div>
                 <div className="flex flex-col gap-2">
                   <div>

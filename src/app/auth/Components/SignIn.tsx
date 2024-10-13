@@ -19,6 +19,7 @@ import { signInWithEmailAndPassword } from "@auth/_actions/signIn";
 import { readUserSession } from "@/app/_actions/user";
 import { useSession, SessionState } from "@/zustand/useSession";
 import GoogleOAuth from "@/app/OAuth/GoogleOAuth";
+import { useCallback } from "react";
 
 const FormSchema = z.object({
   email: z.string().email("Email không hợp lệ."),
@@ -40,45 +41,48 @@ export default function SignIn() {
     mode: "onChange",
   });
 
-  async function onSubmit(data: z.infer<typeof FormSchema>) {
-    toast.promise(
-      async () => {
-        const result = await signInWithEmailAndPassword(data);
+  const onSubmit = useCallback(
+    async (data: z.infer<typeof FormSchema>) => {
+      toast.promise(
+        async () => {
+          const result = await signInWithEmailAndPassword(data);
 
-        if (result.error) {
-          if (typeof result.error === "string") {
-            throw new Error(result.error);
-          } else {
-            throw new Error("Đăng nhập thất bại.");
+          if (result.error) {
+            if (typeof result.error === "string") {
+              throw new Error(result.error);
+            } else {
+              throw new Error("Đăng nhập thất bại.");
+            }
           }
-        }
 
-        const session = await readUserSession();
+          const session = await readUserSession();
 
-        if (
-          session.data &&
-          "detailData" in session.data &&
-          session.data.detailData
-        ) {
-          setSession(session.data.detailData);
-        } else {
-          throw new Error("Đăng nhập thất bại");
-        }
-      },
-      {
-        loading: "Đang đăng nhập...",
-        success: () => {
-          form.reset();
-          router.push("/");
-
-          return "Đăng nhập thành công!";
+          if (
+            session.data &&
+            "detailData" in session.data &&
+            session.data.detailData
+          ) {
+            setSession(session.data.detailData);
+          } else {
+            throw new Error("Đăng nhập thất bại");
+          }
         },
-        error: (error: any) => {
-          return error.message;
-        },
-      }
-    );
-  }
+        {
+          loading: "Đang đăng nhập...",
+          success: () => {
+            form.reset();
+            router.push("/");
+
+            return "Đăng nhập thành công!";
+          },
+          error: (error: any) => {
+            return error.message;
+          },
+        }
+      );
+    },
+    [setSession, router, form]
+  );
 
   return (
     <div className="flex flex-col gap-2">

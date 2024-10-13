@@ -17,6 +17,7 @@ import { deleteBlogById } from "@app/_actions/blog";
 import formatVNDate from "@utils/functions/formatVNDate";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
+import { useCallback } from "react";
 
 export const columns_headers = [
   { accessKey: "index", name: "STT" },
@@ -129,31 +130,42 @@ export const columns: ColumnDef<BlogType>[] = [
       const data = row.original;
       const session = useSession() as SessionState;
 
-      async function removeHandler(blog: BlogType) {
-        toast.promise(
-          async () => {
-            if (!session.session)
-              throw new Error("Không thể xác định phiên đăng nhập.");
+      const handleRemove = useCallback(
+        async (blog: BlogType) => {
+          toast.promise(
+            async () => {
+              if (!session.session)
+                throw new Error("Không thể xác định phiên đăng nhập.");
 
-            const result = await deleteBlogById({
-              blog: blog,
-              actor: {
-                actorId: session.session.id,
-                actorName: session.session.name,
-              },
-            });
+              const result = await deleteBlogById({
+                blog: blog,
+                actor: {
+                  actorId: session.session.id,
+                  actorName: session.session.name,
+                },
+              });
 
-            if (result.error) throw new Error(result.error);
-          },
-          {
-            success: "Xóa bài viết thành công",
-            loading: "Đang xóa bài viết...",
-            error: (error: any) => {
-              return error.message;
+              if (result.error) throw new Error(result.error);
             },
-          }
-        );
-      }
+            {
+              success: "Xóa bài viết thành công",
+              loading: "Đang xóa bài viết...",
+              error: (error: any) => {
+                return error.message;
+              },
+            }
+          );
+        },
+        [session]
+      );
+
+      const handleCopyId = useCallback(() => {
+        navigator.clipboard.writeText(data.id);
+      }, [data.id]);
+
+      const handleEdit = useCallback(() => {
+        router.push("/dashboard/blog/" + data.id);
+      }, [data.id, router]);
 
       return (
         <div className="flex w-full items-center justify-center">
@@ -165,17 +177,13 @@ export const columns: ColumnDef<BlogType>[] = [
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
               <DropdownMenuLabel>Hành động</DropdownMenuLabel>
-              <DropdownMenuItem
-                onClick={() => navigator.clipboard.writeText(data.id)}
-              >
+              <DropdownMenuItem onClick={handleCopyId}>
                 Sao chép ID bài viết
               </DropdownMenuItem>
-              <DropdownMenuItem
-                onClick={() => router.push("/dashboard/blog/" + data.id)}
-              >
+              <DropdownMenuItem onClick={handleEdit}>
                 Chỉnh sửa bài viết
               </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => removeHandler(data)}>
+              <DropdownMenuItem onClick={() => handleRemove(data)}>
                 Xóa bài viết
               </DropdownMenuItem>
             </DropdownMenuContent>

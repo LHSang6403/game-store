@@ -2,14 +2,14 @@
 
 import { ColumnDef } from "@tanstack/react-table";
 import { MoreHorizontal, ArrowUpDown } from "lucide-react";
-import { Button } from "@components/ui/button";
+import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuTrigger,
-} from "@components/ui/dropdown-menu";
+} from "@/components/ui/dropdown-menu";
 import {
   Select,
   SelectContent,
@@ -18,7 +18,7 @@ import {
   SelectLabel,
   SelectTrigger,
   SelectValue,
-} from "@components/ui/select";
+} from "@/components/ui/select";
 import type {
   OrderType,
   ProductWithDescriptionAndStorageType,
@@ -28,7 +28,7 @@ import formatCurrency from "@utils/functions/formatCurrency";
 import { toast } from "sonner";
 import { updateStateOrder } from "@app/_actions/order";
 import { PrintDialog } from "@app/(protected)/dashboard/order/Components/PrintDialog";
-import { useMemo, useState } from "react";
+import { useMemo, useCallback, useState } from "react";
 import { printGHNOrder } from "@/app/_actions/GHNShipment";
 import { ShipmentState } from "@utils/types/index";
 import { useSession, SessionState } from "@/zustand/useSession";
@@ -62,11 +62,9 @@ export const columns: ColumnDef<OrderType>[] = [
     header: "Sản phẩm",
     cell: ({ row }) => {
       const data = row.original;
-
       const products = data.products;
-      let productsWithQuantities: ProductWithQuantity[] = [];
 
-      productsWithQuantities = useMemo(() => {
+      const productsWithQuantities = useMemo(() => {
         const productQuantities: ProductWithQuantity[] = [];
         products?.forEach((product: ProductWithDescriptionAndStorageType) => {
           const existingProduct = productQuantities.find(
@@ -81,7 +79,7 @@ export const columns: ColumnDef<OrderType>[] = [
         });
 
         return productQuantities;
-      }, [products, products?.length]);
+      }, [products]);
 
       return (
         <div className="line-clamp-5 overflow-ellipsis sm:w-36">
@@ -122,32 +120,36 @@ export const columns: ColumnDef<OrderType>[] = [
       const data = row.original;
       const session = useSession() as SessionState;
 
-      function handleUpdateState(newState: ShipmentState) {
-        toast.promise(
-          async () => {
-            if (!session.session)
-              throw new Error("Không xác định phiên đăng nhập.");
+      const handleUpdateState = useCallback(
+        (newState: ShipmentState) => {
+          toast.promise(
+            async () => {
+              if (!session.session)
+                throw new Error("Không xác định phiên đăng nhập.");
 
-            const result = await updateStateOrder({
-              order: data,
-              state: newState,
-              actor: {
-                actorId: session.session?.id,
-                actorName: session.session?.name,
-              },
-            });
+              const result = await updateStateOrder({
+                order: data,
+                state: newState,
+                actor: {
+                  actorId: session.session?.id,
+                  actorName: session.session?.name,
+                },
+              });
 
-            if (result.error) throw new Error(result.error);
-          },
-          {
-            loading: "Đang cập nhật đơn hàng...",
-            success: "Cập nhật đơn hàng thành công!",
-            error: (error: any) => {
-              return error.message;
+              if (result.error) throw new Error(result.error);
             },
-          }
-        );
-      }
+            {
+              loading: "Đang cập nhật đơn hàng...",
+              success: "Cập nhật đơn hàng thành công!",
+              error: (error: any) => {
+                return error.message;
+              },
+            }
+          );
+        },
+        [data, session.session]
+      );
+
       return (
         <Select
           disabled={data.state !== "Đang chờ"}
@@ -217,22 +219,25 @@ export const columns: ColumnDef<OrderType>[] = [
       const [isPrintOpen, setIsPrintOpen] = useState(false);
       const [printResult, setPrintResult] = useState("");
 
-      const printHandler = async ({
-        label_code,
-        size,
-      }: {
-        label_code: string;
-        size: "A5" | "80x80" | "52x70";
-      }) => {
-        const print = await printGHNOrder({
-          order_codes: [label_code],
-          size: size,
-        });
+      const printHandler = useCallback(
+        async ({
+          label_code,
+          size,
+        }: {
+          label_code: string;
+          size: "A5" | "80x80" | "52x70";
+        }) => {
+          const print = await printGHNOrder({
+            order_codes: [label_code],
+            size: size,
+          });
 
-        setPrintResult(print.data);
-      };
+          setPrintResult(print.data);
+        },
+        []
+      );
 
-      function handleCancelOrder() {
+      const handleCancelOrder = useCallback(() => {
         toast.promise(
           async () => {
             if (!session.session)
@@ -257,7 +262,7 @@ export const columns: ColumnDef<OrderType>[] = [
             },
           }
         );
-      }
+      }, [data, session.session]);
 
       return (
         <div className="flex w-full items-center justify-center">
@@ -294,18 +299,6 @@ export const columns: ColumnDef<OrderType>[] = [
               >
                 In khổ A5
               </DropdownMenuItem>
-              {/* <DropdownMenuItem // only GHTK have siza A6, can not test GHTK print in sandbox
-                disabled={data.shipment_name == "GHN"} 
-                onClick={() => {
-                  setIsPrintOpen(!isPrintOpen);
-                  printHandler({
-                    label_code: data.shipment_label_code!,
-                    size: "A5",
-                  });
-                }}
-              >
-                In khổ A6
-              </DropdownMenuItem> */}
               <DropdownMenuItem
                 disabled={data.shipment_name == "GHTK"}
                 onClick={() => {

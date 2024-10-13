@@ -12,7 +12,7 @@ import ProductFormInputs from "@/app/(protected)/dashboard/product/create/Compon
 import useFiles from "@/zustand/useFiles";
 import { useSession, SessionState } from "@/zustand/useSession";
 import { ProductStorageType } from "@/utils/types/index";
-import { useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import ProductStorageCheckbox from "@/app/(protected)/dashboard/product/create/Components/ProductStorageCheckbox";
 import { createHandler } from "@/app/(protected)/dashboard/product/create/_actions/index";
@@ -56,14 +56,17 @@ export default function CreateForm() {
   const [description, setDescription] =
     useState<JSONContent>(defaultValueEditor);
 
-  const initState = {
-    brand: "",
-    name: "",
-    description: "",
-    price: "",
-    rate: "",
-    category_id: "",
-  };
+  const initState = useMemo(
+    () => ({
+      brand: "",
+      name: "",
+      description: "",
+      price: "",
+      rate: "",
+      category_id: "",
+    }),
+    []
+  );
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
@@ -81,35 +84,45 @@ export default function CreateForm() {
     staleTime: 60 * (60 * 1000),
   });
 
-  async function onSubmit(data: z.infer<typeof FormSchema>) {
-    toast.promise(
-      async () => {
-        if (!session) throw new Error("Lỗi không tìm thấy phiên làm việc.");
+  const handleStorageValuesChange = useCallback(
+    (values: ProductStorageType[]) => {
+      setProductStorages(values);
+    },
+    []
+  );
 
-        const result = await createHandler({
-          formData: data,
-          description: description,
-          productImages: files,
-          session: session,
-          productStorages: productStorages,
-        });
+  const onSubmit = useCallback(
+    async (data: z.infer<typeof FormSchema>) => {
+      toast.promise(
+        async () => {
+          if (!session) throw new Error("Lỗi không tìm thấy phiên làm việc.");
 
-        if (result.error) throw new Error(result.error);
-      },
-      {
-        loading: "Đang tạo sản phẩm...",
-        success: () => {
-          form.reset();
-          router.push("/dashboard/product");
+          const result = await createHandler({
+            formData: data,
+            description: description,
+            productImages: files,
+            session: session,
+            productStorages: productStorages,
+          });
 
-          return "Tạo sản phẩm thành công. Đang chuyển hướng...";
+          if (result.error) throw new Error(result.error);
         },
-        error: (error: any) => {
-          return error.message;
-        },
-      }
-    );
-  }
+        {
+          loading: "Đang tạo sản phẩm...",
+          success: () => {
+            form.reset();
+            router.push("/dashboard/product");
+
+            return "Tạo sản phẩm thành công. Đang chuyển hướng...";
+          },
+          error: (error: any) => {
+            return error.message;
+          },
+        }
+      );
+    },
+    [session, description, files, productStorages, form, router]
+  );
 
   return (
     <div className="flex flex-col gap-4">
@@ -131,11 +144,9 @@ export default function CreateForm() {
               </CardContent>
             </Card>
           </div>
-          <div className="">
+          <div>
             <ProductStorageCheckbox
-              onValuesChange={(values) => {
-                setProductStorages(values);
-              }}
+              onValuesChange={handleStorageValuesChange}
             />
           </div>
         </form>

@@ -1,5 +1,6 @@
 "use client";
 
+import { useMemo, useCallback } from "react";
 import RevenueBarChart from "@/app/(protected)/dashboard/Components/Charts/RevenueBarChart";
 import { Banknote, Signal, Map, LocateFixed } from "lucide-react";
 import DataCard from "@/app/(protected)/dashboard/Components/DataCard";
@@ -19,14 +20,14 @@ export default function Dashboard() {
     staleTime: 60 * (60 * 1000),
   });
 
-  const calculateTotalOrderPrice = (orders) => {
+  const calculateTotalOrderPrice = useCallback((orders) => {
     return (
       orders?.data?.reduce((total, order) => total + order.total_price, 0) ?? 0
     );
-  };
+  }, []);
 
-  const countOrdersByProvince = (orders) => {
-    const ordersByProvince = {};
+  const countOrdersByProvince = useCallback((orders) => {
+    const ordersByProvince: Record<string, number> = {};
 
     orders?.data?.forEach((order) => {
       const { province } = order;
@@ -34,25 +35,41 @@ export default function Dashboard() {
     });
 
     return ordersByProvince;
-  };
+  }, []);
 
-  const hoChiMinhOrdersCount =
-    countOrdersByProvince(orders)?.["Thành phố Hồ Chí Minh"] ?? 0;
-  const haNoiOrdersCount =
-    countOrdersByProvince(orders)?.["Thành phố Hà Nội"] ?? 0;
-  const ordersByProvince = countOrdersByProvince(orders);
+  const totalOrderPrice = useMemo(
+    () => calculateTotalOrderPrice(orders),
+    [orders, calculateTotalOrderPrice]
+  );
 
-  let maxOrdersProvince = "Không có";
-  let maxOrdersCount = 0;
+  const ordersByProvince = useMemo(
+    () => countOrdersByProvince(orders),
+    [orders, countOrdersByProvince]
+  );
 
-  for (const province in ordersByProvince) {
-    if (ordersByProvince[province] > maxOrdersCount) {
-      maxOrdersCount = ordersByProvince[province];
-      maxOrdersProvince = province;
+  const hoChiMinhOrdersCount = useMemo(
+    () => ordersByProvince?.["Thành phố Hồ Chí Minh"] ?? 0,
+    [ordersByProvince]
+  );
+
+  const haNoiOrdersCount = useMemo(
+    () => ordersByProvince?.["Thành phố Hà Nội"] ?? 0,
+    [ordersByProvince]
+  );
+
+  const { maxOrdersProvince, maxOrdersCount } = useMemo(() => {
+    let maxOrdersProvince = "Không có";
+    let maxOrdersCount = 0;
+
+    for (const province in ordersByProvince) {
+      if (ordersByProvince[province] > maxOrdersCount) {
+        maxOrdersCount = ordersByProvince[province];
+        maxOrdersProvince = province;
+      }
     }
-  }
 
-  const totalOrderPrice = calculateTotalOrderPrice(orders);
+    return { maxOrdersProvince, maxOrdersCount };
+  }, [ordersByProvince]);
 
   return (
     <main className="flex w-full flex-col gap-4 pb-4 pt-2 xl:col-span-3 sm:gap-2 sm:py-0">

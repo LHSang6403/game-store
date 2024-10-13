@@ -6,6 +6,8 @@ import { revalidatePath } from "next/cache";
 import { updateStateOrder } from "@app/_actions/order";
 import { OrderType, LogActorType } from "@/utils/types";
 import removeLeadingZeroAfterSpace from "@utils/functions/removeLeadingZeroAfterSpace";
+import { buildResponse } from "@/utils/functions/buildResponse";
+import { ApiStatus, ApiStatusNumber } from "@/utils/types/apiStatus";
 
 const headers = {
   "Content-Type": "application/json",
@@ -56,19 +58,19 @@ export async function requestGHNOrder(data: GHNDataType) {
       }
     );
 
-    return {
+    return buildResponse({
       status: response?.data?.code,
       statusText: response?.data?.message_display,
       data: response?.data?.data,
       error: null,
-    };
+    });
   } catch (error: any) {
-    return {
-      status: 500,
-      statusText: "Lỗi máy chủ",
+    return buildResponse({
+      status: ApiStatusNumber.InternalServerError,
+      statusText: ApiStatus.InternalServerError,
       data: null,
       error: error.message,
-    };
+    });
   }
 }
 
@@ -82,19 +84,19 @@ export async function calGHNFees(params: any) {
       }
     );
 
-    return {
+    return buildResponse({
       status: response?.data?.code,
       statusText: response?.data?.message,
       data: response?.data?.data,
       error: null,
-    };
+    });
   } catch (error: any) {
-    return {
-      status: 500,
-      statusText: "Lỗi máy chủ",
+    return buildResponse({
+      status: ApiStatusNumber.InternalServerError,
+      statusText: ApiStatus.InternalServerError,
       data: null,
       error: error.message,
-    };
+    });
   }
 }
 
@@ -114,7 +116,7 @@ export async function cancelGHNOrder({
       { headers }
     );
 
-    if (response.data.code === 200) {
+    if (response.data.code === ApiStatusNumber.Success) {
       await updateStateOrder({
         order: order,
         state: "Đã hủy",
@@ -123,22 +125,22 @@ export async function cancelGHNOrder({
 
       revalidatePath("/cart");
 
-      return {
+      return buildResponse({
         status: response.data.code,
         statusText: response.data.message,
         data: response.data.data,
         error: null,
-      };
+      });
     }
 
     throw new Error("Hủy đơn không thành công");
   } catch (error: any) {
-    return {
-      status: 500,
-      statusText: "Lỗi máy chủ",
+    return buildResponse({
+      status: ApiStatusNumber.InternalServerError,
+      statusText: ApiStatus.InternalServerError,
       data: null,
       error: error.message,
-    };
+    });
   }
 }
 
@@ -150,19 +152,19 @@ export async function getGHNOrder({ order_codes }: { order_codes: string[] }) {
       { headers }
     );
 
-    return {
+    return buildResponse({
       status: response?.data?.code,
       statusText: response?.data?.message,
       data: response?.data?.data,
       error: null,
-    };
+    });
   } catch (error: any) {
-    return {
-      status: 500,
-      statusText: "Lỗi máy chủ",
+    return buildResponse({
+      status: ApiStatusNumber.InternalServerError,
+      statusText: ApiStatus.InternalServerError,
       data: null,
       error: error.message,
-    };
+    });
   }
 }
 
@@ -185,18 +187,18 @@ export async function printGHNOrder({
       { headers }
     );
 
-    return {
-      status: 200,
-      statusText: "OK",
+    return buildResponse({
+      status: ApiStatusNumber.Success,
+      statusText: ApiStatus.Success,
       data: printResponse?.data,
       error: null,
-    };
+    });
   } catch (error: any) {
-    return {
-      status: 500,
-      statusText: "Lỗi máy chủ",
+    return buildResponse({
+      status: ApiStatusNumber.InternalServerError,
+      statusText: ApiStatus.InternalServerError,
       data: null,
       error: error.message,
-    };
+    });
   }
 }

@@ -1,5 +1,6 @@
 "use client";
 
+import { useCallback } from "react";
 import Image from "next/image";
 import { Badge } from "@/components/ui/badge";
 import useProductFilter from "@/zustand/useProductFilter";
@@ -8,13 +9,13 @@ import { CategoryType } from "@/utils/types";
 export default function CategoryCard({ category }: { category: CategoryType }) {
   const { categories, setCategories } = useProductFilter();
 
-  const handleCategoryClick = () => {
+  const handleCategoryClick = useCallback(() => {
     if (categories.includes(category.id)) {
       setCategories(categories.filter((cate) => cate !== category.id));
     } else {
       setCategories([...categories, category.id]);
     }
-  };
+  }, [categories]);
 
   return (
     <Badge

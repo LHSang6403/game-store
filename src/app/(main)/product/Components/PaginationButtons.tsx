@@ -1,5 +1,6 @@
 "use client";
 
+import { useCallback } from "react";
 import {
   Pagination,
   PaginationContent,
@@ -18,9 +19,24 @@ export default function PaginationButtons({
   currentPage: number;
   onPageChange: (pageNumber: number) => void;
 }) {
-  function handlePageChange(pageNumber: number) {
-    onPageChange(pageNumber);
-  }
+  const handlePageChange = useCallback(
+    (pageNumber: number) => {
+      onPageChange(pageNumber);
+    },
+    [onPageChange]
+  );
+
+  const handlePreviousClick = useCallback(() => {
+    if (currentPage > 1) {
+      handlePageChange(currentPage - 1);
+    }
+  }, [currentPage, handlePageChange]);
+
+  const handleNextClick = useCallback(() => {
+    if (currentPage < totalPages) {
+      handlePageChange(currentPage + 1);
+    }
+  }, [currentPage, totalPages, handlePageChange]);
 
   const isPreviousDisabled = currentPage === 1;
   const isNextDisabled = currentPage === totalPages;
@@ -35,9 +51,7 @@ export default function PaginationButtons({
                 ? "hover:cursor-pointer"
                 : "hover:cursor-not-allowed"
             }`}
-            onClick={() => {
-              if (!isPreviousDisabled) handlePageChange(currentPage - 1);
-            }}
+            onClick={handlePreviousClick}
           />
         </PaginationItem>
         {[...Array(totalPages)].map((_, index) => (
@@ -61,9 +75,7 @@ export default function PaginationButtons({
                 ? "hover:cursor-pointer"
                 : "hover:cursor-not-allowed"
             }`}
-            onClick={() => {
-              if (!isNextDisabled) handlePageChange(currentPage + 1);
-            }}
+            onClick={handleNextClick}
           />
         </PaginationItem>
       </PaginationContent>

@@ -1,6 +1,7 @@
 import type { OrderType } from "@/utils/types";
 import { generate } from "randomstring";
 import { requestGHTKOrder } from "@/app/_actions/GHTKShipment";
+import { ApiStatus, ApiStatusNumber } from "@/utils/types/apiStatus";
 
 export interface GHTKDataType {
   order: {
@@ -78,8 +79,8 @@ export async function processOrderGHTK({
     };
   } catch (error: any) {
     return {
-      status: 500,
-      statusText: error.message,
+      status: ApiStatusNumber.InternalServerError,
+      statusText: ApiStatus.InternalServerError,
       data: null,
       error: error.message,
     };

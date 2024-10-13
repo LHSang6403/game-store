@@ -5,6 +5,7 @@ import { readProductsWithDetail } from "@/app/_actions/product";
 import { readCustomers } from "@app/_actions/user";
 import { readStorages } from "@app/_actions/storage";
 import { useQuery } from "@tanstack/react-query";
+import { useMemo } from "react";
 import DashboardColumnsSkeleton from "@/app/(protected)/dashboard/Components/DashboardColumnsSkeleton";
 
 export default function page() {
@@ -38,6 +39,24 @@ export default function page() {
     staleTime: 15 * (60 * 1000),
   });
 
+  const shouldRenderForm = useMemo(() => {
+    return (
+      isProductSuccess &&
+      isCustomerSuccess &&
+      isStorageSuccess &&
+      customers?.data &&
+      products?.data &&
+      storages?.data
+    );
+  }, [
+    isProductSuccess,
+    isCustomerSuccess,
+    isStorageSuccess,
+    customers,
+    products,
+    storages,
+  ]);
+
   return (
     <div className="flex min-h-[calc(100vh_-_6rem)] flex-col gap-2">
       <h1 className="my-2 text-2xl font-medium">Tạo đơn hàng</h1>
@@ -46,18 +65,13 @@ export default function page() {
           <DashboardColumnsSkeleton />
         ) : (
           <>
-            {isProductSuccess &&
-              isCustomerSuccess &&
-              isStorageSuccess &&
-              customers.data &&
-              products.data &&
-              storages.data && (
-                <CreateForm
-                  storages={storages.data}
-                  customers={customers.data}
-                  products={products.data}
-                />
-              )}
+            {shouldRenderForm && (
+              <CreateForm
+                storages={storages?.data ?? []}
+                customers={customers?.data ?? []}
+                products={products?.data ?? []}
+              />
+            )}
           </>
         )}
       </div>

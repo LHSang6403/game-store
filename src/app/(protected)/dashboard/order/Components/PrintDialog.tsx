@@ -9,6 +9,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useCallback, useMemo } from "react";
 
 export function PrintDialog({
   content,
@@ -19,7 +20,7 @@ export function PrintDialog({
   isOpen: boolean;
   onOpenChange: (open: boolean) => void;
 }) {
-  function removeElementById(htmlString: string, id: string) {
+  const removeElementById = useCallback((htmlString: string, id: string) => {
     const wrapper = document?.createElement("div");
     wrapper.innerHTML = htmlString;
 
@@ -29,8 +30,15 @@ export function PrintDialog({
     }
 
     return wrapper.innerHTML;
-  }
-  const modifiedHtmlString = removeElementById(content, "process-bar");
+  }, []);
+
+  const modifiedHtmlString = useMemo(() => {
+    return removeElementById(content, "process-bar");
+  }, [content, removeElementById]);
+
+  const handlePrint = useCallback(() => {
+    console.log("Print api, call here");
+  }, []);
 
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
@@ -54,9 +62,7 @@ export function PrintDialog({
         )}
         <DialogFooter>
           <Button
-            onClick={() => {
-              console.log("Print api, call here");
-            }}
+            onClick={handlePrint}
             type="submit"
             className="w-full text-background"
           >

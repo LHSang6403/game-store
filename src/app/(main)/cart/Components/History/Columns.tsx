@@ -39,9 +39,8 @@ export const columns: ColumnDef<OrderType>[] = [
       const data = row.original;
 
       const products = data.products;
-      let productsWithQuantities: ProductWithQuantity[] = [];
 
-      productsWithQuantities = useMemo(() => {
+      const productsWithQuantities = useMemo(() => {
         const productQuantities: ProductWithQuantity[] = [];
         products?.forEach((product: ProductWithDescriptionAndStorageType) => {
           const existingProduct = productQuantities.find(

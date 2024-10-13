@@ -19,6 +19,7 @@ import Link from "next/link";
 import { Card, CardHeader, CardContent } from "@/components/ui/card";
 import createSupabaseBrowserClient from "@/supabase-query/client";
 import { useRouter } from "next/navigation";
+import { useCallback } from "react";
 
 const FormSchema = z
   .object({
@@ -47,23 +48,26 @@ export default function page() {
     mode: "onChange",
   });
 
-  async function onSubmit(data: z.infer<typeof FormSchema>) {
-    toast.promise(
-      async () => {
-        await supabase.auth.updateUser({
-          password: data.password,
-        });
-      },
-      {
-        error: "Đã có lỗi xảy ra. Vui lòng thử lại sau.",
-        loading: "Đang lưu mật khẩu mới...",
-        success: () => {
-          router.push("/auth");
-          return "Cập nhật mật khẩu thành công. Vui lòng đăng nhập lại.";
+  const onSubmit = useCallback(
+    async (data: z.infer<typeof FormSchema>) => {
+      toast.promise(
+        async () => {
+          await supabase.auth.updateUser({
+            password: data.password,
+          });
         },
-      }
-    );
-  }
+        {
+          error: "Đã có lỗi xảy ra. Vui lòng thử lại sau.",
+          loading: "Đang lưu mật khẩu mới...",
+          success: () => {
+            router.push("/auth");
+            return "Cập nhật mật khẩu thành công. Vui lòng đăng nhập lại.";
+          },
+        }
+      );
+    },
+    [supabase, router]
+  );
 
   return (
     <Template>

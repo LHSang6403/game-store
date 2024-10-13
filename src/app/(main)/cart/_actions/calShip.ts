@@ -8,6 +8,7 @@ import { calGHTKFees } from "@/app/_actions/GHTKShipment";
 import { findGHNDistrictIDByNameExtension } from "@app/(main)/cart/_actions/processGHN";
 
 import districts from "@/static-data/GHN-api/districts.json";
+import { ApiStatus, ApiStatusNumber } from "@/utils/types/apiStatus";
 
 export async function calShipmentFees({
   formData,
@@ -100,8 +101,8 @@ export async function calShipmentFees({
     }
   } catch (error: any) {
     return {
-      status: 500,
-      statusText: "Lỗi máy chủ",
+      status: ApiStatusNumber.InternalServerError,
+      statusText: ApiStatus.InternalServerError,
       data: null,
       error: error.message,
     };

@@ -1,11 +1,6 @@
 "use server";
 
-import type {
-  CustomerType,
-  StaffRole,
-  StaffType,
-  LogActorType,
-} from "@utils/types";
+import { CustomerType, StaffRole, StaffType, LogActorType } from "@utils/types";
 import createSupabaseServerClient, {
   createSupabaseAdmin,
 } from "@/supabase-query/server";
@@ -13,6 +8,15 @@ import { revalidatePath } from "next/cache";
 import customerToStaff from "@utils/functions/customerToStaff";
 import staffToCustomer from "@utils/functions/staffToCustomer";
 import { saveToLog } from "@app/_actions/log";
+import { buildResponse } from "@/utils/functions/buildResponse";
+import { Log } from "@/utils/types/log";
+import { ApiStatus, ApiStatusNumber } from "@/utils/types/apiStatus";
+import {
+  ERROR_WHEN_READ,
+  ERROR_WHEN_UPDATE,
+  NO_PERMISSION_TO_UPDATE,
+  UNAUTHENTICATED_USER,
+} from "@/utils/constant/auth";
 
 const OWNER_ID = "970f61f1-f480-4388-a100-521594fe7840";
 
@@ -21,8 +25,7 @@ export async function readUserSession() {
     const supabase = await createSupabaseServerClient();
     const result = await supabase.auth.getSession();
 
-    if (!result?.data?.session)
-      throw new Error("Không xác định phiên đăng nhập.");
+    if (!result?.data?.session) throw new Error(UNAUTHENTICATED_USER);
 
     const userMetadataRole = result?.data?.session?.user?.user_metadata?.role;
     const userId = result?.data?.session?.user?.id;
@@ -37,7 +40,7 @@ export async function readUserSession() {
         .select("*")
         .eq("id", userId);
 
-      return {
+      return buildResponse({
         status: staffResult.status,
         statusText: staffResult.statusText,
         data: {
@@ -45,14 +48,14 @@ export async function readUserSession() {
           detailData: (staffResult.data?.[0] as StaffType) || null,
         },
         error: staffResult.error,
-      };
+      });
     } else {
       const customerResult = await supabase
         .from("customer")
         .select("*")
         .eq("id", userId);
 
-      return {
+      return buildResponse({
         status: customerResult.status,
         statusText: customerResult.statusText,
         data: {
@@ -60,15 +63,15 @@ export async function readUserSession() {
           detailData: (customerResult.data?.[0] as CustomerType) || null,
         },
         error: customerResult.error,
-      };
+      });
     }
   } catch (error: any) {
-    return {
-      status: 500,
-      statusText: "Lỗi máy chủ",
+    return buildResponse({
+      status: ApiStatusNumber.InternalServerError,
+      statusText: ApiStatus.InternalServerError,
       data: null,
       error: error.message,
-    };
+    });
   }
 }
 
@@ -82,12 +85,12 @@ export async function updateStaffRole({
   actor: LogActorType;
 }) {
   try {
-    if (staff.id === OWNER_ID)
-      throw new Error("Không thể cập nhật quyền của chủ cửa hàng.");
+    if (staff.id === OWNER_ID) throw new Error(NO_PERMISSION_TO_UPDATE);
 
-    const isManagerAuthenticeated = await checkRoleStaff({ role: "Quản lý" });
-    if (!isManagerAuthenticeated)
-      throw new Error("Tài khoản không có quyền cập nhật.");
+    const isManagerAuthenticeated = await checkRoleStaff({
+      role: StaffRole.Manager,
+    });
+    if (!isManagerAuthenticeated) throw new Error(NO_PERMISSION_TO_UPDATE);
 
     const supabase = await createSupabaseServerClient();
     const supabaseAdmin = await createSupabaseAdmin();
@@ -97,7 +100,7 @@ export async function updateStaffRole({
       .update({ role: updatedRole })
       .eq("id", staff.id);
 
-    if (updateResult.error) throw new Error("Lỗi cập nhật dữ liệu.");
+    if (updateResult.error) throw new Error(ERROR_WHEN_UPDATE);
 
     const updateAdminResult = await supabaseAdmin.auth.admin.updateUserById(
       staff.id,
@@ -108,27 +111,27 @@ export async function updateStaffRole({
 
     await saveToLog({
       logName: "Cập nhật nhân viên thành " + updatedRole,
-      logType: "Cập nhật",
+      logType: Log.Update,
       logResult:
-        !updateResult.error && !updateAdminResult ? "Thành công" : "Thất bại",
+        !updateResult.error && !updateAdminResult ? Log.Success : Log.Fail,
       logActor: actor,
     });
 
     revalidatePath("/dashboard/staff");
 
-    return {
+    return buildResponse({
       status: updateResult.status,
       statusText: updateResult.statusText,
       data: updateResult.data,
       error: null,
-    };
+    });
   } catch (error: any) {
-    return {
-      status: 500,
-      statusText: "Lỗi máy chủ",
+    return buildResponse({
+      status: ApiStatusNumber.InternalServerError,
+      statusText: ApiStatus.InternalServerError,
       data: null,
       error: error.message,
-    };
+    });
   }
 }
 
@@ -142,9 +145,10 @@ export async function updateCustomerToStaff({
   actor: LogActorType;
 }) {
   try {
-    const isManagerAuthenticated = await checkRoleStaff({ role: "Quản lý" });
-    if (!isManagerAuthenticated)
-      throw new Error("Tài khoản không có quyền cập nhật.");
+    const isManagerAuthenticated = await checkRoleStaff({
+      role: StaffRole.Manager,
+    });
+    if (!isManagerAuthenticated) throw new Error(NO_PERMISSION_TO_UPDATE);
 
     const supabase = await createSupabaseServerClient();
     const supabaseAdmin = await createSupabaseAdmin();
@@ -164,7 +168,7 @@ export async function updateCustomerToStaff({
       .single();
 
     const customerData = customerResult.data;
-    if (!customerData) throw new Error("Lỗi truy xuất dữ liệu.");
+    if (!customerData) throw new Error(ERROR_WHEN_READ);
 
     await supabaseAdmin.auth.admin.updateUserById(customer.id, {
       user_metadata: { role: role },
@@ -176,31 +180,31 @@ export async function updateCustomerToStaff({
       .from("staff")
       .insert(customerToStaff(customerData, role));
 
-    if (result.error) throw new Error("Lỗi truy xuất dữ liệu.");
+    if (result.error) throw new Error(ERROR_WHEN_READ);
 
     revalidatePath("/dashboard/customer");
     revalidatePath("/dashboard/staff");
 
     await saveToLog({
       logName: "Cập nhật khách hàng " + customer.name + " thành nhân viên",
-      logType: "Cập nhật",
-      logResult: !result.error ? "Thành công" : "Thất bại",
+      logType: Log.Update,
+      logResult: !result.error ? Log.Success : Log.Fail,
       logActor: actor,
     });
 
-    return {
+    return buildResponse({
       status: result.status,
       statusText: result.statusText,
       data: result.data,
       error: result.error,
-    };
+    });
   } catch (error: any) {
-    return {
-      status: 500,
-      statusText: error.message,
+    return buildResponse({
+      status: ApiStatusNumber.InternalServerError,
+      statusText: ApiStatus.InternalServerError,
       data: null,
       error: error.message,
-    };
+    });
   }
 }
 
@@ -212,14 +216,12 @@ export async function updateStaffToCustomer({
   actor: LogActorType;
 }) {
   try {
-    if (staff.id === OWNER_ID)
-      throw new Error(
-        "Không thể cập nhật quyền của chủ cửa hàng thành khách hàng."
-      );
+    if (staff.id === OWNER_ID) throw new Error(NO_PERMISSION_TO_UPDATE);
 
-    const isManagerAuthenticated = await checkRoleStaff({ role: "Quản lý" });
-    if (!isManagerAuthenticated)
-      throw new Error("Tài khoản không có quyền cập nhật.");
+    const isManagerAuthenticated = await checkRoleStaff({
+      role: StaffRole.Manager,
+    });
+    if (!isManagerAuthenticated) throw new Error(NO_PERMISSION_TO_UPDATE);
 
     const supabase = await createSupabaseServerClient();
     const supabaseAdmin = await createSupabaseAdmin();
@@ -232,7 +234,7 @@ export async function updateStaffToCustomer({
 
     const staffData = staffResult.data;
 
-    if (!staffData) throw new Error("Lỗi truy vấn dữ liệu.");
+    if (!staffData) throw new Error(ERROR_WHEN_READ);
 
     await supabaseAdmin.auth.admin.updateUserById(staff.id, {
       user_metadata: { role: "Khách hàng" },
@@ -244,32 +246,31 @@ export async function updateStaffToCustomer({
       .from("customer")
       .insert(staffToCustomer(staffData));
 
-    if (result.error)
-      throw new Error("Đã có lỗi xảy ra khi cập nhật thông tin.");
+    if (result.error) throw new Error(ERROR_WHEN_UPDATE);
 
     revalidatePath("/dashboard/customer");
     revalidatePath("/dashboard/staff");
 
     await saveToLog({
       logName: "Cập nhật nhân viên " + staff.name + " thành khách hàng",
-      logType: "Cập nhật",
-      logResult: !result.error ? "Thành công" : "Thất bại",
+      logType: Log.Update,
+      logResult: !result.error ? Log.Success : Log.Fail,
       logActor: actor,
     });
 
-    return {
+    return buildResponse({
       status: result.status,
       statusText: result.statusText,
       data: result.data,
       error: result.error,
-    };
+    });
   } catch (error: any) {
-    return {
-      status: 500,
-      statusText: "Lỗi máy chủ",
+    return buildResponse({
+      status: ApiStatusNumber.InternalServerError,
+      statusText: ApiStatus.InternalServerError,
       data: null,
       error: error.message,
-    };
+    });
   }
 }
 
@@ -282,8 +283,7 @@ export async function updateUserProfile({
 }) {
   try {
     const isAuthenticated = await checkRoleAuthenticated();
-    if (!isAuthenticated)
-      throw new Error("Không xác định tài khoản đăng nhập.");
+    if (!isAuthenticated) throw new Error(UNAUTHENTICATED_USER);
 
     const supabase = await createSupabaseServerClient();
     const supabaseAdmin = await createSupabaseAdmin();
@@ -298,7 +298,7 @@ export async function updateUserProfile({
       .update(updatedUser)
       .eq("id", updatedUser.id);
 
-    if (result.error) throw new Error("Lỗi cập nhật dữ liệu.");
+    if (result.error) throw new Error(ERROR_WHEN_UPDATE);
 
     revalidatePath("/profile");
 
@@ -308,24 +308,24 @@ export async function updateUserProfile({
 
     await saveToLog({
       logName: "Cập nhật tài khoản " + updatedUser.name,
-      logType: "Cập nhật",
-      logResult: !result.error ? "Thành công" : "Thất bại",
+      logType: Log.Update,
+      logResult: !result.error ? Log.Success : Log.Fail,
       logActor: actor,
     });
 
-    return {
+    return buildResponse({
       status: result.status,
       statusText: result.statusText,
       data: result.data,
       error: result.error,
-    };
+    });
   } catch (error: any) {
-    return {
-      status: 500,
-      statusText: "Lỗi máy chủ",
+    return buildResponse({
+      status: ApiStatusNumber.InternalServerError,
+      statusText: ApiStatus.InternalServerError,
       data: null,
       error: error.message,
-    };
+    });
   }
 }
 
@@ -344,19 +344,19 @@ export async function readStaffs({
       .select("*")
       .range(offset, limit);
 
-    return {
+    return buildResponse({
       status: result.status,
       statusText: result.statusText,
       data: result.data as StaffType[],
       error: result.error,
-    };
+    });
   } catch (error: any) {
-    return {
-      status: 500,
-      statusText: "Lỗi máy chủ",
+    return buildResponse({
+      status: ApiStatusNumber.InternalServerError,
+      statusText: ApiStatus.InternalServerError,
       data: null,
       error: error.message,
-    };
+    });
   }
 }
 
@@ -376,19 +376,19 @@ export async function readCustomers({
       .range(offset, limit)
       .neq("name", "Khách hàng qua điện thoại");
 
-    return {
+    return buildResponse({
       status: result.status,
       statusText: result.statusText,
       data: result.data as CustomerType[],
       error: result.error,
-    };
+    });
   } catch (error: any) {
-    return {
-      status: 500,
-      statusText: "Lỗi máy chủ",
+    return buildResponse({
+      status: ApiStatusNumber.InternalServerError,
+      statusText: ApiStatus.InternalServerError,
       data: null,
       error: error.message,
-    };
+    });
   }
 }
 
@@ -403,14 +403,14 @@ export async function updateCustomerLevel({
 }) {
   try {
     const isManagerAuthenticated = await checkRoleStaff({
-      role: "Quản lý",
+      role: StaffRole.Manager,
     });
     const isSellerAuthenticated = await checkRoleStaff({
-      role: "Bán hàng",
+      role: StaffRole.Manager,
     });
 
     if (!isManagerAuthenticated && !isSellerAuthenticated) {
-      throw new Error("Tài khoản không có quyền cập nhật.");
+      throw new Error(NO_PERMISSION_TO_UPDATE);
     }
 
     const supabase = await createSupabaseServerClient();
@@ -420,31 +420,31 @@ export async function updateCustomerLevel({
       .update({ level: newLevel })
       .eq("id", customer.id);
 
-    if (result.error) throw new Error("Lỗi cập nhật dữ liệu.");
+    if (result.error) throw new Error(ERROR_WHEN_UPDATE);
 
     revalidatePath("/dashboard/customer");
 
     await saveToLog({
       logName:
         "Cập nhật điểm khách hàng " + customer.name + " thành " + newLevel,
-      logType: "Cập nhật",
-      logResult: !result.error ? "Thành công" : "Thất bại",
+      logType: Log.Update,
+      logResult: !result.error ? Log.Success : Log.Fail,
       logActor: actor,
     });
 
-    return {
+    return buildResponse({
       status: result.status,
       statusText: result.statusText,
       data: result.data,
       error: result.error,
-    };
+    });
   } catch (error: any) {
-    return {
-      status: 500,
-      statusText: "Lỗi máy chủ",
+    return buildResponse({
+      status: ApiStatusNumber.InternalServerError,
+      statusText: ApiStatus.InternalServerError,
       data: null,
       error: error.message,
-    };
+    });
   }
 }
 
@@ -459,8 +459,7 @@ export async function updateUserImage({
 }) {
   try {
     const isAuthenticated = await checkRoleAuthenticated();
-    if (!isAuthenticated)
-      throw new Error("Không xác định tài khoản đăng nhập.");
+    if (!isAuthenticated) throw new Error(UNAUTHENTICATED_USER);
 
     const supabase = await createSupabaseServerClient();
 
@@ -469,21 +468,21 @@ export async function updateUserImage({
       .update({ image: newImage })
       .eq("id", id);
 
-    if (result.error) throw new Error("Lỗi cập nhật dữ liệu.");
+    if (result.error) throw new Error(ERROR_WHEN_UPDATE);
 
-    return {
+    return buildResponse({
       status: result.status,
       statusText: result.statusText,
       data: result.data,
       error: result.error,
-    };
+    });
   } catch (error: any) {
-    return {
-      status: 500,
-      statusText: "Lỗi máy chủ",
+    return buildResponse({
+      status: ApiStatusNumber.InternalServerError,
+      statusText: ApiStatus.InternalServerError,
       data: null,
       error: error.message,
-    };
+    });
   }
 }
 

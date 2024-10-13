@@ -13,8 +13,11 @@ export interface StaffType {
   role: StaffRole;
 }
 
-export type StaffRole = "Bán hàng" | "Biên tập" | "Quản lý";
-
+export enum StaffRole {
+  Seller = "Bán hàng",
+  Writer = "Biên tập",
+  Manager = "Quản lý",
+}
 export interface CustomerType {
   id: string;
   created_at: string;

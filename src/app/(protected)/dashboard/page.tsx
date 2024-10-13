@@ -7,6 +7,7 @@ import DataCard from "@/app/(protected)/dashboard/Components/DataCard";
 import { useQuery } from "@tanstack/react-query";
 import { readAllProductStorages } from "@/app/_actions/product_storage";
 import { readCustomers, readStaffs } from "@app/_actions/user";
+import { useMemo } from "react";
 
 export default function page() {
   const { data: productStorages, isLoading: isProductStoragesLoading } =
@@ -28,10 +29,12 @@ export default function page() {
     staleTime: 60 * (60 * 1000),
   });
 
-  const totalQuantity = productStorages?.data?.reduce(
-    (total, current) => total + current.quantity,
-    0
-  );
+  const totalQuantity = useMemo(() => {
+    return productStorages?.data?.reduce(
+      (total, current) => total + current.quantity,
+      0
+    );
+  }, [productStorages]);
 
   return (
     <main className="flex w-full flex-col gap-4 pb-4 pt-2 sm:gap-2 sm:py-0">

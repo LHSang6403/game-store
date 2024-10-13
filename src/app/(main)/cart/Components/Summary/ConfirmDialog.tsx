@@ -39,8 +39,7 @@ export default function ConfirmDialog({
   const { removeAll } = useOrder() as OrderState;
   const products = order?.products;
 
-  let productsWithQuantities: ProductWithQuantity[] = [];
-  productsWithQuantities = useMemo(() => {
+  const productsWithQuantities = useMemo(() => {
     const productQuantities: ProductWithQuantity[] = [];
     products?.forEach((product: ProductWithDescriptionAndStorageType) => {
       const existingProduct = productQuantities.find(

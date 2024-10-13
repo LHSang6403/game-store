@@ -26,6 +26,7 @@ import { updateStaffToCustomer } from "@/app/_actions/user";
 import { useSession, SessionState } from "@/zustand/useSession";
 import EditProfile from "@app/(main)/profile/Components/EditProfile";
 import formatVNDate from "@/utils/functions/formatVNDate";
+import { useCallback } from "react";
 
 export const columns_headers = [
   { accessKey: "index", name: "STT" },
@@ -102,32 +103,35 @@ export const columns: ColumnDef<StaffType>[] = [
       const data = row.original;
       const session = useSession() as SessionState;
 
-      const handleUpdateRole = async (newRole: StaffRole) => {
-        toast.promise(
-          async () => {
-            if (!session.session)
-              throw new Error("Không thể xác định phiên đăng nhập.");
+      const handleUpdateRole = useCallback(
+        async (newRole: StaffRole) => {
+          toast.promise(
+            async () => {
+              if (!session.session)
+                throw new Error("Không thể xác định phiên đăng nhập.");
 
-            const result = await updateStaffRole({
-              staff: data,
-              updatedRole: newRole,
-              actor: {
-                actorId: session.session?.id,
-                actorName: session.session?.name,
-              },
-            });
+              const result = await updateStaffRole({
+                staff: data,
+                updatedRole: newRole,
+                actor: {
+                  actorId: session.session?.id,
+                  actorName: session.session?.name,
+                },
+              });
 
-            if (result.error) throw new Error(result.error);
-          },
-          {
-            success: "Cập nhật vai trò thành công.",
-            loading: "Đang cập nhật...",
-            error: (error: any) => {
-              return error.message;
+              if (result.error) throw new Error(result.error);
             },
-          }
-        );
-      };
+            {
+              success: "Cập nhật vai trò thành công.",
+              loading: "Đang cập nhật...",
+              error: (error: any) => {
+                return error.message;
+              },
+            }
+          );
+        },
+        [data, session.session]
+      );
 
       return (
         <Select
@@ -160,31 +164,34 @@ export const columns: ColumnDef<StaffType>[] = [
       const data = row.original;
       const session = useSession() as SessionState;
 
-      function updateStaffToCustomerHandler(staff: StaffType) {
-        toast.promise(
-          async () => {
-            if (!session.session)
-              throw new Error("Không thể xác định phiên đăng nhập.");
+      const updateStaffToCustomerHandler = useCallback(
+        async (staff: StaffType) => {
+          toast.promise(
+            async () => {
+              if (!session.session)
+                throw new Error("Không thể xác định phiên đăng nhập.");
 
-            const result = await updateStaffToCustomer({
-              staff: staff,
-              actor: {
-                actorId: session.session.id,
-                actorName: session.session.name,
-              },
-            });
+              const result = await updateStaffToCustomer({
+                staff: staff,
+                actor: {
+                  actorId: session.session.id,
+                  actorName: session.session.name,
+                },
+              });
 
-            if (result.error) throw new Error(result.error);
-          },
-          {
-            success: "Chuyển thành khách hàng thành công.",
-            loading: "Đang cập nhật...",
-            error: (error: any) => {
-              return error.message;
+              if (result.error) throw new Error(result.error);
             },
-          }
-        );
-      }
+            {
+              success: "Chuyển thành khách hàng thành công.",
+              loading: "Đang cập nhật...",
+              error: (error: any) => {
+                return error.message;
+              },
+            }
+          );
+        },
+        [session.session]
+      );
 
       return (
         <div className="flex w-full flex-row items-center justify-center sm:flex-col">
@@ -202,9 +209,7 @@ export const columns: ColumnDef<StaffType>[] = [
                 Sao chép ID nhân viên
               </DropdownMenuItem>
               <DropdownMenuItem
-                onClick={() => {
-                  updateStaffToCustomerHandler(data);
-                }}
+                onClick={() => updateStaffToCustomerHandler(data)}
               >
                 Chuyển thành khách hàng
               </DropdownMenuItem>
