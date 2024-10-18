@@ -36,7 +36,7 @@ export default function FilterAreaV2() {
     staleTime: 60 * (60 * 1000),
   });
 
-  const isHideClearFilter = useMemo(() => {
+  const isShowClearFilter = useMemo(() => {
     return (
       (brands?.length > 0 && brands[0] !== "All") ||
       categories?.length > 0 ||
@@ -114,7 +114,7 @@ export default function FilterAreaV2() {
           }}
         />
       </div>
-      {isHideClearFilter && (
+      {isShowClearFilter && (
         <Button
           onClick={() => {
             removeAllFilters();

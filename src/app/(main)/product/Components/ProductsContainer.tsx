@@ -58,7 +58,7 @@ export default function ProductsContainer({
     );
   }, [brands, categories, endPrice, isBestSeller]);
 
-  const isHideClearFilter = useMemo(() => {
+  const isShowClearFilter = useMemo(() => {
     return brands?.length > 0 || categories?.length > 0 || endPrice < MAX_PRICE;
   }, [brands, categories, endPrice]);
 
@@ -74,7 +74,7 @@ export default function ProductsContainer({
               <Product key={index} data={each} />
             ))}
           </div>
-          {isHideClearFilter && (
+          {isShowClearFilter && (
             <Button
               onClick={() => {
                 removeAllFilters();
