@@ -53,7 +53,7 @@ export default function OrderForm() {
     staleTime: 60 * (60 * 1000),
   });
 
-  const [content, setContent] = useLocalStorage("storage", {
+  const [_, setContent] = useLocalStorage("storage", {
     name: "Miền Trung & Nam",
   });
 

@@ -18,7 +18,7 @@ export default function LocationDialog({
   isOpen: boolean;
   onOpenChange: Function;
 }) {
-  const [content, setContent] = useLocalStorage("storage", {
+  const [_, setContent] = useLocalStorage("storage", {
     name: "Miền Trung & Nam",
   });
 

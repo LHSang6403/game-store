@@ -5,6 +5,9 @@ import type { LogType } from "@utils/types/index";
 import { revalidatePath } from "next/cache";
 import { v4 as uuidv4 } from "uuid";
 import { LogActorType } from "@utils/types/index";
+import { buildResponse } from "@/utils/functions/buildResponse";
+import { Log } from "@/utils/types/log";
+import { ApiStatus, ApiStatusNumber } from "@/utils/types/apiStatus";
 
 export async function saveToLog({
   logName,
@@ -13,8 +16,8 @@ export async function saveToLog({
   logActor,
 }: {
   logName: string;
-  logType: "Đọc" | "Tạo mới" | "Cập nhật" | "Xóa";
-  logResult: "Thành công" | "Thất bại";
+  logType: Log;
+  logResult: Log;
   logActor: LogActorType;
 }) {
   try {
@@ -34,19 +37,19 @@ export async function saveToLog({
 
     if (!result.error) revalidatePath("/dashboard/log");
 
-    return {
+    return buildResponse({
       status: result.status,
       statusText: result.statusText,
       data: result.data,
       error: result.error,
-    };
+    });
   } catch (error: any) {
-    return {
-      status: 500,
-      statusText: "Lỗi máy chủ",
+    return buildResponse({
+      status: ApiStatusNumber.InternalServerError,
+      statusText: ApiStatus.InternalServerError,
       data: null,
       error: error.message,
-    };
+    });
   }
 }
 
@@ -56,18 +59,18 @@ export async function readLogs() {
 
     const result = await supabase.from("log").select("*");
 
-    return {
+    return buildResponse({
       status: result.status,
       statusText: result.statusText,
       data: result.data,
       error: result.error,
-    };
+    });
   } catch (error: any) {
-    return {
-      status: 500,
-      statusText: "Lỗi máy chủ",
+    return buildResponse({
+      status: ApiStatusNumber.InternalServerError,
+      statusText: ApiStatus.InternalServerError,
       data: null,
       error: error.message,
-    };
+    });
   }
 }

@@ -6,7 +6,7 @@ import {
   ProductStorageType,
   StorageType,
 } from "@/utils/types";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import ProductStorageItem from "@app/(protected)/dashboard/insert/Components/ProductStorageItem";
 import { Button } from "@/components/ui/button";
 import { updateProductStoragesQuantity } from "@app/_actions/product_storage";
@@ -30,7 +30,7 @@ export default function SelectionLists({
     InsertedProductStorageType[]
   >([]);
 
-  async function handleSubmit() {
+  const handleSubmit = useCallback(async () => {
     toast.promise(
       async () => {
         if (!session) throw new Error("Lỗi không xác định phiên đăng nhập.");
@@ -47,7 +47,6 @@ export default function SelectionLists({
         loading: "Đang cập nhật...",
         success: () => {
           setInsertedProductStorageData([]);
-
           return "Cập nhật thành công.";
         },
         error: (error: any) => {
@@ -55,7 +54,33 @@ export default function SelectionLists({
         },
       }
     );
-  }
+  }, [session, insertedProductStorageData]);
+
+  const handleValueChange = useCallback(
+    (
+      product_storage_id: string,
+      value: number,
+      product_storage: ProductStorageType
+    ) => {
+      setInsertedProductStorageData((prev) => {
+        const newInsertedProductStorageData = prev.filter(
+          (item) => item.product_storage_id !== product_storage_id
+        );
+
+        if (value > 0) {
+          newInsertedProductStorageData.push({
+            product_storage_id,
+            storage_name: product_storage.storage_name,
+            inserted_quantity: value,
+            product_name: product_storage.product_name,
+          });
+        }
+
+        return newInsertedProductStorageData;
+      });
+    },
+    []
+  );
 
   return (
     <>
@@ -85,25 +110,13 @@ export default function SelectionLists({
                   <div className="h-fit w-full" key={index}>
                     <ProductStorageItem
                       product_storage={product_storage}
-                      onValueChange={(value) => {
-                        setInsertedProductStorageData((prev) => {
-                          const newInsertedProductStorageData = prev.filter(
-                            (item) =>
-                              item.product_storage_id !== product_storage.id
-                          );
-
-                          if (value > 0) {
-                            newInsertedProductStorageData.push({
-                              product_storage_id: product_storage.id,
-                              storage_name: product_storage.storage_name,
-                              inserted_quantity: value,
-                              product_name: product_storage.product_name,
-                            });
-                          }
-
-                          return newInsertedProductStorageData;
-                        });
-                      }}
+                      onValueChange={(value) =>
+                        handleValueChange(
+                          product_storage.id,
+                          value,
+                          product_storage
+                        )
+                      }
                     />
                   </div>
                 ))}
@@ -111,7 +124,7 @@ export default function SelectionLists({
           </Card>
           <Button
             disabled={insertedProductStorageData.length === 0}
-            onClick={() => handleSubmit()}
+            onClick={handleSubmit}
             className="mt-2 w-full text-background lg:mt-4"
           >
             Hoàn tất

@@ -1,5 +1,6 @@
 "use client";
 
+import { useMemo, useCallback } from "react";
 import { ProductWithDescriptionAndStorageType } from "@utils/types";
 import formatCurrency from "@/utils/functions/formatCurrency";
 
@@ -10,7 +11,26 @@ export default function ProductCard({
   prod: ProductWithDescriptionAndStorageType;
   onAdd: () => void;
 }) {
-  const isSoldOut = prod.product_storages.length === 0;
+  const isSoldOut = useMemo(
+    () => prod.product_storages.length === 0,
+    [prod.product_storages.length]
+  );
+
+  const productStoragesDisplay = useCallback(() => {
+    if (isSoldOut) return <span>Hết hàng</span>;
+
+    return (
+      <div>
+        Đang có sẵn:{" "}
+        {prod.product_storages.map((productStorage, index) => (
+          <span key={index}>
+            {productStorage.quantity} SP tại {productStorage.storage_name}
+            {index !== prod.product_storages.length - 1 && ", "}
+          </span>
+        ))}
+      </div>
+    );
+  }, [prod.product_storages, isSoldOut]);
 
   return (
     <div
@@ -51,20 +71,7 @@ export default function ProductCard({
         {prod.product.description}
       </div>
       <div className="mt-0.5 line-clamp-2 overflow-ellipsis text-xs font-medium">
-        {" "}
-        {!isSoldOut ? (
-          <div>
-            Đang có sẵn:{" "}
-            {prod.product_storages.map((productStorage, index) => (
-              <span key={index}>
-                {productStorage.quantity} SP tại {productStorage.storage_name}
-                {index !== prod.product_storages.length - 1 && ", "}
-              </span>
-            ))}
-          </div>
-        ) : (
-          <span>Hết hàng</span>
-        )}
+        {productStoragesDisplay()}
       </div>
     </div>
   );

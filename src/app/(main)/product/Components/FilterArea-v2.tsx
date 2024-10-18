@@ -1,5 +1,6 @@
 "use client";
 
+import { useMemo } from "react";
 import { Label } from "@/components/ui/label";
 import {
   Select,
@@ -13,7 +14,7 @@ import {
 import { Slider } from "@/components/ui/slider";
 import formatCurrency from "@/utils/functions/formatCurrency";
 import { useQuery } from "@tanstack/react-query";
-import { readProductBrands, readAllCategories } from "@/app/_actions/product";
+import { readProductBrands } from "@/app/_actions/product";
 import useProductFilter from "@/zustand/useProductFilter";
 import { MAX_PRICE } from "@/zustand/useProductFilter";
 import { Button } from "@/components/ui/button";
@@ -34,6 +35,14 @@ export default function FilterAreaV2() {
     queryFn: async () => await readProductBrands(),
     staleTime: 60 * (60 * 1000),
   });
+
+  const isShowClearFilter = useMemo(() => {
+    return (
+      (brands?.length > 0 && brands[0] !== "All") ||
+      categories?.length > 0 ||
+      endPrice < MAX_PRICE
+    );
+  }, [brands, categories, endPrice]);
 
   return (
     <div className="flex w-full flex-row justify-start gap-10 md:flex-col">
@@ -105,9 +114,7 @@ export default function FilterAreaV2() {
           }}
         />
       </div>
-      {(brands?.length > 0 ||
-        categories?.length > 0 ||
-        endPrice < MAX_PRICE) && (
+      {isShowClearFilter && (
         <Button
           onClick={() => {
             removeAllFilters();

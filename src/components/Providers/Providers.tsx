@@ -1,6 +1,12 @@
 "use client";
 
-import { Dispatch, ReactNode, SetStateAction, createContext } from "react";
+import {
+  Dispatch,
+  ReactNode,
+  SetStateAction,
+  createContext,
+  useMemo,
+} from "react";
 import { ThemeProvider, useTheme } from "next-themes";
 import { Toaster } from "sonner";
 import { defaultFontMapper } from "@app/styles/fonts";
@@ -30,14 +36,20 @@ export default function Providers({ children }: { children: ReactNode }) {
 
   const { setSession } = useSession() as SessionState;
 
-  const displayFontMapper: { [key: string]: string } = {
-    Default: "",
-    Serif: "",
-    Mono: "",
-  };
+  const displayFontMapper = useMemo(
+    () => ({
+      Default: "",
+      Serif: "",
+      Mono: "",
+    }),
+    []
+  );
 
-  const displayFont = displayFontMapper[font] || "";
-  const defaultFont = defaultFontMapper[font] || "";
+  const displayFont = useMemo(
+    () => displayFontMapper[font] || "",
+    [font, displayFontMapper]
+  );
+  const defaultFont = useMemo(() => defaultFontMapper[font] || "", [font]);
 
   useEffect(() => {
     const fetchSession = async () => {

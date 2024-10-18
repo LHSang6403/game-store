@@ -16,7 +16,7 @@ import {
   FormMessage,
 } from "@components/ui/form";
 import { Input } from "@components/ui/input";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback, useMemo } from "react";
 import { StorageType, ProductStorageType } from "@/utils/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -41,59 +41,73 @@ export default function ProductStorageCheckbox({
     defaultProductStorages ?? []
   );
 
-  const handleCheckboxChange = (storage: StorageType) => {
-    if (
-      productStorages.some(
-        (productStorage) => productStorage.storage_id === storage.id
-      )
-    ) {
+  const handleCheckboxChange = useCallback(
+    (storage: StorageType) => {
       setProductStorages((prev) =>
-        prev.filter(
-          (productStorage) => productStorage.storage_id !== storage.id
+        prev.some((productStorage) => productStorage.storage_id === storage.id)
+          ? prev.filter(
+              (productStorage) => productStorage.storage_id !== storage.id
+            )
+          : [
+              ...prev,
+              {
+                id: uuidv4(),
+                created_at: new Date().toISOString(),
+                product_id: "",
+                storage_id: storage.id,
+                quantity: 0,
+                product_name: "",
+                storage_name: storage.name,
+              },
+            ]
+      );
+    },
+    [productStorages]
+  );
+
+  const handleQuantityChange = useCallback(
+    (value: number, storageId: string) => {
+      setProductStorages((prev) =>
+        prev.map((productStorage) =>
+          productStorage.storage_id === storageId
+            ? { ...productStorage, quantity: value }
+            : productStorage
         )
       );
-    } else {
-      setProductStorages((prev) => [
-        ...prev,
-        {
-          id: uuidv4(),
-          created_at: new Date().toISOString(),
-          product_id: "",
-          storage_id: storage.id,
-          quantity: 0,
-          product_name: "",
-          storage_name: storage.name,
-        },
-      ]);
-    }
-  };
-
-  const handleQuantityChange = (value: number, storageId: string) => {
-    setProductStorages((prev) =>
-      prev.map((productStorage) =>
-        productStorage.storage_id === storageId
-          ? { ...productStorage, quantity: value }
-          : productStorage
-      )
-    );
-  };
+    },
+    []
+  );
 
   useEffect(() => {
     onValuesChange(productStorages);
   }, [productStorages]);
+
+  const processedStorages = useMemo(() => {
+    return storages?.data?.map((storage) => {
+      const isChecked = productStorages.some(
+        (item) => item.storage_id === storage.id
+      );
+
+      const defaultValue =
+        defaultProductStorages && defaultProductStorages.length > 0
+          ? defaultProductStorages
+              .find(
+                (defaultStorage) => defaultStorage.storage_id === storage.id
+              )
+              ?.quantity.toString() ?? ""
+          : "";
+
+      return { storage, isChecked, defaultValue };
+    });
+  }, [storages, productStorages, defaultProductStorages]);
 
   return (
     <Card>
       <CardHeader className="pb-4 sm:px-2">Kho lưu trữ sản phẩm</CardHeader>
       <CardContent className="grid grid-cols-2 gap-4">
         {isStorageSuccess &&
-          storages.data &&
-          storages.data.map((storage: StorageType, index) => {
-            const isChecked = productStorages?.some(
-              (item) => item.storage_id === storage.id
-            );
-
-            return (
+          processedStorages?.map(
+            ({ storage, isChecked, defaultValue }, index) => (
               <Card
                 key={index}
                 className="flex h-full w-full flex-row items-start justify-between gap-4 px-4 py-3 xl:col-span-2 sm:w-full sm:flex-col"
@@ -117,17 +131,7 @@ export default function ProductStorageCheckbox({
                 </div>
                 <div className="w-full">
                   <QuantityForm
-                    defaultValue={
-                      defaultProductStorages &&
-                      defaultProductStorages.length > 0
-                        ? defaultProductStorages
-                            .find(
-                              (defaultStorage) =>
-                                defaultStorage.storage_id === storage.id
-                            )
-                            ?.quantity.toString() ?? ""
-                        : ""
-                    }
+                    defaultValue={defaultValue}
                     isDisabled={!isChecked}
                     onValueChange={(value) =>
                       handleQuantityChange(value, storage.id)
@@ -135,8 +139,8 @@ export default function ProductStorageCheckbox({
                   />
                 </div>
               </Card>
-            );
-          })}
+            )
+          )}
       </CardContent>
     </Card>
   );
@@ -173,13 +177,16 @@ export function QuantityForm({
     }
   }, [isDisabled]);
 
-  async function onChange(data: z.infer<typeof FormSchema>) {
-    onValueChange(Number(data.storage_quantity));
-  }
+  const handleFormChange = useCallback(
+    (data: z.infer<typeof FormSchema>) => {
+      onValueChange(Number(data.storage_quantity));
+    },
+    [onValueChange]
+  );
 
   return (
     <Form {...form}>
-      <form onChange={form.handleSubmit(onChange)}>
+      <form onChange={form.handleSubmit(handleFormChange)}>
         <FormField
           control={form.control}
           name="storage_quantity"

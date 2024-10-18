@@ -23,7 +23,7 @@ import { StaffType, BlogType } from "@/utils/types/index";
 import createSupabaseBrowserClient from "@/supabase-query/client";
 import { updateBlog } from "@app/_actions/blog";
 import ImageFileItem from "@components/File/ImageFileItem";
-import { useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { Card, CardContent, CardHeader } from "@components/ui/card";
 import { JSONContent } from "novel";
 import Editor from "@/components/editor/advanced-editor";
@@ -39,17 +39,24 @@ export default function EditForm({ blog }: { blog: BlogType }) {
   const { files } = useFiles();
   const { session } = useSession() as SessionState;
 
-  const parsedContent: JSONContent = parseStringToJSONContent(blog.content);
+  const parsedContent = useMemo(
+    () => parseStringToJSONContent(blog.content),
+    [blog.content]
+  );
+
   const [content, setContent] = useState<JSONContent>(parsedContent);
 
   const [updatedBlogThumbnails, setUpdatedBlogThumbnails] = useState<string[]>(
     blog.thumbnails ?? []
   );
 
-  const initState = {
-    title: blog.title,
-    description: blog.description,
-  };
+  const initState = useMemo(
+    () => ({
+      title: blog.title,
+      description: blog.description,
+    }),
+    [blog.title, blog.description]
+  );
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
@@ -57,38 +64,44 @@ export default function EditForm({ blog }: { blog: BlogType }) {
     mode: "onChange",
   });
 
-  async function onSubmit(data: z.infer<typeof FormSchema>) {
-    toast.promise(
-      async () => {
-        if (!session) throw new Error("Lỗi phiên đăng nhập.");
+  const handleContentChange = useCallback((newContent: JSONContent) => {
+    setContent(newContent);
+  }, []);
 
-        const staffSession = session as StaffType;
-        const result = await updateHandler({
-          originalBlog: blog,
-          formData: data,
-          content: content,
-          session: staffSession,
-          updatedThumbnails: updatedBlogThumbnails,
-          addThumbnails: files,
-        });
+  const onSubmit = useCallback(
+    async (data: z.infer<typeof FormSchema>) => {
+      toast.promise(
+        async () => {
+          if (!session) throw new Error("Lỗi phiên đăng nhập.");
 
-        if (result.updateBlogResponse.error)
-          throw new Error(result.updateBlogResponse.error);
-      },
-      {
-        loading: "Đang lưu chỉnh sửa...",
-        success: () => {
-          form.reset();
-          router.push("/dashboard/blog");
+          const staffSession = session as StaffType;
+          const result = await updateHandler({
+            originalBlog: blog,
+            formData: data,
+            content: content,
+            session: staffSession,
+            updatedThumbnails: updatedBlogThumbnails,
+            addThumbnails: files,
+          });
 
-          return "Chỉnh sửa bài viết thành công. Đang chuyển hướng...";
+          if (result.updateBlogResponse.error)
+            throw new Error(result.updateBlogResponse.error);
         },
-        error: (error: any) => {
-          return error.message;
-        },
-      }
-    );
-  }
+        {
+          loading: "Đang lưu chỉnh sửa...",
+          success: () => {
+            form.reset();
+            router.push("/dashboard/blog");
+            return "Chỉnh sửa bài viết thành công. Đang chuyển hướng...";
+          },
+          error: (error: any) => {
+            return error.message;
+          },
+        }
+      );
+    },
+    [blog, content, files, form, router, session, updatedBlogThumbnails]
+  );
 
   return (
     <div className="flex flex-col gap-4">
@@ -171,7 +184,7 @@ export default function EditForm({ blog }: { blog: BlogType }) {
       <div>
         <h2 className="title mb-1 ml-1 text-sm font-medium">Nội dung</h2>
         <div className="mt-2 h-fit overflow-hidden rounded-lg border">
-          <Editor initialValue={content} onChange={setContent} />
+          <Editor initialValue={content} onChange={handleContentChange} />
         </div>
       </div>
       <div className="flex justify-center">

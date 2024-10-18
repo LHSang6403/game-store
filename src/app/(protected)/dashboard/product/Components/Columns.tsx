@@ -18,6 +18,7 @@ import { useSession, SessionState } from "@/zustand/useSession";
 import { useRouter } from "next/navigation";
 import formatVNDate from "@/utils/functions/formatVNDate";
 import Image from "next/image";
+import { useCallback } from "react";
 
 export const columns_headers = [
   { accessKey: "index", name: "STT" },
@@ -136,7 +137,7 @@ export const columns: ColumnDef<ProductType>[] = [
       const session = useSession() as SessionState;
       const router = useRouter();
 
-      async function removeHandler() {
+      const removeHandler = useCallback(async () => {
         toast.promise(
           async () => {
             if (!session.session)
@@ -160,15 +161,20 @@ export const columns: ColumnDef<ProductType>[] = [
             },
           }
         );
-      }
+      }, [product, session]);
+
+      const handleViewProduct = useCallback(() => {
+        router.push("/product/" + product.id);
+      }, [product.id, router]);
+
+      const handleEditProduct = useCallback(() => {
+        router.push("/dashboard/product/" + product.id);
+      }, [product.id, router]);
 
       return (
         <div className="flex w-full items-center justify-center">
           <Button variant="ghost" className="h-8 w-8 p-0">
-            <ArrowUpRight
-              onClick={() => router.push("/product/" + product.id)}
-              className="h-4 w-4"
-            />
+            <ArrowUpRight onClick={handleViewProduct} className="h-4 w-4" />
           </Button>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -183,16 +189,10 @@ export const columns: ColumnDef<ProductType>[] = [
               >
                 Sao chép ID
               </DropdownMenuItem>
-              <DropdownMenuItem>
-                <button
-                  onClick={() =>
-                    router.push("/dashboard/product/" + product.id)
-                  }
-                >
-                  Chỉnh sửa
-                </button>
+              <DropdownMenuItem onClick={handleEditProduct}>
+                Chỉnh sửa
               </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => removeHandler()}>
+              <DropdownMenuItem onClick={removeHandler}>
                 Xóa sản phẩm
               </DropdownMenuItem>
             </DropdownMenuContent>

@@ -50,7 +50,7 @@ export default function DashboardLayout({
 
   return (
     <div className="flex w-full flex-col pt-16 sm:pt-0">
-      <div className="">
+      <div>
         <DashboardHeader />
       </div>
       <div className="flex min-h-[80vh] w-full flex-row">

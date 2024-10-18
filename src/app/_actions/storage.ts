@@ -1,6 +1,8 @@
 "use server";
 
 import createSupabaseServerClient from "@/supabase-query/server";
+import { buildResponse } from "@/utils/functions/buildResponse";
+import { ApiStatus, ApiStatusNumber } from "@/utils/types/apiStatus";
 import type {
   StorageType,
   StorageWithProductStorageType,
@@ -12,19 +14,19 @@ export async function createStorage(storage: StorageType) {
 
     const result = await supabase.from("storage").insert(storage);
 
-    return {
+    return buildResponse({
       status: result.status,
       statusText: result.statusText,
       data: result.data,
       error: result.error,
-    };
+    });
   } catch (error: any) {
-    return {
-      status: 500,
-      statusText: "Lỗi máy chủ",
+    return buildResponse({
+      status: ApiStatusNumber.InternalServerError,
+      statusText: ApiStatus.InternalServerError,
       data: null,
-      error: error,
-    };
+      error,
+    });
   }
 }
 
@@ -34,19 +36,19 @@ export async function readStorages() {
 
     const result = await supabase.from("storage").select("*");
 
-    return {
+    return buildResponse({
       status: result.status,
       statusText: result.statusText,
       data: result.data as StorageType[],
       error: result.error,
-    };
+    });
   } catch (error: any) {
-    return {
-      status: 500,
-      statusText: "Lỗi máy chủ",
+    return buildResponse({
+      status: ApiStatusNumber.InternalServerError,
+      statusText: ApiStatus.InternalServerError,
       data: null,
-      error: error,
-    };
+      error,
+    });
   }
 }
 
@@ -56,23 +58,23 @@ export async function readAllStoragesAndProductStorages() {
 
     const result = await supabase.from("storage").select(
       `
-  *,
-  product_storage (id, product_id, storage_id, product_name, storage_name, quantity)
-  `
+        *,
+        product_storage (id, product_id, storage_id, product_name, storage_name, quantity)
+      `
     );
 
-    return {
+    return buildResponse({
       status: result.status,
       statusText: result.statusText,
       data: result.data as StorageWithProductStorageType[] | null,
       error: result.error,
-    };
+    });
   } catch (error: any) {
-    return {
-      status: 500,
-      statusText: "Lỗi máy chủ",
+    return buildResponse({
+      status: ApiStatusNumber.InternalServerError,
+      statusText: ApiStatus.InternalServerError,
       data: null,
-      error: error,
-    };
+      error,
+    });
   }
 }

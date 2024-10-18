@@ -6,6 +6,7 @@ import {
 import removeLeadingZeroAfterSpace from "@utils/functions/removeLeadingZeroAfterSpace";
 
 import districts from "@/static-data/GHN-api/districts.json";
+import { ApiStatus, ApiStatusNumber } from "@/utils/types/apiStatus";
 
 export interface GHNDataType {
   required_note: string;
@@ -100,8 +101,8 @@ export async function processOrderGHN({
     };
   } catch (error: any) {
     return {
-      status: 500,
-      statusText: error.message,
+      status: ApiStatusNumber.InternalServerError,
+      statusText: ApiStatus.InternalServerError,
       data: null,
       error: error.message,
     };

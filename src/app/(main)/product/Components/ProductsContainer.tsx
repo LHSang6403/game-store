@@ -5,7 +5,7 @@ import PaginationButtons from "@app/(main)/product/Components/PaginationButtons"
 import type { ProductType } from "@utils/types/index";
 import useProductFilter from "@/zustand/useProductFilter";
 import { Button } from "@components/ui/button";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo, useCallback } from "react";
 import { MAX_PRICE } from "@/zustand/useProductFilter";
 
 export default function ProductsContainer({
@@ -47,13 +47,20 @@ export default function ProductsContainer({
     setCurrentPage(1);
   }, [brands, categories, endPrice, products]);
 
-  function onPageChange(pageNumber: number) {
+  const onPageChange = useCallback((pageNumber: number) => {
     setCurrentPage(pageNumber);
-  }
+  }, []);
 
-  const isHide =
-    (brands?.length > 0 || categories?.length > 0 || endPrice < MAX_PRICE) &&
-    isBestSeller;
+  const isHide = useMemo(() => {
+    return (
+      (brands?.length > 0 || categories?.length > 0 || endPrice < MAX_PRICE) &&
+      isBestSeller
+    );
+  }, [brands, categories, endPrice, isBestSeller]);
+
+  const isShowClearFilter = useMemo(() => {
+    return brands?.length > 0 || categories?.length > 0 || endPrice < MAX_PRICE;
+  }, [brands, categories, endPrice]);
 
   return (
     <>
@@ -67,9 +74,7 @@ export default function ProductsContainer({
               <Product key={index} data={each} />
             ))}
           </div>
-          {(brands?.length > 0 ||
-            categories?.length > 0 ||
-            endPrice < MAX_PRICE) && (
+          {isShowClearFilter && (
             <Button
               onClick={() => {
                 removeAllFilters();

@@ -7,6 +7,7 @@ import SelectionLists from "./Components/SelectionLists";
 import { useQuery } from "@tanstack/react-query";
 import DashboardColumnsSkeleton from "@/app/(protected)/dashboard/Components/DashboardColumnsSkeleton";
 import { useRouter } from "next/navigation";
+import { useMemo } from "react";
 
 export default function page() {
   const router = useRouter();
@@ -31,6 +32,15 @@ export default function page() {
     staleTime: 15 * (60 * 1000),
   });
 
+  const isDataReady = useMemo(
+    () =>
+      isStorageSuccess &&
+      isProductStoragesSuccess &&
+      storages?.data &&
+      productStorages?.data,
+    [isStorageSuccess, isProductStoragesSuccess, storages, productStorages]
+  );
+
   return (
     <section className="flex flex-col gap-4 pb-4 lg:flex-col sm:pb-2">
       <div className="flex flex-col">
@@ -48,15 +58,12 @@ export default function page() {
           <DashboardColumnsSkeleton />
         ) : (
           <>
-            {isStorageSuccess &&
-              isProductStoragesSuccess &&
-              storages.data &&
-              productStorages.data && (
-                <SelectionLists
-                  storages={storages.data}
-                  productStorages={productStorages.data}
-                />
-              )}
+            {isDataReady && (
+              <SelectionLists
+                storages={storages?.data ?? []}
+                productStorages={productStorages?.data ?? []}
+              />
+            )}
           </>
         )}
       </div>

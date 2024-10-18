@@ -14,11 +14,49 @@ import navUrls from "../Header/navUrls.json";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useSession, SessionState } from "@/zustand/useSession";
-import React from "react";
+import React, { useCallback } from "react";
 
 export default function BottomDrawer() {
   const path = usePathname();
   const { session } = useSession() as SessionState;
+
+  const renderNavigationLink = useCallback(
+    (
+      navUrl: { name: string; url: string; permission: string },
+      path: string
+    ) => {
+      const isActive = path === navUrl.url;
+      return (
+        <DrawerClose asChild>
+          <Link
+            href={navUrl.url}
+            className={`${
+              isActive
+                ? "bg-gradient-to-r from-cpurple via-cpink to-corange text-background"
+                : "bg-background text-foreground"
+            } flex h-10 w-32 items-center justify-center rounded-md border px-4 py-2 text-sm font-medium transition-colors sm:w-full`}
+          >
+            <span>{navUrl.name}</span>
+          </Link>
+        </DrawerClose>
+      );
+    },
+    []
+  );
+
+  const renderStaffNavigationLink = useCallback(
+    (
+      navUrl: { name: string; url: string; permission: string },
+      path: string,
+      session: any
+    ) => {
+      if (navUrl.permission === "Staff" && session && "role" in session) {
+        return renderNavigationLink(navUrl, path);
+      }
+      return null;
+    },
+    [session]
+  );
 
   return (
     <Drawer>
@@ -40,39 +78,13 @@ export default function BottomDrawer() {
           </DrawerHeader>
           <div className="mx-auto grid h-fit w-fit grid-cols-2 items-center justify-center gap-2 p-4 sm:w-full">
             {navUrls.map((navUrl, index) => (
-              <>
+              <React.Fragment key={index}>
                 {navUrl.permission === "Staff" ? (
-                  <>
-                    {session && "role" in session && (
-                      <DrawerClose key={index} asChild>
-                        <Link
-                          href={navUrl.url}
-                          className={`${
-                            path === navUrl.url
-                              ? "bg-gradient-to-r from-cpurple via-cpink to-corange text-background"
-                              : "bg-background text-foreground"
-                          } flex h-10 w-32 items-center justify-center rounded-md border px-4 py-2 text-sm font-medium transition-colors sm:w-full`}
-                        >
-                          <span>{navUrl.name}</span>
-                        </Link>
-                      </DrawerClose>
-                    )}
-                  </>
+                  <>{renderStaffNavigationLink(navUrl, path, session)}</>
                 ) : (
-                  <DrawerClose key={index} asChild>
-                    <Link
-                      href={navUrl.url}
-                      className={`${
-                        path === navUrl.url
-                          ? "bg-gradient-to-r from-cpurple via-cpink to-corange text-background"
-                          : "bg-background text-foreground"
-                      } flex h-10 w-32 items-center justify-center rounded-md border px-4 py-2 text-sm font-medium transition-colors sm:w-full`}
-                    >
-                      <span>{navUrl.name}</span>
-                    </Link>
-                  </DrawerClose>
+                  <>{renderNavigationLink(navUrl, path)}</>
                 )}
-              </>
+              </React.Fragment>
             ))}
           </div>
         </div>

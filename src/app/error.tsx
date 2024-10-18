@@ -2,13 +2,14 @@
 
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
+import { useCallback } from "react";
 
-function Error({ error, reset }: { error: Error; reset: () => void }) {
+const Error = ({ error, reset }: { error: Error; reset: () => void }) => {
   const router = useRouter();
 
-  const handleClick = async () => {
+  const handleClick = useCallback(() => {
     reset();
-  };
+  }, [reset]);
 
   return (
     <div className="flex h-screen w-screen items-center justify-center">
@@ -34,6 +35,6 @@ function Error({ error, reset }: { error: Error; reset: () => void }) {
       </div>
     </div>
   );
-}
+};
 
 export default Error;

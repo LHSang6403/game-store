@@ -15,6 +15,7 @@ import {
   CopyPlus,
 } from "lucide-react";
 import { StaffType } from "@/utils/types";
+import { useCallback, useMemo } from "react";
 
 export const dashboardSidebarList = [
   {
@@ -76,38 +77,50 @@ export const dashboardSidebarList = [
 export default function DashboardSidebar() {
   const router = useRouter();
   const pathname = usePathname();
-  const dashboardPath = pathname.split("/").slice(0, 3).join("/");
-
   const { session, isStaff } = useSession() as SessionState;
-  const staffSession =
-    session && "role" in session ? (session as StaffType) : null;
+
+  const dashboardPath = useMemo(() => {
+    return pathname.split("/").slice(0, 3).join("/");
+  }, [pathname]);
+
+  const staffSession = useMemo(() => {
+    return session && "role" in session ? (session as StaffType) : null;
+  }, [session]);
+
+  const filteredSidebarList = useMemo(() => {
+    return dashboardSidebarList.filter(
+      (item) =>
+        staffSession &&
+        isStaff &&
+        (item.permissions.length === 0 ||
+          item.permissions.includes(staffSession?.role))
+    );
+  }, [staffSession, isStaff]);
+
+  const handleNavigation = useCallback(
+    (link: string) => {
+      router.push(link);
+    },
+    [router]
+  );
 
   return (
     <div className="flex h-full w-60 flex-col justify-between gap-2 border-r px-4 pt-4 xl:w-full xl:border-none xl:px-0">
       <nav className="flex flex-col gap-2 overflow-auto">
-        {dashboardSidebarList.map((item, index) => {
-          if (
-            staffSession &&
-            isStaff &&
-            (item.permissions.length === 0 ||
-              item.permissions.includes(staffSession?.role))
-          )
-            return (
-              <div
-                key={index}
-                onClick={() => router.push(item.link)}
-                className={`${
-                  dashboardPath === item.link
-                    ? "bg-accent shadow-sm"
-                    : "bg-background"
-                } mx-auto flex h-9 w-full flex-row items-center gap-2 rounded-md px-4 py-2 text-sm font-medium ring-0 hover:cursor-pointer hover:bg-accent
-            `}
-              >
-                {item.icon}
-                <span className="mt-0.5">{item.name}</span>
-              </div>
-            );
-        })}
+        {filteredSidebarList.map((item, index) => (
+          <div
+            key={index}
+            onClick={() => handleNavigation(item.link)}
+            className={`${
+              dashboardPath === item.link
+                ? "bg-accent shadow-sm"
+                : "bg-background"
+            } mx-auto flex h-9 w-full flex-row items-center gap-2 rounded-md px-4 py-2 text-sm font-medium ring-0 hover:cursor-pointer hover:bg-accent`}
+          >
+            {item.icon}
+            <span className="mt-0.5">{item.name}</span>
+          </div>
+        ))}
       </nav>
     </div>
   );

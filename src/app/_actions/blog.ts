@@ -1,22 +1,30 @@
 "use server";
 
 import createSupabaseServerClient from "@/supabase-query/server";
-import { BlogType, LogActorType } from "@utils/types";
+import { BlogType, LogActorType, StaffRole } from "@utils/types";
 import { saveToLog } from "@app/_actions/log";
 import { checkRoleStaff } from "@app/_actions/user";
 import { revalidatePath } from "next/cache";
+import { buildResponse } from "@/utils/functions/buildResponse";
+import { Log } from "@/utils/types/log";
+import { ApiStatus, ApiStatusNumber } from "@/utils/types/apiStatus";
+import {
+  NO_PERMISSION_TO_CREATE,
+  NO_PERMISSION_TO_DELETE,
+  NO_PERMISSION_TO_UPDATE,
+} from "@/utils/constant/auth";
 
 export async function createBlog({ blog }: { blog: BlogType }) {
   try {
     const isManagerAuthenticated = await checkRoleStaff({
-      role: "Quản lý",
+      role: StaffRole.Manager,
     });
     const isSellerAuthenticated = await checkRoleStaff({
-      role: "Biên tập",
+      role: StaffRole.Writer,
     });
 
     if (!isManagerAuthenticated && !isSellerAuthenticated)
-      throw new Error("Không có quyền tạo bài viết");
+      throw new Error(NO_PERMISSION_TO_CREATE);
 
     const supabase = await createSupabaseServerClient();
 
@@ -24,19 +32,19 @@ export async function createBlog({ blog }: { blog: BlogType }) {
 
     revalidatePath("/dashboard/blog");
 
-    return {
+    return buildResponse({
       status: result.status,
       statusText: result.statusText,
       data: result.data,
       error: result.error,
-    };
+    });
   } catch (error: any) {
-    return {
-      status: 500,
-      statusText: "Lỗi máy chủ",
+    return buildResponse({
+      status: ApiStatusNumber.InternalServerError,
+      statusText: ApiStatus.InternalServerError,
       data: null,
       error: error,
-    };
+    });
   }
 }
 
@@ -56,19 +64,19 @@ export async function readBlogs({
       .range(offset, limit)
       .eq("is_deleted", false);
 
-    return {
+    return buildResponse({
       status: result.status,
       statusText: result.statusText,
       data: result.data as BlogType[],
       error: result.error,
-    };
+    });
   } catch (error: any) {
-    return {
-      status: 500,
-      statusText: "Lỗi máy chủ",
+    return buildResponse({
+      status: ApiStatusNumber.InternalServerError,
+      statusText: ApiStatus.InternalServerError,
       data: null,
       error: error,
-    };
+    });
   }
 }
 
@@ -83,19 +91,19 @@ export async function readBlogById(id: string) {
       .eq("is_deleted", false)
       .single();
 
-    return {
+    return buildResponse({
       status: result.status,
       statusText: result.statusText,
       data: result.data as BlogType,
       error: result.error,
-    };
+    });
   } catch (error: any) {
-    return {
-      status: 500,
-      statusText: "Lỗi máy chủ",
+    return buildResponse({
+      status: ApiStatusNumber.InternalServerError,
+      statusText: ApiStatus.InternalServerError,
       data: null,
       error: error,
-    };
+    });
   }
 }
 
@@ -108,14 +116,14 @@ export async function deleteBlogById({
 }) {
   try {
     const isManagerAuthenticated = await checkRoleStaff({
-      role: "Quản lý",
+      role: StaffRole.Manager,
     });
     const isSellerAuthenticated = await checkRoleStaff({
-      role: "Biên tập",
+      role: StaffRole.Writer,
     });
 
     if (!isManagerAuthenticated && !isSellerAuthenticated)
-      throw new Error("Không có quyền xóa bài viết");
+      throw new Error(NO_PERMISSION_TO_DELETE);
 
     const supabase = await createSupabaseServerClient();
 
@@ -126,24 +134,24 @@ export async function deleteBlogById({
 
     await saveToLog({
       logName: "Xóa bài viết " + blog.title,
-      logType: "Xóa",
-      logResult: !result.error ? "Thành công" : "Thất bại",
+      logType: Log.Delete,
+      logResult: !result.error ? Log.Success : Log.Fail,
       logActor: actor,
     });
 
-    return {
+    return buildResponse({
       status: result.status,
       statusText: result.statusText,
       data: result.data,
       error: result.error,
-    };
+    });
   } catch (error: any) {
-    return {
-      status: 500,
-      statusText: "Lỗi máy chủ",
+    return buildResponse({
+      status: ApiStatusNumber.InternalServerError,
+      statusText: ApiStatus.InternalServerError,
       data: null,
       error: error,
-    };
+    });
   }
 }
 
@@ -156,14 +164,14 @@ export async function updateBlog({
 }) {
   try {
     const isManagerAuthenticated = await checkRoleStaff({
-      role: "Quản lý",
+      role: StaffRole.Manager,
     });
     const isWriterAuthenticated = await checkRoleStaff({
-      role: "Biên tập",
+      role: StaffRole.Writer,
     });
 
     if (!isManagerAuthenticated && !isWriterAuthenticated)
-      throw new Error("Không có quyền cập nhật bài viết");
+      throw new Error(NO_PERMISSION_TO_UPDATE);
 
     const supabase = await createSupabaseServerClient();
 
@@ -175,23 +183,23 @@ export async function updateBlog({
 
     await saveToLog({
       logName: "Cập nhật bài viết " + updatedBlog.title,
-      logType: "Cập nhật",
-      logResult: !result.error ? "Thành công" : "Thất bại",
+      logType: Log.Update,
+      logResult: !result.error ? Log.Success : Log.Fail,
       logActor: actor,
     });
 
-    return {
+    return buildResponse({
       status: result.status,
       statusText: result.statusText,
       data: result.data,
       error: result.error,
-    };
+    });
   } catch (error: any) {
-    return {
-      status: 500,
-      statusText: "Lỗi máy chủ",
+    return buildResponse({
+      status: ApiStatusNumber.InternalServerError,
+      statusText: ApiStatus.InternalServerError,
       data: null,
       error: error,
-    };
+    });
   }
 }

@@ -23,7 +23,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@components/ui/popover";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import useAddressSelects from "@/zustand/useAddressSelects";
 import DropAndDragZone from "@components/File/DropAndDragZone";
 import useFiles from "@/zustand/useFiles";
@@ -92,55 +92,58 @@ export default function SignUp() {
     form.trigger("ward");
   }, [addressValues]);
 
-  async function onSubmit(data: z.infer<typeof FormSchema>) {
-    toast.promise(
-      async () => {
-        const result = await signUpWithEmailAndPassword({
-          name: data.name,
-          phone: data.phone,
-          dob: data.dob,
-          address: data.address,
-          ward: data.ward,
-          district: data.district,
-          province: data.province,
-          email: data.email,
-          password: data.password,
-        });
-
-        if (result.error) throw new Error("Tạo tài khoản thất bại.");
-
-        if (result.data?.user?.id) {
-          const uploadAvatarResult = await updaloadAvatar({
-            userId: result.data?.user?.id,
-            file: files[0],
+  const onSubmit = useCallback(
+    async (data: z.infer<typeof FormSchema>) => {
+      toast.promise(
+        async () => {
+          const result = await signUpWithEmailAndPassword({
+            name: data.name,
+            phone: data.phone,
+            dob: data.dob,
+            address: data.address,
+            ward: data.ward,
+            district: data.district,
+            province: data.province,
+            email: data.email,
+            password: data.password,
           });
 
-          const avatarUrl = uploadAvatarResult.data?.path;
-          if (!avatarUrl) throw new Error("Thêm ảnh thất bại.");
+          if (result.error) throw new Error("Tạo tài khoản thất bại.");
 
-          await updateUserImage({
-            id: result.data?.user?.id,
-            table: "customer",
-            newImage: avatarUrl,
-          });
+          if (result.data?.user?.id) {
+            const uploadAvatarResult = await updaloadAvatar({
+              userId: result.data?.user?.id,
+              file: files[0],
+            });
+
+            const avatarUrl = uploadAvatarResult.data?.path;
+            if (!avatarUrl) throw new Error("Thêm ảnh thất bại.");
+
+            await updateUserImage({
+              id: result.data?.user?.id,
+              table: "customer",
+              newImage: avatarUrl,
+            });
+          }
+        },
+        {
+          loading: "Đang tạo tài khoản...",
+          success: () => {
+            form.reset();
+            clearAll();
+            clearFiles();
+            setDate(undefined);
+
+            return "Tạo tài khoản thành công. Vui lòng xác nhận email.";
+          },
+          error: (error: any) => {
+            return error.message;
+          },
         }
-      },
-      {
-        loading: "Đang tạo tài khoản...",
-        success: () => {
-          form.reset();
-          clearAll();
-          clearFiles();
-          setDate(undefined);
-
-          return "Tạo tài khoản thành công. Vui lòng xác nhận email.";
-        },
-        error: (error: any) => {
-          return error.message;
-        },
-      }
-    );
-  }
+      );
+    },
+    [form, clearAll, clearFiles, files]
+  );
 
   return (
     <Form {...form}>

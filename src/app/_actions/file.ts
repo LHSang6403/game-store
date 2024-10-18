@@ -1,6 +1,8 @@
 "use server";
 
 import createSupabaseServerClient from "@/supabase-query/server";
+import { buildResponse } from "@/utils/functions/buildResponse";
+import { ApiStatus, ApiStatusNumber } from "@/utils/types/apiStatus";
 
 export async function downloadFiles(bucket: string, files: string[]) {
   try {
@@ -8,18 +10,18 @@ export async function downloadFiles(bucket: string, files: string[]) {
 
     const result = await supabase.storage.from(bucket).download(files[0]);
 
-    return {
-      status: 200,
-      statusText: "OK",
+    return buildResponse({
+      status: ApiStatusNumber.Success,
+      statusText: ApiStatus.Success,
       data: result.data,
       error: result.error,
-    };
+    });
   } catch (error: any) {
-    return {
-      status: 500,
-      statusText: "Lỗi máy chủ",
+    return buildResponse({
+      status: ApiStatusNumber.InternalServerError,
+      statusText: ApiStatus.InternalServerError,
       data: null,
       error: error.message,
-    };
+    });
   }
 }

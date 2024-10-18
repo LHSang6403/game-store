@@ -13,16 +13,20 @@ import useAddressSelects from "@/zustand/useAddressSelects";
 import province from "@/static-data/provinces.json";
 import district from "@/static-data/districts.json";
 import communes from "@/static-data/communes.json";
+import { useMemo } from "react";
 
 export default function FormAddressPicker() {
   const { addressValues, setProvince, setDistrict, setCommune } =
     useAddressSelects();
 
-  const districtsInProvince = district.filter(
-    (dis) => dis.idProvince === addressValues.provinceId
+  const districtsInProvince = useMemo(
+    () => district.filter((dis) => dis.idProvince === addressValues.provinceId),
+    [addressValues.provinceId]
   );
-  const communesInDistrict = communes.filter(
-    (com) => com.idDistrict === addressValues.districtId
+
+  const communesInDistrict = useMemo(
+    () => communes.filter((com) => com.idDistrict === addressValues.districtId),
+    [addressValues.districtId]
   );
 
   return (

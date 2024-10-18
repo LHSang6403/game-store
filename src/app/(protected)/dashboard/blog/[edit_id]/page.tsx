@@ -12,10 +12,7 @@ export default function page({ params }: { params: { edit_id: string } }) {
     queryFn: () => readBlogById(params.edit_id),
   });
 
-  const [content, setContent] = useLocalStorage(
-    "content",
-    blog?.data?.content ?? ""
-  );
+  const [_, setContent] = useLocalStorage("content", blog?.data?.content ?? "");
 
   useEffect(() => {
     setContent(blog?.data?.content ?? "");

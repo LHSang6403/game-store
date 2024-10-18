@@ -10,13 +10,14 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import type { CustomerType, StaffRole } from "@utils/types";
+import { CustomerType, StaffRole } from "@utils/types";
 import { updateCustomerToStaff } from "@/app/_actions/user";
 import { toast } from "sonner";
 import { updateCustomerLevel } from "@app/_actions/user";
 import { useSession, SessionState } from "@/zustand/useSession";
 import EditProfile from "@/app/(main)/profile/Components/EditProfile";
 import formatVNDate from "@/utils/functions/formatVNDate";
+import { useCallback } from "react";
 
 export const columns_headers = [
   { accessKey: "index", name: "STT" },
@@ -122,65 +123,65 @@ export const columns: ColumnDef<CustomerType>[] = [
       const data = row.original;
       const session = useSession() as SessionState;
 
-      function updateCustomerLevelHandler(
-        customer: CustomerType,
-        newLevel: number
-      ) {
-        toast.promise(
-          async () => {
-            if (!session.session)
-              throw new Error("Không xác định phiên đăng nhập.");
+      const updateCustomerLevelHandler = useCallback(
+        (customer: CustomerType, newLevel: number) => {
+          toast.promise(
+            async () => {
+              if (!session.session)
+                throw new Error("Không xác định phiên đăng nhập.");
 
-            const result = await updateCustomerLevel({
-              customer: customer,
-              newLevel: newLevel,
-              actor: {
-                actorId: session.session.id,
-                actorName: session.session.name,
-              },
-            });
+              const result = await updateCustomerLevel({
+                customer: customer,
+                newLevel: newLevel,
+                actor: {
+                  actorId: session.session.id,
+                  actorName: session.session.name,
+                },
+              });
 
-            if (result.error) throw new Error(result.error);
-          },
-          {
-            success: "Cập nhật thành công!",
-            loading: "Đang cập nhật...",
-            error: (error: any) => {
-              return error.message;
+              if (result.error) throw new Error(result.error);
             },
-          }
-        );
-      }
-
-      function updateCustomerToStaffHandler(
-        customer: CustomerType,
-        staffRole: StaffRole
-      ) {
-        toast.promise(
-          async () => {
-            if (!session.session)
-              throw new Error("Không xác định phiên đăng nhập.");
-
-            const result = await updateCustomerToStaff({
-              customer: customer,
-              role: staffRole,
-              actor: {
-                actorId: session.session.id,
-                actorName: session.session.name,
+            {
+              success: "Cập nhật thành công!",
+              loading: "Đang cập nhật...",
+              error: (error: any) => {
+                return error.message;
               },
-            });
+            }
+          );
+        },
+        [session]
+      );
 
-            if (result.error) throw new Error(result.error);
-          },
-          {
-            success: "Cập nhật thành công!",
-            loading: "Đang cập nhật...",
-            error: (error: any) => {
-              return error.message;
+      const updateCustomerToStaffHandler = useCallback(
+        (customer: CustomerType, staffRole: StaffRole) => {
+          toast.promise(
+            async () => {
+              if (!session.session)
+                throw new Error("Không xác định phiên đăng nhập.");
+
+              const result = await updateCustomerToStaff({
+                customer: customer,
+                role: staffRole,
+                actor: {
+                  actorId: session.session.id,
+                  actorName: session.session.name,
+                },
+              });
+
+              if (result.error) throw new Error(result.error);
             },
-          }
-        );
-      }
+            {
+              success: "Cập nhật thành công!",
+              loading: "Đang cập nhật...",
+              error: (error: any) => {
+                return error.message;
+              },
+            }
+          );
+        },
+        [session]
+      );
 
       return (
         <div className="flex w-full flex-row items-center justify-center sm:flex-col">
@@ -206,21 +207,21 @@ export const columns: ColumnDef<CustomerType>[] = [
               </DropdownMenuItem>
               <DropdownMenuItem
                 onClick={() => {
-                  updateCustomerToStaffHandler(data, "Bán hàng");
+                  updateCustomerToStaffHandler(data, StaffRole.Seller);
                 }}
               >
                 Cập nhật thành Bán hàng
               </DropdownMenuItem>
               <DropdownMenuItem
                 onClick={() => {
-                  updateCustomerToStaffHandler(data, "Biên tập");
+                  updateCustomerToStaffHandler(data, StaffRole.Writer);
                 }}
               >
                 Cập nhật thành Biên tập
               </DropdownMenuItem>
               <DropdownMenuItem
                 onClick={() => {
-                  updateCustomerToStaffHandler(data, "Quản lý");
+                  updateCustomerToStaffHandler(data, StaffRole.Manager);
                 }}
               >
                 Cập nhật thành Quản lý

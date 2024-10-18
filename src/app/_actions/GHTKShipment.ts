@@ -5,6 +5,8 @@ import { updateStateOrder } from "@app/_actions/order";
 import { GHTKDataType } from "@/app/(main)/cart/_actions/processGHTK";
 import { revalidatePath } from "next/cache";
 import { OrderType, LogActorType } from "@/utils/types";
+import { buildResponse } from "@/utils/functions/buildResponse";
+import { ApiStatus, ApiStatusNumber } from "@/utils/types/apiStatus";
 
 export async function requestGHTKOrder(data: GHTKDataType) {
   try {
@@ -19,19 +21,21 @@ export async function requestGHTKOrder(data: GHTKDataType) {
       { headers }
     );
 
-    return {
-      status: response?.data?.success ? 200 : 500,
+    return buildResponse({
+      status: response?.data?.success
+        ? ApiStatusNumber.Success
+        : ApiStatusNumber.InternalServerError,
       statusText: response?.data?.message,
       data: response?.data?.order,
       error: null,
-    };
+    });
   } catch (error: any) {
-    return {
-      status: 500,
-      statusText: "Lỗi máy chủ",
+    return buildResponse({
+      status: ApiStatusNumber.InternalServerError,
+      statusText: ApiStatus.InternalServerError,
       data: null,
       error: error.message,
-    };
+    });
   }
 }
 
@@ -47,19 +51,21 @@ export async function getGHTKOrder(label: string): Promise<any> {
 
     const responseData = await response.json();
 
-    return {
-      status: responseData.data.success ? 200 : 500,
+    return buildResponse({
+      status: responseData.data.success
+        ? ApiStatusNumber.Success
+        : ApiStatusNumber.InternalServerError,
       statusText: responseData.data.message,
       data: responseData.data.order,
       error: null,
-    };
+    });
   } catch (error: any) {
-    return {
-      status: 500,
-      statusText: "Lỗi máy chủ",
+    return buildResponse({
+      status: ApiStatusNumber.InternalServerError,
+      statusText: ApiStatus.InternalServerError,
       data: null,
       error: error.message,
-    };
+    });
   }
 }
 
@@ -75,19 +81,21 @@ export async function getGHTKOrderStatus(label: string) {
 
     const responseData = await response.json();
 
-    return {
-      status: responseData.success ? 200 : 500,
+    return buildResponse({
+      status: responseData.success
+        ? ApiStatusNumber.Success
+        : ApiStatusNumber.InternalServerError,
       statusText: responseData.message,
       data: responseData.message,
       error: null,
-    };
+    });
   } catch (error: any) {
-    return {
-      status: 500,
-      statusText: "Lỗi máy chủ",
+    return buildResponse({
+      status: ApiStatusNumber.InternalServerError,
+      statusText: ApiStatus.InternalServerError,
       data: null,
       error: error.message,
-    };
+    });
   }
 }
 
@@ -104,22 +112,24 @@ export async function calGHTKFees(params: any) {
       }
     );
 
-    return {
-      status: response.data.success ? 200 : 500,
+    return buildResponse({
+      status: response.data.success
+        ? ApiStatusNumber.Success
+        : ApiStatusNumber.InternalServerError,
       statusText: response.data.message,
       data: {
         service_fee: response.data.fee?.ship_fee_only,
         insurance_fee: response.data.fee?.insurance_fee,
       },
       error: null,
-    };
+    });
   } catch (error: any) {
-    return {
-      status: 500,
-      statusText: "Lỗi máy chủ",
+    return buildResponse({
+      status: ApiStatusNumber.InternalServerError,
+      statusText: ApiStatus.InternalServerError,
       data: null,
       error: error.message,
-    };
+    });
   }
 }
 
@@ -152,22 +162,24 @@ export async function cancelGHTKOrder({
 
       revalidatePath("/cart");
 
-      return {
-        status: response.data.success ? 200 : 500,
+      return buildResponse({
+        status: response.data.success
+          ? ApiStatusNumber.Success
+          : ApiStatusNumber.InternalServerError,
         statusText: response.data.message,
         data: response.data.message,
         error: null,
-      };
+      });
     }
 
     throw new Error("Hủy đơn không thành công");
   } catch (error: any) {
-    return {
-      status: 500,
-      statusText: "Lỗi máy chủ",
+    return buildResponse({
+      status: ApiStatusNumber.InternalServerError,
+      statusText: ApiStatus.InternalServerError,
       data: null,
       error: error.message,
-    };
+    });
   }
 }
 

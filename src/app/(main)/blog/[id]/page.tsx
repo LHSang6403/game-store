@@ -5,12 +5,9 @@ import { useQuery } from "@tanstack/react-query";
 import BlogContent from "@app/(main)/blog/[id]/Components/BlogContent";
 import BlogThumbnails from "@app/(main)/blog/[id]/Components/BlogThumbnails";
 import Loading from "@app/(main)/blog/[id]/Components/BlogLoadingSkeleton";
-import { useRouter } from "next/navigation";
 import ClientBack from "@/components/ClientBack";
 
 export default function page({ params }: { params: { id: string } }) {
-  const router = useRouter();
-
   const {
     data: blog,
     error,
