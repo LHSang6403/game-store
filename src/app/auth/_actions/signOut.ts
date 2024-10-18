@@ -2,7 +2,7 @@
 
 import createSupabaseServerClient from "@/supabase-query/server";
 
-export async function signOutHandler() {
+export async function handleSignOut() {
   try {
     const supabase = await createSupabaseServerClient();
 

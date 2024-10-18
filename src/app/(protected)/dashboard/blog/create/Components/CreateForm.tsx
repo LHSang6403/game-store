@@ -66,7 +66,7 @@ export default function CreateForm() {
           if (!session) throw new Error("Lỗi phiên đăng nhập.");
 
           const staffSession = session as StaffType;
-          const result = await createHandler({
+          const result = await handleCreate({
             formData: data,
             content: content,
             session: staffSession,
@@ -165,7 +165,7 @@ export default function CreateForm() {
   );
 }
 
-async function createHandler({
+async function handleCreate({
   formData,
   content,
   session,

@@ -164,7 +164,7 @@ export const columns: ColumnDef<StaffType>[] = [
       const data = row.original;
       const session = useSession() as SessionState;
 
-      const updateStaffToCustomerHandler = useCallback(
+      const handleUpdateStaffToCustomer = useCallback(
         async (staff: StaffType) => {
           toast.promise(
             async () => {
@@ -209,7 +209,7 @@ export const columns: ColumnDef<StaffType>[] = [
                 Sao chép ID nhân viên
               </DropdownMenuItem>
               <DropdownMenuItem
-                onClick={() => updateStaffToCustomerHandler(data)}
+                onClick={() => handleUpdateStaffToCustomer(data)}
               >
                 Chuyển thành khách hàng
               </DropdownMenuItem>

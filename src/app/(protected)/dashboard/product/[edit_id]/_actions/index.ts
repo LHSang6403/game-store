@@ -19,7 +19,7 @@ import { FormSchema } from "@app/(protected)/dashboard/product/[edit_id]/Compone
 import { JSONContent } from "novel";
 import { Files } from "lucide-react";
 
-export async function updateHandler({
+export async function handleUpdate({
   formData,
   description,
   session,

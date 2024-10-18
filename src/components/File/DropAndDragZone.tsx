@@ -131,7 +131,7 @@ const DropAndDragZone = ({
                   key={file.name}
                   image={file.preview}
                   name={file.name}
-                  removeHandler={() => removeFile(file.name)}
+                  handleRemove={() => removeFile(file.name)}
                 />
               ))}
             </div>

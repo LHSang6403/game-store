@@ -15,7 +15,7 @@ import { ProductStorageType } from "@/utils/types/index";
 import { useCallback, useMemo, useState } from "react";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import ProductStorageCheckbox from "@/app/(protected)/dashboard/product/create/Components/ProductStorageCheckbox";
-import { createHandler } from "@/app/(protected)/dashboard/product/create/_actions/index";
+import { handleCreate } from "@/app/(protected)/dashboard/product/create/_actions/index";
 import { defaultValueEditor } from "@/utils/default-value-editor";
 import { JSONContent } from "novel";
 import Editor from "@/components/editor/advanced-editor";
@@ -97,7 +97,7 @@ export default function CreateForm() {
         async () => {
           if (!session) throw new Error("Lỗi không tìm thấy phiên làm việc.");
 
-          const result = await createHandler({
+          const result = await handleCreate({
             formData: data,
             description: description,
             productImages: files,

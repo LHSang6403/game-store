@@ -219,7 +219,7 @@ export const columns: ColumnDef<OrderType>[] = [
       const [isPrintOpen, setIsPrintOpen] = useState(false);
       const [printResult, setPrintResult] = useState("");
 
-      const printHandler = useCallback(
+      const handlePrint = useCallback(
         async ({
           label_code,
           size,
@@ -291,7 +291,7 @@ export const columns: ColumnDef<OrderType>[] = [
                 disabled={data.shipment_name == "GHTK"} // because do not have api for this
                 onClick={() => {
                   setIsPrintOpen(!isPrintOpen);
-                  printHandler({
+                  handlePrint({
                     label_code: data.shipment_label_code!,
                     size: "A5",
                   });
@@ -303,7 +303,7 @@ export const columns: ColumnDef<OrderType>[] = [
                 disabled={data.shipment_name == "GHTK"}
                 onClick={() => {
                   setIsPrintOpen(!isPrintOpen);
-                  printHandler({
+                  handlePrint({
                     label_code: data.shipment_label_code!,
                     size: "80x80",
                   });
@@ -315,7 +315,7 @@ export const columns: ColumnDef<OrderType>[] = [
                 disabled={data.shipment_name == "GHTK"}
                 onClick={() => {
                   setIsPrintOpen(!isPrintOpen);
-                  printHandler({
+                  handlePrint({
                     label_code: data.shipment_label_code!,
                     size: "52x70",
                   });

@@ -123,7 +123,7 @@ export const columns: ColumnDef<CustomerType>[] = [
       const data = row.original;
       const session = useSession() as SessionState;
 
-      const updateCustomerLevelHandler = useCallback(
+      const handleUpdateCustomerLevel = useCallback(
         (customer: CustomerType, newLevel: number) => {
           toast.promise(
             async () => {
@@ -153,7 +153,7 @@ export const columns: ColumnDef<CustomerType>[] = [
         [session]
       );
 
-      const updateCustomerToStaffHandler = useCallback(
+      const handleUpdateCustomerToStaff = useCallback(
         (customer: CustomerType, staffRole: StaffRole) => {
           toast.promise(
             async () => {
@@ -200,28 +200,28 @@ export const columns: ColumnDef<CustomerType>[] = [
               </DropdownMenuItem>
               <DropdownMenuItem
                 onClick={() => {
-                  updateCustomerLevelHandler(data, data.level + 1);
+                  handleUpdateCustomerLevel(data, data.level + 1);
                 }}
               >
                 Nâng cấp điểm
               </DropdownMenuItem>
               <DropdownMenuItem
                 onClick={() => {
-                  updateCustomerToStaffHandler(data, StaffRole.Seller);
+                  handleUpdateCustomerToStaff(data, StaffRole.Seller);
                 }}
               >
                 Cập nhật thành Bán hàng
               </DropdownMenuItem>
               <DropdownMenuItem
                 onClick={() => {
-                  updateCustomerToStaffHandler(data, StaffRole.Writer);
+                  handleUpdateCustomerToStaff(data, StaffRole.Writer);
                 }}
               >
                 Cập nhật thành Biên tập
               </DropdownMenuItem>
               <DropdownMenuItem
                 onClick={() => {
-                  updateCustomerToStaffHandler(data, StaffRole.Manager);
+                  handleUpdateCustomerToStaff(data, StaffRole.Manager);
                 }}
               >
                 Cập nhật thành Quản lý

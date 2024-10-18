@@ -18,7 +18,7 @@ import {
 import { useState } from "react";
 import ImageFileItem from "@components/File/ImageFileItem";
 import ProductStorageCheckbox from "@app/(protected)/dashboard/product/create/Components/ProductStorageCheckbox";
-import { updateHandler } from "@app/(protected)/dashboard/product/[edit_id]/_actions/index";
+import { handleUpdate} from "@app/(protected)/dashboard/product/[edit_id]/_actions/index";
 import { Card, CardHeader, CardContent } from "@components/ui/card";
 import { JSONContent } from "novel";
 import Editor from "@/components/editor/advanced-editor";
@@ -94,7 +94,7 @@ export default function EditForm({
       async () => {
         if (!session) throw new Error("Lỗi không có phiên làm việc.");
 
-        const result = await updateHandler({
+        const result = await handleUpdate({
           formData: data,
           description: description,
           session: session,
@@ -143,7 +143,7 @@ export default function EditForm({
                       image
                     }
                     name={image.split("/")[image.split("/").length - 1]}
-                    removeHandler={() => {
+                    handleRemove={() => {
                       setUpdatedProductImages((images) =>
                         images.filter((img) => img !== image)
                       );

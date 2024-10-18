@@ -137,7 +137,7 @@ export const columns: ColumnDef<ProductType>[] = [
       const session = useSession() as SessionState;
       const router = useRouter();
 
-      const removeHandler = useCallback(async () => {
+      const handleRemove = useCallback(async () => {
         toast.promise(
           async () => {
             if (!session.session)
@@ -192,7 +192,7 @@ export const columns: ColumnDef<ProductType>[] = [
               <DropdownMenuItem onClick={handleEditProduct}>
                 Chỉnh sửa
               </DropdownMenuItem>
-              <DropdownMenuItem onClick={removeHandler}>
+              <DropdownMenuItem onClick={handleRemove}>
                 Xóa sản phẩm
               </DropdownMenuItem>
             </DropdownMenuContent>

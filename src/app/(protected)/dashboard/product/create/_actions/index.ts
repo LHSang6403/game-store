@@ -13,7 +13,7 @@ import { createProductStorage } from "@/app/_actions/product_storage";
 import { FormSchema } from "@/app/(protected)/dashboard/product/create/Components/CreateForm";
 import { JSONContent } from "novel";
 
-export async function createHandler({
+export async function handleCreate({
   formData,
   description,
   productImages,

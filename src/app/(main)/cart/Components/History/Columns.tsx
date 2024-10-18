@@ -116,7 +116,7 @@ export const columns: ColumnDef<OrderType>[] = [
       const data = row.original;
       const session = useSession() as SessionState;
 
-      async function cancelOrderHandler(data: OrderType) {
+      async function handleCancelOrder(data: OrderType) {
         toast.promise(
           async () => {
             switch (data.shipment_name) {
@@ -182,7 +182,7 @@ export const columns: ColumnDef<OrderType>[] = [
                 <DropdownMenuItem
                   disabled={data.state !== "Đang chờ"}
                   onClick={() => {
-                    cancelOrderHandler(data);
+                    handleCancelOrder(data);
                   }}
                 >
                   Hủy đơn hàng

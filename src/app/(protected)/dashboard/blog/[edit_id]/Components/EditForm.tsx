@@ -75,7 +75,7 @@ export default function EditForm({ blog }: { blog: BlogType }) {
           if (!session) throw new Error("Lỗi phiên đăng nhập.");
 
           const staffSession = session as StaffType;
-          const result = await updateHandler({
+          const result = await handleUpdate({
             originalBlog: blog,
             formData: data,
             content: content,
@@ -163,7 +163,7 @@ export default function EditForm({ blog }: { blog: BlogType }) {
                       image
                     }
                     name={image.split("/")[image.split("/").length - 1]}
-                    removeHandler={() => {
+                    handleRemove={() => {
                       setUpdatedBlogThumbnails((images) =>
                         images.filter((img) => img !== image)
                       );
@@ -199,7 +199,7 @@ export default function EditForm({ blog }: { blog: BlogType }) {
   );
 }
 
-async function updateHandler({
+async function handleUpdate({
   originalBlog,
   formData,
   content,

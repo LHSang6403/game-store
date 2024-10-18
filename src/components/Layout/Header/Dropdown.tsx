@@ -11,7 +11,7 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger,
 } from "@components/ui/dropdown-menu";
-import { signOutHandler } from "@/app/auth/_actions/signOut";
+import { handleSignOut } from "@/app/auth/_actions/signOut";
 import { useSession, SessionState } from "@/zustand/useSession";
 import { toast } from "sonner";
 import Image from "next/image";
@@ -90,7 +90,7 @@ export default function Dropdown() {
         ) : (
           <DropdownMenuItem
             onClick={async () => {
-              const result = await signOutHandler();
+              const result = await handleSignOut();
               if (!result.error) {
                 toast.success("Đăng xuất thành công.");
                 router.push("/auth");

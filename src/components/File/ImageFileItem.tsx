@@ -5,11 +5,11 @@ import Image from "next/image";
 export default function ImageFileItem({
   image,
   name,
-  removeHandler,
+  handleRemove,
 }: {
   image: string;
   name: string;
-  removeHandler: () => void;
+  handleRemove: () => void;
 }) {
   return (
     <div className="group w-full overflow-hidden hover:cursor-pointer">
@@ -28,7 +28,7 @@ export default function ImageFileItem({
             fill="none"
             viewBox="0 0 24 24"
             stroke="#FFFFFF"
-            onClick={removeHandler}
+            onClick={handleRemove}
           >
             <path
               strokeLinecap="round"
