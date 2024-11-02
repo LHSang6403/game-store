@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import NavBar from "@/components/Layout/Header/NavBar";
 import Dropdown from "@/components/Layout/Header/Dropdown";
-import DashboardSidebar from "@/app/(protected)/dashboard/Components/DashboardSidebar";
+import DashboardSidebar from "@/app/(protected)/dashboard/_components/DashboardSidebar";
 import PrimaryLogo from "@components/PrimaryLogo";
 import { usePathname } from "next/navigation";
 import { RotateCcw } from "lucide-react";

@@ -3,11 +3,11 @@ import Footer from "@components/Layout/Footer/Footer";
 import Template from "@app/(main)/template";
 import Image from "next/image";
 import Link from "next/link";
-import BestSeller from "@app/HomeSections/BestSeller";
-import Accessories from "@app/HomeSections/Accessories";
-import BestPrice from "@app/HomeSections/BestPrice";
-import MultiGames from "@app/HomeSections/MultiGames";
-import Brands from "@app/HomeSections/Brands";
+import BestSeller from "@/components/HomeSections/BestSeller";
+import Accessories from "@/components/HomeSections/Accessories";
+import BestPrice from "@/components/HomeSections/BestPrice";
+import MultiGames from "@/components/HomeSections/MultiGames";
+import Brands from "@/components/HomeSections/Brands";
 
 export default function page() {
   return (

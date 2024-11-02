@@ -10,7 +10,7 @@ import { Input } from "@components/ui/input";
 import FormAddressPicker from "@components/Picker/Address/FormAddressPicker";
 import SelectShipmentForm from "@/app/(main)/cart/_components/Summary/SelectShipmentForm";
 
-export default function CreateFormInputs({ form }: { form: any }) {
+export default function OrderFormInputs({ form }: { form: any }) {
   return (
     <>
       <FormField
@@ -18,10 +18,10 @@ export default function CreateFormInputs({ form }: { form: any }) {
         name="name"
         render={({ field }) => (
           <FormItem>
-            <FormLabel>Tên khách hàng</FormLabel>
+            <FormLabel>Tên</FormLabel>
             <FormControl>
               <Input
-                placeholder="Nhập tên"
+                placeholder="Tên khách hàng"
                 {...field}
                 type="text"
                 onChange={field.onChange}
@@ -36,10 +36,10 @@ export default function CreateFormInputs({ form }: { form: any }) {
         name="phone"
         render={({ field }) => (
           <FormItem>
-            <FormLabel>Số điện thoại</FormLabel>
+            <FormLabel>Điện thoại</FormLabel>
             <FormControl>
               <Input
-                placeholder="Nhập số"
+                placeholder="Số liên hệ"
                 {...field}
                 type="text"
                 onChange={field.onChange}
@@ -54,9 +54,28 @@ export default function CreateFormInputs({ form }: { form: any }) {
         name="district"
         render={() => (
           <FormItem>
-            <FormLabel>Khu vực</FormLabel>
+            <FormLabel>Tỉnh, huyện, phường</FormLabel>
             <FormControl>
               <FormAddressPicker />
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        )}
+      />
+      <FormField
+        control={form.control}
+        name="note"
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel>Ghi chú thêm</FormLabel>
+            <FormControl>
+              <Textarea
+                className="max-h-44 min-h-28 border-[#E5E7EB]"
+                placeholder="Ghi chú..."
+                {...field}
+                value={field.value ?? ""}
+                onChange={field.onChange}
+              />
             </FormControl>
             <FormMessage />
           </FormItem>
@@ -67,10 +86,10 @@ export default function CreateFormInputs({ form }: { form: any }) {
         name="address"
         render={({ field }) => (
           <FormItem>
-            <FormLabel>Địa chỉ nhà</FormLabel>
+            <FormLabel>Địa chỉ</FormLabel>
             <FormControl>
               <Input
-                placeholder="Nhập số nhà, tên đường"
+                placeholder="Số nhà, tên đường"
                 {...field}
                 onChange={field.onChange}
               />
@@ -90,25 +109,6 @@ export default function CreateFormInputs({ form }: { form: any }) {
                 onChange={(value) => {
                   form.setValue("shipment", value);
                 }}
-              />
-            </FormControl>
-            <FormMessage />
-          </FormItem>
-        )}
-      />
-      <FormField
-        control={form.control}
-        name="note"
-        render={({ field }) => (
-          <FormItem>
-            <FormLabel>Ghi chú thêm</FormLabel>
-            <FormControl>
-              <Textarea
-                className="max-h-44 min-h-28 border-[#E5E7EB]"
-                placeholder="Ghi chú cho đơn hàng của bạn..."
-                {...field}
-                value={field.value ?? ""}
-                onChange={field.onChange}
               />
             </FormControl>
             <FormMessage />

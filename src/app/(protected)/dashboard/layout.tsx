@@ -1,13 +1,13 @@
 "use client";
 
-import DashboardSidebar from "@app/(protected)/dashboard/Components/DashboardSidebar";
+import DashboardSidebar from "@/app/(protected)/dashboard/_components/DashboardSidebar";
 import Footer from "@/components/Layout/Footer/Footer";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import DashboardHeader from "@/components/Layout/Header/DashboardHeader";
 import { useSession, SessionState } from "@/zustand/useSession";
 import { useRouter } from "next/navigation";
 import { usePathname } from "next/navigation";
-import { dashboardSidebarList } from "@app/(protected)/dashboard/Components/DashboardSidebar";
+import { dashboardSidebarList } from "@/app/(protected)/dashboard/_components/DashboardSidebar";
 import { useEffect } from "react";
 import { StaffType } from "@/utils/types";
 

@@ -3,12 +3,12 @@
 import {
   columns,
   columns_headers,
-} from "@app/(protected)/dashboard/product/Components/Columns";
+} from "@/app/(protected)/dashboard/product/_components/Columns";
 import { DataTable } from "@components/Table/DataTable";
 import { readProducts } from "@/app/_actions/product";
 import { ProductType } from "@utils/types/index";
 import { useQuery } from "@tanstack/react-query";
-import DashboardTableLoading from "@app/(protected)/dashboard/Components/DashboardTableLoading";
+import DashboardTableLoading from "@/app/(protected)/dashboard/_components/DashboardTableLoading";
 import { useRouter } from "next/navigation";
 
 export default function Page() {

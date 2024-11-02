@@ -4,7 +4,7 @@ import useLocalStorage from "@/hooks/useLocalStorage";
 import { useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { readBlogById } from "@app/_actions/blog";
-import EditForm from "@app/(protected)/dashboard/blog/[edit_id]/Components/EditForm";
+import BlogForm from "../_components/BlogForn";
 
 export default function page({ params }: { params: { edit_id: string } }) {
   const { data: blog } = useQuery({
@@ -22,7 +22,7 @@ export default function page({ params }: { params: { edit_id: string } }) {
     <div className="flex min-h-[calc(100vh_-_6rem)] flex-col gap-2 pb-4 sm:pb-2">
       <h1 className="my-2 text-2xl font-medium">Chỉnh sửa bài viết</h1>
       <div className="h-fit w-full">
-        {blog?.data && <EditForm blog={blog.data} />}
+        {blog?.data && <BlogForm blog={blog.data} />}
       </div>
     </div>
   );

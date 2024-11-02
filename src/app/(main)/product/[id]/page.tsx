@@ -1,10 +1,10 @@
 "use client";
 
-import ProductDetail from "@app/(main)/product/[id]/Components/ProductDetail";
-import ProductDescription from "@app/(main)/product/[id]/Components/ProductDescription";
+import ProductDetail from "@/app/(main)/product/[id]/_components/ProductDetail";
+import ProductDescription from "@/app/(main)/product/[id]/_components/ProductDescription";
 import useProductQuery from "@/hooks/useProductQuery";
 import Template from "@app/(protected)/template";
-import Loading from "@app/(main)/product/[id]/Components/ProductLoadingSkeleton";
+import Loading from "@/app/(main)/product/[id]/_components/ProductLoadingSkeleton";
 import Image from "next/image";
 import ClientBack from "@/components/ClientBack";
 import { useRouter } from "next/navigation";

@@ -1,9 +1,9 @@
 "use client";
 
-import SoldBarChart from "@/app/(protected)/dashboard/Components/Charts/SoldBarChart";
-import StorageTables from "@/app/(protected)/dashboard/Components/StorageTables";
+import SoldBarChart from "@/app/(protected)/dashboard/_components/Charts/SoldBarChart";
+import StorageTables from "@/app/(protected)/dashboard/_components/StorageTables";
 import { Activity, PackageSearch, UsersRound, Container } from "lucide-react";
-import DataCard from "@/app/(protected)/dashboard/Components/DataCard";
+import DataCard from "@/app/(protected)/dashboard/_components/DataCard";
 import { useQuery } from "@tanstack/react-query";
 import { readAllProductStorages } from "@/app/_actions/product_storage";
 import { readCustomers, readStaffs } from "@app/_actions/user";

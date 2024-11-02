@@ -6,9 +6,9 @@ import { DataTable } from "@components/Table/DataTable";
 import {
   columns,
   columns_headers,
-} from "@app/(protected)/dashboard/order/Components/Columns";
+} from "@/app/(protected)/dashboard/order/_components/Columns";
 import { useQuery } from "@tanstack/react-query";
-import DashboardTableLoading from "@app/(protected)/dashboard/Components/DashboardTableLoading";
+import DashboardTableLoading from "@/app/(protected)/dashboard/_components/DashboardTableLoading";
 import { useRouter } from "next/navigation";
 
 export default function page() {

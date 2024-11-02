@@ -1,9 +1,9 @@
 "use client";
 
 import { useMemo, useCallback } from "react";
-import RevenueBarChart from "@/app/(protected)/dashboard/Components/Charts/RevenueBarChart";
+import RevenueBarChart from "@/app/(protected)/dashboard/_components/Charts/RevenueBarChart";
 import { Banknote, Signal, Map, LocateFixed } from "lucide-react";
-import DataCard from "@/app/(protected)/dashboard/Components/DataCard";
+import DataCard from "@/app/(protected)/dashboard/_components/DataCard";
 import { useQuery } from "@tanstack/react-query";
 import { readOrdersByDateRange } from "@app/_actions/order";
 import formatCurrency from "@/utils/functions/formatCurrency";

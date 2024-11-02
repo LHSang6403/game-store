@@ -10,7 +10,7 @@ import {
 } from "@/utils/types/index";
 import { CustomerType, StaffType } from "@/utils/types/index";
 import { createProductStorage } from "@/app/_actions/product_storage";
-import { FormSchema } from "@/app/(protected)/dashboard/product/create/Components/CreateForm";
+import { FormSchema } from "@/app/(protected)/dashboard/product/_components/ProductForm";
 import { JSONContent } from "novel";
 
 export async function handleCreate({

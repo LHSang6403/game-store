@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { readUserSession } from "@/app/_actions/user";
-import OrderHistory from "@app/(main)/cart/Components/History/OrderHistory";
-import EditProfile from "@/app/(main)/profile/Components/EditProfile";
+import OrderHistory from "@/app/(main)/cart/_components/History/OrderHistory";
+import EditProfile from "@/app/(main)/profile/_components/EditProfile";
 import Link from "next/link";
 
 export default async function page() {

@@ -2,15 +2,15 @@
 
 import { useRouter } from "next/navigation";
 import { DataTable } from "@components/Table/DataTable";
-import { columns, columns_headers } from "./Components/Columns";
+import { columns, columns_headers } from "./_components/Columns";
 import { readBlogs } from "@/app/_actions/blog";
 import type { BlogType } from "@utils/types/index";
 import { useQuery } from "@tanstack/react-query";
-import DashboardTableLoading from "@app/(protected)/dashboard/Components/DashboardTableLoading";
+import DashboardTableLoading from "@/app/(protected)/dashboard/_components/DashboardTableLoading";
 
 export default function page() {
   const router = useRouter();
-  
+
   const {
     data: blogs,
     isLoading,

@@ -6,7 +6,7 @@ import { readCustomers } from "@app/_actions/user";
 import { readStorages } from "@app/_actions/storage";
 import { useQuery } from "@tanstack/react-query";
 import { useMemo } from "react";
-import DashboardColumnsSkeleton from "@/app/(protected)/dashboard/Components/DashboardColumnsSkeleton";
+import DashboardColumnsSkeleton from "@/app/(protected)/dashboard/_components/DashboardColumnsSkeleton";
 
 export default function page() {
   const {

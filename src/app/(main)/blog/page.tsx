@@ -1,4 +1,4 @@
-import BlogContainer from "@app/(main)/blog/Components/BlogContainer";
+import BlogContainer from "@/app/(main)/blog/_components/BlogContainer";
 
 export default function Page() {
   return (

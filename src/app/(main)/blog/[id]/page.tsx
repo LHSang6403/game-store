@@ -2,9 +2,9 @@
 
 import { readBlogById } from "@app/_actions/blog";
 import { useQuery } from "@tanstack/react-query";
-import BlogContent from "@app/(main)/blog/[id]/Components/BlogContent";
-import BlogThumbnails from "@app/(main)/blog/[id]/Components/BlogThumbnails";
-import Loading from "@app/(main)/blog/[id]/Components/BlogLoadingSkeleton";
+import BlogContent from "@/app/(main)/blog/[id]/_components/BlogContent";
+import BlogThumbnails from "@/app/(main)/blog/[id]/_components/BlogThumbnails";
+import Loading from "@/app/(main)/blog/[id]/_components/BlogLoadingSkeleton";
 import ClientBack from "@/components/ClientBack";
 
 export default function page({ params }: { params: { id: string } }) {

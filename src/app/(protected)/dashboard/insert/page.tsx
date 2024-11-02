@@ -3,9 +3,9 @@
 import { readStorages } from "@app/_actions/storage";
 import { readAllProductStorages } from "@/app/_actions/product_storage";
 import { ChevronsRight } from "lucide-react";
-import SelectionLists from "./Components/SelectionLists";
+import SelectionLists from "./_components/SelectionLists";
 import { useQuery } from "@tanstack/react-query";
-import DashboardColumnsSkeleton from "@/app/(protected)/dashboard/Components/DashboardColumnsSkeleton";
+import DashboardColumnsSkeleton from "@/app/(protected)/dashboard/_components/DashboardColumnsSkeleton";
 import { useRouter } from "next/navigation";
 import { useMemo } from "react";
 

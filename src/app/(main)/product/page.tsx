@@ -1,10 +1,10 @@
 import SearchBar from "@components/Search/SearchBar";
-import CategoryCards from "@app/(main)/product/Components/CategoryCards";
-import ProductsContainer from "@app/(main)/product/Components/ProductsContainer";
+import CategoryCards from "@/app/(main)/product/_components/CategoryCards";
+import ProductsContainer from "@/app/(main)/product/_components/ProductsContainer";
 import { readProducts } from "@/app/_actions/product";
 import { ProductType } from "@utils/types/index";
 import Image from "next/image";
-import FilterAreaV2 from "./Components/FilterArea-v2";
+import FilterAreaV2 from "./_components/FilterArea-v2";
 
 export default async function Product() {
   const products = await readProducts({

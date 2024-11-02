@@ -1,6 +1,6 @@
 import ClientBack from "@/components/ClientBack";
-import OrderHistory from "@app/(main)/cart/Components/History/OrderHistory";
-import OrderCurrent from "@app/(main)/cart/Components/Summary/OrderCurrent";
+import OrderHistory from "@/app/(main)/cart/_components/History/OrderHistory";
+import OrderCurrent from "@/app/(main)/cart/_components/Summary/OrderCurrent";
 
 export default function Page() {
   return (

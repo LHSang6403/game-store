@@ -27,9 +27,9 @@ import {
 } from "@/components/ui/select";
 import formatCurrency from "@/utils/functions/formatCurrency";
 import { DataTable } from "@components/Table/DataTable";
-import { columns } from "@app/(main)/cart/Components/Summary/Columns";
+import { columns } from "@/app/(main)/cart/_components/Summary/Columns";
 import ProductCard from "@/app/(protected)/dashboard/order/create/Components/ProductCard";
-import ConfirmDialog from "@app/(main)/cart/Components/Summary/ConfirmDialog";
+import ConfirmDialog from "@/app/(main)/cart/_components/Summary/ConfirmDialog";
 import { Card, CardHeader, CardContent } from "@components/ui/card";
 import CreateFormInputs from "@app/(protected)/dashboard/order/create/Components/CreateFormInputs";
 
