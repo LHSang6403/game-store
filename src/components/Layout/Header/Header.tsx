@@ -14,7 +14,7 @@ export default function Header() {
       <div className="mr- flex items-center">
         <PrimaryLogo />
       </div>
-      <div className="hidden w-full max-w-[1300px] flex-row items-center justify-around gap-6 md:flex">
+      <div className="hidden w-full max-w-[1300px] flex-row items-center justify-around gap-6 xl:flex">
         <div
           className={`w-full ${path === "/product" ? "invisible" : ""}`}
         ></div>

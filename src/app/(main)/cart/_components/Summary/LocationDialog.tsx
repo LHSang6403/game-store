@@ -24,7 +24,7 @@ export default function LocationDialog({
 
   return (
     <Dialog open={isOpen} onOpenChange={() => onOpenChange()}>
-      <DialogContent className="max-w-[425px] rounded-md md:w-full">
+      <DialogContent className="max-w-[425px] rounded-md">
         <DialogHeader>
           <DialogTitle>Bạn ở đâu?</DialogTitle>
           <DialogDescription>

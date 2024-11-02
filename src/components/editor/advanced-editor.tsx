@@ -68,7 +68,7 @@ const TailwindAdvancedEditor = ({
   if (!initialContent) return null;
 
   return (
-    <div className="max-w-screen-lg relative w-full">
+    <div className="relative w-full">
       {!isDisable && (
         <div className="text-muted-foreground z-10 m-5 mb-0 ml-auto h-fit w-fit rounded-lg bg-accent px-2 py-1 text-sm">
           {saveStatus}
@@ -79,7 +79,7 @@ const TailwindAdvancedEditor = ({
           initialContent={initialContent}
           extensions={extensions}
           editable={!isDisable}
-          className="max-w-screen-lg border-muted relative min-h-[500px] w-full md:p-6 p-2"
+          className="border-muted max-w-screen relative min-h-[500px] p-2 md:p-6"
           editorProps={{
             handleDOMEvents: {
               keydown: (_view, event) => handleCommandNavigation(event),

@@ -13,7 +13,7 @@ export default function ProductDescription({
   const content: JSONContent = parseStringToJSONContent(description.content);
 
   return (
-    <div className="px-2 md:px-6 xl:px-16">
+    <div className="px-2 md:px-6">
       <Editor initialValue={content} onChange={() => {}} isDisable={true} />
     </div>
   );

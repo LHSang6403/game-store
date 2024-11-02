@@ -160,7 +160,7 @@ export default function EditProfile({
           Chỉnh sửa
         </Button>
       </DialogTrigger>
-      <DialogContent className="max-w-[425px] rounded-md pb-0 md:max-w-[100vw]">
+      <DialogContent className="max-w-[90vw] rounded-md pb-0 md:max-w-[80vw] xl:max-w-[60vw]">
         <DialogHeader>
           <DialogTitle>Chỉnh sửa thông tin tài khoản</DialogTitle>
         </DialogHeader>

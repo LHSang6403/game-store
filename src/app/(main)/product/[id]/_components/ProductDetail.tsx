@@ -34,11 +34,11 @@ export default function ProductDetail({
   }, []);
 
   return (
-    <div className="relative z-10 flex h-fit min-h-[90vh] w-full md:flex-row pb-6 flex-col">
-      <div className="h-fit w-3/5 pl-10 xl:w-full xl:p-0 sm:px-2">
+    <div className="relative z-10 flex h-fit w-full flex-col xl:flex-row">
+      <div className="h-fit xl:w-3/5 w-full md:p-0 px-3">
         <ProductImages images={product.product.images} />
       </div>
-      <div className="flex xl:w-2/5 flex-col gap-4 pr-10 xl:pt-28 md:w-full md:px-12 md:pt-10 w-[90%] pt-0 w-full px-4">
+      <div className="flex xl:w-2/5 flex-col h-fit gap-4 pr-10 xl:pt-28 md:w-full md:px-12 md:pt-10 w-full pt-0 px-4">
         <ProductActions product={product} />
       </div>
       {showAlternateTitle ? (

@@ -49,11 +49,11 @@ export default function BestPrice() {
       </div>
       <div className="mt-10 grid grid-cols-2 gap-2 bg-white md:mt-16 md:grid-cols-3 md:gap-3">
         <div className="flex flex-col items-end gap-2 md:gap-3">
-          <div className="mt-10 h-fit w-full max-w-[150px] overflow-hidden rounded-lg rounded-tl-[40px] shadow-xl md:mt-28">
+          <div className="mt-10 h-fit w-full overflow-hidden rounded-lg rounded-tl-[40px] shadow-xl md:mt-28">
             <Image
               src="/assets/images/fanpage/sp1.png"
               alt="Product 1"
-              className="object-fit !relative h-[100%] max-w-[300px] duration-300 ease-in-out hover:scale-[1.025]"
+              className="object-fit !relative h-full duration-300 ease-in-out hover:scale-[1.025] md:max-w-[350px]"
               priority
               quality={100}
               fill
@@ -63,7 +63,7 @@ export default function BestPrice() {
             <Image
               src="/assets/images/fanpage/sp8.png"
               alt="Product 8"
-              className="object-fit !relative h-[100%] max-w-[250px] duration-300 ease-in-out hover:scale-[1.025] md:max-w-[200px]"
+              className="object-fit !relative h-full duration-300 ease-in-out hover:scale-[1.025] md:max-w-[230px]"
               priority
               quality={100}
               fill
@@ -75,17 +75,17 @@ export default function BestPrice() {
             <Image
               src="/assets/images/fanpage/sp5.jpg"
               alt="Product 5"
-              className="object-fit !relative h-[100%] max-w-[400px] duration-300 ease-in-out hover:scale-[1.025]"
+              className="object-fit !relative h-[100%] duration-300 ease-in-out hover:scale-[1.025] md:max-w-[400px]"
               priority
               quality={100}
               fill
             />
           </div>
-          <div className="w-fit overflow-hidden rounded-lg rounded-br-[40px] shadow-xl">
+          <div className="w-auto overflow-hidden rounded-lg rounded-br-[40px] shadow-xl">
             <Image
               src="/assets/images/fanpage/sp3.png"
               alt="Product 3"
-              className="object-fit !relative h-[100%] max-w-[400px] duration-300 ease-in-out hover:scale-[1.025]"
+              className="object-fit !relative h-[100%] duration-300 ease-in-out hover:scale-[1.025] md:max-w-[400px]"
               priority
               quality={100}
               fill

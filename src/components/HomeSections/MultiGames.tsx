@@ -43,27 +43,27 @@ export default function MultiGames() {
             các dịch vụ trực tuyến khác.
           </p>
         </div>
-        <div className="h-fit w-fit overflow-hidden rounded-xl shadow-xl">
+        <div className="h-fit w-full overflow-hidden rounded-xl shadow-xl">
           <Image
             src="/assets/images/home/game-disk.jpg"
             alt="Logo"
-            className="object-fit !relative h-[100%] max-w-[500px]"
+            className="object-fit !relative h-[100%] md:max-w-[500px]"
             priority
             quality={100}
             fill
           />
         </div>
-        <div className="h-fit w-fit overflow-hidden rounded-xl shadow-xl">
+        <div className="h-fit w-full overflow-hidden rounded-xl shadow-xl">
           <Image
             src="/assets/images/home/game-disk-2.jpg"
             alt="Logo"
-            className="object-fit !relative h-[100%] max-w-[500px]"
+            className="object-fit !relative h-[100%] md:max-w-[500px]"
             priority
             quality={100}
             fill
           />
         </div>
-        <div className="flex h-full md:max-w-[500px] flex-col items-start justify-center gap-6 md:pl-10 max-w-full pl-0">
+        <div className="flex h-full max-w-full flex-col items-start justify-center gap-6 pl-0 md:max-w-[500px] md:pl-10">
           <div>
             <Image
               src="/assets/images/home/buttons.png"

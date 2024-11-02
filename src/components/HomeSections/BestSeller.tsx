@@ -27,7 +27,7 @@ export default function BestSeller() {
         </p>
       </div>
       <div className="my-10 flex w-full flex-col gap-4 px-2 md:flex-row md:px-4 xl:px-36">
-        <div className="w-1/2 lg:w-full">
+        <div className="w-full md:w-1/2">
           <div className="-mb-1 -ml-12">
             <Image
               src="/assets/images/gamePlay/g9.png"

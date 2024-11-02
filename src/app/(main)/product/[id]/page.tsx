@@ -31,7 +31,7 @@ export default function page({ params }: { params: { id: string } }) {
         <>
           {isSuccess && product && (
             <Template>
-              <div className="flex h-fit min-h-screen w-full flex-col items-center gap-10 pb-10">
+              <div className="flex h-fit min-h-screen w-full flex-col items-center gap-6 pb-10">
                 <div className="relative w-full">
                   <div className="absolute xl:left-10 top-2 z-40 h-fit w-fit md:left-6 left-3">
                     <ClientBack />

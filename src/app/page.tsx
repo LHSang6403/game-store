@@ -70,7 +70,7 @@ export default function page() {
             <BestSeller />
           </div>
           <Accessories />
-          <div className="mt-6 flex h-auto w-full flex-col items-center px-4 md:px-6 xl:px-10">
+          <div className="mt-6 flex h-auto w-full flex-col items-center gap-5 px-4 md:px-6 xl:px-10">
             <BestPrice />
             <MultiGames />
             <Brands />

@@ -8,7 +8,7 @@ export default function BlogContent({ blogContent }: { blogContent: string }) {
   const content: JSONContent = parseStringToJSONContent(blogContent);
 
   return (
-    <div className="px-0 pb-4 md:px-16 md:pb-0">
+    <div className="px-0 pb-4 md:pb-0 xl:px-16">
       <Editor initialValue={content} onChange={() => {}} isDisable={true} />
     </div>
   );

@@ -51,7 +51,7 @@ export default function ProductImages({ images }: { images: string[] }) {
                   image
                 }
                 alt="Product"
-                className="object-fit !relative max-h-[700px] max-w-[700px]"
+                className="object-fit !relative h-auto max-w-[400px] md:max-h-[700px] md:max-w-[700px]"
                 priority
                 quality={100}
                 fill
@@ -82,8 +82,8 @@ export default function ProductImages({ images }: { images: string[] }) {
         freeMode={true}
         watchSlidesProgress={true}
         modules={[FreeMode, Navigation, Thumbs]}
-        className="thumbs mb-6 flex h-fit w-[94%] flex-row items-center justify-center
-          rounded-lg md:w-[84%] lg:w-[76%] xl:w-[700px]"
+        className="thumbs mb-6 flex h-fit w-full flex-row items-center justify-center
+          rounded-lg md:w-[76%] lg:w-[700px] xl:w-[94%]"
       >
         {images.map((image, index) => (
           <SwiperSlide key={index}>
@@ -92,7 +92,7 @@ export default function ProductImages({ images }: { images: string[] }) {
                 activeIndex === index
                   ? "bg-gradient-to-r from-cpurple via-cpink to-corange p-[1px] opacity-100"
                   : "bg-gradient-to-r from-[#9633ed84] via-[#f22b9c88] to-[#fd7c3681] p-[1px] opacity-70"
-              } m-1 w-[96%] rounded-[12px] transition duration-300 ease-in-out hover:scale-[1.02] hover:cursor-pointer md:w-32`}
+              } m-1 w-auto rounded-[12px] transition duration-300 ease-in-out hover:scale-[1.02] hover:cursor-pointer md:max-w-52`}
             >
               <div className="rounded-[11px] bg-background">
                 <Image

@@ -30,8 +30,8 @@ export default function Accessories() {
             chất lượng và độ bền cao.
           </p>
         </div>
-        <div className="z-20 mx-auto mt-10 grid h-fit w-full grid-cols-2 md:w-fit">
-          <div className="col-span-2 flex w-full flex-col justify-center gap-4 px-6 pl-28 md:col-span-1 md:px-0">
+        <div className="z-20 mx-auto mt-10 grid h-fit w-full max-w-[1540px] grid-cols-2">
+          <div className="col-span-2 flex w-full flex-col justify-center gap-4 px-6 md:col-span-1 md:pl-28">
             <div>
               <Image
                 src="/assets/images/home/buttons.png"
@@ -74,7 +74,7 @@ export default function Accessories() {
               priority
             />
           </div>
-          <div className="col-span-2 flex flex-col justify-center gap-4 px-6 pl-28 md:col-span-1 md:px-0">
+          <div className="col-span-2 flex flex-col justify-center gap-4 px-6 md:col-span-1 md:pl-28">
             <div>
               <Image
                 src="/assets/images/home/controller.png"

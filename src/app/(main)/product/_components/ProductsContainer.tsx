@@ -69,7 +69,7 @@ export default function ProductsContainer({
       )}
       {!isHide && (
         <div className="flex h-fit w-full flex-col items-center justify-center gap-6">
-          <div className="grid h-fit w-fit xl:grid-cols-4 justify-items-center md:gap-5 md:grid-cols-3 grid-cols-2 gap-2">
+          <div className="grid h-fit w-full xl:grid-cols-4 justify-items-center md:gap-5 md:grid-cols-3 grid-cols-2 gap-2">
             {currentItems.map((each: ProductType, index: number) => (
               <Product key={index} data={each} />
             ))}
