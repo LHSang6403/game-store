@@ -42,7 +42,7 @@ export default function page() {
   );
 
   return (
-    <section className="flex flex-col gap-4 pb-4 lg:flex-col sm:pb-2">
+    <section className="flex flex-col gap-4 md:pb-4 pb-2">
       <div className="flex flex-col">
         <h1 className="mt-2 text-2xl font-medium">Nhập thêm sản phẩm</h1>
         <button

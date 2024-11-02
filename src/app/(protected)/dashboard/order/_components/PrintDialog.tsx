@@ -42,15 +42,15 @@ export function PrintDialog({
 
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
-      <DialogContent className="w-full rounded-md sm:w-full">
+      <DialogContent className="w-full rounded-md md:w-full">
         <DialogHeader>
           <DialogTitle>Xem trước nhãn in</DialogTitle>
         </DialogHeader>
         {modifiedHtmlString === "" ? (
           <div className="flex flex-col gap-2">
-            <Skeleton className="h-[80px] w-full rounded-xl bg-foreground/10 sm:h-[60px]" />
-            <Skeleton className="h-[80px] w-full rounded-xl bg-foreground/10 sm:h-[60px]" />
-            <Skeleton className="h-[80px] w-full rounded-xl bg-foreground/10 sm:h-[60px]" />
+            <Skeleton className="h-[60px] w-full rounded-xl bg-foreground/10 md:h-[80px]" />
+            <Skeleton className="h-[60px] w-full rounded-xl bg-foreground/10 md:h-[80px]" />
+            <Skeleton className="h-[60px] w-full rounded-xl bg-foreground/10 md:h-[80px]" />
           </div>
         ) : (
           <div className="max-h-[550px] w-full overflow-auto !text-black">

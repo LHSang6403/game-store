@@ -13,7 +13,7 @@ const Error = ({ error, reset }: { error: Error; reset: () => void }) => {
 
   return (
     <div className="flex h-screen w-screen items-center justify-center">
-      <div className="flex h-fit min-w-[500px] max-w-[700px] flex-col items-center justify-center rounded-xl bg-foreground/10 px-12 py-8 shadow sm:w-[90%]">
+      <div className="flex h-fit w-[90%] flex-col items-center justify-center rounded-xl bg-foreground/10 px-12 py-8 shadow md:w-auto md:min-w-[500px] md:max-w-[700px]">
         <h1 className="mb-4 text-2xl font-bold text-primary">Game store</h1>
         <p className="mb-4 line-clamp-4 h-fit overflow-ellipsis text-center text-red-400">
           Lỗi: {error.message}

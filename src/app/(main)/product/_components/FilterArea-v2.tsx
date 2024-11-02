@@ -45,8 +45,8 @@ export default function FilterAreaV2() {
   }, [brands, categories, endPrice]);
 
   return (
-    <div className="flex w-full flex-row justify-start gap-10 md:flex-col">
-      <div className="flex w-52 flex-col gap-2 md:w-full">
+    <div className="flex w-full flex-col justify-start gap-10 md:flex-row">
+      <div className="flex w-full flex-col gap-2 md:w-52">
         <Label htmlFor="name" className="text-left">
           Nhà SX
         </Label>
@@ -57,7 +57,7 @@ export default function FilterAreaV2() {
           }}
           defaultValue={brands[0] ?? "All"}
         >
-          <SelectTrigger className="w-fullß h-9">
+          <SelectTrigger className="h-9 w-full">
             <SelectValue placeholder="Chọn" />
           </SelectTrigger>
           <SelectContent>
@@ -98,7 +98,7 @@ export default function FilterAreaV2() {
           </SelectContent>
         </Select>
       </div> */}
-      <div className="flex w-72 flex-col gap-2 md:w-full">
+      <div className="flex w-full flex-col gap-2 md:w-72">
         <Label htmlFor="name" className="text-left">
           Giá từ 0 đến {formatCurrency(endPrice)} VNĐ
         </Label>

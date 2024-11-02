@@ -34,7 +34,7 @@ export default function BottomDrawer() {
               isActive
                 ? "bg-gradient-to-r from-cpurple via-cpink to-corange text-background"
                 : "bg-background text-foreground"
-            } flex h-10 w-32 items-center justify-center rounded-md border px-4 py-2 text-sm font-medium transition-colors sm:w-full`}
+            } flex h-10 w-full items-center justify-center rounded-md border px-4 py-2 text-sm font-medium transition-colors md:w-32`}
           >
             <span>{navUrl.name}</span>
           </Link>
@@ -76,7 +76,7 @@ export default function BottomDrawer() {
               Khám phá các trang khác của 2Win.
             </DrawerDescription>
           </DrawerHeader>
-          <div className="mx-auto grid h-fit w-fit grid-cols-2 items-center justify-center gap-2 p-4 sm:w-full">
+          <div className="mx-auto grid h-fit w-full grid-cols-2 items-center justify-center gap-2 p-4 md:w-fit">
             {navUrls.map((navUrl, index) => (
               <React.Fragment key={index}>
                 {navUrl.permission === "Staff" ? (

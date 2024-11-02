@@ -76,7 +76,7 @@ export const columns: ColumnDef<ProductType>[] = [
       const data = row.original;
 
       return (
-        <div className="line-clamp-3 max-w-36 overflow-ellipsis sm:w-20">
+        <div className="line-clamp-3 w-20 overflow-ellipsis md:w-auto md:max-w-36">
           {data.name}
         </div>
       );

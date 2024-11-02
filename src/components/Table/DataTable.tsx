@@ -95,7 +95,7 @@ export function DataTable<TData, TValue>({
   return (
     <>
       {/* Filters */}
-      <div className="mb-4 flex items-center justify-between gap-4 sm:mb-2 sm:gap-2">
+      <div className="mb-2 flex items-center justify-between gap-2 md:mb-4 md:gap-4">
         {isSearchEnabled && (
           <Input
             placeholder={searchPlaceholder}

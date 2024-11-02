@@ -6,9 +6,9 @@ export default function LargeBlog({ data }: { data: BlogType }) {
   return (
     <Link
       href={`/blog/${data.id}`}
-      className="h-full w-1/2 max-w-[800px] overflow-hidden rounded-lg from-[#9633ed51] via-[#f22b9c4c] to-[#fd7c3654] text-foreground/90 transition duration-300 hover:scale-[1.02] hover:cursor-pointer hover:cursor-pointer hover:bg-gradient-to-r hover:shadow-xl xl:w-full xl:max-w-full"
+      className="h-full w-full max-w-full overflow-hidden rounded-lg from-[#9633ed51] via-[#f22b9c4c] to-[#fd7c3654] text-foreground/90 transition duration-300 hover:scale-[1.02] hover:cursor-pointer hover:bg-gradient-to-r hover:shadow-xl md:w-1/2 md:max-w-[800px]"
     >
-      <div className="h-56 w-full overflow-hidden rounded-lg xl:h-auto xl:max-h-80 sm:max-h-52">
+      <div className="h-auto max-h-52 w-full overflow-hidden rounded-lg md:h-56 md:max-h-80">
         <Image
           alt="A blog"
           src={

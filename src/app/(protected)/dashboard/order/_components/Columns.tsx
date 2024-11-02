@@ -82,7 +82,7 @@ export const columns: ColumnDef<OrderType>[] = [
       }, [products]);
 
       return (
-        <div className="line-clamp-5 overflow-ellipsis sm:w-36">
+        <div className="line-clamp-5 overflow-ellipsis md:w-auto w-36">
           {productsWithQuantities.map((prod, index) => (
             <span key={index}>
               {prod.product.product.name} (x{prod.quantity})

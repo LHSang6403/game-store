@@ -31,13 +31,13 @@ export default function page({ params }: { params: { id: string } }) {
         <>
           {isSuccess && blog.data && (
             <>
-              <div className="h-fit w-full pl-10 xl:pl-6 sm:pl-2">
+              <div className="h-fit w-full pl-2 md:pl-6 xl:pl-10">
                 <ClientBack />
               </div>
-              <h1 className="-mt-4 max-w-[900px] bg-gradient-to-r from-cpurple via-cpink to-corange bg-clip-text px-8 text-center text-3xl font-bold text-transparent xl:px-6 sm:px-2">
+              <h1 className="-mt-4 max-w-[900px] bg-gradient-to-r from-cpurple via-cpink to-corange bg-clip-text px-2 text-center text-3xl font-bold text-transparent md:px-6 xl:px-8">
                 {blog.data.title}
               </h1>
-              <p className="-mt-2 max-w-[1000px] p-6 sm:p-2">
+              <p className="-mt-2 max-w-[1000px] p-2 md:p-6">
                 {blog.data.description}
               </p>
               {blog.data.thumbnails && (

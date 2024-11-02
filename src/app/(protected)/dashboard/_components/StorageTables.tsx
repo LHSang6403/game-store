@@ -31,7 +31,7 @@ export default function StorageTables() {
     (storage, index) => (
       <Card
         key={index}
-        className="col-span-1 flex h-fit w-full flex-col xl:col-span-2"
+        className="md:col-span-1 flex h-fit w-full flex-col col-span-2"
       >
         <CardHeader className="flex flex-row items-center pb-0">
           <div className="grid gap-2">
@@ -66,13 +66,13 @@ export default function StorageTables() {
     <>
       {isLoading ? (
         <>
-          <Card className="col-span-1 xl:col-span-2">
+          <Card className="md:col-span-1 col-span-2">
             <CardHeader className="flex h-[400px] flex-col gap-1">
               <DashboardLoading />
               <DashboardLoading />
             </CardHeader>
           </Card>
-          <Card className="col-span-1 xl:col-span-2">
+          <Card className="md:col-span-1 col-span-2">
             <CardHeader className="flex h-[400px] flex-col gap-1">
               <DashboardLoading />
               <DashboardLoading />

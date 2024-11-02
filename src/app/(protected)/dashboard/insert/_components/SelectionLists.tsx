@@ -84,8 +84,8 @@ export default function SelectionLists({
 
   return (
     <>
-      <div className="flex flex-row gap-2 overflow-hidden lg:flex-col lg:gap-4">
-        <div className="flex max-h-[572px] w-1/2 flex-col gap-2 overflow-auto pr-1 lg:w-full">
+      <div className="flex md:flex-row md:gap-2 overflow-hidden flex-col gap-4">
+        <div className="flex max-h-[572px] md:w-1/2 flex-col gap-2 overflow-auto pr-1 w-full">
           {storages.map((storage, index) => (
             <div key={index} onClick={() => setSelectedStorage(storage.name)}>
               <StorageItem
@@ -95,7 +95,7 @@ export default function SelectionLists({
             </div>
           ))}
         </div>
-        <div className="h-full w-1/2 lg:w-full">
+        <div className="h-full md:w-1/2 w-full">
           <Card className="h-full w-full overflow-hidden pr-1">
             <CardHeader className="p-3">
               Sản phẩm trong {selectedStorage}
@@ -125,7 +125,7 @@ export default function SelectionLists({
           <Button
             disabled={insertedProductStorageData.length === 0}
             onClick={handleSubmit}
-            className="mt-2 w-full text-background lg:mt-4"
+            className="md:mt-2 w-full text-background mt-4"
           >
             Hoàn tất
           </Button>

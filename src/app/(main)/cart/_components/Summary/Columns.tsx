@@ -30,7 +30,7 @@ export const columns: ColumnDef<ProductWithQuantity>[] = [
   {
     accessorKey: "price",
     header: () => {
-      return <div className="w-36 text-left sm:w-full">Giá tiền</div>;
+      return <div className="w-full text-left md:w-36">Giá tiền</div>;
     },
     cell: ({ row }) => {
       const data = row.original;
@@ -42,7 +42,7 @@ export const columns: ColumnDef<ProductWithQuantity>[] = [
             {formatCurrency(data?.product.product.price * data?.quantity)}{" "}
             <span className="sm:hidden">VNĐ</span>
           </div>
-          <div className="-ml-4 -mt-1 hidden h-fit w-full sm:block">
+          <div className="-ml-4 -mt-1 block h-fit w-full md:hidden">
             <QuantityButtons
               data={data}
               addProduct={() => addProduct(data.product)}
@@ -56,7 +56,7 @@ export const columns: ColumnDef<ProductWithQuantity>[] = [
   {
     accessorKey: "quantity",
     header: () => {
-      return <div className="text-center sm:hidden">Số lượng</div>;
+      return <div className="hidden text-center md:block">Số lượng</div>;
     },
     cell: ({ row }) => {
       const data = row.original;
@@ -64,7 +64,7 @@ export const columns: ColumnDef<ProductWithQuantity>[] = [
 
       return (
         <div className="flex w-full justify-center">
-          <div className="flex max-w-32 justify-center sm:hidden">
+          <div className="hidden max-w-32 justify-center md:flex">
             <QuantityButtons
               data={data}
               addProduct={() => addProduct(data.product)}
@@ -82,7 +82,7 @@ export const columns: ColumnDef<ProductWithQuantity>[] = [
       const { removeAllById } = useOrder() as OrderState;
 
       return (
-        <div className="flex w-fit justify-end sm:-ml-10 sm:justify-start">
+        <div className="-ml-10 flex w-fit justify-start md:ml-0 md:justify-end">
           <Button
             onClick={() => removeAllById(data.product.product.id)}
             variant="ghost"
@@ -114,7 +114,7 @@ function QuantityButtons({
       >
         <Minus className="h-4 w-4" />
       </Button>
-      <div className="mx-2 w-6 text-center sm:mx-0">{data?.quantity}</div>
+      <div className="w-6 text-center md:mx-2">{data?.quantity}</div>
       <Button
         className="h-fit sm:hover:bg-background"
         variant="ghost"

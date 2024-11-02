@@ -28,7 +28,7 @@ export default function ProductImages({ images }: { images: string[] }) {
         pagination={{
           type: "fraction",
         }}
-        className={`mt-6 h-[580px] w-full rounded-lg xl:h-[550px] sm:mt-12 sm:h-[300px] ${
+        className={`mt-12 h-[300px] w-full rounded-lg md:mt-6 md:h-[550px] xl:h-[580px] ${
           theme === "dark" ? "dark:text-foreground" : "text-foreground"
         }`}
         navigation={{
@@ -43,7 +43,7 @@ export default function ProductImages({ images }: { images: string[] }) {
       >
         {images.map((image, index) => (
           <SwiperSlide key={index}>
-            <div className="mx-auto flex w-[90%] items-center justify-center overflow-hidden p-4 sm:w-full sm:p-1">
+            <div className="mx-auto flex w-full items-center justify-center overflow-hidden p-1 md:w-[90%] md:p-4">
               <Image
                 src={
                   process.env.NEXT_PUBLIC_SUPABASE_URL +
@@ -65,13 +65,13 @@ export default function ProductImages({ images }: { images: string[] }) {
           }`}
         ></div>
         <div
-          className="swiper-button-next mr-10 lg:mr-0"
+          className="swiper-button-next mr-0 md:mr-10"
           style={{
             color: theme === "light" ? "#0F172B53" : "#F8FAFC7C",
           }}
         ></div>
         <div
-          className="swiper-button-prev ml-10 lg:ml-0"
+          className="swiper-button-prev ml-0 md:ml-10"
           style={{ color: theme === "light" ? "#0F172B53" : "#F8FAFC7C" }}
         ></div>
       </Swiper>
@@ -82,8 +82,8 @@ export default function ProductImages({ images }: { images: string[] }) {
         freeMode={true}
         watchSlidesProgress={true}
         modules={[FreeMode, Navigation, Thumbs]}
-        className="thumbs flex h-fit w-[700px] flex-row items-center justify-center rounded-lg
-          xl:w-[76%] lg:mb-6 lg:w-[84%] sm:w-[94%]"
+        className="thumbs mb-6 flex h-fit w-[94%] flex-row items-center justify-center
+          rounded-lg md:w-[84%] lg:w-[76%] xl:w-[700px]"
       >
         {images.map((image, index) => (
           <SwiperSlide key={index}>
@@ -92,7 +92,7 @@ export default function ProductImages({ images }: { images: string[] }) {
                 activeIndex === index
                   ? "bg-gradient-to-r from-cpurple via-cpink to-corange p-[1px] opacity-100"
                   : "bg-gradient-to-r from-[#9633ed84] via-[#f22b9c88] to-[#fd7c3681] p-[1px] opacity-70"
-              } m-1 w-32 rounded-[12px] transition duration-300 ease-in-out hover:scale-[1.02] hover:cursor-pointer xl:w-[96%]`}
+              } m-1 w-[96%] rounded-[12px] transition duration-300 ease-in-out hover:scale-[1.02] hover:cursor-pointer md:w-32`}
             >
               <div className="rounded-[11px] bg-background">
                 <Image

@@ -4,20 +4,20 @@ import Image from "next/image";
 export default function BestSeller() {
   return (
     <>
-      <div className="mt-10 flex w-full flex-col items-start gap-4 px-36 xl:px-4 sm:px-2">
+      <div className="mt-10 flex w-full flex-col items-start gap-4 px-2 md:px-4 xl:px-36">
         <Link
           href="/product"
           className="mb-2 h-fit rounded-full border border-[#E9DFFF] bg-white px-4 py-0.5 text-[15px] font-light text-cpurple hover:cursor-pointer"
         >
           Khám phá ngay
         </Link>
-        <h1 className="text-4xl font-bold xl:text-3xl">
+        <h1 className="text-3xl font-bold md:text-4xl">
           <span className="appearance-none bg-gradient-to-r from-cblue to-cpurple bg-clip-text text-transparent">
             Sản phẩm
           </span>{" "}
-          <br className="xl:hidden"></br> bán chạy
+          <br className="hidden md:block"></br> bán chạy
         </h1>
-        <p className="font-light sm:text-sm">
+        <p className="text-sm font-light">
           Các sản phẩm bán chạy tại 2Win luôn là những thiết bị được game thủ ưa
           chuộng nhất, nổi bật với chất lượng vượt trội và tính năng đột phá.
           Những chiếc máy chơi game mới nhất từ PlayStation, Xbox và Nintendo
@@ -26,7 +26,7 @@ export default function BestSeller() {
           bạn!
         </p>
       </div>
-      <div className="my-10 flex w-full flex-row gap-4 px-36 xl:px-4 lg:flex-col sm:px-2">
+      <div className="my-10 flex w-full flex-col gap-4 px-2 md:flex-row md:px-4 xl:px-36">
         <div className="w-1/2 lg:w-full">
           <div className="-mb-1 -ml-12">
             <Image
@@ -70,7 +70,7 @@ export default function BestSeller() {
             khung hình lên đến 120fps.
           </p>
         </div>
-        <div className="w-1/2 lg:w-full">
+        <div className="w-full md:w-1/2">
           <div className="-mb-1 -ml-4">
             <Image
               src="/assets/images/gamePlay/g12.png"

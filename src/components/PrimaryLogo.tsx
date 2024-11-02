@@ -3,7 +3,7 @@ import Link from "next/link";
 
 export default function PrimaryLogo() {
   return (
-    <Link href="/" className="">
+    <Link href="/">
       <Image
         alt="2Win Shop"
         src="/assets/images/2win.png"

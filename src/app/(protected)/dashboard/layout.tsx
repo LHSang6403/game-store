@@ -49,16 +49,16 @@ export default function DashboardLayout({
   }, [session.session]);
 
   return (
-    <div className="flex w-full flex-col pt-16 sm:pt-0">
+    <div className="flex w-full flex-col md:pt-16 pt-0">
       <div>
         <DashboardHeader />
       </div>
       <div className="flex min-h-[80vh] w-full flex-row">
-        <div className="xl:hidden">
+        <div className="md:block hidden">
           <DashboardSidebar />
         </div>
         <TooltipProvider>
-          <div className="w-full px-4 pt-2 sm:p-2">{children}</div>
+          <div className="w-full md:px-4 md:pt-2 p-2">{children}</div>
         </TooltipProvider>
       </div>
       <Footer />

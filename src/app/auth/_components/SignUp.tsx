@@ -149,7 +149,7 @@ export default function SignUp() {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="grid h-fit w-full grid-cols-2 gap-4 sm:flex sm:w-full sm:flex-col"
+        className="flex h-fit w-full grid-cols-2 flex-col gap-4 md:grid md:w-full"
       >
         <FormField
           control={form.control}
@@ -325,7 +325,7 @@ export default function SignUp() {
           <Button
             disabled={!form.formState.isValid}
             type="submit"
-            className="w-36 bg-gradient-to-r from-cpurple via-cpink to-corange text-background sm:w-full"
+            className="w-full bg-gradient-to-r from-cpurple via-cpink to-corange text-background md:w-36"
           >
             Tạo tài khoản
           </Button>

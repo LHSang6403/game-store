@@ -9,7 +9,7 @@ export default function Blog({ data }: { data: BlogType }) {
       href={`/blog/${data.id}`}
     >
       <div className="flex h-full w-full flex-col overflow-hidden text-foreground/90 ">
-        <div className="h-36 w-full overflow-hidden rounded-lg xl:h-auto xl:max-h-52 sm:max-h-44">
+        <div className="h-36 max-h-44 w-full overflow-hidden rounded-lg md:h-auto md:max-h-52">
           <Image
             alt="A blog"
             src={

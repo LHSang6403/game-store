@@ -35,7 +35,7 @@ export default async function page() {
   const address = session.data?.detailData?.address;
 
   return (
-    <div className="flex flex-col items-center gap-8 px-10 pb-10 xl:px-6 sm:px-4">
+    <div className="flex flex-col items-center gap-8 xl:px-10 pb-10 md:px-6 px-4">
       <h1 className="mt-6">
         <span className="bg-gradient-to-r from-cpurple via-cpink to-corange bg-clip-text text-center text-3xl font-semibold text-transparent">
           Thông tin tài khoản

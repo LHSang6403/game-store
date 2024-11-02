@@ -145,7 +145,7 @@ export default function ConfirmDialog({
 
   return (
     <Dialog open={isOpen} onOpenChange={() => onOpenChange()}>
-      <DialogContent className="rounded-md sm:max-w-[425px]">
+      <DialogContent className="max-w-[425px] rounded-md md:w-auto">
         <DialogHeader>
           <DialogTitle>Xác nhận đơn hàng</DialogTitle>
           <DialogDescription>

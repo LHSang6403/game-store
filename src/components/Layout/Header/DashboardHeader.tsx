@@ -18,22 +18,22 @@ export default function DashboardHeader() {
   const { setFrom, setTo } = useDatePicker();
 
   return (
-    <header className="fixed top-0 z-30 flex h-16 w-full flex-row items-center justify-around border-b bg-background px-4 sm:static">
-      <nav className="flex w-full flex-row items-center gap-2 text-lg font-medium xl:hidden">
+    <header className="static top-0 z-30 flex h-16 w-full flex-row items-center justify-around border-b bg-background px-4 md:fixed">
+      <nav className="md:flex w-full flex-row items-center gap-2 text-lg font-medium hidden">
         <Link
           href="#"
           className="flex items-center gap-2 text-lg font-semibold"
         >
           <PrimaryLogo />
         </Link>
-        <div className="xl:hidden">
+        <div className="hidden md:block">
           <NavBar />
         </div>
       </nav>
-      <div className="hidden xl:block">
+      <div className="block md:hidden">
         <Sheet>
           <SheetTrigger asChild>
-            <div className="rounded-[9px] bg-gradient-to-r from-cpurple via-cpink to-corange p-[1.5px] sm:rounded-[7px]">
+            <div className="bg-gradient-to-r from-cpurple via-cpink to-corange p-[1.5px] rounded-[7px] md:rounded-[9px]">
               <Button
                 variant="outline"
                 size="icon"
@@ -56,9 +56,9 @@ export default function DashboardHeader() {
           </SheetContent>
         </Sheet>
       </div>
-      <div className="flex w-full flex-row items-center justify-end gap-4 lg:gap-4 md:gap-2">
+      <div className="flex w-full flex-row items-center justify-end lg:gap-4 gap-2 md:gap-4">
         {pathShowResetRangeTime.includes(pathname) && (
-          <div className="rounded-lg bg-gradient-to-r from-cpurple via-cpink to-corange p-[1.5px] md:rounded-md sm:hidden">
+          <div className="bg-gradient-to-r from-cpurple via-cpink to-corange p-[1.5px] hidden rounded-md md:rounded-lg md:block">
             <Button
               variant="outline"
               className="h-9 border-none px-2 outline-none ring-0"

@@ -4,7 +4,7 @@ import Image from "next/image";
 
 export default function Footer() {
   return (
-    <footer className="flex h-fit w-full flex-col justify-center gap-6 border-t border-t-foreground/10 p-10 pt-2 text-center text-xs xl:mb-8 sm:px-4">
+    <footer className="mb-8 flex h-fit w-full flex-col justify-center gap-6 border-t border-t-foreground/10 px-4 py-10 pt-2 text-center text-xs md:mb-0 md:p-10">
       <div className="relative">
         <div className="absolute -left-10 -top-4 -z-10">
           <Image
@@ -28,7 +28,7 @@ export default function Footer() {
       <div className="flex items-center justify-center">
         <PrimaryLogo />
       </div>
-      <p className="mx-auto line-clamp-4 w-full overflow-ellipsis text-justify sm:max-w-full">
+      <p className="mx-auto line-clamp-4 max-w-full overflow-ellipsis text-justify md:w-full">
         Chào mừng đến với cửa hàng đồ chơi game hàng đầu tại Việt Nam! Tại cửa
         hàng của chúng tôi, chúng tôi tự hào mang đến cho bạn một trải nghiệm
         mua sắm độc đáo và đầy thú vị. Với một sự lựa chọn đa dạng các sản phẩm
@@ -41,7 +41,7 @@ export default function Footer() {
         Hãy đến và khám phá cửa hàng của chúng tôi ngay hôm nay để trải nghiệm
         sự khác biệt và thỏa mãn niềm đam mê chơi game của bạn!
       </p>
-      <div className="flex w-full flex-row justify-between lg:flex-col lg:gap-4">
+      <div className="flex w-full flex-col justify-between gap-4 md:flex-row md:gap-0">
         <div className="flex w-fit flex-col items-start gap-2 text-left">
           <h3 className="bg-gradient-to-r from-cpurple to-cblue bg-clip-text text-lg text-transparent">
             Thông tin

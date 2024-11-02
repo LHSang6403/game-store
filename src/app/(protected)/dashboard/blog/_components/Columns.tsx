@@ -74,7 +74,7 @@ export const columns: ColumnDef<BlogType>[] = [
       const data = row.original;
 
       return (
-        <div className="line-clamp-2 max-w-72 overflow-ellipsis lg:line-clamp-3 lg:w-32">
+        <div className="line-clamp-3 w-32 overflow-ellipsis md:line-clamp-2 md:w-auto md:max-w-72">
           {data.title}
         </div>
       );

@@ -185,7 +185,7 @@ export default function OrderForm() {
           <Form {...form}>
             <form
               onSubmit={form.handleSubmit(onSubmit)}
-              className="grid w-full grid-cols-2 gap-3 sm:grid-cols-1"
+              className="grid w-full md:grid-cols-2 gap-3 grid-cols-1"
             >
               <OrderFormInputs form={form} />
               <Button

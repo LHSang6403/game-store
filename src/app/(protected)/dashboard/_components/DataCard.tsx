@@ -26,7 +26,7 @@ export default function DataCard({
             <CardTitle className="text-sm font-medium">{title}</CardTitle>
             {icon}
           </CardHeader>
-          <CardContent className="sm:px-6">
+          <CardContent className="px-6">
             <div className="line-clamp-1 overflow-ellipsis text-xl font-semibold">
               {data}
             </div>

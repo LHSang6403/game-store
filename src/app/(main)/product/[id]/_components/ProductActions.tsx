@@ -74,7 +74,7 @@ export default function ProductActions({
       ) : (
         <Button
           disabled={isSoldOut}
-          className="h-fit w-fit bg-gradient-to-r from-cpurple via-cpink to-corange text-background sm:w-full"
+          className="h-fit w-full bg-gradient-to-r from-cpurple via-cpink to-corange text-background md:w-fit"
           onClick={handleAddToCart}
         >
           Thêm vào giỏ hàng

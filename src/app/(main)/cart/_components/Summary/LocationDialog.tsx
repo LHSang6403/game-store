@@ -24,7 +24,7 @@ export default function LocationDialog({
 
   return (
     <Dialog open={isOpen} onOpenChange={() => onOpenChange()}>
-      <DialogContent className="rounded-md sm:max-w-[425px]">
+      <DialogContent className="max-w-[425px] rounded-md md:w-full">
         <DialogHeader>
           <DialogTitle>Bạn ở đâu?</DialogTitle>
           <DialogDescription>
@@ -32,7 +32,7 @@ export default function LocationDialog({
             gian sớm nhất.
           </DialogDescription>
         </DialogHeader>
-        <div className="flex flex-row gap-2 sm:flex-col">
+        <div className="flex flex-col gap-2 md:flex-row">
           <DialogTrigger asChild>
             <Button
               variant="secondary"
@@ -42,7 +42,7 @@ export default function LocationDialog({
                   name: "Miền Bắc",
                 })
               }
-              className="w-1/2 sm:w-full"
+              className="w-full md:w-1/2"
             >
               Miền Bắc
             </Button>
@@ -55,7 +55,7 @@ export default function LocationDialog({
                   name: "Miền Trung & Nam",
                 })
               }
-              className="w-1/2 bg-gradient-to-r from-cpurple via-cpink to-corange text-background sm:w-full"
+              className="w-full bg-gradient-to-r from-cpurple via-cpink to-corange text-background md:w-1/2"
             >
               Miền Trung và Nam
             </Button>

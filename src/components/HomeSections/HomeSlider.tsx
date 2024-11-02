@@ -18,13 +18,13 @@ export default async function HomeSlider() {
   });
 
   return (
-    <Carousel className="mx-auto h-fit max-w-[86vw] xl:max-w-[100vw]">
-      <CarouselPrevious className="xl:z-10 xl:ml-20 sm:ml-16" />
+    <Carousel className="mx-auto h-fit max-w-[100vw] md:max-w-[86vw]">
+      <CarouselPrevious className="z-10 ml-16 md:ml-20" />
       <CarouselContent>
         {products?.data?.slice(0, 5).map((prod, index) => (
           <CarouselItem key={index}>
             <Card className="h-full border-none sm:h-fit">
-              <CardContent className="relative mx-auto h-[84vh] w-[90%] overflow-hidden xl:w-full xl:p-0 sm:h-[70vh]">
+              <CardContent className="relative mx-auto h-[70vh] w-full overflow-hidden p-0 md:h-[84vh] md:w-[90%]">
                 <div className="absolute top-0 flex w-full flex-row justify-center gap-4 text-sm font-light text-foreground/80">
                   <Link
                     href="/product"
@@ -47,7 +47,7 @@ export default async function HomeSlider() {
                 </div>
                 <Image
                   alt="Slider"
-                  className="h-full w-full object-cover object-center xl:h-fit xl:w-full sm:mt-4"
+                  className="mt-4 h-fit w-full object-cover object-center md:mt-0 md:h-full md:w-full"
                   src={
                     process.env.NEXT_PUBLIC_SUPABASE_URL +
                     "/storage/v1/object/public/public_files/" +
@@ -57,7 +57,7 @@ export default async function HomeSlider() {
                   width={960}
                   height={960}
                 />
-                <div className="absolute bottom-2 left-6 h-fit w-72 p-3 sm:bottom-2 sm:left-0 sm:w-full sm:px-3">
+                <div className="absolute bottom-2 left-0 h-fit w-full p-3 px-3 md:bottom-2 md:left-6 md:w-72">
                   <h1 className="text-3xl font-semibold">{prod.name}</h1>
                   <Link
                     href="/product"
@@ -66,7 +66,7 @@ export default async function HomeSlider() {
                     Chi tiết
                     <ArrowRight className="ml-0.5 inline" />
                   </Link>
-                  <p className="mt-2 line-clamp-4 overflow-hidden overflow-ellipsis font-light sm:pb-1">
+                  <p className="mt-2 line-clamp-4 overflow-hidden overflow-ellipsis pb-1 font-light md:pb-0">
                     {prod.description} edfg gdfh gfdh gfdh gfh gfdh fdgh dhd gh
                     dfgdfhgd ghfdh fgdh dfg h fh fdg gdh hgd hdgf hd h hg
                   </p>
@@ -76,7 +76,7 @@ export default async function HomeSlider() {
           </CarouselItem>
         ))}
       </CarouselContent>
-      <CarouselNext className="xl:z-10 xl:mr-20 sm:mr-16" />
+      <CarouselNext className="z-10 mr-16 md:mr-20" />
     </Carousel>
   );
 }

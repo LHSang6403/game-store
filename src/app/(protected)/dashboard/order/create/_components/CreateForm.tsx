@@ -28,10 +28,10 @@ import {
 import formatCurrency from "@/utils/functions/formatCurrency";
 import { DataTable } from "@components/Table/DataTable";
 import { columns } from "@/app/(main)/cart/_components/Summary/Columns";
-import ProductCard from "@/app/(protected)/dashboard/order/create/Components/ProductCard";
+import ProductCard from "@/app/(protected)/dashboard/order/create/_components/ProductCard";
 import ConfirmDialog from "@/app/(main)/cart/_components/Summary/ConfirmDialog";
 import { Card, CardHeader, CardContent } from "@components/ui/card";
-import CreateFormInputs from "@app/(protected)/dashboard/order/create/Components/CreateFormInputs";
+import CreateFormInputs from "@/app/(protected)/dashboard/order/create/_components/CreateFormInputs";
 
 import province from "@/static-data/provinces.json";
 import district from "@/static-data/districts.json";
@@ -231,14 +231,14 @@ export default function CreateForm({
 
   return (
     <>
-      <div className="h-fit w-full max-w-[1400px] gap-2 pb-4 sm:pb-0">
+      <div className="h-fit w-full max-w-[1400px] gap-2 pb-0 md:pb-4">
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
-            className="flex h-full w-full flex-row gap-4 lg:flex-col"
+            className="flex h-full w-full flex-col gap-4 md:flex-row"
           >
-            <Card className="h-fit w-1/2 lg:w-full">
-              <CardHeader className="pb-3 sm:px-2">
+            <Card className="h-fit w-full md:w-1/2">
+              <CardHeader className="px-2 md:px-0 md:pb-3">
                 Thông tin đơn hàng
               </CardHeader>
               <CardContent className="flex flex-col gap-3">
@@ -286,7 +286,7 @@ export default function CreateForm({
               </CardContent>
             </Card>
             <Card className="h-fit w-1/2 lg:w-full">
-              <CardHeader className="pb-3 sm:px-2">
+              <CardHeader className="md:xp-0 px-2 md:pb-3">
                 Danh sách sản phẩm
               </CardHeader>
               <CardContent className="flex h-auto flex-col overflow-hidden">

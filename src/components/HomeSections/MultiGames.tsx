@@ -4,22 +4,22 @@ export default function MultiGames() {
   return (
     <>
       <div className="mt-20 flex flex-col items-center gap-4">
-        <h1 className="text-center text-4xl font-bold xl:text-3xl">
+        <h1 className="text-center text-3xl font-bold xl:text-4xl">
           <span className="appearance-none bg-gradient-to-r from-cyelow to-cpink bg-clip-text text-transparent">
             Các trò chơi
           </span>
           <br></br>
           đa dạng
         </h1>
-        <p className="text-center font-light sm:text-sm">
+        <p className="text-center text-sm font-light">
           Dù bạn yêu thích thể loại hành động, phiêu lưu, chiến thuật hay thể
           thao, chúng tôi đều có những tựa game phù hợp với bạn. Các trò chơi
           nhập vai sẽ đưa bạn vào những câu chuyện sâu sắc và kỳ ảo, trong khi
           các game chiến thuật đòi hỏi sự tư duy và tính toán cẩn thận.
         </p>
       </div>
-      <div className="mt-20 grid h-full grid-cols-2 items-center gap-10 xl:mt-10 lg:grid-cols-1">
-        <div className="flex h-full max-w-[500px] flex-col items-start justify-center gap-6 pl-10 lg:max-w-full lg:pl-0">
+      <div className="mt-10 grid h-full grid-cols-1 items-center gap-10 md:mt-20 md:grid-cols-2">
+        <div className="flex h-full max-w-full flex-col items-start justify-center gap-6 pl-0 md:max-w-[500px] md:pl-10">
           <div>
             <Image
               src="/assets/images/home/controller.png"
@@ -63,7 +63,7 @@ export default function MultiGames() {
             fill
           />
         </div>
-        <div className="flex h-full max-w-[500px] flex-col items-start justify-center gap-6 pl-10 lg:max-w-full lg:pl-0">
+        <div className="flex h-full md:max-w-[500px] flex-col items-start justify-center gap-6 md:pl-10 max-w-full pl-0">
           <div>
             <Image
               src="/assets/images/home/buttons.png"

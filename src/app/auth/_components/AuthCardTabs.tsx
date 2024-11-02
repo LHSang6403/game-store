@@ -1,13 +1,13 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import SignIn from "@/app/auth/Components/SignIn";
-import SignUp from "@/app/auth/Components/SignUp";
+import SignIn from "@/app/auth/_components/SignIn";
+import SignUp from "@/app/auth/_components/SignUp";
 
 export default function AuthCardTabs() {
   return (
     <Tabs
       defaultValue="sign-in"
-      className="w-[650px] rounded-lg border border-gray-200 p-2 shadow-sm sm:w-full"
+      className="w-full rounded-lg border border-gray-200 p-2 shadow-sm md:w-[650px]"
     >
       <TabsList className="grid w-full grid-cols-2">
         <TabsTrigger

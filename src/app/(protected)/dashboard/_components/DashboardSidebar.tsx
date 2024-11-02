@@ -105,7 +105,7 @@ export default function DashboardSidebar() {
   );
 
   return (
-    <div className="flex h-full w-60 flex-col justify-between gap-2 border-r px-4 pt-4 xl:w-full xl:border-none xl:px-0">
+    <div className="flex h-full w-full flex-col justify-between gap-2 border-r border-none px-0 pt-4 md:w-60 md:px-4">
       <nav className="flex flex-col gap-2 overflow-auto">
         {filteredSidebarList.map((item, index) => (
           <div

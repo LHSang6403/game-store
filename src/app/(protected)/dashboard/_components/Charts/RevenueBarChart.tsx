@@ -41,10 +41,10 @@ export default function RevenueBarChart() {
         <>
           <CardHeader className="pb-0">
             <CardTitle className="mb-2 font-semibold">Doanh thu</CardTitle>
-            <div className="flex w-full flex-row items-center justify-between sm:flex-col sm:gap-2">
+            <div className="flex w-full md:gap-0 md:flex-row items-center justify-between flex-col gap-2">
               <CardDescription>
                 Doanh thu của hệ thống toàn quốc{" "}
-                <span className="hidden sm:block">
+                <span className="md:hidden block">
                   từ {formatVNDate(from)} đến {formatVNDate(to)}
                 </span>
               </CardDescription>

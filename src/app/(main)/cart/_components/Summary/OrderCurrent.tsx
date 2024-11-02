@@ -11,11 +11,11 @@ export default function OrderCurrent() {
   return (
     <>
       {order?.products ? (
-        <div className="mx-auto flex w-full flex-row justify-center gap-4 xl:flex-col xl:items-center sm:w-full">
+        <div className="mx-auto flex md:w-full md:flex-row justify-center gap-4 flex-col items-center w-full">
           <div className="flex w-1/2 flex-col xl:w-full">
             <OrderSummary />
           </div>
-          <div className="w-1/2 xl:w-full">
+          <div className="md:w-1/2 w-full">
             <OrderForm />
           </div>
         </div>

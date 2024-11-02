@@ -58,7 +58,7 @@ export const columns: ColumnDef<OrderType>[] = [
       }, [products, products?.length]);
 
       return (
-        <div className="line-clamp-5 w-80 overflow-ellipsis sm:w-36">
+        <div className="line-clamp-5 md:w-80 overflow-ellipsis w-36">
           {productsWithQuantities.map((prod, index) => (
             <span key={index}>
               {prod.product.product.name} (x{prod.quantity})

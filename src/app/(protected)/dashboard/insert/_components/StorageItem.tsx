@@ -16,7 +16,7 @@ export default function StorageItem({
     >
       <div className="flex w-full flex-col justify-between gap-1">
         <span className="font-medium">{storage.name}</span>
-        <span className="w-[80%] text-sm xl:w-full">
+        <span className="w-full text-sm md:w-[80%]">
           Địa chỉ: {storage.address}, {storage.ward}, {storage.district},{" "}
           {storage.province}
         </span>

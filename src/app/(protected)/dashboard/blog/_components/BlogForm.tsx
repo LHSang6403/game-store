@@ -176,9 +176,9 @@ export default function BlogForm({ blog }: { blog?: BlogType }) {
   return (
     <div className="flex flex-col gap-4">
       <Form {...form}>
-        <form className="flex w-full flex-row gap-4 xl:flex-col">
-          <Card className="h-fit min-h-[440px] w-1/2 xl:w-full">
-            <CardHeader className="pb-3 sm:px-2">
+        <form className="flex w-full flex-col gap-4 md:flex-row">
+          <Card className="h-fit min-h-[440px] w-full md:w-1/2">
+            <CardHeader className="px-2 pb-3 md:px-0">
               {isEditMode
                 ? "Chỉnh sửa thông tin bài viết"
                 : "Thông tin bài viết"}
@@ -222,12 +222,12 @@ export default function BlogForm({ blog }: { blog?: BlogType }) {
               />
             </CardContent>
           </Card>
-          <Card className="flex h-fit min-h-[440px] w-1/2 flex-col xl:min-h-0 xl:w-full">
-            <CardHeader className="pb-3 sm:px-2">Ảnh xem trước</CardHeader>
+          <Card className="flex h-fit min-h-0 w-full flex-col md:min-h-[440px] md:w-1/2">
+            <CardHeader className="px-2 pb-3 md:px-0">Ảnh xem trước</CardHeader>
             <CardContent>
-              <DropAndDragZone className="mt-2 rounded-lg border p-16 sm:p-6" />
+              <DropAndDragZone className="mt-2 rounded-lg border p-6 md:p-16" />
               {isEditMode && (
-                <div className="grid w-fit grid-cols-6 gap-3 sm:grid-cols-4">
+                <div className="grid w-fit grid-cols-4 gap-3 md:grid-cols-6">
                   {updatedBlogThumbnails.map((image: string, index: number) => (
                     <ImageFileItem
                       key={index}
@@ -260,7 +260,7 @@ export default function BlogForm({ blog }: { blog?: BlogType }) {
         <Button
           onClick={form.handleSubmit(onSubmit)}
           disabled={!form.formState.isValid || files.length === 0}
-          className="mt-1 w-fit bg-foreground px-7 text-background sm:w-full"
+          className="mt-1 w-full bg-foreground px-7 text-background md:w-fit"
         >
           {isEditMode ? "Lưu chỉnh sửa" : "Tạo bài viết"}
         </Button>

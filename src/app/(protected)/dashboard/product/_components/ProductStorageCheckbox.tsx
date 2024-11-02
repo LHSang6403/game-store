@@ -103,14 +103,16 @@ export default function ProductStorageCheckbox({
 
   return (
     <Card>
-      <CardHeader className="pb-4 sm:px-2">Kho lưu trữ sản phẩm</CardHeader>
+      <CardHeader className="px-2 md:px-0 md:pb-4">
+        Kho lưu trữ sản phẩm
+      </CardHeader>
       <CardContent className="grid grid-cols-2 gap-4">
         {isStorageSuccess &&
           processedStorages?.map(
             ({ storage, isChecked, defaultValue }, index) => (
               <Card
                 key={index}
-                className="flex h-full w-full flex-row items-start justify-between gap-4 px-4 py-3 xl:col-span-2 sm:w-full sm:flex-col"
+                className="flex h-full w-full flex-col items-start justify-between gap-4 px-4 py-3 md:col-span-2 md:w-full md:flex-row"
               >
                 <div className="flex w-full flex-col gap-2">
                   <div className="flex items-center space-x-3">
@@ -199,7 +201,7 @@ export function QuantityForm({
                   {...field}
                   type="text"
                   onChange={field.onChange}
-                  className="h-9 w-24 sm:w-full"
+                  className="h-9 w-full md:w-24"
                 />
               </FormControl>
               <FormMessage />

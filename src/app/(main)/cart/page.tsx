@@ -4,8 +4,8 @@ import OrderCurrent from "@/app/(main)/cart/_components/Summary/OrderCurrent";
 
 export default function Page() {
   return (
-    <div className="relative flex min-h-screen w-full flex-col items-center gap-4 px-10 pb-10 xl:px-6 sm:px-4">
-      <div className="left-6 top-2 z-40 h-fit w-full sm:left-4">
+    <div className="relative flex min-h-screen w-full flex-col items-center gap-4 xl:px-10 pb-10 md:px-6 px-4">
+      <div className="md:left-6 top-2 z-40 h-fit w-full left-4">
         <ClientBack />
       </div>
       <h1 className="-mt-4">
@@ -14,7 +14,7 @@ export default function Page() {
         </span>
       </h1>
       <OrderCurrent />
-      <hr className="mx-auto my-4 w-[70%] rounded-full xl:w-[90%] sm:w-full"></hr>
+      <hr className="mx-auto my-4 xl:w-[70%] rounded-full md:w-[90%] w-full"></hr>
       <div className="w-full">
         <OrderHistory />
       </div>

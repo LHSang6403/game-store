@@ -58,11 +58,11 @@ export default function RevenueBarChart() {
 
   return (
     <Card
-      className="col-span-2 row-span-2 h-full overflow-hidden xl:col-span-4"
+      className="md:col-span-2 row-span-2 h-full overflow-hidden col-span-4"
       ref={cardRef}
     >
       {isLoading ? (
-        <div className="flex h-full w-full flex-col gap-2 p-6 xl:h-[300px]">
+        <div className="flex md:h-full w-full flex-col gap-2 p-6 h-[300px]">
           <DashboardLoading />
           <DashboardLoading />
         </div>
@@ -75,7 +75,7 @@ export default function RevenueBarChart() {
                 <DateRangePicker showCompare={false} />
               </div>
             </CardTitle>
-            <div className="flex w-full flex-row items-center justify-between sm:flex-col sm:gap-2">
+            <div className="flex w-full md:gap-0 md:flex-row items-center justify-between flex-col gap-2">
               <CardDescription className="w-full">
                 Sản phẩm bán chạy{" "}
                 <span className="hidden sm:block">
@@ -87,15 +87,15 @@ export default function RevenueBarChart() {
                   initial={{ y: 16, opacity: 0 }}
                   animate={{ y: 0, opacity: 1 }}
                   transition={{ ease: "easeInOut", duration: 0.5 }}
-                  className="fixed bottom-12 z-40 mb-2 hidden sm:block"
+                  className="fixed bottom-12 z-40 mb-2 md:hidden block"
                 >
                   <DateRangePicker showCompare={false} />
                 </motion.div>
               )}
             </div>
           </CardHeader>
-          <CardContent className="block h-fit pt-2 sm:h-fit">
-            <div className="min-h-[100px] w-full overflow-hidden sm:px-4 sm:pb-4">
+          <CardContent className="block pt-2 h-fit">
+            <div className="min-h-[100px] w-full overflow-hidden md:p-0 px-4 pb-4">
               {ordersResponse && (
                 <BarList data={chartData} className="mr-1.5 mt-3 w-auto" />
               )}
