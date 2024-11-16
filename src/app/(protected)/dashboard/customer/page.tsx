@@ -6,14 +6,14 @@ import { DataTable } from "@components/Table/DataTable";
 import {
   columns,
   columns_headers,
-} from "@app/(protected)/dashboard/customer/Components/Columns";
+} from "@/app/(protected)/dashboard/customer/_components/Columns";
 import { useQuery } from "@tanstack/react-query";
-import DashboardTableLoading from "@app/(protected)/dashboard/Components/DashboardTableLoading";
+import DashboardTableLoading from "@/app/(protected)/dashboard/_components/DashboardTableLoading";
 import { useRouter } from "next/navigation";
 
 export default function page() {
   const router = useRouter();
-  
+
   const {
     data: customers,
     isLoading,
@@ -25,7 +25,7 @@ export default function page() {
   });
 
   return (
-    <section className="">
+    <section >
       <div className="flex flex-row items-center justify-between ">
         <h1 className="my-2 text-2xl font-medium">Tất cả khách hàng</h1>
         <button

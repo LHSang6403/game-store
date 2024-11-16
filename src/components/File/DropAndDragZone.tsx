@@ -125,7 +125,7 @@ const DropAndDragZone = ({
         {files?.length > 0 && (
           <>
             <h3 className="title mt-6 border-b text-sm">Thêm thành công</h3>
-            <div className="mt-4 grid w-fit grid-cols-6 gap-3 sm:grid-cols-4">
+            <div className="mt-4 grid w-fit grid-cols-4 gap-3 md:grid-cols-6">
               {files.map((file) => (
                 <ImageFileItem
                   key={file.name}

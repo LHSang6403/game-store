@@ -26,7 +26,7 @@ export default function Dropdown() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <div className="rounded-lg bg-gradient-to-r from-cpurple via-cpink to-corange p-[1.5px] md:rounded-md sm:rounded-[7px]">
+        <div className="rounded-md bg-gradient-to-r from-cpurple via-cpink to-corange p-[1.5px] md:rounded-lg">
           <Button
             className="h-9 border-none px-2 outline-none ring-0"
             variant="outline"
@@ -45,7 +45,7 @@ export default function Dropdown() {
           {session !== null && (
             <DropdownMenuItem
               onClick={() => router.push("/profile")}
-              className="focus:bg-background"
+              className="hover:cursor-pointer"
             >
               <div className="-ml-0.5 mr-1.5 flex h-5 w-5 justify-center rounded-full border p-[1px]">
                 <Image
@@ -66,7 +66,7 @@ export default function Dropdown() {
           <DropdownMenuItem>
             <div
               aria-label="Toggle Dark Mode"
-              className="flex h-full w-full items-center justify-start"
+              className="flex h-full w-full items-center justify-start hover:cursor-pointer"
               onClick={() =>
                 setTheme(resolvedTheme === "dark" ? "light" : "dark")
               }
@@ -83,12 +83,16 @@ export default function Dropdown() {
           </DropdownMenuItem>
         </DropdownMenuGroup>
         {session === null ? (
-          <DropdownMenuItem onClick={() => router.push("/auth")}>
+          <DropdownMenuItem
+            className="hover:cursor-pointer"
+            onClick={() => router.push("/auth")}
+          >
             <LogOut className="mr-2 h-4 w-4" />
             Đăng nhập
           </DropdownMenuItem>
         ) : (
           <DropdownMenuItem
+            className="hover:cursor-pointer"
             onClick={async () => {
               const result = await handleSignOut();
               if (!result.error) {

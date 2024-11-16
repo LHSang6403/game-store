@@ -13,7 +13,7 @@ export default function ImageFileItem({
 }) {
   return (
     <div className="group w-full overflow-hidden hover:cursor-pointer">
-      <div className="relative flex aspect-square w-full items-center justify-center overflow-hidden rounded-lg border p-0.5">
+      <div className="center relative aspect-square w-full overflow-hidden rounded-lg border p-0.5">
         <Image
           src={image}
           alt="Product image"
@@ -21,7 +21,7 @@ export default function ImageFileItem({
           height={75}
           className="max-h-[90%] max-w-[90%] object-contain"
         />
-        <div className="absolute left-0 top-0 hidden h-full w-full items-center justify-center bg-foreground/20 group-hover:flex">
+        <div className="center absolute left-0 top-0 hidden h-full w-full bg-foreground/20 group-hover:flex">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             className="h-6 w-6 cursor-pointer"

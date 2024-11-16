@@ -10,11 +10,11 @@ export default function Header() {
   const path = usePathname();
 
   return (
-    <div className="fixed top-0 z-30 flex h-16 w-full flex-row items-center justify-between gap-4 bg-background px-10 xl:static xl:justify-between xl:px-6 sm:px-4">
+    <div className="static top-0 z-30 flex h-16 w-full flex-row items-center justify-between gap-4 bg-background px-4 md:fixed md:px-6 xl:px-10">
       <div className="mr- flex items-center">
         <PrimaryLogo />
       </div>
-      <div className="flex w-full max-w-[1300px] flex-row items-center justify-around gap-6 xl:hidden">
+      <div className="hidden w-full max-w-[1300px] flex-row items-center justify-around gap-6 xl:flex">
         <div
           className={`w-full ${path === "/product" ? "invisible" : ""}`}
         ></div>

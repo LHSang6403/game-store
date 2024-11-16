@@ -362,7 +362,7 @@ export const DateRangePicker: FC<DateRangePickerProps> & {
         <div className="flex">
           <div className="flex w-full">
             <div className="flex w-full flex-col">
-              <div className="flex flex-col items-center justify-center gap-2 px-3 pb-4 lg:pb-0 sm:px-0">
+              <div className="flex flex-col items-center justify-center gap-2 px-0 pb-0 md:px-3 md:pb-4">
                 <div className="flex items-center space-x-2 py-1 pr-4">
                   {showCompare && (
                     <Switch
@@ -528,7 +528,7 @@ export const DateRangePicker: FC<DateRangePickerProps> & {
             </div>
           )}
         </div>
-        <div className="flex justify-end gap-2 py-2 pr-4 sm:pr-0">
+        <div className="flex justify-end gap-2 py-2 pr-0 md:pr-4">
           <Button
             onClick={() => {
               setIsOpen(false);

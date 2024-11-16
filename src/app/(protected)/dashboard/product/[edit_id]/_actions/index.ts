@@ -15,7 +15,7 @@ import {
   removeProductStorage,
 } from "@app/_actions/product_storage";
 import createSupabaseBrowserClient from "@/supabase-query/client";
-import { FormSchema } from "@app/(protected)/dashboard/product/[edit_id]/Components/EditForm";
+import { FormSchema } from "@app/(protected)/dashboard/product/_components/ProductForm";
 import { JSONContent } from "novel";
 import { Files } from "lucide-react";
 

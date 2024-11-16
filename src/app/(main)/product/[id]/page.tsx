@@ -1,10 +1,10 @@
 "use client";
 
-import ProductDetail from "@app/(main)/product/[id]/Components/ProductDetail";
-import ProductDescription from "@app/(main)/product/[id]/Components/ProductDescription";
+import ProductDetail from "@/app/(main)/product/[id]/_components/ProductDetail";
+import ProductDescription from "@/app/(main)/product/[id]/_components/ProductDescription";
 import useProductQuery from "@/hooks/useProductQuery";
 import Template from "@app/(protected)/template";
-import Loading from "@app/(main)/product/[id]/Components/ProductLoadingSkeleton";
+import Loading from "@/app/(main)/product/[id]/_components/ProductLoadingSkeleton";
 import Image from "next/image";
 import ClientBack from "@/components/ClientBack";
 import { useRouter } from "next/navigation";
@@ -31,9 +31,9 @@ export default function page({ params }: { params: { id: string } }) {
         <>
           {isSuccess && product && (
             <Template>
-              <div className="flex h-fit min-h-screen w-full flex-col items-center gap-10 pb-10">
+              <div className="flex h-fit min-h-screen w-full flex-col items-center gap-6 pb-10">
                 <div className="relative w-full">
-                  <div className="absolute left-10 top-2 z-40 h-fit w-fit xl:left-6 sm:left-3">
+                  <div className="absolute xl:left-10 top-2 z-40 h-fit w-fit md:left-6 left-3">
                     <ClientBack />
                   </div>
                   <div className="absolute left-0 right-0 top-0 z-0 w-full">

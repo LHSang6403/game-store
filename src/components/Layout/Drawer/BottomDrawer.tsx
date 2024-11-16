@@ -34,7 +34,7 @@ export default function BottomDrawer() {
               isActive
                 ? "bg-gradient-to-r from-cpurple via-cpink to-corange text-background"
                 : "bg-background text-foreground"
-            } flex h-10 w-32 items-center justify-center rounded-md border px-4 py-2 text-sm font-medium transition-colors sm:w-full`}
+            } flex h-10 w-full items-center justify-center rounded-md border px-4 py-2 text-sm font-medium transition-colors`}
           >
             <span>{navUrl.name}</span>
           </Link>
@@ -69,14 +69,14 @@ export default function BottomDrawer() {
         </Button>
       </DrawerTrigger>
       <DrawerContent>
-        <div className="mx-auto w-full max-w-sm pb-6">
+        <div className="mx-auto w-full max-w-[1000px] pb-6">
           <DrawerHeader>
             <DrawerTitle>Chuyển trang</DrawerTitle>
             <DrawerDescription>
               Khám phá các trang khác của 2Win.
             </DrawerDescription>
           </DrawerHeader>
-          <div className="mx-auto grid h-fit w-fit grid-cols-2 items-center justify-center gap-2 p-4 sm:w-full">
+          <div className="grid h-fit w-full grid-cols-2 items-center justify-center gap-2 p-4">
             {navUrls.map((navUrl, index) => (
               <React.Fragment key={index}>
                 {navUrl.permission === "Staff" ? (

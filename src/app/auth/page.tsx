@@ -1,17 +1,17 @@
 import Link from "next/link";
 import Template from "@app/(main)/template";
-import AuthCardTabs from "@app/auth/Components/AuthCardTabs";
+import AuthCardTabs from "@/app/auth/_components/AuthCardTabs";
 import PrimaryLogo from "@components/PrimaryLogo";
 
 export default function Login() {
   return (
     <Template>
-      <div className="flex min-h-screen w-screen flex-col items-center justify-center overflow-auto py-6 sm:h-auto sm:min-h-0 sm:pb-16">
+      <div className="center h-auto min-h-0 w-screen flex-col overflow-auto py-6 pb-16 md:min-h-screen md:pb-0">
         <PrimaryLogo />
         <h1 className="bg-gradient-to-r from-cblue to-cpurple bg-clip-text text-lg font-semibold text-transparent">
           Xác thực tài khoản
         </h1>
-        <div className="flex h-fit w-fit flex-col gap-2 bg-background sm:w-full sm:px-2">
+        <div className="flex h-fit w-full flex-col gap-2 bg-background px-2 md:w-fit md:px-0">
           <span className="w-auto">
             <Link
               href="/"
