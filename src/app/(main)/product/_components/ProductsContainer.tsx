@@ -7,6 +7,7 @@ import useProductFilter from "@/zustand/useProductFilter";
 import { Button } from "@components/ui/button";
 import { useState, useEffect, useMemo, useCallback } from "react";
 import { MAX_PRICE } from "@/zustand/useProductFilter";
+import FadeInWhenVisible from "@/components/FadeInWhenVisible";
 
 export default function ProductsContainer({
   products,
@@ -69,9 +70,11 @@ export default function ProductsContainer({
       )}
       {!isHide && (
         <div className="flex h-fit w-full flex-col items-center justify-center gap-6">
-          <div className="grid h-fit w-full xl:grid-cols-4 justify-items-center md:gap-5 md:grid-cols-3 grid-cols-2 gap-2">
+          <div className="grid h-fit w-full grid-cols-2 justify-items-center gap-2 md:grid-cols-3 md:gap-5 xl:grid-cols-4">
             {currentItems.map((each: ProductType, index: number) => (
-              <Product key={index} data={each} />
+              <FadeInWhenVisible key={index}>
+                <Product data={each} />
+              </FadeInWhenVisible>
             ))}
           </div>
           {isShowClearFilter && (

@@ -4,30 +4,43 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 import formatCurrency from "@utils/functions/formatCurrency";
 import type { ProductType } from "@utils/types/index";
+import ImageWrapper from "@components/ImageWrapper";
+import { useEffect, useState } from "react";
 
 export default function Product({ data }: { data: ProductType }) {
   const router = useRouter();
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const loadData = async () => {
+      await new Promise((resolve) => setTimeout(resolve, 5000));
+      setIsLoading(false);
+    };
+
+    loadData();
+
+    return () => {};
+  }, []);
 
   return (
     <div
       onClick={() => router.push(`/product/${data.id}`)}
       className="z-10 h-fit w-full overflow-hidden rounded-[12px] rounded-br-[28px] rounded-tl-[28px] border border-accent bg-background from-[#9633ed51] via-[#f22b9c4c] to-[#fd7c3654] text-foreground/90 transition duration-300 ease-in-out hover:scale-[1.02] hover:cursor-pointer hover:border-none hover:bg-background/80 hover:bg-gradient-to-r hover:text-foreground hover:shadow-xl md:h-full md:w-full md:max-w-72"
     >
-      <div className="h-fit max-h-36 w-full overflow-hidden md:max-h-56">
-        <Image
-          alt={data.name}
-          src={
-            process.env.NEXT_PUBLIC_SUPABASE_URL +
-            "/storage/v1/object/public/public_files/" +
-            data.images[0]
-          }
-          className="object-fit !relative h-[100%] max-w-[100%]"
-          priority
-          quality={100}
-          fill
-        />
-      </div>
-      <div className="h-fit w-full px-4 pb-3 pt-1">
+      <ImageWrapper
+        src={
+          process.env.NEXT_PUBLIC_SUPABASE_URL +
+          "/storage/v1/object/public/public_files/" +
+          data.images[0]
+        }
+        alt="item"
+        width={250}
+        height={200}
+        isLoading={isLoading}
+        className="h-36 w-full md:h-48"
+        customLoadingClassName="rounded-lg rounded-tl-[24px]"
+      />
+      <div className="h-fit w-full px-4 pb-3 pt-2">
         <h3 className="sm:text-md line-clamp-1 overflow-ellipsis text-center font-medium">
           {data.brand}
         </h3>

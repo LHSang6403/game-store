@@ -1,4 +1,7 @@
+"use client";
+
 import Image from "next/image";
+import FadeInWhenVisible from "@components/FadeInWhenVisible";
 
 export default function Brands() {
   const logos = [
@@ -26,23 +29,25 @@ export default function Brands() {
           nghe, đế sạc, túi đựng máy chơi game đến các phụ kiện khác, tất cả đều
           đảm bảo chất lượng và độ bền cao.
         </p>
-        <div className="mt-10 grid w-full grid-cols-3 gap-4 md:mt-16 md:grid-cols-6 md:gap-6">
-          {logos.map((img, index) => (
-            <div
-              className="transition duration-300 hover:scale-[1.02]"
-              key={index}
-            >
-              <Image
-                src={img.url}
-                alt={img.name}
-                className="object-fit !relative h-[100%] max-w-[220px]"
-                priority
-                quality={100}
-                fill
-              />
-            </div>
-          ))}
-        </div>
+        <FadeInWhenVisible>
+          <div className="mt-10 grid w-full grid-cols-3 gap-4 md:mt-16 md:grid-cols-6 md:gap-6">
+            {logos.map((img, index) => (
+              <div
+                className="transition duration-300 hover:scale-[1.02]"
+                key={index}
+              >
+                <Image
+                  src={img.url}
+                  alt={img.name}
+                  className="object-fit !relative h-[100%] max-w-[220px]"
+                  priority
+                  quality={100}
+                  fill
+                />
+              </div>
+            ))}
+          </div>
+        </FadeInWhenVisible>
       </div>
     </>
   );
