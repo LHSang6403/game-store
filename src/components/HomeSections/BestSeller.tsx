@@ -31,9 +31,9 @@ export default function BestSeller() {
           </p>
         </div>
       </FadeInWhenVisible>
-      <FadeInWhenVisible>
-        <div className="my-10 flex w-full flex-col gap-4 px-2 md:flex-row md:px-4 xl:px-36">
-          <div className="w-full md:w-1/2">
+      <div className="my-10 flex w-full flex-col gap-4 px-2 md:flex-row md:px-4 xl:px-36">
+        <FadeInWhenVisible>
+          <div className="w-full">
             <div className="-mb-1 -ml-12">
               <Image
                 src="/assets/images/gamePlay/g9.png"
@@ -76,7 +76,9 @@ export default function BestSeller() {
               độ khung hình lên đến 120fps.
             </p>
           </div>
-          <div className="w-full md:w-1/2">
+        </FadeInWhenVisible>
+        <FadeInWhenVisible>
+          <div className="w-full">
             <div className="-mb-1 -ml-4">
               <Image
                 src="/assets/images/gamePlay/g12.png"
@@ -121,8 +123,8 @@ export default function BestSeller() {
               liệu.
             </p>
           </div>
-        </div>
-      </FadeInWhenVisible>
+        </FadeInWhenVisible>
+      </div>
     </>
   );
 }

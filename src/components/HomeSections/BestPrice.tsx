@@ -36,15 +36,15 @@ export default function BestPrice() {
         <div className="mt-4 flex w-36 flex-col justify-center gap-3 md:mt-8">
           <Link
             href="https://www.facebook.com/profile.php?id=100054800213938"
-            className="flex h-fit w-full items-center justify-center rounded-full bg-gradient-to-r from-cblue to-cpurple p-[1px]"
+            className="center h-fit w-full rounded-full bg-gradient-to-r from-cblue to-cpurple p-[1px]"
           >
-            <span className="flex h-fit w-full items-center justify-center rounded-full border bg-white py-0.5 text-[15px] text-background dark:text-white">
+            <span className="center h-fit w-full rounded-full border bg-white py-0.5 text-[15px] text-background dark:text-white">
               Facebook
             </span>
           </Link>
           <Link
             href="https://shopee.vn/bepgaming"
-            className="mb-2 flex h-fit w-full items-center justify-center rounded-full border border-[#E9DFFF] bg-gradient-to-r from-cblue to-cpurple bg-clip-text py-1 text-[15px] text-black text-transparent dark:text-white"
+            className="center mb-2 h-fit w-full rounded-full border border-[#E9DFFF] bg-gradient-to-r from-cblue to-cpurple bg-clip-text py-1 text-[15px] text-black text-transparent dark:text-white"
           >
             Shopee
           </Link>

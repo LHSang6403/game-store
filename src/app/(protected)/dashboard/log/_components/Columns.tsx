@@ -51,7 +51,7 @@ export const columns: ColumnDef<LogType>[] = [
     accessorKey: "created_at",
     header: ({ column }) => {
       return (
-        <div className="flex w-32 items-center justify-center border-none">
+        <div className="center w-32 border-none">
           <Button
             className="border-none"
             variant="outline"
@@ -102,7 +102,7 @@ export const columns: ColumnDef<LogType>[] = [
       const data = row.original;
 
       return (
-        <div className="flex w-full items-center justify-center">
+        <div className="center w-full">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" className="h-8 w-8 p-0">

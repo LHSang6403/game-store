@@ -97,7 +97,7 @@ export const columns: ColumnDef<BlogType>[] = [
     accessorKey: "created_at",
     header: ({ column }) => {
       return (
-        <div className="flex w-32 items-center justify-center border-none">
+        <div className="center w-32 border-none">
           <Button
             variant="outline"
             className="border-none"
@@ -168,7 +168,7 @@ export const columns: ColumnDef<BlogType>[] = [
       }, [data.id, router]);
 
       return (
-        <div className="flex w-full items-center justify-center">
+        <div className="center w-full">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" className="h-8 w-8 p-0">

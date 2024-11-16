@@ -71,7 +71,7 @@ export default function page() {
 
   return (
     <Template>
-      <div className="flex min-h-screen w-full items-center justify-center pb-16 pt-10 md:py-6">
+      <div className="center min-h-screen w-full pb-16 pt-10 md:py-6">
         <Card>
           <CardHeader>
             <Link

@@ -82,7 +82,7 @@ export const columns: ColumnDef<OrderType>[] = [
       }, [products]);
 
       return (
-        <div className="line-clamp-5 overflow-ellipsis md:w-auto w-36">
+        <div className="line-clamp-5 w-36 overflow-ellipsis md:w-auto">
           {productsWithQuantities.map((prod, index) => (
             <span key={index}>
               {prod.product.product.name} (x{prod.quantity})
@@ -188,7 +188,7 @@ export const columns: ColumnDef<OrderType>[] = [
     accessorKey: "created_at",
     header: ({ column }) => {
       return (
-        <div className="flex w-32 items-center justify-center border-none">
+        <div className="center w-32 border-none">
           <Button
             className="border-none"
             variant="outline"
@@ -265,7 +265,7 @@ export const columns: ColumnDef<OrderType>[] = [
       }, [data, session.session]);
 
       return (
-        <div className="flex w-full items-center justify-center">
+        <div className="center w-full">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" className="h-8 w-8 p-0">

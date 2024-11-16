@@ -25,7 +25,7 @@ export default function Footer() {
           />
         </div> */}
       </div>
-      <div className="flex items-center justify-center">
+      <div className="center">
         <PrimaryLogo />
       </div>
       <p className="mx-auto line-clamp-4 max-w-full overflow-ellipsis text-justify md:w-full">

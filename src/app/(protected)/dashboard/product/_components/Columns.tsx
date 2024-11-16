@@ -108,7 +108,7 @@ export const columns: ColumnDef<ProductType>[] = [
     accessorKey: "created_at",
     header: ({ column }) => {
       return (
-        <div className="flex w-32 items-center justify-center border-none">
+        <div className="center w-32 border-none">
           <Button
             variant="outline"
             className="border-none"
@@ -172,7 +172,7 @@ export const columns: ColumnDef<ProductType>[] = [
       }, [product.id, router]);
 
       return (
-        <div className="flex w-full items-center justify-center">
+        <div className="center w-full">
           <Button variant="ghost" className="h-8 w-8 p-0">
             <ArrowUpRight onClick={handleViewProduct} className="h-4 w-4" />
           </Button>

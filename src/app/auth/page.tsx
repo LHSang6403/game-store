@@ -6,7 +6,7 @@ import PrimaryLogo from "@components/PrimaryLogo";
 export default function Login() {
   return (
     <Template>
-      <div className="flex h-auto min-h-0 w-screen flex-col items-center justify-center overflow-auto py-6 pb-16 md:min-h-screen md:pb-0">
+      <div className="center h-auto min-h-0 w-screen flex-col overflow-auto py-6 pb-16 md:min-h-screen md:pb-0">
         <PrimaryLogo />
         <h1 className="bg-gradient-to-r from-cblue to-cpurple bg-clip-text text-lg font-semibold text-transparent">
           Xác thực tài khoản

@@ -49,7 +49,7 @@ export const columns: ColumnDef<CustomerType>[] = [
     accessorKey: "dob",
     header: ({ column }) => {
       return (
-        <div className="-ml-4 flex w-32 items-center justify-center border-none">
+        <div className="center -ml-4 w-32 border-none">
           <Button
             variant="outline"
             className="border-none"
@@ -184,7 +184,7 @@ export const columns: ColumnDef<CustomerType>[] = [
       );
 
       return (
-        <div className="flex w-full flex-row items-center justify-center sm:flex-col">
+        <div className="center w-full sm:flex-col">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" className="h-8 w-8 p-0">

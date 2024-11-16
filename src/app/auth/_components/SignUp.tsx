@@ -321,7 +321,7 @@ export default function SignUp() {
             maxFiles={1}
           />
         </div>
-        <div className="col-span-2 -mt-4 flex items-center justify-center">
+        <div className="center col-span-2 -mt-4">
           <Button
             disabled={!form.formState.isValid}
             type="submit"

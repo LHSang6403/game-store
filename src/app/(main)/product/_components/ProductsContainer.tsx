@@ -69,7 +69,7 @@ export default function ProductsContainer({
         <h2 className="text-left text-xl font-medium">Sản phẩm bán chạy</h2>
       )}
       {!isHide && (
-        <div className="flex h-fit w-full flex-col items-center justify-center gap-6">
+        <div className="center h-fit w-full flex-col gap-6">
           <div className="grid h-fit w-full grid-cols-2 justify-items-center gap-2 md:grid-cols-3 md:gap-5 xl:grid-cols-4">
             {currentItems.map((each: ProductType, index: number) => (
               <FadeInWhenVisible key={index}>
