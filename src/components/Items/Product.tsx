@@ -28,11 +28,7 @@ export default function Product({ data }: { data: ProductType }) {
       className="z-10 h-fit w-full overflow-hidden rounded-[12px] rounded-br-[28px] rounded-tl-[28px] border border-accent bg-background from-[#9633ed51] via-[#f22b9c4c] to-[#fd7c3654] text-foreground/90 transition duration-300 ease-in-out hover:scale-[1.02] hover:cursor-pointer hover:border-none hover:bg-background/80 hover:bg-gradient-to-r hover:text-foreground hover:shadow-xl md:h-full md:w-full md:max-w-72"
     >
       <ImageWrapper
-        src={
-          process.env.NEXT_PUBLIC_SUPABASE_URL +
-          "/storage/v1/object/public/public_files/" +
-          data.images[0]
-        }
+        src={process.env.NEXT_PUBLIC_SUPABASE_BUCKET_PATH + data.images[0]}
         alt="item"
         width={250}
         height={200}

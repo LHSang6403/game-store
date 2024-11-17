@@ -55,8 +55,7 @@ export const columns: ColumnDef<BlogType>[] = [
             <Image
               alt={data.title}
               src={
-                process.env.NEXT_PUBLIC_SUPABASE_URL +
-                "/storage/v1/object/public/public_files/" +
+                process.env.NEXT_PUBLIC_SUPABASE_BUCKET_PATH +
                 data.thumbnails[0]
               }
               width={60}

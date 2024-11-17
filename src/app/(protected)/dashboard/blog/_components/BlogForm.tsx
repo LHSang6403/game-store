@@ -232,9 +232,7 @@ export default function BlogForm({ blog }: { blog?: BlogType }) {
                     <ImageFileItem
                       key={index}
                       image={
-                        process.env.NEXT_PUBLIC_SUPABASE_URL +
-                        "/storage/v1/object/public/public_files/" +
-                        image
+                        process.env.NEXT_PUBLIC_SUPABASE_BUCKET_PATH + image
                       }
                       name={image.split("/")[image.split("/").length - 1]}
                       handleRemove={() => {

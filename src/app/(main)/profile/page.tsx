@@ -35,7 +35,7 @@ export default async function page() {
   const address = session.data?.detailData?.address;
 
   return (
-    <div className="flex flex-col items-center gap-8 xl:px-10 pb-10 md:px-6 px-4">
+    <div className="flex flex-col items-center gap-8 px-4 pb-10 md:px-6 xl:px-10">
       <h1 className="mt-6">
         <span className="bg-gradient-to-r from-cpurple via-cpink to-corange bg-clip-text text-center text-3xl font-semibold text-transparent">
           Thông tin tài khoản
@@ -46,8 +46,7 @@ export default async function page() {
           <div className="flex h-28 w-28 justify-center overflow-hidden rounded-full">
             <Image
               src={
-                process.env.NEXT_PUBLIC_SUPABASE_URL +
-                "/storage/v1/object/public/public_files/" +
+                process.env.NEXT_PUBLIC_SUPABASE_BUCKET_PATH +
                 (session.data?.detailData?.image ?? "")
               }
               alt="profile"

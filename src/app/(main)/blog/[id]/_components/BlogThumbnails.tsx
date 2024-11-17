@@ -11,11 +11,7 @@ export default function BlogThumbnails({ thumbs }: { thumbs: string[] }) {
           className="max-w-full overflow-hidden rounded-lg shadow-xl md:max-w-[500px]"
         >
           <Image
-            src={
-              process.env.NEXT_PUBLIC_SUPABASE_URL +
-              "/storage/v1/object/public/public_files/" +
-              thumb
-            }
+            src={process.env.NEXT_PUBLIC_SUPABASE_BUCKET_PATH + thumb}
             alt="Blog Thumbnail"
             className="object-fit !relative h-[100%] max-w-[100%]"
             priority

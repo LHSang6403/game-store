@@ -57,9 +57,7 @@ export const columns: ColumnDef<ProductType>[] = [
             <Image
               alt={data.name}
               src={
-                process.env.NEXT_PUBLIC_SUPABASE_URL +
-                "/storage/v1/object/public/public_files/" +
-                data.images[0]
+                process.env.NEXT_PUBLIC_SUPABASE_BUCKET_PATH + data.images[0]
               }
               width={60}
               height={60}

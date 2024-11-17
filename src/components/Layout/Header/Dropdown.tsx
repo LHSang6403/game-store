@@ -50,9 +50,7 @@ export default function Dropdown() {
               <div className="-ml-0.5 mr-1.5 flex h-5 w-5 justify-center rounded-full border p-[1px]">
                 <Image
                   src={
-                    process.env.NEXT_PUBLIC_SUPABASE_URL +
-                    "/storage/v1/object/public/public_files/" +
-                    session.image
+                    process.env.NEXT_PUBLIC_SUPABASE_BUCKET_PATH + session.image
                   }
                   alt="profile"
                   width={20}

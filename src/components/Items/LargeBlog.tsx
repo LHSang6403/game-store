@@ -16,9 +16,7 @@ export default function LargeBlog({ data }: { data: BlogType }) {
           <Image
             alt="A blog"
             src={
-              process.env.NEXT_PUBLIC_SUPABASE_URL +
-              "/storage/v1/object/public/public_files/" +
-              data.thumbnails[0]
+              process.env.NEXT_PUBLIC_SUPABASE_BUCKET_PATH + data.thumbnails[0]
             }
             className="object-fit !relative h-[100%] max-w-[100%]"
             priority

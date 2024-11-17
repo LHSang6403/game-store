@@ -45,11 +45,7 @@ export default function ProductImages({ images }: { images: string[] }) {
           <SwiperSlide key={index}>
             <div className="mx-auto flex w-full items-center justify-center overflow-hidden p-1 md:w-[90%] md:p-4">
               <Image
-                src={
-                  process.env.NEXT_PUBLIC_SUPABASE_URL +
-                  "/storage/v1/object/public/public_files/" +
-                  image
-                }
+                src={process.env.NEXT_PUBLIC_SUPABASE_BUCKET_PATH + image}
                 alt="Product"
                 className="object-fit !relative h-auto max-w-[400px] md:max-h-[700px] md:max-w-[700px]"
                 priority
@@ -96,11 +92,7 @@ export default function ProductImages({ images }: { images: string[] }) {
             >
               <div className="rounded-[11px] bg-background">
                 <Image
-                  src={
-                    process.env.NEXT_PUBLIC_SUPABASE_URL +
-                    "/storage/v1/object/public/public_files/" +
-                    image
-                  }
+                  src={process.env.NEXT_PUBLIC_SUPABASE_BUCKET_PATH + image}
                   width={400}
                   height={400}
                   alt="Product Thumbnail"

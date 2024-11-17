@@ -111,8 +111,7 @@ export default function SearchBar() {
                   <Image
                     className="mr-2"
                     src={
-                      process.env.NEXT_PUBLIC_SUPABASE_URL +
-                      "/storage/v1/object/public/public_files/" +
+                      process.env.NEXT_PUBLIC_SUPABASE_BUCKET_PATH +
                       item.images[0]
                     }
                     alt="Icon"
@@ -134,8 +133,7 @@ export default function SearchBar() {
                   <Image
                     className="mr-2"
                     src={
-                      process.env.NEXT_PUBLIC_SUPABASE_URL +
-                      "/storage/v1/object/public/public_files/" +
+                      process.env.NEXT_PUBLIC_SUPABASE_BUCKET_PATH +
                       item.images[0]
                     }
                     alt="Icon"

@@ -49,8 +49,7 @@ export default async function HomeSlider() {
                   alt="Slider"
                   className="mt-4 h-fit w-full object-cover object-center md:mt-0 md:h-full md:w-full"
                   src={
-                    process.env.NEXT_PUBLIC_SUPABASE_URL +
-                    "/storage/v1/object/public/public_files/" +
+                    process.env.NEXT_PUBLIC_SUPABASE_BUCKET_PATH +
                     prod.images[0]
                   }
                   quality={100}

@@ -166,24 +166,22 @@ export default function ProductForm({
     <div className="flex flex-col gap-4">
       <Form {...form}>
         <form className="grid grid-cols-2 gap-4">
-          <div className="h-fit w-full md:col-span-1 col-span-2">
+          <div className="col-span-2 h-fit w-full md:col-span-1">
             <ProductFormInputs
               categories={categories?.data ?? []}
               form={form}
             />
           </div>
-          <Card className="flex h-auto w-full flex-col md:col-span-1 col-span-2">
+          <Card className="col-span-2 flex h-auto w-full flex-col md:col-span-1">
             <CardHeader className="pb-3 sm:px-2">Hình ảnh sản phẩm</CardHeader>
             <CardContent className="pb-0">
               {isEditMode && (
-                <div className="mt-1.5 grid w-fit md:grid-cols-6 gap-3 grid-cols-4">
+                <div className="mt-1.5 grid w-fit grid-cols-4 gap-3 md:grid-cols-6">
                   {updatedProductImages.map((image, index) => (
                     <ImageFileItem
                       key={index}
                       image={
-                        process.env.NEXT_PUBLIC_SUPABASE_URL +
-                        "/storage/v1/object/public/public_files/" +
-                        image
+                        process.env.NEXT_PUBLIC_SUPABASE_BUCKET_PATH + image
                       }
                       name={image.split("/").pop()!}
                       handleRemove={() =>
@@ -195,11 +193,11 @@ export default function ProductForm({
                   ))}
                 </div>
               )}
-              <div className="md:mt-5 w-full mt-4">
+              <div className="mt-4 w-full md:mt-5">
                 <h2 className="title mb-1 ml-1 text-sm font-medium">
                   Thêm hình sản phẩm
                 </h2>
-                <DropAndDragZone className="mt-1.5 rounded-lg border md:p-16 p-6" />
+                <DropAndDragZone className="mt-1.5 rounded-lg border p-6 md:p-16" />
               </div>
             </CardContent>
           </Card>
@@ -224,7 +222,7 @@ export default function ProductForm({
           disabled={
             !form.formState.isValid || (!isEditMode && files.length === 0)
           }
-          className="mt-1 md:w-fit bg-foreground px-7 text-background w-full"
+          className="mt-1 w-full bg-foreground px-7 text-background md:w-fit"
         >
           {isEditMode ? "Lưu thay đổi" : "Tạo sản phẩm"}
         </Button>

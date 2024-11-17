@@ -4,7 +4,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { BlogType } from "@utils/types/index";
 import FadeInWhenVisible from "@components/FadeInWhenVisible";
-import ImageWrapper from "@components/ImageWrapper";
 
 export default function Blog({ data }: { data: BlogType }) {
   return (
@@ -18,8 +17,7 @@ export default function Blog({ data }: { data: BlogType }) {
             <Image
               alt="A blog"
               src={
-                process.env.NEXT_PUBLIC_SUPABASE_URL +
-                "/storage/v1/object/public/public_files/" +
+                process.env.NEXT_PUBLIC_SUPABASE_BUCKET_PATH +
                 data.thumbnails[0]
               }
               className="object-fit !relative h-[100%] max-w-[100%]"
@@ -28,19 +26,6 @@ export default function Blog({ data }: { data: BlogType }) {
               fill
             />
           </div>
-          {/* <ImageWrapper
-            src={
-              process.env.NEXT_PUBLIC_SUPABASE_URL +
-              "/storage/v1/object/public/public_files/" +
-              data.thumbnails[0]
-            }
-            alt="blog"
-            width={400}
-            height={350}
-            isLoading={!data.thumbnails[0]}
-            className="h-36 w-full md:h-52"
-            customLoadingClassName="rounded-lg rounded-tl-[24px]"
-          /> */}
           <div className="h-fit w-full p-1.5">
             <h2 className="line-clamp-1 h-fit overflow-ellipsis font-medium leading-6">
               {data.title}
