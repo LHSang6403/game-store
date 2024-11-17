@@ -5,22 +5,22 @@ import Image from "next/image";
 import formatCurrency from "@utils/functions/formatCurrency";
 import type { ProductType } from "@utils/types/index";
 import ImageWrapper from "@components/ImageWrapper";
-import { useEffect, useState } from "react";
+// import { useEffect, useState } from "react";
 
 export default function Product({ data }: { data: ProductType }) {
   const router = useRouter();
-  const [isLoading, setIsLoading] = useState(true);
+  // const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(() => {
-    const loadData = async () => {
-      await new Promise((resolve) => setTimeout(resolve, 5000));
-      setIsLoading(false);
-    };
+  // useEffect(() => {
+  //   const loadData = async () => {
+  //     await new Promise((resolve) => setTimeout(resolve, 500));
+  //     setIsLoading(false);
+  //   };
 
-    loadData();
+  //   loadData();
 
-    return () => {};
-  }, []);
+  //   return () => {};
+  // }, []);
 
   return (
     <div
@@ -32,7 +32,7 @@ export default function Product({ data }: { data: ProductType }) {
         alt="item"
         width={250}
         height={200}
-        isLoading={isLoading}
+        isLoading={!data.images[0]}
         className="h-36 w-full md:h-48"
         customLoadingClassName="rounded-lg rounded-tl-[24px]"
       />
