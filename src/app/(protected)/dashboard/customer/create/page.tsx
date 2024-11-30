@@ -6,9 +6,7 @@ export default async function page() {
     <div className="flex min-h-[calc(100vh_-_6rem)] flex-col gap-2 pb-2 md:pb-4">
       <h1 className="my-2 text-2xl font-medium">Tạo tài khoản</h1>
       <Card className="h-fit w-full">
-        <CardHeader className="px-2 pb-3 md:px-0">
-          Nhập thông tin tài khoản
-        </CardHeader>
+        <CardHeader className="pb-4">Nhập thông tin tài khoản</CardHeader>
         <CardContent>
           <SignUp />
         </CardContent>

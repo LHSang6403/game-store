@@ -17,8 +17,8 @@ export default function ImageFileItem({
         <Image
           src={image}
           alt="Product image"
-          width={75}
-          height={75}
+          width={100}
+          height={100}
           className="max-h-[90%] max-w-[90%] object-contain"
         />
         <div className="center absolute left-0 top-0 hidden h-full w-full bg-foreground/20 group-hover:flex">

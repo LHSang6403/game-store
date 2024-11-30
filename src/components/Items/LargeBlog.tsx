@@ -18,7 +18,7 @@ export default function LargeBlog({ data }: { data: BlogType }) {
             src={
               process.env.NEXT_PUBLIC_SUPABASE_BUCKET_PATH + data.thumbnails[0]
             }
-            className="object-fit !relative h-[100%] max-w-[100%]"
+            className="!relative h-[100%] max-w-[100%] object-cover"
             priority
             quality={100}
             fill

@@ -232,15 +232,14 @@ export default function CreateForm({
   return (
     <>
       <div className="h-fit w-full max-w-[1400px] gap-2 pb-0 md:pb-4">
+        <h1 className="mb-4 w-full text-2xl font-medium">Tạo đơn hàng</h1>
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
             className="flex h-full w-full flex-col gap-4 md:flex-row"
           >
-            <Card className="h-fit w-full md:w-1/2">
-              <CardHeader className="px-2 md:px-0 md:pb-3">
-                Thông tin đơn hàng
-              </CardHeader>
+            <Card className="h-full w-full md:w-1/2">
+              <CardHeader className="pb-4">Thông tin đơn hàng</CardHeader>
               <CardContent className="flex flex-col gap-3">
                 <div>
                   <FormLabel>Chọn tài khoản khách hàng</FormLabel>
@@ -285,10 +284,8 @@ export default function CreateForm({
                 </Button>
               </CardContent>
             </Card>
-            <Card className="h-fit w-1/2 lg:w-full">
-              <CardHeader className="md:xp-0 px-2 md:pb-3">
-                Danh sách sản phẩm
-              </CardHeader>
+            <Card className="h-full w-1/2 lg:w-full">
+              <CardHeader className="pb-4">Danh sách sản phẩm</CardHeader>
               <CardContent className="flex h-auto flex-col overflow-hidden">
                 <div className="my-1">
                   <Select

@@ -58,23 +58,20 @@ export default function page() {
   ]);
 
   return (
-    <div className="flex min-h-[calc(100vh_-_6rem)] flex-col gap-2">
-      <h1 className="my-2 text-2xl font-medium">Tạo đơn hàng</h1>
-      <div className="h-fit w-full">
-        {isProductLoading || isCustomerLoading || isStorageLoading ? (
-          <DashboardColumnsSkeleton />
-        ) : (
-          <>
-            {shouldRenderForm && (
-              <CreateForm
-                storages={storages?.data ?? []}
-                customers={customers?.data ?? []}
-                products={products?.data ?? []}
-              />
-            )}
-          </>
-        )}
-      </div>
+    <div className="center flex min-h-[calc(100vh_-_6rem)] flex-col gap-2">
+      {isProductLoading || isCustomerLoading || isStorageLoading ? (
+        <DashboardColumnsSkeleton />
+      ) : (
+        <>
+          {shouldRenderForm && (
+            <CreateForm
+              storages={storages?.data ?? []}
+              customers={customers?.data ?? []}
+              products={products?.data ?? []}
+            />
+          )}
+        </>
+      )}
     </div>
   );
 }

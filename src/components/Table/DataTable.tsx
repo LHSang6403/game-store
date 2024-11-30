@@ -30,6 +30,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { DataTablePagination } from "./Pagination";
+import { cn } from "@/lib/utils";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -46,6 +47,7 @@ interface DataTableProps<TData, TValue> {
     accessKey: string;
     name: string;
   }[];
+  className?: string;
 }
 
 export function DataTable<TData, TValue>({
@@ -60,6 +62,7 @@ export function DataTable<TData, TValue>({
   isSeparator = true,
   defaultPageSize = 10,
   columns_headers,
+  className = "",
 }: DataTableProps<TData, TValue>) {
   // const [sorting, setSorting] = useState<SortingState>([
   //   {
@@ -147,7 +150,10 @@ export function DataTable<TData, TValue>({
 
       {/* Table */}
       <div
-        className={`w-full rounded-md ${isBorder ? "border" : "border-none"}`}
+        className={cn(
+          `w-full rounded-md ${isBorder ? "border" : "border-none"}`,
+          className
+        )}
       >
         <Table>
           <TableHeader>

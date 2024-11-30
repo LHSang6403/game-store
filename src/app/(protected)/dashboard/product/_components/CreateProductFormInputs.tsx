@@ -30,7 +30,7 @@ export default function CreateProductFormInputs({
 }) {
   return (
     <Card className="h-full">
-      <CardHeader className="px-2 pb-3 md:px-0">Thông tin sản phẩm</CardHeader>
+      <CardHeader className="pb-3">Thông tin sản phẩm</CardHeader>
       <CardContent className="flex h-fit w-full flex-col gap-4 md:grid md:w-full md:grid-cols-2">
         <FormField
           control={form.control}

@@ -79,7 +79,7 @@ const TailwindAdvancedEditor = ({
           initialContent={initialContent}
           extensions={extensions}
           editable={!isDisable}
-          className="border-muted max-w-screen relative min-h-[500px] p-2 md:p-6"
+          className="border-muted max-w-screen relative min-h-[500px] p-6"
           editorProps={{
             handleDOMEvents: {
               keydown: (_view, event) => handleCommandNavigation(event),

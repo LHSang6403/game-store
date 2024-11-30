@@ -173,7 +173,7 @@ export default function ProductForm({
             />
           </div>
           <Card className="col-span-2 flex h-auto w-full flex-col md:col-span-1">
-            <CardHeader className="pb-3 sm:px-2">Hình ảnh sản phẩm</CardHeader>
+            <CardHeader className="pb-0">Hình ảnh sản phẩm</CardHeader>
             <CardContent className="pb-0">
               {isEditMode && (
                 <div className="mt-1.5 grid w-fit grid-cols-4 gap-3 md:grid-cols-6">

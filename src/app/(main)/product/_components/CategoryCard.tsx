@@ -30,7 +30,7 @@ export default function CategoryCard({ category }: { category: CategoryType }) {
         height={150}
         alt="Category"
         isLoading={!category.image}
-        className="h-36 w-full shadow-none md:h-48"
+        className="h-32 w-full !shadow-none md:h-48"
         customLoadingClassName="rounded-lg rounded-tl-[24px]"
       />
       <span className="">{category.name}</span>

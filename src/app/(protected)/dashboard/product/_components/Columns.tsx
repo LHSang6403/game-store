@@ -40,7 +40,7 @@ export const columns: ColumnDef<ProductType>[] = [
     cell: ({ row }) => {
       const data = row.index + 1;
 
-      return <div className="text-center">{data}</div>;
+      return <div className="pl-2 text-left">{data}</div>;
     },
   },
   {

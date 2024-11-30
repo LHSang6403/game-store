@@ -178,7 +178,7 @@ export default function BlogForm({ blog }: { blog?: BlogType }) {
       <Form {...form}>
         <form className="flex w-full flex-col gap-4 md:flex-row">
           <Card className="h-fit min-h-[440px] w-full md:w-1/2">
-            <CardHeader className="px-2 pb-3 md:px-0">
+            <CardHeader className="pb-3">
               {isEditMode
                 ? "Chỉnh sửa thông tin bài viết"
                 : "Thông tin bài viết"}
@@ -223,7 +223,7 @@ export default function BlogForm({ blog }: { blog?: BlogType }) {
             </CardContent>
           </Card>
           <Card className="flex h-fit min-h-0 w-full flex-col md:min-h-[440px] md:w-1/2">
-            <CardHeader className="px-2 pb-3 md:px-0">Ảnh xem trước</CardHeader>
+            <CardHeader className="pb-9">Ảnh xem trước</CardHeader>
             <CardContent>
               <DropAndDragZone className="mt-2 rounded-lg border p-6 md:p-16" />
               {isEditMode && (

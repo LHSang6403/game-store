@@ -22,7 +22,7 @@ export default function page() {
   });
 
   return (
-    <section className="">
+    <section>
       <div className="flex flex-row items-center justify-between ">
         <h1 className="my-2 text-2xl font-medium">Tất cả bài viết</h1>
         <button

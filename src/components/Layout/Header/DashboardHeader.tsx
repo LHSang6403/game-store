@@ -19,7 +19,7 @@ export default function DashboardHeader() {
 
   return (
     <header className="static top-0 z-30 flex h-16 w-full flex-row items-center justify-around border-b bg-background px-4 md:fixed">
-      <nav className="md:flex w-full flex-row items-center gap-2 text-lg font-medium hidden">
+      <nav className="hidden w-full flex-row items-center gap-2 text-lg font-medium lg:flex">
         <Link
           href="#"
           className="flex items-center gap-2 text-lg font-semibold"
@@ -30,10 +30,10 @@ export default function DashboardHeader() {
           <NavBar />
         </div>
       </nav>
-      <div className="block md:hidden">
+      <div className="block lg:hidden">
         <Sheet>
           <SheetTrigger asChild>
-            <div className="bg-gradient-to-r from-cpurple via-cpink to-corange p-[1.5px] rounded-[7px] md:rounded-[9px]">
+            <div className="rounded-md bg-gradient-to-r from-cpurple via-cpink to-corange p-[1.5px] md:rounded-lg">
               <Button
                 variant="outline"
                 size="icon"
@@ -56,9 +56,9 @@ export default function DashboardHeader() {
           </SheetContent>
         </Sheet>
       </div>
-      <div className="flex w-full flex-row items-center justify-end lg:gap-4 gap-2 md:gap-4">
+      <div className="flex w-full flex-row items-center justify-end gap-2 md:gap-4 lg:gap-4">
         {pathShowResetRangeTime.includes(pathname) && (
-          <div className="bg-gradient-to-r from-cpurple via-cpink to-corange p-[1.5px] hidden rounded-md md:rounded-lg md:block">
+          <div className="hidden rounded-md bg-gradient-to-r from-cpurple via-cpink to-corange p-[1.5px] md:block md:rounded-lg">
             <Button
               variant="outline"
               className="h-9 border-none px-2 outline-none ring-0"

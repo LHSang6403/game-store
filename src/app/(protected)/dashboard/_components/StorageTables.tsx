@@ -31,7 +31,7 @@ export default function StorageTables() {
     (storage, index) => (
       <Card
         key={index}
-        className="md:col-span-1 flex h-fit w-full flex-col col-span-2"
+        className="col-span-2 flex h-fit w-full flex-col md:col-span-1"
       >
         <CardHeader className="flex flex-row items-center pb-0">
           <div className="grid gap-2">
@@ -41,8 +41,8 @@ export default function StorageTables() {
             </CardDescription>
           </div>
         </CardHeader>
-        <CardContent className="mt-2 h-fit w-full">
-          <div className="min-h-[100px] w-full overflow-hidden">
+        <CardContent className="mt-2 h-full w-full">
+          <div className="flex h-full w-full flex-col justify-between overflow-hidden md:h-[450px]">
             {storage.product_storage?.length > 0 && (
               <DataTable
                 columns={columns}
@@ -66,13 +66,13 @@ export default function StorageTables() {
     <>
       {isLoading ? (
         <>
-          <Card className="md:col-span-1 col-span-2">
+          <Card className="col-span-2 md:col-span-1">
             <CardHeader className="flex h-[400px] flex-col gap-1">
               <DashboardLoading />
               <DashboardLoading />
             </CardHeader>
           </Card>
-          <Card className="md:col-span-1 col-span-2">
+          <Card className="col-span-2 md:col-span-1">
             <CardHeader className="flex h-[400px] flex-col gap-1">
               <DashboardLoading />
               <DashboardLoading />
